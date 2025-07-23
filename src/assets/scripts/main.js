@@ -1,12 +1,12 @@
 $(document).ready(function () {
 
     toggleNavbar();
-
+    toggleFullscreen();
 });
 
 function toggleNavbar() {
 
-    if($('#sidebar-menu a').length == 0){
+    if ($('#sidebar-menu a').length == 0) {
         setTimeout(toggleNavbar, 10);
         return;
     }
@@ -76,4 +76,25 @@ function toggleNavbar() {
             return false;
         }
     });
+
+}
+
+function toggleFullscreen() {
+
+    if ($('.zoom-screen .header-nav-list').length == 0) {
+        setTimeout(toggleFullscreen, 10);
+        return;
+    }
+
+    if ($('.zoom-screen .header-nav-list').length > 0) {
+        $('.zoom-screen .header-nav-list').on('click', function (e) {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        })
+    }
 }

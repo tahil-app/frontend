@@ -1,7 +1,7 @@
 import { FormControl } from "@angular/forms";
-import { ColumnFilterTypeEnum } from "../enums/column.filter.type.enum";
+import { ColumnFilterTypeEnum } from "../../../features/shared/enums/column.filter.type.enum";
 import { TemplateRef } from "@angular/core";
-import { ColumnTypeEnum } from "../enums/column.type.enum";
+import { ColumnTypeEnum } from "../../../features/shared/enums/column.type.enum";
 import { DropdownProps } from "./dropdown.props";
 import { FilterOperators } from "./query-filter-params.props";
 
