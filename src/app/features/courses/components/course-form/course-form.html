@@ -1,0 +1,15 @@
+<p-dialog header="بيانات الدورة" [modal]="true" [(visible)]="showDialog" [style]="{ width: '25rem' }">
+    <form [formGroup]="courseForm" (ngSubmit)="hasId() ? update() : save()">
+        <div class="flex items-center gap-4 mb-4">
+            <input-label label="الاسم" [required]="true" [formControl]="getFormControl('name')" />
+            <form-error [isValid]="courseForm.get('name')?.valid ?? false" [message]="courseForm.get('name')?.errors?.['required'] ? 'الاسم مطلوب' : 
+                           courseForm.get('name')?.errors?.['minlength'] ? 'الاسم يجب ان يكون اطول من 2 حرف' : ''" />
+        </div>
+
+        <div class="flex justify-end gap-2">
+            <save-btn type="submit" [disabled]="!courseForm.valid" />
+            &nbsp;
+            <cancel-btn type="button" (click)="cancel()" />
+        </div>
+    </form>
+</p-dialog>

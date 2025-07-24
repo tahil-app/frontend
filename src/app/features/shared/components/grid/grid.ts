@@ -11,11 +11,13 @@ import { ColumnFilterTypeEnum } from '../../enums/column.filter.type.enum';
 import { FilterOperators } from '../../props/query-filter-params.props';
 import { QuerySortParamsModel, SortDirection } from '../../models/query-sort-params.model';
 import { TooltipModule } from 'primeng/tooltip';
+import { DeactivateBtn } from '../../buttons/deactivate-btn/deactivate-btn';
+import { ActivateBtn } from '../../buttons/activate-btn/activate-btn';
 
 @Component({
   selector: 'grid',
   standalone: true,
-  imports: [CommonModule, TableModule, ButtonModule, TooltipModule, ReactiveFormsModule],
+  imports: [CommonModule, TableModule, ActivateBtn, DeactivateBtn, ButtonModule, TooltipModule, ReactiveFormsModule],
   templateUrl: './grid.html',
   styleUrl: './grid.scss'
 })
@@ -31,6 +33,8 @@ export class Grid {
   @Input() allowDelete: boolean = false;
   @Input() allowEdit: boolean = false;
   @Input() allowView: boolean = false;
+  @Input() allowActivate: boolean = false;
+  @Input() allowDeactivate: boolean = false;
 
   @Input() loading: boolean = false;
   @Input() showFilters: boolean = false;
@@ -43,6 +47,8 @@ export class Grid {
   @Output() onDelete: EventEmitter<any> = new EventEmitter();
   @Output() onEdit: EventEmitter<any> = new EventEmitter();
   @Output() onView: EventEmitter<any> = new EventEmitter();
+  @Output() onActivate: EventEmitter<any> = new EventEmitter();
+  @Output() onDeactivate: EventEmitter<any> = new EventEmitter();
   //#endregion
 
   //#region Properties
@@ -66,6 +72,7 @@ export class Grid {
 
   //#region Lifecycle
   ngOnInit() {
+    
     this.queryparams.page = 1;
     this.queryparams.pageSize = this.pageSize;
     this.queryparams.filters = [];
@@ -150,6 +157,20 @@ export class Grid {
     return col.setBackgroundColorTo?.length &&
       (col.setBackgroundColorTo?.includes(item[col.field])) ?
       col?.backgroundColor : '';
+  }
+
+  onReset() {
+    this.headerSearchForm?.reset();
+    this.queryparams.filters = [];
+    this.onLazyLoad.emit(this.queryparams);
+  }
+
+  onActivateRow(item: any) {
+    this.onActivate.emit(item); 
+  }
+
+  onDeactivateRow(item: any) {
+    this.onDeactivate.emit(item);
   }
 
   //#endregion

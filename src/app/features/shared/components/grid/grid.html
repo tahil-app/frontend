@@ -19,14 +19,10 @@
             </td>
 
             <td class="d-flex justify-content-end pt-1" *ngIf="hasFilter">
-                <button *ngIf="queryparams.filters?.length" pTooltip="إعادة تعيين الفلتر" tooltipPosition="top"
+                <button *ngIf="queryparams.filters?.length" pTooltip="حذف الفلتر" tooltipPosition="top"
+                    (click)="onReset()"
                     class="btn btn-sm btn-outline-warning border-0 btn-icon">
                     <i class="pi pi-filter-slash"></i>
-                </button>
-
-                <button pTooltip="تحديث" tooltipPosition="top"
-                    class="btn btn-sm btn-outline-primary border-0 btn-icon">
-                    <i class="pi pi-refresh"></i>
                 </button>
             </td>
         </tr>
@@ -70,10 +66,15 @@
                         <i class="fa fa-edit text-secondary"></i>
                     </button>
 
-                    <button *ngIf="allowView && item.allowView" pTooltip="عرض" tooltipPosition="top" class="btn px-1 grid-btn"
+                    <button *ngIf="allowView" pTooltip="عرض" tooltipPosition="top" class="btn px-1 grid-btn"
                         (click)="onViewDetail(item)">
                         <i class="fa fa-eye text-info"></i>
                     </button>
+
+                    <activate-btn *ngIf="allowActivate && !item.isActive" [disabled]="item.isActive" (onClick)="onActivateRow(item)" />
+
+                    <deactivate-btn *ngIf="allowDeactivate && item.isActive" [disabled]="!item.isActive" (onClick)="onDeactivateRow(item)" />
+                    
                 </div>
             </td>
 

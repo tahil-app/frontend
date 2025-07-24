@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'save-btn',
@@ -7,6 +7,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 export class SaveBtn {
 
-  @Output() OnSubmit: EventEmitter<void> = new EventEmitter<void>();
-  onSubmitClick = () => this.OnSubmit.emit();
+  @Input() disabled: boolean = false;
+  @Output() onClick: EventEmitter<void> = new EventEmitter<void>();
+  onSaveClick = () => this.onClick.emit();
 }

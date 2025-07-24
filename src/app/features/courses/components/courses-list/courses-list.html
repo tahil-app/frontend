@@ -1,0 +1,13 @@
+<card-container title="الدورات" [addBtn]="true" (onAdd)="showDialog = true">
+    <grid [pagedRows]="courses" (onLazyLoad)="loadCourses($event)" 
+          [columns]="columns" [pageSize]="10" [paginator]="true" [showFilters]="true"
+          [allowEdit]="true" (onEdit)="onEdit($event)" 
+          [allowActivate]="true" (onActivate)="onActivate($event)"
+          [allowDeactivate]="true"  (onDeactivate)="onDeactivate($event)" />
+</card-container>
+
+
+<app-course-form [showDialog]="showDialog" 
+[course]="course"
+(onSave)="loadCourses(queryParams)" 
+(onCancel)="showDialog = false" />

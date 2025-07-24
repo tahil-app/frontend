@@ -35,6 +35,11 @@
     --button-primary-hover-color: #488576;
 }
 
+@font-face {
+    font-family: "din";
+    src: url("../fonts/DINNextLTArabic-Regular-3.ttf");
+}
+
 body {
     font-family: "din", sans-serif !important;
     background-color: var(--bg-gray-color);

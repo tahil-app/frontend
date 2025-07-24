@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'cancel-btn',
@@ -7,6 +7,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 export class CancelBtn {
 
-  @Output() onCancel: EventEmitter<void> = new EventEmitter<void>();
-  onCancelClick = () => this.onCancel.emit();
+  @Input() disabled: boolean = false;
+  @Output() onClick: EventEmitter<void> = new EventEmitter<void>();
+  onCancelClick = () => this.onClick.emit();
 }

@@ -5,5 +5,9 @@ export const routes: Routes = [
     {
         path: '',
         component: UiControls
+    },
+    {
+        path: 'courses',
+        loadChildren: () => import('./features/courses/courses.routes').then(m => m.COURSES_ROUTES)
     }
 ];
