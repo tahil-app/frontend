@@ -1,11 +1,11 @@
-<p-dialog header="بيانات الدورة" [modal]="true" [(visible)]="showDialog" [style]="{ width: '25rem' }">
-    <form [formGroup]="courseForm" (ngSubmit)="hasId() ? update() : save()">
+<p-dialog header="بيانات الحلقة" [modal]="true" [(visible)]="showDialog" [style]="{ width: '25rem' }">
+    <form [formGroup]="roomForm" (ngSubmit)="hasId() ? update() : save()">
         <div class="flex items-center gap-4 mb-4">
             <input-label label="الاسم" [required]="true" [formControl]="getFormControl('name')" />
         </div>
 
         <div class="flex justify-end gap-2">
-            <save-btn type="submit" [disabled]="!courseForm.valid" />
+            <save-btn type="submit" [disabled]="!roomForm.valid" />
             &nbsp;
             <cancel-btn type="button" (click)="cancel()" />
         </div>

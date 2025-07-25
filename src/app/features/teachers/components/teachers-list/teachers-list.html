@@ -1,0 +1,12 @@
+<card-container title="المعلمون" [addBtn]="true" (onAdd)="showDialog = true">
+    <grid [pagedRows]="teachers" (onLazyLoad)="loadTeachers($event)" 
+          [columns]="columns" [pageSize]="10" [paginator]="true" [showFilters]="true"
+          [allowEdit]="true" (onEdit)="onEdit($event)" 
+          [allowActivate]="true" (onActivate)="onActivate($event)"
+          [allowDeactivate]="true"  (onDeactivate)="onDeactivate($event)" />
+</card-container>
+
+
+<app-teacher-form [showDialog]="showDialog" 
+[teacher]="teacher" (onSave)="loadTeachers(queryParams)" 
+(onCancel)="showDialog = false" />

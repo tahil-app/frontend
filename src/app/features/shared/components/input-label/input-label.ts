@@ -2,10 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, forwardRef } from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
+import { FormError } from '../form-error/form-error';
 
 @Component({
   selector: 'input-label',
-  imports: [CommonModule, ReactiveFormsModule, InputTextModule],
+  imports: [CommonModule, ReactiveFormsModule, InputTextModule, FormError],
   templateUrl: './input-label.html',
   styleUrl: './input-label.scss',
   providers: [
@@ -47,4 +48,20 @@ export class InputLabel implements ControlValueAccessor{
   onTouched: any = () => { };
   //#endregion
 
+
+  getErrorMessage() {
+    if (this.formControl.errors?.['required']) {
+      return `${this.label} مطلوب`;
+    }
+
+    if (this.formControl.errors?.['minlength']) {
+      return `${this.label} يجب ان يكون اطول من ${this.formControl.errors?.['minlength'].requiredLength} حرف`;
+    }
+
+    if (this.formControl.errors?.['email']) {
+      return `${this.label} يجب ان يكون بريد إلكتروني صالح`;
+    }
+
+    return '';
+  }
 }

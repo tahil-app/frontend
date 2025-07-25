@@ -1,0 +1,13 @@
+<card-container title="الحلقات" [addBtn]="true" (onAdd)="showDialog = true">
+    <grid [pagedRows]="rooms" (onLazyLoad)="loadRooms($event)" 
+          [columns]="columns" [pageSize]="10" [paginator]="true" [showFilters]="true"
+          [allowEdit]="true" (onEdit)="onEdit($event)" 
+          [allowActivate]="true" (onActivate)="onActivate($event)"
+          [allowDeactivate]="true"  (onDeactivate)="onDeactivate($event)" />
+</card-container>
+
+
+<app-room-form [showDialog]="showDialog" 
+[room]="room"
+(onSave)="loadRooms(queryParams)" 
+(onCancel)="showDialog = false" />

@@ -1,0 +1,41 @@
+<p-dialog header="بيانات المعلم" [modal]="true" [(visible)]="showDialog" [style]="{ width: '25rem' }">
+    <form [formGroup]="teacherForm" (ngSubmit)="hasId() ? update() : save()">
+        <div class="flex items-center gap-2 mb-2">
+            <input-label label="الاسم" [required]="true" [formControl]="getFormControl('name')" />
+        </div>
+
+        <div class="flex items-center gap-2 mb-2">
+            <input-label label="رقم الهاتف" [required]="true" [formControl]="getFormControl('phoneNumber')" />
+        </div>
+
+        <div class="flex items-center gap-2 mb-2">
+            <input-label label="البريد الإلكتروني" [required]="true" [formControl]="getFormControl('email')" />
+        </div>
+
+        <div class="flex items-center gap-2 mb-2">
+            <input-label label="كلمة المرور" [required]="true" [formControl]="getFormControl('password')" />
+        </div>
+
+        <div class="flex items-center gap-2 mb-2">
+            <input-label label="تأكيد كلمة المرور" [required]="true" [formControl]="getFormControl('confirmPassword')" />
+        </div>
+
+        <div class="flex items-center gap-2 mb-2">
+            <label-date-picker />
+        </div>
+
+        <div class="flex items-center gap-2 mb-2">
+            <input-label label="تاريخ الميلاد" [formControl]="getFormControl('birthDate')" />
+        </div>
+
+        <div class="flex items-center gap-2 mb-2">
+            <input-label label="الجنس" [formControl]="getFormControl('gender')" />
+        </div>
+
+        <div class="flex justify-end gap-2 mt-4">
+            <save-btn type="submit" [disabled]="!teacherForm.valid" />
+            &nbsp;
+            <cancel-btn type="button" (click)="cancel()" />
+        </div>
+    </form>
+</p-dialog>

@@ -1,29 +1,29 @@
-import { Component, EventEmitter, inject, Input, Output, SimpleChanges } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Subject, takeUntil } from 'rxjs';
-import { CourseService } from '../../../../core/services/course.service';
-import { LoaderService } from '../../../shared/services/loader.service';
-import { ToastService } from '../../../shared/services/toast.service';
-import { Course } from '../../../../core/models/course.model';
 import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, inject, Input, Output, SimpleChanges } from '@angular/core';
 import { DialogModule } from 'primeng/dialog';
 import { SaveBtn } from '../../../shared/buttons/save-btn/save-btn';
 import { CancelBtn } from '../../../shared/buttons/cancel-btn/cancel-btn';
 import { InputTextModule } from 'primeng/inputtext';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputLabel } from '../../../shared/components/input-label/input-label';
+import { Room } from '../../../../core/models/room.model';
+import { Subject, takeUntil } from 'rxjs';
+import { RoomService } from '../../../../core/services/room.service';
+import { LoaderService } from '../../../shared/services/loader.service';
+import { ToastService } from '../../../shared/services/toast.service';
 
 @Component({
-  selector: 'app-course-form',
+  selector: 'app-room-form',
   imports: [CommonModule, DialogModule, SaveBtn, CancelBtn, InputTextModule, ReactiveFormsModule, InputLabel],
-  templateUrl: './course-form.html',
-  styleUrl: './course-form.scss'
+  templateUrl: './room-form.html',
+  styleUrl: './room-form.scss'
 })
-export class CourseForm {
+export class RoomFormComponent {
 
   //#region Properties
   @Input() showDialog = false;
-  @Input() course: Course = {} as Course;
-  courseForm!: FormGroup;
+  @Input() room: Room = {} as Room;
+  roomForm!: FormGroup;
   destroy$ = new Subject<void>();
 
   @Output() onSave = new EventEmitter<void>();
@@ -31,7 +31,7 @@ export class CourseForm {
   //#endregion
 
   //#region Services
-  private courseService = inject(CourseService);
+  private roomService = inject(RoomService);
   private loader = inject(LoaderService);
   private toaster = inject(ToastService);
   private fb = inject(FormBuilder);
@@ -43,60 +43,60 @@ export class CourseForm {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    
-    if (changes['showDialog'] && !this.course.id) {
-      this.courseForm?.reset();
+
+    if (changes['showDialog'] && !this.room.id) {
+      this.roomForm?.reset();
     }
 
-    if (changes['course'] && this.course.id > 0) {
-      this.courseForm?.patchValue(this.course);
+    if (changes['room'] && this.room.id > 0) {
+      this.roomForm?.patchValue(this.room);
     }
 
   }
 
   initForm() {
-    this.courseForm = this.fb.group({
+    this.roomForm = this.fb.group({
       id: [0],
       name: ['', [Validators.required, Validators.minLength(2)]]
     });
   }
 
   hasId() {
-    return this.courseForm.get('id')?.value;
+    return this.roomForm.get('id')?.value;
   }
 
   getFormControl(name: string) {
-    return this.courseForm.get(name) as FormControl;
+    return this.roomForm.get(name) as FormControl;
   }
 
   save() {
-    if (this.courseForm.valid) {
+    if (this.roomForm.valid) {
       this.loader.show();
-      const courseData = this.courseForm.value as Course;
-      courseData.id = 0;
-      this.courseService.add(courseData)
+      const roomData = this.roomForm.value as Room;
+      roomData.id = 0;
+      this.roomService.add(roomData)
         .pipe(takeUntil(this.destroy$))
         .subscribe(res => {
           if (res) {
             this.onSave.emit();
-            this.courseForm.reset();
-            this.toaster.showSuccess('تم حفظ الدورة بنجاح');
+            this.roomForm.reset();
+            this.toaster.showSuccess('تم حفظ الحلقة بنجاح');
           }
         }, _ => { }, () => this.loader.hide());
     }
   }
 
   update() {
-    if (this.courseForm.valid) {
+    if (this.roomForm.valid) {
       this.loader.show();
-      const courseData = this.courseForm.value as Course;
-      this.courseService.update(courseData)
+      const roomData = this.roomForm.value as Room;
+      this.roomService.update(roomData)
         .pipe(takeUntil(this.destroy$))
         .subscribe(res => {
           if (res) {
-            this.courseForm.reset();
+            this.roomForm.reset();
             this.onSave.emit();
-            this.toaster.showSuccess('تم تعديل الدورة بنجاح');
+            this.toaster.showSuccess('تم تعديل الحلقة بنجاح');
           }
         }, _ => { }, () => this.loader.hide());
     }
@@ -107,34 +107,34 @@ export class CourseForm {
   }
 
   onAdd() {
-    this.courseForm.reset();
-    this.courseForm.get('id')?.setValue(0);
+    this.roomForm.reset();
+    this.roomForm.get('id')?.setValue(0);
     this.showDialog = true;
   }
 
-  onEdit(event: Course) {
-    this.courseForm.patchValue(event);
+  onEdit(event: Room) {
+    this.roomForm.patchValue(event);
     this.showDialog = true;
   }
 
-  onActivate(event: Course) {
-    this.courseService.activate(event.id)
+  onActivate(event: Room) {
+    this.roomService.activate(event.id)
       .pipe(takeUntil(this.destroy$))
       .subscribe(res => {
         if (res) {
           this.onSave.emit();
-          this.toaster.showSuccess('تم تفعيل الدورة بنجاح');
+          this.toaster.showSuccess('تم تفعيل الحلقة بنجاح');
         }
       }, _ => { }, () => this.loader.hide());
   }
 
-  onDeactivate(event: Course) {
-    this.courseService.deactivate(event.id)
+  onDeactivate(event: Room) {
+    this.roomService.deactivate(event.id)
       .pipe(takeUntil(this.destroy$))
       .subscribe(res => {
         if (res) {
           this.onSave.emit();
-          this.toaster.showSuccess('تم تعطيل الدورة بنجاح');
+          this.toaster.showSuccess('تم تعطيل الحلقة بنجاح');
         }
       }, _ => { }, () => this.loader.hide());
   }
@@ -144,6 +144,5 @@ export class CourseForm {
     this.destroy$.complete();
   }
   //#endregion
-
 
 }

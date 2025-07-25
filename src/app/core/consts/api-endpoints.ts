@@ -18,4 +18,22 @@ export class ApiEndpoints {
             Deactivate: (id: string | number) => `deactivate/${id}`,
         }
     };
+
+    static readonly ROOMS = {
+        Controller: 'rooms',
+        Actions: {
+            Paged: `paged`,
+            Activate: (id: string | number) => `activate/${id}`,
+            Deactivate: (id: string | number) => `deactivate/${id}`,
+        }
+    };
+
+    static readonly TEACHERS = {
+        Controller: 'teachers',
+        Actions: {
+            Paged: `paged`,
+            Activate: (id: string | number) => `activate/${id}`,
+            Deactivate: (id: string | number) => `deactivate/${id}`,
+        }
+    };
 }

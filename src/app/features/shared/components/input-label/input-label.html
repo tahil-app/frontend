@@ -3,6 +3,6 @@
     <span *ngIf="required" class="text-danger">*</span>
 </label>
 
-&nbsp;
-
 <input pInputText id="name" [formControl]="formControl" [placeholder]="placeholder" class="flex-auto w-100" autocomplete="off" />
+
+<form-error *ngIf="required" [isValid]="formControl.valid ? true :  false" [message]="getErrorMessage()" />

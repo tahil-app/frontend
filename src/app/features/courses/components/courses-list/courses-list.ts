@@ -21,7 +21,7 @@ import { CourseForm } from '../course-form/course-form';
   templateUrl: './courses-list.html',
   styleUrl: './courses-list.scss'
 })
-export class CoursesListComponent {
+export class CoursesList {
 
   //#region Properties
   showDialog = false;
