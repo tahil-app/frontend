@@ -12,4 +12,7 @@ export class Teacher {
   joinedDate!: string;
   birthDate!: string;
   isActive!: boolean;
+
+  qualification!: string;
+  experience!: string;
 }

@@ -1,0 +1,12 @@
+<p-dialog header="الخبرات" [modal]="true" [(visible)]="showDialog" [style]="{ width: '45rem' }">
+    <form [formGroup]="experienceForm" (ngSubmit)="save()">
+        <editor [formControl]="getFormControl('experience')" />
+
+        <div class="flex justify-end gap-2 mt-4">
+            <save-btn type="submit" [disabled]="!experienceForm.valid" />
+            &nbsp;
+            <cancel-btn type="button" (click)="cancel()" />
+        </div>
+
+    </form>
+</p-dialog>

@@ -135,7 +135,7 @@ export class TeacherFormComponent {
   update() {
     if (this.teacherForm.valid) {
       this.loader.show();
-      const teacherData = this.teacherForm.value as Teacher;
+      const teacherData = { ...this.teacher, ...this.teacherForm.value } as Teacher;
       teacherData.joinedDate = DataHelper.toDate(teacherData.joinedDate);
       teacherData.birthDate = DataHelper.toDate(teacherData.birthDate);
 

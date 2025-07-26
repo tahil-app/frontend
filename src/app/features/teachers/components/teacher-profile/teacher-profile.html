@@ -36,8 +36,8 @@
                             <h4 class="mb-2 mt-2">بيانات المعلم</h4>
 
                             <div class="form-group students-up-files mb-1">
-                                <button pTooltip="تعديل" tooltipPosition="top"
-                                    class="btn p-0 grid-btn" (click)="onEditTeacher()">
+                                <button pTooltip="تعديل" tooltipPosition="top" class="btn p-0 grid-btn"
+                                    (click)="onEditTeacher()">
                                     <i class="fa fa-edit text-secondary"></i>
                                 </button>
                             </div>
@@ -125,31 +125,43 @@
                             </p-tablist>
 
                             <p-tabpanels class="px-0">
-                                
+
                                 <p-tabpanel value="0">
                                     <div class="heading-detail">
                                         <div class="hello-park">
 
                                             <div class="heading-detail d-flex justify-content-between">
                                                 <h5>المؤهلات</h5>
-                                                
+
                                                 <div class="form-group students-up-files mb-0">
                                                     <button pTooltip="تعديل" tooltipPosition="top"
-                                                        class="btn p-0 grid-btn" (click)="onEditTeacher()">
+                                                        class="btn p-0 grid-btn" (click)="onEditQualification()">
                                                         <i class="fa fa-edit text-secondary"></i>
                                                     </button>
                                                 </div>
                                             </div>
 
-                                            <div class="educate-year">
-                                                <h6>2008 - 2009</h6>
-                                                <p>Secondary Schooling at xyz school of secondary education, Mumbai.
-                                                </p>
+                                            <div [innerHTML]="getSafeHtml(teacher.qualification)"></div>
+                                            <div class="text-muted text-center" *ngIf="teacher.qualification === null || teacher.qualification?.length === 0">
+                                                لا يوجد مؤهلات
                                             </div>
-                                            <div class="educate-year">
-                                                <h6>2011 - 2012</h6>
-                                                <p>Higher Secondary Schooling at xyz school of higher secondary
-                                                    education, Mumbai.</p>
+
+                                            <hr class="my-3 heading-line"/>
+
+                                            <div class="heading-detail d-flex justify-content-between">
+                                                <h5>الخبرات</h5>
+
+                                                <div class="form-group students-up-files mb-0">
+                                                    <button pTooltip="تعديل" tooltipPosition="top"
+                                                        class="btn p-0 grid-btn" (click)="onEditExperience()">
+                                                        <i class="fa fa-edit text-secondary"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <div [innerHTML]="getSafeHtml(teacher.experience)"></div>
+                                            <div class="text-muted text-center" *ngIf="teacher.experience === null || teacher.experience?.length === 0">
+                                                لا يوجد خبرات
                                             </div>
 
                                         </div>
@@ -159,10 +171,10 @@
                                 <p-tabpanel value="1">
                                     <div class="heading-detail">
                                         <div class="hello-park">
-                                            
+
                                             <div class="heading-detail d-flex justify-content-between">
                                                 <h5>المواعيد</h5>
-                                                
+
                                                 <div class="form-group students-up-files mb-0">
                                                     <button pTooltip="تعديل" tooltipPosition="top"
                                                         class="btn p-0 grid-btn" (click)="onEditTeacher()">
@@ -179,10 +191,10 @@
                                 <p-tabpanel value="2">
                                     <div class="heading-detail">
                                         <div class="hello-park">
-                                            
+
                                             <div class="heading-detail d-flex justify-content-between">
                                                 <h5>المرفقات</h5>
-                                                
+
                                                 <div class="form-group students-up-files mb-0">
                                                     <button pTooltip="تعديل" tooltipPosition="top"
                                                         class="btn p-0 grid-btn" (click)="onEditTeacher()">
@@ -197,8 +209,8 @@
                                 </p-tabpanel>
 
                             </p-tabpanels>
-                        </p-tabs>                        
-                        
+                        </p-tabs>
+
                     </div>
                 </div>
             </div>
@@ -209,6 +221,11 @@
 </card-container>
 
 
-<app-teacher-form [showDialog]="showEditInfoDialog" 
-[teacher]="teacher" (onSave)="loadTeacher()" 
-(onCancel)="showEditInfoDialog = false" />
+<app-teacher-form [showDialog]="showEditInfoDialog" [teacher]="teacher" (onSave)="loadTeacher()"
+    (onCancel)="showEditInfoDialog = false" />
+
+<app-teacher-qualification [showDialog]="showQualificationDialog" [teacher]="teacher" (onSave)="loadTeacher()"
+    (onCancel)="showQualificationDialog = false" />
+
+<app-teacher-experience [showDialog]="showExperienceDialog" [teacher]="teacher" (onSave)="loadTeacher()"
+    (onCancel)="showExperienceDialog = false" />
