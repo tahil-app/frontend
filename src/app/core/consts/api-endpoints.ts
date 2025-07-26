@@ -3,10 +3,10 @@ export class ApiEndpoints {
         Actions: {
             GetAll: 'getAll',
             GetPaged: 'paged',
-            Get: (id: string | number) => `get/${id}`,
+            Get: (id: string | number) => `/${id}`,
             Create: 'create',
             Update: 'update',
-            Delete: (id: string | number) => `delete/${id}`,
+            Delete: (id: string | number) => `/${id}`,
         }
     };
 

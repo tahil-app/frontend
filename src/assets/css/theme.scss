@@ -171,3 +171,10 @@ body {
 .p-dialog-header-actions {
     display: none !important;
 }
+
+label,
+.p-datatable-thead > tr > th {
+    font-size: 16px !important;
+    color: #ababab !important;
+    margin-bottom: 0.25rem !important;
+}

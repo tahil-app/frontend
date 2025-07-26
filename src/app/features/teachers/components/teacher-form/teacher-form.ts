@@ -13,10 +13,14 @@ import { LoaderService } from '../../../shared/services/loader.service';
 import { ToastService } from '../../../shared/services/toast.service';
 import { UserRoleEnum } from '../../../../core/enums/user-role.enum';
 import { LabelDatePicker } from '../../../shared/components/label-date-picker/label-date-picker';
+import { Dropdown } from '../../../shared/components/dropdown/dropdown';
+import { DropdownProps } from '../../../shared/props/dropdown.props';
+import { GenderEnum } from '../../../../core/enums/gender.enum';
+import { DataHelper } from '../../../../core/helpers/data.helper';
 
 @Component({
   selector: 'app-teacher-form',
-  imports: [CommonModule, DialogModule, SaveBtn, CancelBtn, InputTextModule, ReactiveFormsModule, InputLabel, LabelDatePicker],
+  imports: [CommonModule, DialogModule, SaveBtn, CancelBtn, InputTextModule, ReactiveFormsModule, InputLabel, LabelDatePicker, Dropdown],
   templateUrl: './teacher-form.html',
   styleUrl: './teacher-form.scss'
 })
@@ -27,9 +31,15 @@ export class TeacherFormComponent {
   @Input() teacher: Teacher = {} as Teacher;
   teacherForm!: FormGroup;
   destroy$ = new Subject<void>();
+  requiredPassword = false;
 
   @Output() onSave = new EventEmitter<void>();
   @Output() onCancel = new EventEmitter<void>();
+
+  genderOptions: DropdownProps[] = [
+    { label: 'ذكر', value: GenderEnum.Male },
+    { label: 'أنثى', value: GenderEnum.Female }
+  ];
   //#endregion
 
   //#region Services
@@ -46,12 +56,29 @@ export class TeacherFormComponent {
 
   ngOnChanges(changes: SimpleChanges) {
 
-    if (changes['showDialog'] && !this.teacher.id) {
+    if (changes['showDialog'] && (!this.teacher.id || this.teacher.id === 0)) {
+      this.requiredPassword = true;
+      this.teacherForm?.get('password')?.setValidators([Validators.required]);
+      this.teacherForm?.get('confirmPassword')?.setValidators([Validators.required]);
       this.teacherForm?.reset();
     }
+    
+    if (this.teacherForm && changes['teacher'] && this.teacher.id > 0) {
+      this.requiredPassword = false;
+      
+      this.teacherForm.get('password')?.removeValidators([Validators.required]);
+      this.teacherForm.get('confirmPassword')?.removeValidators([Validators.required]);
+      
+      // Update validation state after removing validators
+      this.teacherForm.get('password')?.updateValueAndValidity();
+      this.teacherForm.get('confirmPassword')?.updateValueAndValidity();
+      
+      this.teacherForm.patchValue(this.teacher);
 
-    if (changes['teacher'] && this.teacher.id > 0) {
-      this.teacherForm?.patchValue(this.teacher);
+      this.teacherForm.get('joinedDate')?.setValue(new Date(this.teacher.joinedDate));
+      this.teacherForm.get('birthDate')?.setValue(new Date(this.teacher.birthDate));
+
+      this.teacherForm.markAllAsTouched();
     }
 
   }
@@ -86,11 +113,12 @@ export class TeacherFormComponent {
 
     if (this.teacherForm.valid) {
       this.loader.show();
-      
+
       const teacherData = this.teacherForm.value as Teacher;
       teacherData.id = 0;
       teacherData.role = UserRoleEnum.Teacher;
-      teacherData.isActive = true;
+      teacherData.joinedDate = DataHelper.toDate(teacherData.joinedDate);
+      teacherData.birthDate = DataHelper.toDate(teacherData.birthDate);
 
       this.teacherService.add(teacherData)
         .pipe(takeUntil(this.destroy$))
@@ -108,6 +136,9 @@ export class TeacherFormComponent {
     if (this.teacherForm.valid) {
       this.loader.show();
       const teacherData = this.teacherForm.value as Teacher;
+      teacherData.joinedDate = DataHelper.toDate(teacherData.joinedDate);
+      teacherData.birthDate = DataHelper.toDate(teacherData.birthDate);
+
       this.teacherService.update(teacherData)
         .pipe(takeUntil(this.destroy$))
         .subscribe(res => {
@@ -121,6 +152,7 @@ export class TeacherFormComponent {
   }
 
   cancel() {
+    this.teacherForm.reset();
     this.onCancel.emit();
   }
 
@@ -128,11 +160,15 @@ export class TeacherFormComponent {
     this.teacherForm.reset();
     this.teacherForm.get('id')?.setValue(0);
     this.showDialog = true;
+    // Ensure form validation is updated
+    this.teacherForm.updateValueAndValidity();
   }
 
   onEdit(event: Teacher) {
     this.teacherForm.patchValue(event);
     this.showDialog = true;
+    // Ensure form validation is updated after patching values
+    this.teacherForm.updateValueAndValidity();
   }
 
   onActivate(event: Teacher) {

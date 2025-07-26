@@ -9,7 +9,7 @@ export class Teacher {
   password!: string;
   role: UserRoleEnum = UserRoleEnum.Teacher;
   gender!: GenderEnum;
-  joinedDate!: Date;
-  birthDate!: Date;
+  joinedDate!: string;
+  birthDate!: string;
   isActive!: boolean;
 }

@@ -22,6 +22,8 @@ import { MultiSelectModule } from 'primeng/multiselect';
 export class Dropdown implements ControlValueAccessor {
 
   //#region Inputs
+  @Input() label: string = '';
+  @Input() required: boolean = false;
   @Input() placeholder: string = 'اختر هنا';
   @Input() noResultsMessage: string = 'لا يوجد نتائج';
   @Input() allowFilter: boolean = false;

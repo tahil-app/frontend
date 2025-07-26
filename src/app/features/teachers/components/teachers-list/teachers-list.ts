@@ -14,6 +14,8 @@ import { Grid } from '../../../shared/components/grid/grid';
 import { CardContainer } from '../../../shared/components/card-container/card-container';
 import { DialogModule } from 'primeng/dialog';
 import { TeacherFormComponent } from '../teacher-form/teacher-form';
+import { FilterOperators } from '../../../shared/props/query-filter-params.props';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-teachers-list',
@@ -35,15 +37,15 @@ export class TeachersList {
   private teacherService = inject(TeacherService);
   private loader = inject(LoaderService);
   private toaster = inject(ToastService);
+  private router = inject(Router);
   //#endregion
 
   //#region Columns
   columns: GridColumn[] = [
-    { field: 'name', title: 'الاسم', columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
-    { field: 'phoneNumber', title: 'رقم الهاتف', columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
-    { field: 'email', title: 'البريد الإلكتروني', columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
-    { field: 'role', title: 'الصلاحية', columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
-    { field: 'joinedDate', title: 'تاريخ الانضمام', columnType: ColumnTypeEnum.date, sortable: true, filterType: ColumnFilterTypeEnum.text },
+    { field: 'name', apiField:'User.Name', title: 'الاسم', columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
+    { field: 'phoneNumber', apiField:'User.PhoneNumber', title: 'رقم الهاتف', columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
+    { field: 'email', apiField:'User.Email.Value', title: 'البريد الإلكتروني', columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
+    { field: 'joinedDate', apiField:'User.JoinedDate', title: 'تاريخ الانضمام', columnType: ColumnTypeEnum.date, sortable: true, filterType: ColumnFilterTypeEnum.date, filterOperator: FilterOperators.equal },
   ];
   //#endregion
 
@@ -84,6 +86,10 @@ export class TeachersList {
           this.toaster.showSuccess('تم تعطيل المعلم بنجاح');
         }
       }, _ => { }, () => this.loader.hide());
+  }
+
+  onView(event: Teacher) {
+    this.router.navigate(['/teachers', event.id]);
   }
 
   ngOnDestroy() {

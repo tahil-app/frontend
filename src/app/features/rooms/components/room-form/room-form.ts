@@ -103,6 +103,7 @@ export class RoomFormComponent {
   }
 
   cancel() {
+    this.roomForm.reset();
     this.onCancel.emit();
   }
 

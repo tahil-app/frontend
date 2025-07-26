@@ -13,11 +13,13 @@ import { QuerySortParamsModel, SortDirection } from '../../models/query-sort-par
 import { TooltipModule } from 'primeng/tooltip';
 import { DeactivateBtn } from '../../buttons/deactivate-btn/deactivate-btn';
 import { ActivateBtn } from '../../buttons/activate-btn/activate-btn';
+import { LabelDatePicker } from '../label-date-picker/label-date-picker';
+import { DataHelper } from '../../../../core/helpers/data.helper';
 
 @Component({
   selector: 'grid',
   standalone: true,
-  imports: [CommonModule, TableModule, ActivateBtn, DeactivateBtn, ButtonModule, TooltipModule, ReactiveFormsModule],
+  imports: [CommonModule, TableModule, ActivateBtn, DeactivateBtn, ButtonModule, TooltipModule, ReactiveFormsModule, LabelDatePicker],
   templateUrl: './grid.html',
   styleUrl: './grid.scss'
 })
@@ -56,9 +58,6 @@ export class Grid {
   items: any[] = [];
   headerSearchForm?: FormGroup;
   hasFilter: boolean = false;
-  // showDelete: boolean = false;
-  // deleteMessage: string = 'Are you sure you want to delete?';
-  // deletedRowIndex: number = 0;
   afterContentInitFired: boolean = false;
   first = 0;
 
@@ -197,7 +196,11 @@ export class Grid {
 
         const [field, type] = changedControl?.split('-')!;
         let filteredColValue = this.getHeaderControl(field!, type!).value;
-        
+
+        if(filteredColValue && type == ColumnFilterTypeEnum.date) {
+          filteredColValue = DataHelper.toDate(filteredColValue);
+        }
+
         this.searchSubject$.next({
           value: filteredColValue,
           field: field!,

@@ -103,6 +103,7 @@ export class CourseForm {
   }
 
   cancel() {
+    this.courseForm.reset();
     this.onCancel.emit();
   }
 

@@ -16,6 +16,8 @@
                 <input *ngSwitchCase="'text'" [placeholder]="'بحث ب' + col.title" class="form-control"
                     type="text" [formControl]="getHeaderControl(col.field, col.filterType!)"/>
 
+                <label-date-picker *ngSwitchCase="'date'" [placeholder]="'بحث ب' + col.title" [formControl]="getHeaderControl(col.field, col.filterType!)" />
+
             </td>
 
             <td class="d-flex justify-content-end pt-1" *ngIf="hasFilter">
@@ -43,7 +45,7 @@
 
                     <span *ngIf="col.columnType == 'date'"
                         [style]="{background: hasBackground(col, item) ? col?.backgroundColor : ''}">
-                        {{ item[col.field] | date: 'MM-dd-yyyy'}}
+                        {{ item[col.field] | date: 'dd-MM-yyyy'}}
                     </span>
 
                     <span *ngIf="col.columnType == 'image'">
@@ -66,14 +68,14 @@
                         <i class="fa fa-edit text-secondary"></i>
                     </button>
 
+                    <activate-btn *ngIf="allowActivate && !item.isActive" [disabled]="item.isActive" (onClick)="onActivateRow(item)" />
+                    
+                    <deactivate-btn *ngIf="allowDeactivate && item.isActive" [disabled]="!item.isActive" (onClick)="onDeactivateRow(item)" />
+                    
                     <button *ngIf="allowView" pTooltip="عرض" tooltipPosition="top" class="btn px-1 grid-btn"
                         (click)="onViewDetail(item)">
                         <i class="fa fa-eye text-info"></i>
                     </button>
-
-                    <activate-btn *ngIf="allowActivate && !item.isActive" [disabled]="item.isActive" (onClick)="onActivateRow(item)" />
-
-                    <deactivate-btn *ngIf="allowDeactivate && item.isActive" [disabled]="!item.isActive" (onClick)="onDeactivateRow(item)" />
                     
                 </div>
             </td>
