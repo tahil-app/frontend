@@ -46,4 +46,11 @@ export class TeacherService extends ApiService<Teacher> {
     return this.httpClient.delete<boolean>(this.appURLGenerator.getEndPoint(ApiEndpoints.TEACHERS.Actions.DeleteAttachment(id)));
   }
 
+  uploadImage(file: File, userId: number): Observable<string> {
+    const formData = new FormData();
+    formData.append('File', file, file.name);
+    formData.append('UserId', userId.toString());
+    
+    return this.httpClient.post<string>(this.appURLGenerator.getEndPoint(ApiEndpoints.TEACHERS.Actions.UploadImage), formData);
+  }
 }

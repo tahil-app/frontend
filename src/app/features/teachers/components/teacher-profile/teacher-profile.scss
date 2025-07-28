@@ -19,10 +19,16 @@
 
 .profile-user-img img {
     width: 100px;
+    height: 100px;
 }
 
 .profile-edit-icon {
     bottom: -20px;
+    cursor: pointer;
+}
+
+.students-up-files label.file-upload input[type=file] {
+    right: 25px;
 }
 
 .views-personal h4 {
@@ -42,6 +48,7 @@
 
     .profile-user-img img {
         width: 80px;
+        height: 80px;
     }
 }
 

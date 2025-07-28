@@ -5,14 +5,17 @@
         <div class="col-12">
             <div class="profile-user-box">
                 <div class="profile-user-img">
-                    <img src="assets/icons/avatar-student.svg" alt="Profile">
+                    <img [src]="getImageUrl(teacher.imagePath)" alt="Profile">
+
                     <div class="form-group students-up-files profile-edit-icon mb-0" *ngIf="!disablePage">
                         <div class="uplod d-flex">
                             <label class="file-upload profile-upbtn mb-0">
-                                <i class="fas fa-solid fa-edit"></i><input type="file">
+                                <i class="fas fa-solid fa-edit"></i>
+                                <input type="file" (change)="onUploadImage($event)" accept="image/*">
                             </label>
                         </div>
                     </div>
+
                 </div>
 
                 <div class="names-profiles me-3" *ngIf="!disablePage">
@@ -116,7 +119,7 @@
                 <div class="card mb-0">
                     <div class="card-body pt-0" style="min-height: 29rem;">
 
-                        <p-tabs value="2" scrollable>
+                        <p-tabs value="0" scrollable>
 
                             <p-tablist>
                                 <p-tab value="0">التعليم</p-tab>
@@ -167,7 +170,7 @@
                                                     *ngIf="teacher.experience === null || teacher.experience?.length === 0">
                                                     لا يوجد خبرات
                                                 </div>
-                                                
+
                                             </div>
 
                                         </div>

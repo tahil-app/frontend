@@ -45,6 +45,7 @@ export class ApiEndpoints {
             UploadAttachment: `upload-attachment`,
             DownloadAttachment: (id: string | number) => `download-attachment/${id}`,
             DeleteAttachment: (id: string | number) => `delete-attachment/${id}`,
+            UploadImage: `upload-image`,
         }
     };
 }

@@ -92,6 +92,27 @@ export class TeacherProfile {
 
   //#region Teacher Info
 
+  getImageUrl(imageUrl: string) {
+    console.log(imageUrl);
+    
+    return imageUrl ? this.teacherService.getViewAttachmentUrl(imageUrl) : 'assets/icons/avatar-teacher.svg';
+  }
+
+  onUploadImage(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      this.loader.show();
+      this.teacherService.uploadImage(file, this.teacher.id).subscribe(res => {
+        if(res) {
+          this.loadTeacher();
+          this.toaster.showSuccess('تم تحديث الصورة بنجاح');
+        }
+      }, _ => { }, () => {
+        this.loader.hide();
+      }, );
+    }
+  }
+
   getAge(birthDate: string) {
     return birthDate ? DataHelper.getAge(birthDate) : '';
   }
