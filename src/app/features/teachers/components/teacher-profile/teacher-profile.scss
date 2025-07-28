@@ -44,3 +44,9 @@
         width: 80px;
     }
 }
+
+.tab-section-container {
+    max-height: 21rem;
+    overflow-y: auto;
+    margin-bottom: -2rem;
+}

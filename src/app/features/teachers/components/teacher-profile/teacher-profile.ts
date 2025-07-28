@@ -18,6 +18,7 @@ import { TeacherExperience } from '../teacher-experience/teacher-experience';
 import { UserAttachmentDialog } from "../../../shared/components/user-attachment-dialog/user-attachment-dialog";
 import { UserAttachment } from '../../../../core/models/user-attachment.model';
 import { TeacherAttachmentComponent } from '../teacher-attachment/teacher-attachment';
+import { ToastService } from '../../../shared/services/toast.service';
 
 @Component({
   selector: 'app-teacher-profile',
@@ -32,6 +33,7 @@ export class TeacherProfile {
   showQualificationDialog = false;
   showExperienceDialog = false;
   showUserAttachmentDialog = false;
+  disablePage = false;
 
   teacher: Teacher = {} as Teacher;
   destroy$ = new Subject<void>();
@@ -43,6 +45,7 @@ export class TeacherProfile {
   private route = inject(ActivatedRoute);
   private cdr = inject(ChangeDetectorRef);
   private sanitizer = inject(DomSanitizer);
+  private toaster = inject(ToastService);
 
   //#endregion
 
@@ -60,6 +63,12 @@ export class TeacherProfile {
     this.loader.show();
     this.teacherService.get(this.teacher.id).pipe(takeUntil(this.destroy$)).subscribe((teacher: Teacher) => {
       this.teacher = teacher;
+
+      if(teacher.id == 0) {
+        this.toaster.showError('لا يوجد معلومات عن المعلم');
+        this.disablePage = true;
+      }
+
       this.cdr.detectChanges();
     }, _ => { }, () => {
       this.loader.hide();

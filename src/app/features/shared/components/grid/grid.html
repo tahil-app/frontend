@@ -63,16 +63,18 @@
                         <i class="fa fa-trash text-danger"></i>
                     </button>
 
-                    <button *ngIf="allowEdit" pTooltip="تعديل" tooltipPosition="top" class="btn px-2 grid-btn"
+                    <button *ngIf="allowEdit && item?.isActive" pTooltip="تعديل" tooltipPosition="top" class="btn px-2 grid-btn"
                         (click)="onEditRow(item)">
                         <i class="fa fa-edit text-secondary"></i>
                     </button>
 
-                    <activate-btn *ngIf="allowActivate && !item.isActive" [disabled]="item.isActive" (onClick)="onActivateRow(item)" />
+                    <activate-btn *ngIf="allowActivate && !item?.isActive" [disabled]="item?.isActive" (onClick)="onActivateRow(item)" />
                     
-                    <deactivate-btn *ngIf="allowDeactivate && item.isActive" [disabled]="!item.isActive" (onClick)="onDeactivateRow(item)" />
+                    <deactivate-btn *ngIf="allowDeactivate && item?.isActive" [disabled]="!item.isActive" (onClick)="onDeactivateRow(item)" />
+                    <span *ngIf="!item?.isActive" style="width: 2rem;">
+                    </span>
                     
-                    <button *ngIf="allowView" pTooltip="عرض" tooltipPosition="top" class="btn px-1 grid-btn"
+                    <button *ngIf="allowView  && item?.isActive" pTooltip="عرض" tooltipPosition="top" class="btn px-1 grid-btn"
                         (click)="onViewDetail(item)">
                         <i class="fa fa-eye text-info"></i>
                     </button>

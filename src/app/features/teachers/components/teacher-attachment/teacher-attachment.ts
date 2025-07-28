@@ -26,18 +26,12 @@ export class TeacherAttachmentComponent {
 
   onDownloadAttachment(attachment: Attachment): void {
     const url = this.teacherService.getDownloadAttachment(attachment.fileName);
-    const fileName = attachment.fileName;
   
-    const anchor = document.createElement('a');
-    anchor.href = url;
-    anchor.download = fileName; // This hints the browser to download the file
-    anchor.target = '_blank';   // Optional: open in new tab if browser blocks direct download
-    anchor.click();
-    anchor.remove();
+    window.open(url, '_blank');
   }  
 
   onViewAttachment(attachment: Attachment) {
-    let url = this.teacherService.getViewAttachmentUrl(this.teacher.id, attachment.fileName);
+    let url = this.teacherService.getViewAttachmentUrl(attachment.fileName);
     window.open(url, '_blank');
   }
 

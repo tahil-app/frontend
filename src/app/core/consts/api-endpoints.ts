@@ -31,8 +31,8 @@ export class ApiEndpoints {
     static readonly ATTACHMENTS = {
         Controller: 'attachment',
         Actions: {
-            View: (fileName: string) => `view/${fileName}`,
-            Download: (fileName: string) => `download/${fileName}`,
+            View: (fileName: string) => `view/${encodeURIComponent(fileName)}`,
+            Download: (fileName: string) => `download/${encodeURIComponent(fileName)}`,
         }
     };
 

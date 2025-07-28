@@ -34,7 +34,7 @@ export class TeacherService extends ApiService<Teacher> {
     return this.httpClient.post<boolean>(this.appURLGenerator.getEndPoint(ApiEndpoints.TEACHERS.Actions.UploadAttachment), formData);
   }
 
-  getViewAttachmentUrl(userId: number, fileName: string): string {
+  getViewAttachmentUrl(fileName: string): string {
     return this.appURLGenerator.getFullEndPoint(ApiEndpoints.ATTACHMENTS.Controller, ApiEndpoints.ATTACHMENTS.Actions.View(fileName));
   }
 

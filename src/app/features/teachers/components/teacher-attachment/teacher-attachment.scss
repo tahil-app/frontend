@@ -11,6 +11,10 @@
         border-radius: 5px;
     }
 
+    &:last-child {
+        border-bottom: none;
+    }
+
     .attachment-item {
         display: flex;
         align-items: center;
@@ -34,5 +38,6 @@
             color: #85878a;
             font-weight: 500;
         }
+
     }
 }

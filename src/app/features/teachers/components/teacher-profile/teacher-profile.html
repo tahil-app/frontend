@@ -6,7 +6,7 @@
             <div class="profile-user-box">
                 <div class="profile-user-img">
                     <img src="assets/icons/avatar-student.svg" alt="Profile">
-                    <div class="form-group students-up-files profile-edit-icon mb-0">
+                    <div class="form-group students-up-files profile-edit-icon mb-0" *ngIf="!disablePage">
                         <div class="uplod d-flex">
                             <label class="file-upload profile-upbtn mb-0">
                                 <i class="fas fa-solid fa-edit"></i><input type="file">
@@ -15,7 +15,7 @@
                     </div>
                 </div>
 
-                <div class="names-profiles me-3">
+                <div class="names-profiles me-3" *ngIf="!disablePage">
                     <h4>{{teacher.name}}</h4>
                     <h5>{{getAge(teacher.birthDate)}} سنة</h5>
                 </div>
@@ -35,7 +35,7 @@
                         <div class="heading-detail d-flex justify-content-between align-items-center">
                             <h4 class="mb-2 mt-2">بيانات المعلم</h4>
 
-                            <div class="form-group students-up-files mb-1">
+                            <div class="form-group students-up-files mb-1" *ngIf="!disablePage">
                                 <button pTooltip="تعديل" tooltipPosition="top" class="btn p-0 grid-btn"
                                     (click)="onEditTeacher()">
                                     <i class="fa fa-edit text-secondary"></i>
@@ -81,7 +81,7 @@
                             </div>
                             <div class="views-personal">
                                 <h4>الجنس</h4>
-                                <h5>{{getGender(teacher.gender)}}</h5>
+                                <h5 *ngIf="!disablePage">{{getGender(teacher.gender)}}</h5>
                             </div>
                         </div>
 
@@ -91,7 +91,7 @@
                             </div>
                             <div class="views-personal">
                                 <h4>تاريخ الانضمام</h4>
-                                <h5>{{teacher.joinedDate}}</h5>
+                                <h5 *ngIf="!disablePage">{{teacher.joinedDate}}</h5>
                             </div>
                         </div>
 
@@ -101,7 +101,7 @@
                             </div>
                             <div class="views-personal">
                                 <h4>تاريخ الميلاد</h4>
-                                <h5>{{teacher.birthDate}}</h5>
+                                <h5 *ngIf="!disablePage">{{teacher.birthDate}}</h5>
                             </div>
                         </div>
 
@@ -133,7 +133,7 @@
                                             <div class="heading-detail d-flex justify-content-between">
                                                 <h5>المؤهلات</h5>
 
-                                                <div class="form-group students-up-files mb-0">
+                                                <div class="form-group students-up-files mb-0" *ngIf="!disablePage">
                                                     <button pTooltip="تعديل" tooltipPosition="top"
                                                         class="btn p-0 grid-btn" (click)="onEditQualification()">
                                                         <i class="fa fa-edit text-secondary"></i>
@@ -141,29 +141,33 @@
                                                 </div>
                                             </div>
 
-                                            <div [innerHTML]="getSafeHtml(teacher.qualification)"></div>
-                                            <div class="text-muted text-center"
-                                                *ngIf="teacher.qualification === null || teacher.qualification?.length === 0">
-                                                لا يوجد مؤهلات
-                                            </div>
+                                            <div class="tab-section-container">
+                                                <div [innerHTML]="getSafeHtml(teacher.qualification)"></div>
 
-                                            <hr class="my-3 heading-line" />
-
-                                            <div class="heading-detail d-flex justify-content-between">
-                                                <h5>الخبرات</h5>
-
-                                                <div class="form-group students-up-files mb-0">
-                                                    <button pTooltip="تعديل" tooltipPosition="top"
-                                                        class="btn p-0 grid-btn" (click)="onEditExperience()">
-                                                        <i class="fa fa-edit text-secondary"></i>
-                                                    </button>
+                                                <div class="text-muted text-center"
+                                                    *ngIf="teacher.qualification === null || teacher.qualification?.length === 0">
+                                                    لا يوجد مؤهلات
                                                 </div>
-                                            </div>
 
-                                            <div [innerHTML]="getSafeHtml(teacher.experience)"></div>
-                                            <div class="text-muted text-center"
-                                                *ngIf="teacher.experience === null || teacher.experience?.length === 0">
-                                                لا يوجد خبرات
+                                                <hr class="my-3 heading-line" />
+
+                                                <div class="heading-detail d-flex justify-content-between">
+                                                    <h5>الخبرات</h5>
+
+                                                    <div class="form-group students-up-files mb-0" *ngIf="!disablePage">
+                                                        <button pTooltip="تعديل" tooltipPosition="top"
+                                                            class="btn p-0 grid-btn" (click)="onEditExperience()">
+                                                            <i class="fa fa-edit text-secondary"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                <div [innerHTML]="getSafeHtml(teacher.experience)"></div>
+                                                <div class="text-muted text-center"
+                                                    *ngIf="teacher.experience === null || teacher.experience?.length === 0">
+                                                    لا يوجد خبرات
+                                                </div>
+                                                
                                             </div>
 
                                         </div>
@@ -177,7 +181,7 @@
                                             <div class="heading-detail d-flex justify-content-between">
                                                 <h5>المواعيد</h5>
 
-                                                <div class="form-group students-up-files mb-0">
+                                                <div class="form-group students-up-files mb-0" *ngIf="!disablePage">
                                                     <button pTooltip="تعديل" tooltipPosition="top"
                                                         class="btn p-0 grid-btn" (click)="onEditTeacher()">
                                                         <i class="fa fa-edit text-secondary"></i>
@@ -185,6 +189,7 @@
                                                 </div>
                                             </div>
 
+                                            <div class="tab-section-container"></div>
 
                                         </div>
                                     </div>
@@ -197,7 +202,7 @@
                                             <div class="heading-detail d-flex justify-content-between">
                                                 <h5>المرفقات</h5>
 
-                                                <div class="form-group students-up-files mb-0">
+                                                <div class="form-group students-up-files mb-0" *ngIf="!disablePage">
                                                     <button pTooltip="إضافة" tooltipPosition="top"
                                                         class="btn p-0 grid-btn" (click)="onAddUserAttachment()">
                                                         <i class="fa fa-plus text-secondary"></i>
@@ -205,7 +210,9 @@
                                                 </div>
                                             </div>
 
-                                            <app-teacher-attachment [teacher]="teacher" />
+                                            <div class="tab-section-container">
+                                                <app-teacher-attachment [teacher]="teacher" />
+                                            </div>
 
                                             <div class="text-muted text-center"
                                                 *ngIf="teacher.attachments === null || teacher.attachments?.length === 0">
