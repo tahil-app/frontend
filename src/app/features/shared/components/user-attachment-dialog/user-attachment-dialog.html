@@ -1,0 +1,24 @@
+<p-dialog header="المرفقات" [modal]="true" [(visible)]="showDialog" [style]="{ width: '30rem' }">
+    <form [formGroup]="userAttachmentForm" (ngSubmit)="save()">
+
+        <input-label [label]="'الاسم'" [formControl]="getFormControl('displayName')" [required]="true" />
+
+        <div class="flex justify-end gap-2 mt-3">
+            <p-fileupload 
+                mode="advanced" 
+                chooseLabel="اختر ملف" 
+                maxFileSize="1000000" 
+                [showUploadButton]="false"
+                [showCancelButton]="false"
+                class="hide-progress-bar"
+                (onSelect)="onFileSelect($event)"/>
+        </div>
+
+        <div class="flex justify-end gap-2 mt-4">
+            <save-btn type="submit" [disabled]="!userAttachmentForm.valid" />
+            &nbsp;
+            <cancel-btn type="button" (click)="cancel()" />
+        </div>
+
+    </form>
+</p-dialog>

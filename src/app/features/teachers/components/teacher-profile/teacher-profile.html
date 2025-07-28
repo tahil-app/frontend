@@ -116,7 +116,7 @@
                 <div class="card mb-0">
                     <div class="card-body pt-0" style="min-height: 29rem;">
 
-                        <p-tabs value="0" scrollable>
+                        <p-tabs value="2" scrollable>
 
                             <p-tablist>
                                 <p-tab value="0">التعليم</p-tab>
@@ -142,11 +142,12 @@
                                             </div>
 
                                             <div [innerHTML]="getSafeHtml(teacher.qualification)"></div>
-                                            <div class="text-muted text-center" *ngIf="teacher.qualification === null || teacher.qualification?.length === 0">
+                                            <div class="text-muted text-center"
+                                                *ngIf="teacher.qualification === null || teacher.qualification?.length === 0">
                                                 لا يوجد مؤهلات
                                             </div>
 
-                                            <hr class="my-3 heading-line"/>
+                                            <hr class="my-3 heading-line" />
 
                                             <div class="heading-detail d-flex justify-content-between">
                                                 <h5>الخبرات</h5>
@@ -160,7 +161,8 @@
                                             </div>
 
                                             <div [innerHTML]="getSafeHtml(teacher.experience)"></div>
-                                            <div class="text-muted text-center" *ngIf="teacher.experience === null || teacher.experience?.length === 0">
+                                            <div class="text-muted text-center"
+                                                *ngIf="teacher.experience === null || teacher.experience?.length === 0">
                                                 لا يوجد خبرات
                                             </div>
 
@@ -196,13 +198,19 @@
                                                 <h5>المرفقات</h5>
 
                                                 <div class="form-group students-up-files mb-0">
-                                                    <button pTooltip="تعديل" tooltipPosition="top"
-                                                        class="btn p-0 grid-btn" (click)="onEditTeacher()">
-                                                        <i class="fa fa-edit text-secondary"></i>
+                                                    <button pTooltip="إضافة" tooltipPosition="top"
+                                                        class="btn p-0 grid-btn" (click)="onAddUserAttachment()">
+                                                        <i class="fa fa-plus text-secondary"></i>
                                                     </button>
                                                 </div>
                                             </div>
 
+                                            <app-teacher-attachment [teacher]="teacher" />
+
+                                            <div class="text-muted text-center"
+                                                *ngIf="teacher.attachments === null || teacher.attachments?.length === 0">
+                                                لا يوجد مرفقات
+                                            </div>
 
                                         </div>
                                     </div>
@@ -229,3 +237,6 @@
 
 <app-teacher-experience [showDialog]="showExperienceDialog" [teacher]="teacher" (onSave)="loadTeacher()"
     (onCancel)="showExperienceDialog = false" />
+
+<user-attachment-dialog [showDialog]="showUserAttachmentDialog" (onSave)="saveUserAttachment($event)"
+    (onCancel)="showUserAttachmentDialog = false" [userId]="teacher.id" />

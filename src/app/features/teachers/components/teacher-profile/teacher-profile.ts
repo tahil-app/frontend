@@ -5,7 +5,7 @@ import { Teacher } from '../../../../core/models/teacher.model';
 import { Subject, takeUntil } from 'rxjs';
 import { TeacherService } from '../../../../core/services/teacher.service';
 import { LoaderService } from '../../../shared/services/loader.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DataHelper } from '../../../../core/helpers/data.helper';
 import { GenderHelper } from '../../../../core/helpers/gender.helper';
 import { GenderEnum } from '../../../../core/enums/gender.enum';
@@ -15,10 +15,13 @@ import { TeacherQualification } from '../teacher-qualification/teacher-qualifica
 import { CommonModule } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TeacherExperience } from '../teacher-experience/teacher-experience';
+import { UserAttachmentDialog } from "../../../shared/components/user-attachment-dialog/user-attachment-dialog";
+import { UserAttachment } from '../../../../core/models/user-attachment.model';
+import { TeacherAttachmentComponent } from '../teacher-attachment/teacher-attachment';
 
 @Component({
   selector: 'app-teacher-profile',
-  imports: [CardContainer, TabsModule, TooltipModule, TeacherFormComponent, TeacherQualification, CommonModule, TeacherExperience],
+  imports: [CardContainer, TabsModule, TooltipModule, TeacherFormComponent, TeacherQualification, CommonModule, TeacherExperience, UserAttachmentDialog, TeacherAttachmentComponent],
   templateUrl: './teacher-profile.html',
   styleUrl: './teacher-profile.scss'
 })
@@ -28,6 +31,8 @@ export class TeacherProfile {
   showEditInfoDialog = false;
   showQualificationDialog = false;
   showExperienceDialog = false;
+  showUserAttachmentDialog = false;
+
   teacher: Teacher = {} as Teacher;
   destroy$ = new Subject<void>();
   //#endregion
@@ -61,6 +66,7 @@ export class TeacherProfile {
       this.showEditInfoDialog = false;
       this.showQualificationDialog = false;
       this.showExperienceDialog = false;
+      this.showUserAttachmentDialog = false;
     });
   }
 
@@ -78,7 +84,7 @@ export class TeacherProfile {
   //#region Teacher Info
 
   getAge(birthDate: string) {
-    return DataHelper.getAge(birthDate);
+    return birthDate ? DataHelper.getAge(birthDate) : '';
   }
 
   getGender(gender: GenderEnum) {
@@ -102,6 +108,24 @@ export class TeacherProfile {
   onEditExperience() {
     this.teacher = { ...this.teacher };
     this.showExperienceDialog = true;
+  }
+
+  //#endregion
+
+  //#region User Attachment
+
+  onAddUserAttachment() {
+    this.showUserAttachmentDialog = true;
+  }
+
+  saveUserAttachment(userAttachment: UserAttachment) {
+    this.loader.show();
+    this.teacherService.uploadAttachment(userAttachment).pipe(takeUntil(this.destroy$)).subscribe((res) => {
+      this.loadTeacher();
+    }, _ => { }, () => {
+      this.loader.hide();
+      this.showUserAttachmentDialog = false;
+    });
   }
 
   //#endregion

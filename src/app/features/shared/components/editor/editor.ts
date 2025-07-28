@@ -25,28 +25,28 @@ export class Editor {
     registerCustomSizes();
   }
 
-    //#region Control Value Accessor
-    innerValue: any;
-    writeValue(value: any): void {
-      this.innerValue = value;
-    }
-    registerOnChange(fn: any): void {
-      this.onChange = fn ?? this.onChange;
-    }
-    registerOnTouched(fn: any): void {
-      this.onTouched = fn ?? this.onTouched;
-    }
-    setDisabledState(isDisabled: boolean): void {
-      // this.disabled = isDisabled;
-    }
-  
-    onInputChange(event: any): void {
-      this.innerValue = event.target.value;
-      this.onChange(this.innerValue);
-    }
-  
-    onChange: any = () => { };
-    onTouched: any = () => { };
-    //#endregion
-  
+  //#region Control Value Accessor
+  innerValue: any;
+  writeValue(value: any): void {
+    this.innerValue = value;
+  }
+  registerOnChange(fn: any): void {
+    this.onChange = fn ?? this.onChange;
+  }
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn ?? this.onTouched;
+  }
+  setDisabledState(isDisabled: boolean): void {
+    // this.disabled = isDisabled;
+  }
+
+  onInputChange(event: any): void {
+    this.innerValue = event.target.value;
+    this.onChange(this.innerValue);
+  }
+
+  onChange: any = () => { };
+  onTouched: any = () => { };
+  //#endregion
+
 }

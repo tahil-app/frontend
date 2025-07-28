@@ -1,5 +1,6 @@
 import { GenderEnum } from "../enums/gender.enum";
 import { UserRoleEnum } from "../enums/user-role.enum";
+import { Attachment } from "./attachment.model";
 
 export class Teacher {
   id: number = 0;
@@ -15,4 +16,5 @@ export class Teacher {
 
   qualification!: string;
   experience!: string;
+  attachments!: Attachment[];
 }

@@ -4,6 +4,8 @@ import { ApiService } from './api.service';
 import { ApiEndpoints } from '../consts/api-endpoints';
 import { Observable } from 'rxjs';
 import { Teacher } from '../models/teacher.model';
+import { UserAttachment } from '../models/user-attachment.model';
+import { EnvironmentHelper } from '../helpers/environment-helper';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +23,27 @@ export class TeacherService extends ApiService<Teacher> {
 
   deactivate(id: number): Observable<boolean> {
     return this.httpClient.put<boolean>(this.appURLGenerator.getEndPoint(ApiEndpoints.TEACHERS.Actions.Deactivate(id)), {});
+  }
+
+  uploadAttachment(attachment: UserAttachment): Observable<boolean> {
+    const formData = new FormData();
+    formData.append('DisplayName', attachment.displayName);
+    formData.append('File', attachment.file, attachment.file.name);
+    formData.append('UserId', attachment.userId.toString());
+
+    return this.httpClient.post<boolean>(this.appURLGenerator.getEndPoint(ApiEndpoints.TEACHERS.Actions.UploadAttachment), formData);
+  }
+
+  getViewAttachmentUrl(userId: number, fileName: string): string {
+    return this.appURLGenerator.getFullEndPoint(ApiEndpoints.ATTACHMENTS.Controller, ApiEndpoints.ATTACHMENTS.Actions.View(fileName));
+  }
+
+  getDownloadAttachment(fileName: string): string {
+    return this.appURLGenerator.getFullEndPoint(ApiEndpoints.ATTACHMENTS.Controller, ApiEndpoints.ATTACHMENTS.Actions.Download(fileName));
+  }
+
+  deleteAttachment(id: number): Observable<boolean> {
+    return this.httpClient.delete<boolean>(this.appURLGenerator.getEndPoint(ApiEndpoints.TEACHERS.Actions.DeleteAttachment(id)));
   }
 
 }

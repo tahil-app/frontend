@@ -28,12 +28,23 @@ export class ApiEndpoints {
         }
     };
 
+    static readonly ATTACHMENTS = {
+        Controller: 'attachment',
+        Actions: {
+            View: (fileName: string) => `view/${fileName}`,
+            Download: (fileName: string) => `download/${fileName}`,
+        }
+    };
+
     static readonly TEACHERS = {
         Controller: 'teachers',
         Actions: {
             Paged: `paged`,
             Activate: (id: string | number) => `activate/${id}`,
             Deactivate: (id: string | number) => `deactivate/${id}`,
+            UploadAttachment: `upload-attachment`,
+            DownloadAttachment: (id: string | number) => `download-attachment/${id}`,
+            DeleteAttachment: (id: string | number) => `delete-attachment/${id}`,
         }
     };
 }
