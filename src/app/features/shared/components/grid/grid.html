@@ -1,5 +1,6 @@
 <p-table [value]="items" [dataKey]="'id'" [paginator]="paginator" [rows]="pageSize" [columns]="columns" [lazy]="true"
-    [loading]="loading" [rowHover]="true" stripedRows [scrollable]="true" [totalRecords]="pagedRows.totalCount" (onLazyLoad)="lazyLoad($event)">
+    [loading]="loading" [rowHover]="true" stripedRows [scrollable]="true" [totalRecords]="pagedRows.totalCount"
+    (onLazyLoad)="lazyLoad($event)">
 
     <ng-template #header>
         <tr>
@@ -13,20 +14,20 @@
         <tr *ngIf="showFilters">
             <td *ngFor="let col of columns" class="search-bar" [ngSwitch]="col.filterType">
 
-                <input *ngSwitchCase="'text'" [placeholder]="'بحث ب' + col.title" class="form-control"
-                    type="text" [formControl]="getHeaderControl(col.field, col.filterType!)"/>
+                <input *ngSwitchCase="'text'" [placeholder]="'بحث ب' + col.title" class="form-control" type="text"
+                    [formControl]="getHeaderControl(col.field, col.filterType!)" />
 
-                <input *ngSwitchCase="'number'" [placeholder]="'بحث ب' + col.title" class="form-control"
-                    type="number" [formControl]="getHeaderControl(col.field, col.filterType!)"/>
+                <input *ngSwitchCase="'number'" [placeholder]="'بحث ب' + col.title" class="form-control" type="number"
+                    [formControl]="getHeaderControl(col.field, col.filterType!)" />
 
-                <label-date-picker *ngSwitchCase="'date'" [placeholder]="'بحث ب' + col.title" [formControl]="getHeaderControl(col.field, col.filterType!)" />
+                <label-date-picker *ngSwitchCase="'date'" [placeholder]="'بحث ب' + col.title"
+                    [formControl]="getHeaderControl(col.field, col.filterType!)" />
 
             </td>
 
             <td class="d-flex justify-content-end pt-1" *ngIf="hasFilter">
                 <button *ngIf="queryparams.filters?.length" pTooltip="حذف الفلتر" tooltipPosition="top"
-                    (click)="onReset()"
-                    class="btn btn-sm btn-outline-warning border-0 btn-icon">
+                    (click)="onReset()" class="btn btn-sm btn-outline-warning border-0 btn-icon">
                     <i class="pi pi-filter-slash"></i>
                 </button>
             </td>
@@ -61,28 +62,38 @@
 
             <td *ngIf="allowDelete || allowEdit || allowView">
                 <div class="d-flex justify-content-end grid-btns">
-                    <button *ngIf="allowDelete && (hasIsActive ? item?.isActive : true)" pTooltip="حذف" tooltipPosition="top" class="btn px-1 grid-btn" 
-                        (click)="onDeleteRow(item.index, item)">
+                    <button *ngIf="allowDelete && (hasIsActive ? item?.isActive : true)" pTooltip="حذف"
+                        tooltipPosition="top" class="btn px-1 grid-btn" (click)="onDeleteRow(item.index, item)">
                         <i class="fa fa-trash text-danger"></i>
                     </button>
 
-                    <button *ngIf="allowEdit && (hasIsActive ? item?.isActive : true)" pTooltip="تعديل" tooltipPosition="top" class="btn px-2 grid-btn"
-                        (click)="onEditRow(item)">
+                    <button *ngIf="allowEdit && (hasIsActive ? item?.isActive : true)" pTooltip="تعديل"
+                        tooltipPosition="top" class="btn px-2 grid-btn" (click)="onEditRow(item)">
                         <i class="fa fa-edit text-secondary"></i>
                     </button>
 
-                    <button *ngIf="allowView  && (hasIsActive ? item?.isActive : true)" pTooltip="عرض" tooltipPosition="top" class="btn px-1 grid-btn"
-                        (click)="onViewDetail(item)">
+                    <button *ngIf="allowView  && (hasIsActive ? item?.isActive : true)" pTooltip="عرض"
+                        tooltipPosition="top" class="btn px-1 grid-btn" (click)="onViewDetail(item)">
                         <i class="fa fa-eye text-info"></i>
                     </button>
 
-                    <activate-btn *ngIf="allowActivate && !item?.isActive" [disabled]="item?.isActive" (onClick)="onActivateRow(item)" />
+                    <activate-btn *ngIf="allowActivate && !item?.isActive" [disabled]="item?.isActive"
+                        (onClick)="onActivateRow(item)" />
 
-                    <deactivate-btn *ngIf="allowDeactivate && item?.isActive" [disabled]="!item.isActive" (onClick)="onDeactivateRow(item)" />
+                    <deactivate-btn *ngIf="allowDeactivate && item?.isActive" [disabled]="!item.isActive"
+                        (onClick)="onDeactivateRow(item)" />
 
                 </div>
             </td>
 
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+        <tr>
+            <td [attr.colspan]="columns.length + 1" class="text-center">
+                <div class="p-2 text-muted">لا توجد بيانات</div>
+            </td>
         </tr>
     </ng-template>
 

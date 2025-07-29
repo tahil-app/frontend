@@ -1,74 +1,72 @@
-import {
-    HttpEvent,
-    HttpInterceptor,
-    HttpHandler,
-    HttpRequest,
-    HttpErrorResponse,
-} from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { MessageService } from 'primeng/api';
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { HttpErrorResponse, HttpHandlerFn, HttpRequest, HttpResponse } from "@angular/common/http";
+import { inject } from "@angular/core";
+import { Observable, throwError } from "rxjs";
+import { catchError, map } from "rxjs/operators";
+import { ToastService } from "../../features/shared/services/toast.service";
+import { LoaderService } from "../../features/shared/services/loader.service";
 
-@Injectable()
-export class HttpErrorInterceptor implements HttpInterceptor {
-    URL: string = '';
-    constructor(private messageService: MessageService, private route: Router,
-        private ngxService: NgxUiLoaderService
-    ) {
-    }
-    intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        return next.handle(request)
-            .pipe(
-                catchError((error: HttpErrorResponse) => {
-                    this.ngxService.stop();
-                    let errorMessage = '';
-                    if (error.error instanceof ErrorEvent) {
-                        // client-side error
-                        errorMessage = `Error: ${error.error.message}`;
+export function resultErrorInterceptor(request: HttpRequest<any>, next: HttpHandlerFn): Observable<any> {
+    const toastService = inject(ToastService);
+    const loader = inject(LoaderService);
 
-
-                    } else {
-                        // server-side error
-                        if (error.status == 0) {
-                            errorMessage = `Failed to connect to the back end API`
-
-                        }
-                        else {
-                            if (error.error instanceof Blob) {
-                                this.blobToText(error.error).subscribe((e: string) => {
-                                    var _error = JSON.parse(e.toString());
-                                    errorMessage = `error : ${_error.message} ${_error.exception}`
-                                    this.messageService.add({ severity: 'error', summary: errorMessage });
-                                })
-                            }
-                            return throwError(() => error);
-                        }
-                    }
-
-                    if (errorMessage !== '') {
-                        this.messageService.add({ severity: 'error', summary: errorMessage });
-                    }
-
-                    return throwError(() => error);
-                }))
-    }
-
-    blobToText(blob: any): Observable<string> {
-        return new Observable<string>((observer) => {
-            if (!blob) {
-                observer.next("");
-                observer.complete();
-            } else {
-                let reader = new FileReader();
-                reader.onload = event => {
-                    observer.next((<any>event.target).result);
-                    observer.complete();
-                };
-                reader.readAsText(blob);
+    return next(request).pipe(
+        catchError((error: HttpErrorResponse) => {
+            loader.hide();
+            
+            const errorMessage = extractErrorMessage(error);
+            
+            if (errorMessage) {
+                toastService.showError(errorMessage);
             }
-        });
+
+            return throwError(() => formatError(error));
+        })
+    );
+}
+
+function extractErrorMessage(error: HttpErrorResponse): string {
+    // Client-side or network error
+    if (error.error instanceof ErrorEvent) {
+        return `Client error: ${error.error.message}`;
     }
+
+    // Server-side errors
+    switch (error.status) {
+        case 0:
+            return 'Failed to connect to the API server. Please check your network connection.';
+        case 400:
+            return getValidationErrors(error) || 'Invalid request. Please check your input.';
+        case 401:
+            return 'Session expired. Please log in again.';
+        case 403:
+            return 'You don\'t have permission to perform this action.';
+        case 404:
+            return 'The requested resource was not found.';
+        default:
+            return getServerErrorMessage(error) || 'An unexpected error occurred.';
+    }
+}
+
+function getValidationErrors(error: HttpErrorResponse): string | null {
+    if (error.error?.errors) {
+        return Object.values(error.error.errors)
+            .flat()
+            .join('\n');
+    }
+    return null;
+}
+
+function getServerErrorMessage(error: HttpErrorResponse): string | null {
+    return error.error?.message 
+        || error.error?.error 
+        || error.message;
+}
+
+function formatError(error: HttpErrorResponse): any {
+    return {
+        status: error.status,
+        message: extractErrorMessage(error),
+        originalError: error.error,
+        validationErrors: error.error?.errors
+    };
 }
