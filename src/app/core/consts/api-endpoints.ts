@@ -28,6 +28,13 @@ export class ApiEndpoints {
         }
     };
 
+    static readonly GROUPS = {
+        Controller: 'groups',
+        Actions: {
+            Paged: `paged`
+        }
+    };
+
     static readonly ATTACHMENTS = {
         Controller: 'attachment',
         Actions: {
@@ -38,6 +45,19 @@ export class ApiEndpoints {
 
     static readonly TEACHERS = {
         Controller: 'teachers',
+        Actions: {
+            Paged: `paged`,
+            Activate: (id: string | number) => `activate/${id}`,
+            Deactivate: (id: string | number) => `deactivate/${id}`,
+            UploadAttachment: `upload-attachment`,
+            DownloadAttachment: (id: string | number) => `download-attachment/${id}`,
+            DeleteAttachment: (id: string | number) => `delete-attachment/${id}`,
+            UploadImage: `upload-image`,
+        }
+    };
+
+    static readonly STUDENTS = {
+        Controller: 'students',
         Actions: {
             Paged: `paged`,
             Activate: (id: string | number) => `activate/${id}`,

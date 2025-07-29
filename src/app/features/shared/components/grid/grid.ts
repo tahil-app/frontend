@@ -15,6 +15,7 @@ import { DeactivateBtn } from '../../buttons/deactivate-btn/deactivate-btn';
 import { ActivateBtn } from '../../buttons/activate-btn/activate-btn';
 import { LabelDatePicker } from '../label-date-picker/label-date-picker';
 import { DataHelper } from '../../../../core/helpers/data.helper';
+import { ColumnTypeEnum } from '../../enums/column.type.enum';
 
 @Component({
   selector: 'grid',
@@ -37,6 +38,7 @@ export class Grid {
   @Input() allowView: boolean = false;
   @Input() allowActivate: boolean = false;
   @Input() allowDeactivate: boolean = false;
+  @Input() hasIsActive: boolean = false;
 
   @Input() loading: boolean = false;
   @Input() showFilters: boolean = false;
@@ -146,9 +148,6 @@ export class Grid {
   }
 
   onDeleteRow(index: number, item: any) {
-    // this.deleteMessage = item?.deleteMessage ?? 'Are you sure you want to delete?';
-    // this.showDelete = true;
-    // this.deletedRowIndex = index;
     this.onDelete.emit(item);
   }
 
@@ -225,14 +224,25 @@ export class Grid {
 
     if (value !== null && value !== '' && typeof (value) !== 'undefined') {
       this.queryparams.page = 1;
+
+      let col = this.columns.find(r => r.field == columnName);
+
       this.queryparams.filters?.push({
         columnName: columnName,
-        columnValue: value.toString().trim(),
+        columnValue: this.getFilterValue(value, col!),
         operator: filterMatchMode
       });
     }
 
     this.lazyLoad();
+  }
+
+  getFilterValue(value: string, col: GridColumn) {
+    if(col?.columnType == ColumnTypeEnum.number) {
+      return Number(value);
+    }
+    
+    return value.toString().trim();
   }
 
   //#endregion

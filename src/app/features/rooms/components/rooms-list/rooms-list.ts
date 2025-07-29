@@ -14,6 +14,7 @@ import { Grid } from '../../../shared/components/grid/grid';
 import { CardContainer } from '../../../shared/components/card-container/card-container';
 import { DialogModule } from 'primeng/dialog';
 import { RoomFormComponent } from '../room-form/room-form';
+import { FilterOperators } from '../../../shared/props/query-filter-params.props';
 
 @Component({
   selector: 'app-rooms-list',
@@ -40,6 +41,7 @@ export class RoomsList {
   //#region Columns
   columns: GridColumn[] = [
     { field: 'name', title: 'الاسم', columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
+    { field: 'capacity', title: 'عدد الطلاب', columnType: ColumnTypeEnum.number, sortable: true, filterType: ColumnFilterTypeEnum.number, filterOperator: FilterOperators.equal },
   ];
   //#endregion
 

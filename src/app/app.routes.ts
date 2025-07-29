@@ -11,6 +11,10 @@ export const routes: Routes = [
         loadChildren: () => import('./features/courses/courses.routes').then(m => m.COURSES_ROUTES)
     },
     {
+        path: 'groups',
+        loadChildren: () => import('./features/groups/groups.routes').then(m => m.GROUPS_ROUTES)
+    },
+    {
         path: 'rooms',
         loadChildren: () => import('./features/rooms/rooms.routes').then(m => m.ROOMS_ROUTES)
     },

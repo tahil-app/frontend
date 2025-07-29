@@ -6,24 +6,24 @@ import { CancelBtn } from '../../../shared/buttons/cancel-btn/cancel-btn';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputLabel } from '../../../shared/components/input-label/input-label';
-import { Room } from '../../../../core/models/room.model';
+import { Group } from '../../../../core/models/group.model';
 import { Subject, takeUntil } from 'rxjs';
-import { RoomService } from '../../../../core/services/room.service';
+import { GroupService } from '../../../../core/services/group.service';
 import { LoaderService } from '../../../shared/services/loader.service';
 import { ToastService } from '../../../shared/services/toast.service';
 
 @Component({
-  selector: 'app-room-form',
+  selector: 'app-group-from',
   imports: [CommonModule, DialogModule, SaveBtn, CancelBtn, InputTextModule, ReactiveFormsModule, InputLabel],
-  templateUrl: './room-form.html',
-  styleUrl: './room-form.scss'
+  templateUrl: './group-from.html',
+  styleUrl: './group-from.scss'
 })
-export class RoomFormComponent {
+export class GroupFromComponent {
 
   //#region Properties
   @Input() showDialog = false;
-  @Input() room: Room = {} as Room;
-  roomForm!: FormGroup;
+  @Input() group: Group = {} as Group;
+  groupForm!: FormGroup;
   destroy$ = new Subject<void>();
 
   @Output() onSave = new EventEmitter<void>();
@@ -31,7 +31,7 @@ export class RoomFormComponent {
   //#endregion
 
   //#region Services
-  private roomService = inject(RoomService);
+  private groupService = inject(GroupService);
   private loader = inject(LoaderService);
   private toaster = inject(ToastService);
   private fb = inject(FormBuilder);
@@ -44,18 +44,18 @@ export class RoomFormComponent {
 
   ngOnChanges(changes: SimpleChanges) {
 
-    if (changes['showDialog'] && !this.room.id) {
-      this.roomForm?.reset();
+    if (changes['showDialog'] && !this.group.id) {
+      this.groupForm?.reset();
     }
 
-    if (changes['room'] && this.room.id > 0) {
-      this.roomForm?.patchValue(this.room);
+    if (changes['group'] && this.group.id > 0) {
+      this.groupForm?.patchValue(this.group);
     }
 
   }
 
   initForm() {
-    this.roomForm = this.fb.group({
+    this.groupForm = this.fb.group({
       id: [0],
       name: ['', [Validators.required, Validators.minLength(2)]],
       capacity: [0]
@@ -63,65 +63,65 @@ export class RoomFormComponent {
   }
 
   hasId() {
-    return this.roomForm.get('id')?.value;
+    return this.groupForm.get('id')?.value;
   }
 
   getFormControl(name: string) {
-    return this.roomForm.get(name) as FormControl;
+    return this.groupForm.get(name) as FormControl;
   }
 
   save() {
-    if (this.roomForm.valid) {
+    if (this.groupForm.valid) {
       this.loader.show();
-      
-      const roomData = this.roomForm.value as Room;
-      roomData.id = 0;
-      roomData.capacity = Number(roomData.capacity) ?? 0;
 
-      this.roomService.add(roomData)
+      const GroupData = this.groupForm.value as Group;
+      GroupData.id = 0;
+      GroupData.capacity = Number(GroupData.capacity) ?? 0;
+
+      this.groupService.add(GroupData)
         .pipe(takeUntil(this.destroy$))
         .subscribe(res => {
           if (res) {
             this.onSave.emit();
-            this.roomForm.reset();
-            this.toaster.showSuccess('تم حفظ الحلقة بنجاح');
+            this.groupForm.reset();
+            this.toaster.showSuccess('تم حفظ المجموعة بنجاح');
           }
         }, _ => { }, () => this.loader.hide());
     }
   }
 
   update() {
-    if (this.roomForm.valid) {
+    if (this.groupForm.valid) {
       this.loader.show();
-      
-      const roomData = this.roomForm.value as Room;
-      roomData.capacity = Number(roomData.capacity) ?? 0;
 
-      this.roomService.update(roomData)
+      const GroupData = this.groupForm.value as Group;
+      GroupData.capacity = Number(GroupData.capacity) ?? 0;
+
+      this.groupService.update(GroupData)
         .pipe(takeUntil(this.destroy$))
         .subscribe(res => {
           if (res) {
-            this.roomForm.reset();
+            this.groupForm.reset();
             this.onSave.emit();
-            this.toaster.showSuccess('تم تعديل الحلقة بنجاح');
+            this.toaster.showSuccess('تم تعديل المجموعة بنجاح');
           }
         }, _ => { }, () => this.loader.hide());
     }
   }
 
   cancel() {
-    this.roomForm.reset();
+    this.groupForm.reset();
     this.onCancel.emit();
   }
 
   onAdd() {
-    this.roomForm.reset();
-    this.roomForm.get('id')?.setValue(0);
+    this.groupForm.reset();
+    this.groupForm.get('id')?.setValue(0);
     this.showDialog = true;
   }
 
-  onEdit(event: Room) {
-    this.roomForm.patchValue(event);
+  onEdit(event: Group) {
+    this.groupForm.patchValue(event);
     this.showDialog = true;
   }
 

@@ -22,6 +22,7 @@ export class InputLabel implements ControlValueAccessor{
   @Input() label: string = '';
   @Input() required: boolean = false;
   @Input() placeholder: string = '';
+  @Input() type: string = 'text';
   @Input() formControl: FormControl = new FormControl();
 
   //#region Control Value Accessor

@@ -1,4 +1,4 @@
-export interface Room {
+export interface Group {
     id: number;
     name: string;
     capacity: number;
