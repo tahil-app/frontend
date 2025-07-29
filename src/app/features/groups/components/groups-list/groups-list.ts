@@ -44,7 +44,8 @@ export class GroupsList {
   //#region Columns
   columns: GridColumn[] = [
     { field: 'name', title: 'الاسم', columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
-    { field: 'capacity', title: 'عدد الطلاب', columnType: ColumnTypeEnum.number, sortable: true, filterType: ColumnFilterTypeEnum.number, filterOperator: FilterOperators.equal },
+    { field: 'capacity', title: 'الكثافة الطلابية', columnType: ColumnTypeEnum.number, sortable: true, filterType: ColumnFilterTypeEnum.number, filterOperator: FilterOperators.equal },
+    { field: 'numberOfStudents', title: 'عدد الطلاب', columnType: ColumnTypeEnum.number, sortable: true, filterType: ColumnFilterTypeEnum.number, filterOperator: FilterOperators.equal },
   ];
   //#endregion
 

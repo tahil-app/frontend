@@ -18,10 +18,15 @@ import { DataHelper } from '../../../../core/helpers/data.helper';
 import { GenderEnum } from '../../../../core/enums/gender.enum';
 import { GenderHelper } from '../../../../core/helpers/gender.helper';
 import { UserAttachment } from '../../../../core/models/user-attachment.model';
+import { GroupsDialog } from '../../../shared/components/groups-dialog/groups-dialog';
+import { Group } from '../../../../core/models/group.model';
+import { TableModule } from 'primeng/table';
 
 @Component({
   selector: 'app-student-profile',
-  imports: [CardContainer, TabsModule, TooltipModule, StudentFormComponent, StudentQualification, CommonModule, UserAttachmentDialog, StudentAttachmentComponent],
+  imports: [CardContainer, TabsModule, TooltipModule, StudentFormComponent, StudentQualification, CommonModule, UserAttachmentDialog, StudentAttachmentComponent, GroupsDialog,
+    TableModule
+  ],
   templateUrl: './student-profile.html',
   styleUrl: './student-profile.scss'
 })
@@ -31,6 +36,7 @@ export class StudentProfile {
   showEditInfoDialog = false;
   showQualificationDialog = false;
   showUserAttachmentDialog = false;
+  showGroupsDialog = false;
   disablePage = false;
 
   student: Student = {} as Student;
@@ -73,6 +79,7 @@ export class StudentProfile {
       this.showEditInfoDialog = false;
       this.showQualificationDialog = false;
       this.showUserAttachmentDialog = false;
+      this.showGroupsDialog = false;
     });
   }
 
@@ -146,6 +153,31 @@ export class StudentProfile {
       this.loader.hide();
       this.showUserAttachmentDialog = false;
     });
+  }
+
+  //#endregion
+
+  //#region Groups
+
+  onEditGroups() {
+    this.showGroupsDialog = true;
+  }
+
+  saveGroups(groups: Group[]) {
+
+    this.student.groups = groups;
+
+    this.loader.show();
+    this.studentService.update(this.student).pipe(takeUntil(this.destroy$)).subscribe(res => {
+      if(res) {
+        this.loadStudent();
+        this.toaster.showSuccess('تم تحديث المجموعات بنجاح');
+      }
+    }, _ => { }, () => {
+      this.loader.hide();
+      this.showGroupsDialog = false;
+    });
+
   }
 
   //#endregion

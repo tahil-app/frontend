@@ -32,6 +32,7 @@ export class StudentFormComponent {
   studentForm!: FormGroup;
   destroy$ = new Subject<void>();
   requiredPassword = false;
+  groupsOptions: DropdownProps[] = [];
 
   @Output() onSave = new EventEmitter<void>();
   @Output() onCancel = new EventEmitter<void>();
@@ -55,16 +56,16 @@ export class StudentFormComponent {
 
     if (changes['showDialog'] && (!this.student.id || this.student.id === 0)) {
       this.requiredPassword = true;
-      this.studentForm?.get('password')?.setValidators([Validators.required]);
-      this.studentForm?.get('confirmPassword')?.setValidators([Validators.required]);
+      this.studentForm?.get('password')?.setValidators([Validators.required, Validators.minLength(8)]);
+      this.studentForm?.get('confirmPassword')?.setValidators([Validators.required, Validators.minLength(8)]);
       this.studentForm?.reset();
     }
     
     if (this.studentForm && changes['student'] && this.student.id > 0) {
       this.requiredPassword = false;
       
-      this.studentForm.get('password')?.removeValidators([Validators.required]);
-      this.studentForm.get('confirmPassword')?.removeValidators([Validators.required]);
+      this.studentForm.get('password')?.removeValidators([Validators.required, Validators.minLength(8)]);
+      this.studentForm.get('confirmPassword')?.removeValidators([Validators.required, Validators.minLength(8)]);
       
       // Update validation state after removing validators
       this.studentForm.get('password')?.updateValueAndValidity();
@@ -90,7 +91,8 @@ export class StudentFormComponent {
       confirmPassword: ['', [Validators.required, Validators.minLength(8)]],
       gender: ['', [Validators.required]],
       joinedDate: [''],
-      birthDate: ['']
+      birthDate: [''],
+      groups: [[]]
     });
   }
 

@@ -1,11 +1,11 @@
-import { Component, EventEmitter, forwardRef, inject, Input, Output } from '@angular/core';
+import { Component, EventEmitter, forwardRef, inject, Input, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
 import { Subject } from 'rxjs';
 import { CancelBtn } from '../../buttons/cancel-btn/cancel-btn';
 import { SaveBtn } from '../../buttons/save-btn/save-btn';
 import { InputLabel } from "../input-label/input-label";
-import { FileUploadModule } from 'primeng/fileupload';
+import { FileUpload, FileUploadModule } from 'primeng/fileupload';
 import { CommonModule } from '@angular/common';
 import { UserAttachment } from '../../../../core/models/user-attachment.model';
 
@@ -30,6 +30,7 @@ export class UserAttachmentDialog {
 
   formControl = new FormControl();
   userAttachmentForm!: FormGroup;
+  @ViewChild(FileUpload) fileUpload!: FileUpload;
 
   @Output() onSave = new EventEmitter<UserAttachment>();
   @Output() onCancel = new EventEmitter<void>();
@@ -50,6 +51,16 @@ export class UserAttachmentDialog {
       displayName: ['', [Validators.required, Validators.minLength(2)]],
       file: ['', Validators.required],
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['showDialog'] && this.showDialog == true) {
+      this.userAttachmentForm.reset();
+      
+      if (this.fileUpload) {
+        this.fileUpload.clear();
+      }
+    }
   }
 
   getFormControl(controlName: string) {

@@ -56,16 +56,16 @@ export class TeacherFormComponent {
 
     if (changes['showDialog'] && (!this.teacher.id || this.teacher.id === 0)) {
       this.requiredPassword = true;
-      this.teacherForm?.get('password')?.setValidators([Validators.required]);
-      this.teacherForm?.get('confirmPassword')?.setValidators([Validators.required]);
+      this.teacherForm?.get('password')?.setValidators([Validators.required, Validators.minLength(8)]);
+      this.teacherForm?.get('confirmPassword')?.setValidators([Validators.required, Validators.minLength(8)]);
       this.teacherForm?.reset();
     }
     
     if (this.teacherForm && changes['teacher'] && this.teacher.id > 0) {
       this.requiredPassword = false;
       
-      this.teacherForm.get('password')?.removeValidators([Validators.required]);
-      this.teacherForm.get('confirmPassword')?.removeValidators([Validators.required]);
+      this.teacherForm.get('password')?.removeValidators([Validators.required, Validators.minLength(8)]);
+      this.teacherForm.get('confirmPassword')?.removeValidators([Validators.required, Validators.minLength(8)]);
       
       // Update validation state after removing validators
       this.teacherForm.get('password')?.updateValueAndValidity();

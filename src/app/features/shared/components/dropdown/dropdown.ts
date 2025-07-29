@@ -36,6 +36,7 @@ export class Dropdown implements ControlValueAccessor {
   @Input() formControl: FormControl = new FormControl();
   @Input() isLoading: boolean = false;
   @Input() class: string = "";
+  @Input() showLabel: boolean = true;
   //#endregion
 
   //#region Outputs
@@ -72,7 +73,7 @@ export class Dropdown implements ControlValueAccessor {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['options']) {
-      if (!this.options.some(r => r.value == null))
+      if (!this.options.some(r => r.value == null) && !this.multi)
         this.options.unshift({ label: this.placeholder, value: null })
     }
 

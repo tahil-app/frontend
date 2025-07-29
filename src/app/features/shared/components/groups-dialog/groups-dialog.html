@@ -1,0 +1,13 @@
+<p-dialog header="الجروبات" [modal]="true" [(visible)]="showDialog" [style]="{ width: '30rem' }">
+    <form [formGroup]="groupsForm" (ngSubmit)="save()">
+
+        <dropdown label="الجروبات" [multi]="true" [options]="groupsOptions" [formControl]="getFormControl('groups')" />
+
+        <div class="flex justify-end gap-2 mt-4">
+            <save-btn type="submit" [disabled]="!groupsForm.valid" />
+            &nbsp;
+            <cancel-btn type="button" (click)="cancel()" />
+        </div>
+
+    </form>
+</p-dialog>

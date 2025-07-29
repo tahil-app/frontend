@@ -1,4 +1,4 @@
-<label for="name" class="font-semibold w-24">
+<label for="name" class="font-semibold w-24" *ngIf="showLabel">
     {{label}}
     <span *ngIf="required" class="text-danger">*</span>
 </label>
@@ -59,10 +59,6 @@
     (onPanelShow)="onOverlayShow()"
     class="w-100"
     >
-
-    <ng-template pTemplate="header" *ngIf="!allowFilter">
-        <label>All</label>
-    </ng-template>
 
     <ng-template let-selectedItems pTemplate="selectedItems">
         {{ getDisplayValue() }}
