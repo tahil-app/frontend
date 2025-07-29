@@ -1,0 +1,51 @@
+<p-dialog header="بيانات الطالب" [modal]="true" [(visible)]="showDialog" [style]="{ width: '45rem' }">
+    <form [formGroup]="studentForm" (ngSubmit)="hasId() ? update() : save()">
+
+        <div class="row">
+            <div class="col-md-6 col-12 flex items-center gap-2 mb-2">
+                <input-label label="الاسم" [required]="true" [formControl]="getFormControl('name')" />
+            </div>
+    
+            <div class="col-md-6 col-12 flex items-center gap-2 mb-2">
+                <dropdown label="الجنس" [required]="true" [options]="genderOptions" [formControl]="getFormControl('gender')" />
+            </div>
+            
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-12 flex items-center gap-2 mb-2">
+                <input-label label="رقم الهاتف" [required]="true" [formControl]="getFormControl('phoneNumber')" />
+            </div>
+
+            <div class="col-md-6 col-12 flex items-center gap-2 mb-2">
+                <input-label label="البريد الإلكتروني" [required]="true" [formControl]="getFormControl('email')" />
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6 col-12 flex items-center gap-2 mb-2">
+                <input-label label="كلمة المرور" [required]="requiredPassword" [formControl]="getFormControl('password')" />
+            </div>
+
+            <div class="col-md-6 col-12 flex items-center gap-2 mb-2">
+                <input-label label="تأكيد كلمة المرور" [required]="requiredPassword" [formControl]="getFormControl('confirmPassword')" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-12 flex items-center gap-2 mb-2">
+                <label-date-picker label="تاريخ الميلاد" [formControl]="getFormControl('birthDate')" />
+            </div>
+
+            <div class="col-md-6 col-12 flex items-center gap-2 mb-2">
+                <label-date-picker label="تاريخ الانضمام" [formControl]="getFormControl('joinedDate')" />
+            </div>
+        </div>
+
+        <div class="flex justify-end gap-2 mt-4">
+            <save-btn type="submit" [disabled]="!studentForm.valid" />
+            &nbsp;
+            <cancel-btn type="button" (click)="cancel()" />
+        </div>
+    </form>
+</p-dialog>

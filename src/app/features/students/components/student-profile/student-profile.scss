@@ -1,0 +1,59 @@
+.profile-info {
+    background-color: #f7f7fa;
+    border-radius: 0px 0px 10px 10px;
+    margin: 0px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: -20px;
+}
+
+.profile-user-img {
+    background-color: #f7f7fa;
+    border-radius: 50%;
+    margin: 0px;
+}
+
+.profile-user-box {
+    justify-content: flex-start;
+}
+
+.profile-user-img img {
+    width: 100px;
+    height: 100px;
+}
+
+.profile-edit-icon {
+    bottom: -20px;
+    cursor: pointer;
+}
+
+.students-up-files label.file-upload input[type=file] {
+    right: 25px;
+}
+
+.views-personal h4 {
+    margin-bottom: 3px;
+}
+
+.heading-line {
+    height: .5px;
+    background-color: #85878a;
+}
+
+.views-personal h5 {
+    font-size: 16px;
+}
+
+@media (max-width: 991px) {
+
+    .profile-user-img img {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+.tab-section-container {
+    max-height: 21rem;
+    overflow-y: auto;
+    margin-bottom: -2rem;
+}

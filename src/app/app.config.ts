@@ -2,13 +2,14 @@ import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChang
 import { provideRouter } from '@angular/router';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeuix/themes/aura';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { provideHttpClient, withInterceptors, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { resultModelInterceptor } from './core/interceptors/result.interceptor';
 import { MessageService } from 'primeng/api';
 import { DatePickerAr } from './features/shared/components/label-date-picker/date-picker-ar';
+import { HttpErrorInterceptor } from './core/interceptors/error.http.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,6 +20,11 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(
       withInterceptors([resultModelInterceptor])
     ),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor,
+      multi: true
+    },
     provideAnimationsAsync(),
     providePrimeNG({
       theme: {

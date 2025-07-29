@@ -5,7 +5,7 @@
         <div class="col-12">
             <div class="profile-user-box">
                 <div class="profile-user-img">
-                    <img [src]="getImageUrl(teacher.imagePath)" alt="Profile">
+                    <img [src]="getImageUrl(student.imagePath)" alt="Profile">
 
                     <div class="form-group students-up-files profile-edit-icon mb-0" *ngIf="!disablePage">
                         <div class="uplod d-flex">
@@ -19,8 +19,8 @@
                 </div>
 
                 <div class="names-profiles me-3" *ngIf="!disablePage">
-                    <h4>{{teacher.name}}</h4>
-                    <h5>{{getAge(teacher.birthDate)}} سنة</h5>
+                    <h4>{{student.name}}</h4>
+                    <h5>{{getAge(student.birthDate)}} سنة</h5>
                 </div>
             </div>
         </div>
@@ -40,7 +40,7 @@
 
                             <div class="form-group students-up-files mb-1" *ngIf="!disablePage">
                                 <button pTooltip="تعديل" tooltipPosition="top" class="btn p-0 grid-btn"
-                                    (click)="onEditTeacher()">
+                                    (click)="onEditStudent()">
                                     <i class="fa fa-edit text-secondary"></i>
                                 </button>
                             </div>
@@ -54,7 +54,7 @@
                             </div>
                             <div class="views-personal">
                                 <h4>الاسم</h4>
-                                <h5>{{teacher.name}}</h5>
+                                <h5>{{student.name}}</h5>
                             </div>
                         </div>
 
@@ -64,7 +64,7 @@
                             </div>
                             <div class="views-personal">
                                 <h4>الهاتف</h4>
-                                <h5>{{teacher.phoneNumber}}</h5>
+                                <h5>{{student.phoneNumber}}</h5>
                             </div>
                         </div>
 
@@ -74,7 +74,7 @@
                             </div>
                             <div class="views-personal">
                                 <h4>البريد الإلكتروني</h4>
-                                <h5><a href="mailto:{{teacher.email}}">{{teacher.email}}</a></h5>
+                                <h5><a href="mailto:{{student.email}}">{{student.email}}</a></h5>
                             </div>
                         </div>
 
@@ -84,7 +84,7 @@
                             </div>
                             <div class="views-personal">
                                 <h4>الجنس</h4>
-                                <h5 *ngIf="!disablePage">{{getGender(teacher.gender)}}</h5>
+                                <h5 *ngIf="!disablePage">{{getGender(student.gender)}}</h5>
                             </div>
                         </div>
 
@@ -94,7 +94,7 @@
                             </div>
                             <div class="views-personal">
                                 <h4>تاريخ الانضمام</h4>
-                                <h5 *ngIf="!disablePage">{{teacher.joinedDate}}</h5>
+                                <h5 *ngIf="!disablePage">{{student.joinedDate}}</h5>
                             </div>
                         </div>
 
@@ -104,7 +104,7 @@
                             </div>
                             <div class="views-personal">
                                 <h4>تاريخ الميلاد</h4>
-                                <h5 *ngIf="!disablePage">{{teacher.birthDate}}</h5>
+                                <h5 *ngIf="!disablePage">{{student.birthDate}}</h5>
                             </div>
                         </div>
 
@@ -145,33 +145,14 @@
                                             </div>
 
                                             <div class="tab-section-container">
-                                                <div [innerHTML]="getSafeHtml(teacher.qualification)"></div>
+                                                <div [innerHTML]="getSafeHtml(student.qualification)"></div>
 
                                                 <div class="text-muted text-center"
-                                                    *ngIf="teacher.qualification === null || teacher.qualification?.length === 0">
+                                                    *ngIf="student.qualification === null || student.qualification?.length === 0">
                                                     لا يوجد مؤهلات
                                                 </div>
-
-                                                <hr class="my-3 heading-line" />
-
-                                                <div class="heading-detail d-flex justify-content-between">
-                                                    <h5>الخبرات</h5>
-
-                                                    <div class="form-group students-up-files mb-0" *ngIf="!disablePage">
-                                                        <button pTooltip="تعديل" tooltipPosition="top"
-                                                            class="btn p-0 grid-btn" (click)="onEditExperience()">
-                                                            <i class="fa fa-edit text-secondary"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
-
-                                                <div [innerHTML]="getSafeHtml(teacher.experience)"></div>
-                                                <div class="text-muted text-center"
-                                                    *ngIf="teacher.experience === null || teacher.experience?.length === 0">
-                                                    لا يوجد خبرات
-                                                </div>
-
                                             </div>
+
 
                                         </div>
                                     </div>
@@ -186,15 +167,16 @@
 
                                                 <div class="form-group students-up-files mb-0" *ngIf="!disablePage">
                                                     <button pTooltip="تعديل" tooltipPosition="top"
-                                                        class="btn p-0 grid-btn" (click)="onEditTeacher()">
+                                                        class="btn p-0 grid-btn" (click)="onEditStudent()">
                                                         <i class="fa fa-edit text-secondary"></i>
                                                     </button>
                                                 </div>
                                             </div>
 
                                             <div class="tab-section-container">
+
                                                 <div class="text-muted text-center"
-                                                    *ngIf="teacher.attachments === null || teacher.attachments?.length === 0">
+                                                    *ngIf="student.groups === null || student.groups?.length === 0">
                                                     لا يوجد مجموعات
                                                 </div>
                                             </div>
@@ -219,10 +201,10 @@
                                             </div>
 
                                             <div class="tab-section-container">
-                                                <app-teacher-attachment [teacher]="teacher" />
+                                                <app-student-attachment [student]="student" />
 
                                                 <div class="text-muted text-center"
-                                                    *ngIf="teacher.attachments === null || teacher.attachments?.length === 0">
+                                                    *ngIf="student.attachments === null || student.attachments?.length === 0">
                                                     لا يوجد مرفقات
                                                 </div>
                                             </div>
@@ -244,14 +226,11 @@
 </card-container>
 
 
-<app-teacher-form [showDialog]="showEditInfoDialog" [teacher]="teacher" (onSave)="loadTeacher()"
+<app-student-form [showDialog]="showEditInfoDialog" [student]="student" (onSave)="loadStudent()"
     (onCancel)="showEditInfoDialog = false" />
 
-<app-teacher-qualification [showDialog]="showQualificationDialog" [teacher]="teacher" (onSave)="loadTeacher()"
+<app-student-qualification [showDialog]="showQualificationDialog" [student]="student" (onSave)="loadStudent()"
     (onCancel)="showQualificationDialog = false" />
 
-<app-teacher-experience [showDialog]="showExperienceDialog" [teacher]="teacher" (onSave)="loadTeacher()"
-    (onCancel)="showExperienceDialog = false" />
-
 <user-attachment-dialog [showDialog]="showUserAttachmentDialog" (onSave)="saveUserAttachment($event)"
-    (onCancel)="showUserAttachmentDialog = false" [userId]="teacher.id" />
+    (onCancel)="showUserAttachmentDialog = false" [userId]="student.id" />

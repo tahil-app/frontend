@@ -1,46 +1,44 @@
 import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { CardContainer } from '../../../shared/components/card-container/card-container';
 import { TabsModule } from 'primeng/tabs';
-import { Teacher } from '../../../../core/models/teacher.model';
-import { Subject, takeUntil } from 'rxjs';
-import { TeacherService } from '../../../../core/services/teacher.service';
-import { LoaderService } from '../../../shared/services/loader.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { DataHelper } from '../../../../core/helpers/data.helper';
-import { GenderHelper } from '../../../../core/helpers/gender.helper';
-import { GenderEnum } from '../../../../core/enums/gender.enum';
 import { TooltipModule } from 'primeng/tooltip';
-import { TeacherFormComponent } from '../teacher-form/teacher-form';
-import { TeacherQualification } from '../teacher-qualification/teacher-qualification';
+import { StudentFormComponent } from '../student-form/student-form';
+import { StudentQualification } from '../student-qualification/student-qualification';
 import { CommonModule } from '@angular/common';
-import { DomSanitizer } from '@angular/platform-browser';
-import { TeacherExperience } from '../teacher-experience/teacher-experience';
-import { UserAttachmentDialog } from "../../../shared/components/user-attachment-dialog/user-attachment-dialog";
-import { UserAttachment } from '../../../../core/models/user-attachment.model';
-import { TeacherAttachmentComponent } from '../teacher-attachment/teacher-attachment';
+import { UserAttachmentDialog } from '../../../shared/components/user-attachment-dialog/user-attachment-dialog';
+import { StudentAttachmentComponent } from '../student-attachment/student-attachment';
+import { Student } from '../../../../core/models/student.model';
+import { Subject, takeUntil } from 'rxjs';
 import { ToastService } from '../../../shared/services/toast.service';
+import { DomSanitizer } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
+import { LoaderService } from '../../../shared/services/loader.service';
+import { StudentService } from '../../../../core/services/student.service';
+import { DataHelper } from '../../../../core/helpers/data.helper';
+import { GenderEnum } from '../../../../core/enums/gender.enum';
+import { GenderHelper } from '../../../../core/helpers/gender.helper';
+import { UserAttachment } from '../../../../core/models/user-attachment.model';
 
 @Component({
-  selector: 'app-teacher-profile',
-  imports: [CardContainer, TabsModule, TooltipModule, TeacherFormComponent, TeacherQualification, CommonModule, TeacherExperience, UserAttachmentDialog, TeacherAttachmentComponent],
-  templateUrl: './teacher-profile.html',
-  styleUrl: './teacher-profile.scss'
+  selector: 'app-student-profile',
+  imports: [CardContainer, TabsModule, TooltipModule, StudentFormComponent, StudentQualification, CommonModule, UserAttachmentDialog, StudentAttachmentComponent],
+  templateUrl: './student-profile.html',
+  styleUrl: './student-profile.scss'
 })
-export class TeacherProfile {
+export class StudentProfile {
 
   //#region Properties
   showEditInfoDialog = false;
   showQualificationDialog = false;
-  showExperienceDialog = false;
   showUserAttachmentDialog = false;
   disablePage = false;
 
-  teacher: Teacher = {} as Teacher;
+  student: Student = {} as Student;
   destroy$ = new Subject<void>();
   //#endregion
 
   //#region Services
-  private teacherService = inject(TeacherService);
+  private studentService = inject(StudentService);
   private loader = inject(LoaderService);
   private route = inject(ActivatedRoute);
   private cdr = inject(ChangeDetectorRef);
@@ -53,19 +51,19 @@ export class TeacherProfile {
 
   ngOnInit() {
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe(params => {
-      this.teacher.id = Number(params['id']);
-      this.loadTeacher();
+      this.student.id = Number(params['id']);
+      this.loadStudent();
     });
 
   }
 
-  loadTeacher() {
+  loadStudent() {
     this.loader.show();
-    this.teacherService.get(this.teacher.id).pipe(takeUntil(this.destroy$)).subscribe((teacher: Teacher) => {
-      this.teacher = teacher;
+    this.studentService.get(this.student.id).pipe(takeUntil(this.destroy$)).subscribe((student: Student) => {
+      this.student = student;
 
-      if(teacher.id == 0) {
-        this.toaster.showError('لا يوجد معلومات عن المعلم');
+      if(student.id == 0) {
+        this.toaster.showError('لا يوجد معلومات عن الطالب');
         this.disablePage = true;
       }
 
@@ -74,7 +72,6 @@ export class TeacherProfile {
       this.loader.hide();
       this.showEditInfoDialog = false;
       this.showQualificationDialog = false;
-      this.showExperienceDialog = false;
       this.showUserAttachmentDialog = false;
     });
   }
@@ -93,16 +90,16 @@ export class TeacherProfile {
   //#region Teacher Info
 
   getImageUrl(imageUrl: string) {
-    return imageUrl ? this.teacherService.getViewAttachmentUrl(imageUrl) : 'assets/icons/avatar-teacher.svg';
+    return imageUrl ? this.studentService.getViewAttachmentUrl(imageUrl) : 'assets/icons/avatar-teacher.svg';
   }
 
   onUploadImage(event: Event) {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (file) {
       this.loader.show();
-      this.teacherService.uploadImage(file, this.teacher.id).subscribe(res => {
+      this.studentService.uploadImage(file, this.student.id).subscribe(res => {
         if(res) {
-          this.loadTeacher();
+          this.loadStudent();
           this.toaster.showSuccess('تم تحديث الصورة بنجاح');
         }
       }, _ => { }, () => {
@@ -119,23 +116,18 @@ export class TeacherProfile {
     return GenderHelper.get(gender);
   }
 
-  onEditTeacher() {
-    this.teacher = { ...this.teacher };
+  onEditStudent() {
+    this.student = { ...this.student };
     this.showEditInfoDialog = true;
   }
 
   //#endregion
 
-  //#region Teacher Qualification and Experience
+  //#region Student Qualification
 
   onEditQualification() {
-    this.teacher = { ...this.teacher };
+    this.student = { ...this.student };
     this.showQualificationDialog = true;
-  }
-
-  onEditExperience() {
-    this.teacher = { ...this.teacher };
-    this.showExperienceDialog = true;
   }
 
   //#endregion
@@ -148,8 +140,8 @@ export class TeacherProfile {
 
   saveUserAttachment(userAttachment: UserAttachment) {
     this.loader.show();
-    this.teacherService.uploadAttachment(userAttachment).pipe(takeUntil(this.destroy$)).subscribe((res) => {
-      this.loadTeacher();
+    this.studentService.uploadAttachment(userAttachment).pipe(takeUntil(this.destroy$)).subscribe((res) => {
+      this.loadStudent();
     }, _ => { }, () => {
       this.loader.hide();
       this.showUserAttachmentDialog = false;
@@ -159,3 +151,4 @@ export class TeacherProfile {
   //#endregion
 
 }
+

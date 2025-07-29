@@ -1,0 +1,14 @@
+<card-container title="الطلاب" [addBtn]="true" (onAdd)="showDialog = true">
+    <grid [pagedRows]="students" (onLazyLoad)="loadStudents($event)" 
+          [columns]="columns" [pageSize]="10" [paginator]="true" [showFilters]="true"
+          [allowEdit]="true" (onEdit)="onEdit($event)" 
+          [allowActivate]="true" (onActivate)="onActivate($event)"
+          [allowDeactivate]="true"  (onDeactivate)="onDeactivate($event)"
+          [allowView]="true" (onView)="onView($event)"
+          [hasIsActive]="true" />
+</card-container>
+
+
+<app-student-form [showDialog]="showDialog" 
+[student]="student" (onSave)="loadStudents(queryParams)" 
+(onCancel)="showDialog = false" />
