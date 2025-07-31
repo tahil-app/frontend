@@ -7,43 +7,36 @@
                     <li class="menu-title">
                         <span>Main Menu</span>
                     </li>
-                    <li class="submenu active">
-                        <a href="#"><i class="fas fa-grip-horizontal"></i> <span> Dashboard</span> <span
-                                class="menu-arrow"></span></a>
+
+                    <li class="submenu" [class.active]="isActiveRoute(['/sessions', '/schedules'])">
+                        <a href="#" [class.subdrop]="isActiveRoute(['/sessions', '/schedules'])">
+                            <i class="fas fa-calendar-alt"></i> 
+                            <span>إدارة الجداول </span> 
+                            <span class="menu-arrow"></span>
+                        </a>
                         <ul>
-                            <li><a href="index.html" class="active">Admin Dashboard</a></li>
-                            <li><a href="teacher-dashboard.html">Teacher Dashboard</a></li>
-                            <li><a href="student-dashboard.html">Student Dashboard</a></li>
-                        </ul>
-                    </li>
-                    <li class="submenu">
-                        <a href="#"><i class="fas fa-graduation-cap"></i> <span> Students</span> <span
-                                class="menu-arrow"></span></a>
-                        <ul>
-                            <li><a href="students.html">Student List</a></li>
-                            <li><a href="student-details.html">Student View</a></li>
-                            <li><a href="add-student.html">Student Add</a></li>
-                            <li><a href="edit-student.html">Student Edit</a></li>
+                            <li><a routerLink="/sessions" routerLinkActive="active">جدول التوزيع اليومي</a></li>
+                            <li><a routerLink="/schedules" routerLinkActive="active">جدول التوزيع الرئيسي</a></li>
                         </ul>
                     </li>
                     
-                    <li>
+                    <li routerLinkActive="active">
                         <a routerLink="/students"><i class="fas fa-user-graduate"></i> <span>الطلاب</span></a>
                     </li>
 
-                    <li>
+                    <li routerLinkActive="active">
                         <a routerLink="/teachers"><i class="fas fa-user-tie"></i> <span>المعلمون</span></a>
                     </li>
 
-                    <li>
+                    <li routerLinkActive="active">
                         <a routerLink="/groups"><i class="fas fa-users"></i> <span>المجموعات</span></a>
                     </li>
 
-                    <li>
+                    <li routerLinkActive="active">
                         <a routerLink="/rooms"><i class="fas fa-door-open"></i> <span>الحلقات</span></a>
                     </li>
 
-                    <li>
+                    <li routerLinkActive="active">
                         <a routerLink="/courses"><i class="fas fa-book-reader"></i> <span>الدورات</span></a>
                     </li>
 

@@ -68,4 +68,11 @@ export class ApiEndpoints {
             UploadImage: `upload-image`,
         }
     };
+
+    static readonly LESSON_SCHEDULES = {
+        Controller: 'schedules',
+        Actions: {
+            Paged: `paged`,
+        }
+    };
 }

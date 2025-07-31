@@ -1,6 +1,6 @@
 import { formatDate } from "@angular/common";
 
-export class DataHelper {
+export class DateHelper {
   static toDate(date: string) {
     return formatDate(date, 'yyyy-MM-dd', 'en-US');
   }

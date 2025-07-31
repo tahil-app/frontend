@@ -16,7 +16,7 @@ import { LabelDatePicker } from '../../../shared/components/label-date-picker/la
 import { Dropdown } from '../../../shared/components/dropdown/dropdown';
 import { DropdownProps } from '../../../shared/props/dropdown.props';
 import { GenderEnum } from '../../../../core/enums/gender.enum';
-import { DataHelper } from '../../../../core/helpers/data.helper';
+import { DateHelper } from '../../../../core/helpers/date.helper';
 import { GenderHelper } from '../../../../core/helpers/gender.helper';
 
 @Component({
@@ -115,8 +115,8 @@ export class TeacherFormComponent {
       const teacherData = this.teacherForm.value as Teacher;
       teacherData.id = 0;
       teacherData.role = UserRoleEnum.Teacher;
-      teacherData.joinedDate = DataHelper.toDate(teacherData.joinedDate);
-      teacherData.birthDate = DataHelper.toDate(teacherData.birthDate);
+      teacherData.joinedDate = DateHelper.toDate(teacherData.joinedDate);
+      teacherData.birthDate = DateHelper.toDate(teacherData.birthDate);
 
       this.teacherService.add(teacherData)
         .pipe(takeUntil(this.destroy$))
@@ -134,8 +134,8 @@ export class TeacherFormComponent {
     if (this.teacherForm.valid) {
       this.loader.show();
       const teacherData = { ...this.teacher, ...this.teacherForm.value } as Teacher;
-      teacherData.joinedDate = DataHelper.toDate(teacherData.joinedDate);
-      teacherData.birthDate = DataHelper.toDate(teacherData.birthDate);
+      teacherData.joinedDate = DateHelper.toDate(teacherData.joinedDate);
+      teacherData.birthDate = DateHelper.toDate(teacherData.birthDate);
 
       this.teacherService.update(teacherData)
         .pipe(takeUntil(this.destroy$))

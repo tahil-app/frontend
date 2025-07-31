@@ -6,7 +6,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { TeacherService } from '../../../../core/services/teacher.service';
 import { LoaderService } from '../../../shared/services/loader.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DataHelper } from '../../../../core/helpers/data.helper';
+import { DateHelper } from '../../../../core/helpers/date.helper';
 import { GenderHelper } from '../../../../core/helpers/gender.helper';
 import { GenderEnum } from '../../../../core/enums/gender.enum';
 import { TooltipModule } from 'primeng/tooltip';
@@ -112,7 +112,7 @@ export class TeacherProfile {
   }
 
   getAge(birthDate: string) {
-    return birthDate ? DataHelper.getAge(birthDate) : '';
+    return birthDate ? DateHelper.getAge(birthDate) : '';
   }
 
   getGender(gender: GenderEnum) {

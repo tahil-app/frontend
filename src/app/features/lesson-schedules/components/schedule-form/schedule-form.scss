@@ -1,0 +1,59 @@
+.schedule-form {
+    p-fieldset {
+        legend {
+            font-size: 1rem;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 15px;
+            margin-top: -10px;
+            margin-bottom: 15px;
+        }
+    }
+}
+
+.time-table-container {
+    legend {
+        margin-bottom: 0px !important;
+    }
+}
+
+::ng-deep .p-datepicker input{
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+    padding-left: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+::ng-deep .p-datepicker-input-icon-container {
+    left: 7px !important;
+}
+
+.time-table-input {
+    min-width: 8rem;
+}
+
+@media screen and (max-width: 992px) {
+    .time-table-container {
+        margin-top: 1rem;
+    }
+}
+
+.schedule-form-buttons {
+    display: flex;
+    justify-content: flex-end;
+}
+
+::ng-deep .schedule-form-buttons button {
+    width: 10rem !important;
+}
+
+@media screen and (max-width: 768px) {
+
+    .schedule-form-buttons {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    ::ng-deep .schedule-form-buttons button {
+        width: 100% !important;
+    }
+}

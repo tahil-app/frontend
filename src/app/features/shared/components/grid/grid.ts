@@ -14,7 +14,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { DeactivateBtn } from '../../buttons/deactivate-btn/deactivate-btn';
 import { ActivateBtn } from '../../buttons/activate-btn/activate-btn';
 import { LabelDatePicker } from '../label-date-picker/label-date-picker';
-import { DataHelper } from '../../../../core/helpers/data.helper';
+import { DateHelper } from '../../../../core/helpers/date.helper';
 import { ColumnTypeEnum } from '../../enums/column.type.enum';
 
 @Component({
@@ -197,7 +197,7 @@ export class Grid {
         let filteredColValue = this.getHeaderControl(field!, type!).value;
 
         if(filteredColValue && type == ColumnFilterTypeEnum.date) {
-          filteredColValue = DataHelper.toDate(filteredColValue);
+          filteredColValue = DateHelper.toDate(filteredColValue);
         }
 
         this.searchSubject$.next({

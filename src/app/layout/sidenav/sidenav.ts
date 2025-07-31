@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 
 @Component({
@@ -10,4 +10,9 @@ import { ScrollPanelModule } from 'primeng/scrollpanel';
   styleUrl: './sidenav.scss'
 })
 export class Sidenav {
+  constructor(private router: Router) {}
+
+  isActiveRoute(routes: string[]): boolean {
+    return routes.some(route => this.router.url.startsWith(route));
+  }
 }

@@ -7,7 +7,7 @@ import { DeleteIconButton } from '../../../shared/buttons/delete-icon-button/del
 import { Attachment } from '../../../../core/models/attachment.model';
 import { TeacherService } from '../../../../core/services/teacher.service';
 import { AttachmentHelper } from '../../../../core/helpers/attachmet-helper';
-import { DataHelper } from '../../../../core/helpers/data.helper';
+import { DateHelper } from '../../../../core/helpers/date.helper';
 import { DeleteConfirmation } from '../../../shared/components/delete-confirmation/delete-confirmation';
 import { LoaderService } from '../../../shared/services/loader.service';
 import { ToastService } from '../../../shared/services/toast.service';
@@ -71,7 +71,7 @@ export class TeacherAttachmentComponent {
   }
 
   displayDate(date: string) {
-    return DataHelper.toDate(date);
+    return DateHelper.toDate(date);
   }
 
 }

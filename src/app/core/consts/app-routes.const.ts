@@ -5,4 +5,5 @@ export class AppRoutes {
     static readonly GROUPS = 'groups';
     static readonly TEACHERS = 'teachers';
     static readonly STUDENTS = 'students';
+    static readonly SCHEDULES = 'schedules';
 }

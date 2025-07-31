@@ -14,7 +14,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { LoaderService } from '../../../shared/services/loader.service';
 import { StudentService } from '../../../../core/services/student.service';
-import { DataHelper } from '../../../../core/helpers/data.helper';
+import { DateHelper } from '../../../../core/helpers/date.helper';
 import { GenderEnum } from '../../../../core/enums/gender.enum';
 import { GenderHelper } from '../../../../core/helpers/gender.helper';
 import { UserAttachment } from '../../../../core/models/user-attachment.model';
@@ -116,7 +116,7 @@ export class StudentProfile {
   }
 
   getAge(birthDate: string) {
-    return birthDate ? DataHelper.getAge(birthDate) : '';
+    return birthDate ? DateHelper.getAge(birthDate) : '';
   }
 
   getGender(gender: GenderEnum) {

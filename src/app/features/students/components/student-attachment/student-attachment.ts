@@ -10,7 +10,7 @@ import { StudentService } from '../../../../core/services/student.service';
 import { LoaderService } from '../../../shared/services/loader.service';
 import { ToastService } from '../../../shared/services/toast.service';
 import { AttachmentHelper } from '../../../../core/helpers/attachmet-helper';
-import { DataHelper } from '../../../../core/helpers/data.helper';
+import { DateHelper } from '../../../../core/helpers/date.helper';
 
 @Component({
   selector: 'app-student-attachment',
@@ -71,7 +71,7 @@ export class StudentAttachmentComponent {
   }
 
   displayDate(date: string) {
-    return DataHelper.toDate(date);
+    return DateHelper.toDate(date);
   }
 
 }

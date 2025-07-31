@@ -15,7 +15,7 @@ import { GenderHelper } from '../../../../core/helpers/gender.helper';
 import { StudentService } from '../../../../core/services/student.service';
 import { LoaderService } from '../../../shared/services/loader.service';
 import { ToastService } from '../../../shared/services/toast.service';
-import { DataHelper } from '../../../../core/helpers/data.helper';
+import { DateHelper } from '../../../../core/helpers/date.helper';
 import { UserRoleEnum } from '../../../../core/enums/user-role.enum';
 
 @Component({
@@ -116,8 +116,8 @@ export class StudentFormComponent {
       const studentData = this.studentForm.value as Student;
       studentData.id = 0;
       studentData.role = UserRoleEnum.Student;
-      studentData.joinedDate = DataHelper.toDate(studentData.joinedDate);
-      studentData.birthDate = DataHelper.toDate(studentData.birthDate);
+      studentData.joinedDate = DateHelper.toDate(studentData.joinedDate);
+      studentData.birthDate = DateHelper.toDate(studentData.birthDate);
 
       this.studentService.add(studentData)
         .pipe(takeUntil(this.destroy$))
@@ -135,8 +135,8 @@ export class StudentFormComponent {
     if (this.studentForm.valid) {
       this.loader.show();
       const studentData = { ...this.student, ...this.studentForm.value } as Student;
-      studentData.joinedDate = DataHelper.toDate(studentData.joinedDate);
-      studentData.birthDate = DataHelper.toDate(studentData.birthDate);
+      studentData.joinedDate = DateHelper.toDate(studentData.joinedDate);
+      studentData.birthDate = DateHelper.toDate(studentData.birthDate);
 
       this.studentService.update(studentData)
         .pipe(takeUntil(this.destroy$))

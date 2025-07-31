@@ -1,0 +1,7 @@
+<card-container title="جدول التوزيع الرئيسي" [addBtn]="true" (onAdd)="onAdd()">
+    <grid [pagedRows]="schedules" (onLazyLoad)="loadSchedules($event)" 
+          [columns]="columns" [pageSize]="10" [paginator]="true" [showFilters]="true"
+          [allowEdit]="true" (onEdit)="onEdit($event)" 
+          [allowView]="true" (onView)="onView($event)"
+          [hasIsActive]="true" />
+</card-container>

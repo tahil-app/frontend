@@ -6,10 +6,11 @@ import { Footer } from "./layout/footer/footer";
 import { TooltipModule } from 'primeng/tooltip';
 import { ToastModule } from 'primeng/toast';
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({
   selector: 'app-root',
-  imports: [Header, Sidenav, Footer, RouterOutlet, TooltipModule, ToastModule, NgxUiLoaderModule],
+  imports: [Header, Sidenav, Footer, RouterOutlet, TooltipModule, ToastModule, NgxUiLoaderModule, ConfirmDialogModule],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
