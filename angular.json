@@ -35,8 +35,8 @@
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/primeicons/primeicons.css",
               "src/assets/css/styles.scss",
-              "src/assets/css/styles-ar.scss",
-              "src/assets/css/theme.scss"
+              "src/assets/css/theme.scss",
+              "src/assets/css/custom-style.scss"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",

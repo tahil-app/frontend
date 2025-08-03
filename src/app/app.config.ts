@@ -11,6 +11,9 @@ import { MessageService, ConfirmationService } from 'primeng/api';
 import { DatePickerAr } from './features/shared/components/label-date-picker/date-picker-ar';
 import { resultErrorInterceptor } from './core/interceptors/error.http.interceptor';
 
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
+import { provideTranslateService } from '@ngx-translate/core';
+
 export const appConfig: ApplicationConfig = {
   providers: [
     MessageService,
@@ -28,5 +31,12 @@ export const appConfig: ApplicationConfig = {
       },
       translation: DatePickerAr
     }),
+    provideTranslateService({
+      defaultLanguage: 'ar',
+      loader: provideTranslateHttpLoader({
+        prefix: '/assets/i18n/',
+        suffix: '.json'
+      })
+    })
   ]
 };

@@ -4,3 +4,7 @@ export enum UserRoleEnum {
   Teacher,
   Student
 }
+
+export function getRoleString(role: UserRoleEnum): string {
+  return UserRoleEnum[role].toString().toLowerCase();
+}

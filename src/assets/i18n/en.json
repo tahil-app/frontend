@@ -1,0 +1,11 @@
+{ 
+    "welcome": "Welcome to the app",
+    "profile": "Profile",
+    "logout": "Logout",
+    "userRole": {
+        "admin": "Admin",
+        "teacher": "Teacher",
+        "student": "Student",
+        "parent": "Parent"
+    }
+}

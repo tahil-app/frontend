@@ -1,3 +1,5 @@
+<h1>{{ 'welcome' | translate }}</h1>
+
 <card-container title="المنتجات">
     <grid [pagedRows]="products" [columns]="columns" [pageSize]="10" [paginator]="true" [showFilters]="true"
         [allowDelete]="true" [allowEdit]="true" [allowView]="true" />

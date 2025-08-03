@@ -39,15 +39,15 @@
                     <img class="rounded-circle" src="assets/icons/avatar-student.svg" width="31"
                         alt="Soeng Souy">
                     <div class="user-text">
-                        <h6>جمال عثمان</h6>
-                        <p class="text-muted mb-0">مدير النظام</p>
+                        <h6>{{ userName }}</h6>
+                        <p class="text-muted mb-0">{{ getUserRole() | translate }}</p>
                     </div>
                 </span>
             </a>
 
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="profile.html">الملف الشخصي</a>
-                <a class="dropdown-item" href="login.html">تسجيل الخروج</a>
+                <a class="dropdown-item" href="profile.html">{{ 'profile' | translate }}</a>
+                <a class="dropdown-item" href="login.html">{{ 'logout' | translate }}</a>
             </div>
         </li>
 

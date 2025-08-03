@@ -17,12 +17,14 @@ import { CommonModule } from '@angular/common';
 import { ProgressBar } from '../shared/components/progress-bar/progress-bar';
 import { Switch } from '../shared/components/switch/switch';
 import { LoaderService } from '../shared/services/loader.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-ui-controls',
   imports: [Grid, CommonModule, CardModule, CardContainer, CancelBtn, SaveBtn, AddBtn, Dropdown, DeleteConfirmation,
     ProgressBar, 
-    Switch
+    Switch,
+    TranslateModule
   ],
   templateUrl: './ui-controls.html',
   styleUrl: './ui-controls.scss'
