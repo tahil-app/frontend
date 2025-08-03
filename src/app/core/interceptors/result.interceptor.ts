@@ -33,8 +33,17 @@ export function resultModelInterceptor(request: HttpRequest<any>, next: HttpHand
               toastService.showError(errors); 
               loader.hide();
               console.error(body); 
+            } else {
+              toastService.showError(body.error);
+              loader.hide();
             }
            
+            // Return only the data if successful
+            return new HttpResponse({
+              ...event,
+              url: event.url ?? undefined,
+              body: false
+            });
           }
         }
       }

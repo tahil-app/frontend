@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, forwardRef } from '@angular/core';
+import { Component, Input, forwardRef, inject } from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormError } from '../form-error/form-error';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'input-label',
-  imports: [CommonModule, ReactiveFormsModule, InputTextModule, FormError],
+  imports: [CommonModule, ReactiveFormsModule, InputTextModule, FormError, TranslateModule],
   templateUrl: './input-label.html',
   styleUrl: './input-label.scss',
   providers: [
@@ -24,6 +25,8 @@ export class InputLabel implements ControlValueAccessor{
   @Input() placeholder: string = '';
   @Input() type: string = 'text';
   @Input() formControl: FormControl = new FormControl();
+
+  private translate = inject(TranslateService);
 
   //#region Control Value Accessor
   innerValue: any;
@@ -50,17 +53,22 @@ export class InputLabel implements ControlValueAccessor{
   //#endregion
 
 
+  shouldShowError(): boolean {
+    return this.formControl.invalid && (this.formControl.touched || this.formControl.dirty) && this.required;
+  }
+
   getErrorMessage() {
     if (this.formControl.errors?.['required']) {
-      return `${this.label} مطلوب`;
+      return `${this.label} ${this.translate.instant('shared.required')}`;
     }
 
     if (this.formControl.errors?.['minlength']) {
-      return `${this.label} يجب ان يكون اطول من ${this.formControl.errors?.['minlength'].requiredLength} حرف`;
+      const length = this.formControl.errors?.['minlength'].requiredLength;
+      return `${this.label} ${this.translate.instant('shared.minLength', { length })}`;
     }
 
     if (this.formControl.errors?.['email']) {
-      return `${this.label} يجب ان يكون بريد إلكتروني صالح`;
+      return `${this.label} ${this.translate.instant('shared.emailInvalid')}`;
     }
 
     return '';

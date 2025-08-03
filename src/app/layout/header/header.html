@@ -3,7 +3,7 @@
     <div class="header-left">
         <a href="/" class="logo">
             <img src="/assets/images/logo.png" alt="Logo">
-            <h3 class="d-inline mx-4">دار الفرقان</h3>
+            <h3 class="d-inline mx-4">{{ 'appName' | translate }}</h3>
         </a>
 
         <a href="/" class="logo logo-small">
@@ -47,7 +47,7 @@
 
             <div class="dropdown-menu">
                 <a class="dropdown-item" href="profile.html">{{ 'profile' | translate }}</a>
-                <a class="dropdown-item" href="login.html">{{ 'logout' | translate }}</a>
+                <a class="dropdown-item" (click)="logout()">{{ 'logout' | translate }}</a>
             </div>
         </li>
 

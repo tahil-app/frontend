@@ -1,11 +1,48 @@
 { 
     "welcome": "مرحبًا بك في التطبيق",
+    "appName": "دار الفرقان",
     "profile": "الملف الشخصي",
     "logout": "تسجيل الخروج",
+    "auth": {
+        "loginTitle": "مرحبًا بك في تطبيق دار الفرقان",
+        "login": "تسجيل الدخول",
+        "username": "اسم المستخدم",
+        "password": "كلمة المرور",
+        "register": "تسجيل حساب",
+        "forgotPassword": "هل نسيت كلمة المرور؟",
+        "rememberMe": "تذكرني",
+        "forgetPasswordTitle": "نسيت كلمة المرور",
+        "forgetPasswordbtn": "إرسال",
+        "backToLogin": "العودة إلى تسجيل الدخول",
+        "loginSuccess": "تم تسجيل الدخول بنجاح",
+        "loginError": "فشل تسجيل الدخول. يرجى التحقق من بياناتك.",
+        "forgetPasswordSuccess": "تم إرسال رابط تعديل كلمة المرور إلى بريدك الإلكتروني"
+    },
     "userRole": {
         "admin": "مدير النظام",
         "teacher": "مدرس",
         "student": "طالب",
         "parent": "ولي أمر"
+    },
+    "sidebar": {
+        "mainMenu": "القائمة الرئيسية",
+        "dashboard": "الرئيسية",
+        "timeTable": "الجدول الدراسي",
+        "schedules": "الجداول",
+        "sessions": "المحاضرات",
+        "attendance": "الحضور والغياب",
+        "students": "الطلاب",
+        "teachers": "المدرسين",
+        "parents": "الوليين",
+        "settings": "الإعدادات",
+        "groups": "المجموعات",
+        "rooms": "الحلقات",
+        "courses": "الدورات"
+    },
+    "shared": {
+        "emailLabel": "البريد الإلكتروني",
+        "required": "مطلوب",
+        "minLength": "يجب ان يكون اطول من {{length}} حرف",
+        "emailInvalid": "يجب ان يكون بريد إلكتروني صالح"
     }
 }

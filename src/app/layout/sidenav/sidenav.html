@@ -5,39 +5,39 @@
             <div id="sidebar-menu" class="sidebar-menu">
                 <ul>
                     <li class="menu-title">
-                        <span>Main Menu</span>
+                        <span>{{ 'sidebar.mainMenu' | translate }}</span>
                     </li>
 
                     <li class="submenu" [class.active]="isActiveRoute(['/sessions', '/schedules'])">
                         <a href="#" [class.subdrop]="isActiveRoute(['/sessions', '/schedules'])">
                             <i class="fas fa-calendar-alt"></i> 
-                            <span>إدارة الجداول </span> 
+                            <span>{{ 'sidebar.timeTable' | translate }}</span> 
                             <span class="menu-arrow"></span>
                         </a>
                         <ul>
-                            <li><a routerLink="/sessions" routerLinkActive="active">جدول التوزيع اليومي</a></li>
-                            <li><a routerLink="/schedules" routerLinkActive="active">جدول التوزيع الرئيسي</a></li>
+                            <li><a routerLink="/schedules" routerLinkActive="active">{{ 'sidebar.schedules' | translate }}</a></li>
+                            <li><a routerLink="/sessions" routerLinkActive="active">{{ 'sidebar.sessions' | translate }}</a></li>
                         </ul>
                     </li>
                     
                     <li routerLinkActive="active">
-                        <a routerLink="/students"><i class="fas fa-user-graduate"></i> <span>الطلاب</span></a>
+                        <a routerLink="/students"><i class="fas fa-user-graduate"></i> <span>{{ 'sidebar.students' | translate }}</span></a>
                     </li>
 
                     <li routerLinkActive="active">
-                        <a routerLink="/teachers"><i class="fas fa-user-tie"></i> <span>المعلمون</span></a>
+                        <a routerLink="/teachers"><i class="fas fa-user-tie"></i> <span>{{ 'sidebar.teachers' | translate }}</span></a>
                     </li>
 
                     <li routerLinkActive="active">
-                        <a routerLink="/groups"><i class="fas fa-users"></i> <span>المجموعات</span></a>
+                        <a routerLink="/groups"><i class="fas fa-users"></i> <span>{{ 'sidebar.groups' | translate }}</span></a>
                     </li>
 
                     <li routerLinkActive="active">
-                        <a routerLink="/rooms"><i class="fas fa-door-open"></i> <span>الحلقات</span></a>
+                        <a routerLink="/rooms"><i class="fas fa-door-open"></i> <span>{{ 'sidebar.rooms' | translate }}</span></a>
                     </li>
 
                     <li routerLinkActive="active">
-                        <a routerLink="/courses"><i class="fas fa-book-reader"></i> <span>الدورات</span></a>
+                        <a routerLink="/courses"><i class="fas fa-book-reader"></i> <span>{{ 'sidebar.courses' | translate }}</span></a>
                     </li>
 
                 </ul>

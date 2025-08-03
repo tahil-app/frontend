@@ -10,6 +10,15 @@ export class ApiEndpoints {
         }
     };
 
+    static readonly AUTH = {
+        Controller: 'auth',
+        Actions: {
+            Login: 'login',
+            RefreshToken: 'refresh-token',
+            ForgetPassword: (email: string) => `forget-password/${email}`,
+        }
+    };
+
     static readonly COURSES = {
         Controller: 'courses',
         Actions: {

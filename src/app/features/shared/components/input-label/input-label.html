@@ -5,4 +5,4 @@
 
 <input pInputText [type]="type" id="name" [formControl]="formControl" [placeholder]="placeholder" class="flex-auto w-100" autocomplete="off" />
 
-<form-error *ngIf="required" [isValid]="formControl.valid ? true :  false" [message]="getErrorMessage()" />
+<form-error *ngIf="shouldShowError()" [isValid]="formControl.valid ? true :  false" [message]="getErrorMessage()" />

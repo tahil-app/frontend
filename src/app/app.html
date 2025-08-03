@@ -1,4 +1,6 @@
-<div class="main-wrapper">
+<app-auth-layout *ngIf="!isLoggedIn()" />
+
+<div class="main-wrapper" *ngIf="isLoggedIn()">
     <app-header />
 
     <app-sidenav />

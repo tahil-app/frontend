@@ -1,11 +1,48 @@
 { 
     "welcome": "Welcome to the app",
+    "appName": "Dar Al Farqan",
     "profile": "Profile",
     "logout": "Logout",
+    "auth": {
+        "loginTitle": "Welcome to Dar Al Farqan",
+        "login": "Login",
+        "username": "User Name",
+        "password": "Password",
+        "register": "Register",
+        "forgotPassword": "Forgot Password?",
+        "rememberMe": "Remember Me",
+        "forgetPasswordTitle": "Forgot Password",
+        "forgetPasswordbtn": "Send",
+        "backToLogin": "Back to Login",
+        "loginSuccess": "Login successful",
+        "loginError": "Login failed. Please check your credentials.",
+        "forgetPasswordSuccess": "An email has been sent to reset your password"
+    },
     "userRole": {
         "admin": "Admin",
         "teacher": "Teacher",
         "student": "Student",
         "parent": "Parent"
+    },
+    "sidebar": {
+        "mainMenu": "Main Menu",
+        "dashboard": "Dashboard",
+        "timeTable": "Time Table",
+        "schedules": "Schedules",
+        "sessions": "Lectures",
+        "attendance": "Attendance",
+        "students": "Students",
+        "teachers": "Teachers",
+        "parents": "Parents",
+        "settings": "Settings",
+        "groups": "Groups",
+        "rooms": "Rooms",
+        "courses": "Courses"
+    },
+    "shared": {
+        "emailLabel": "Email",
+        "required": "is required",
+        "minLength": "must be longer than {{length}} characters",
+        "emailInvalid": "must be a valid email"
     }
 }
