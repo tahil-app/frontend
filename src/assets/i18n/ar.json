@@ -22,7 +22,8 @@
         "admin": "مدير النظام",
         "teacher": "مدرس",
         "student": "طالب",
-        "parent": "ولي أمر"
+        "parent": "ولي أمر",
+        "employee": "موظف"
     },
     "sidebar": {
         "mainMenu": "القائمة الرئيسية",
@@ -43,6 +44,7 @@
         "emailLabel": "البريد الإلكتروني",
         "required": "مطلوب",
         "minLength": "يجب ان يكون اطول من {{length}} حرف",
-        "emailInvalid": "يجب ان يكون بريد إلكتروني صالح"
+        "emailInvalid": "يجب ان يكون بريد إلكتروني صالح",
+        "permissionDenied": "ليس لديك صلاحية للوصول إلى هذه الصفحة"
     }
 }

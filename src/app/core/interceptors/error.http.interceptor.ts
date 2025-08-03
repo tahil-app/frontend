@@ -4,6 +4,7 @@ import { Observable, throwError } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 import { ToastService } from "../../features/shared/services/toast.service";
 import { LoaderService } from "../../features/shared/services/loader.service";
+import { TranslateService } from "@ngx-translate/core";
 
 export function resultErrorInterceptor(request: HttpRequest<any>, next: HttpHandlerFn): Observable<any> {
     const toastService = inject(ToastService);
@@ -14,7 +15,7 @@ export function resultErrorInterceptor(request: HttpRequest<any>, next: HttpHand
             loader.hide();
             
             const errorMessage = extractErrorMessage(error);
-            
+
             if (errorMessage) {
                 toastService.showError(errorMessage);
             }
@@ -30,6 +31,8 @@ function extractErrorMessage(error: HttpErrorResponse): string {
         return `Client error: ${error.error.message}`;
     }
 
+    const translate = inject(TranslateService);
+
     // Server-side errors
     switch (error.status) {
         case 0:
@@ -37,9 +40,9 @@ function extractErrorMessage(error: HttpErrorResponse): string {
         case 400:
             return getValidationErrors(error) || 'Invalid request. Please check your input.';
         case 401:
-            return 'Session expired. Please log in again.';
+            return translate.instant('shared.permissionDenied');
         case 403:
-            return 'You don\'t have permission to perform this action.';
+            return translate.instant('shared.permissionDenied');
         case 404:
             return 'The requested resource was not found.';
         default:

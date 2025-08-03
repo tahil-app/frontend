@@ -22,7 +22,8 @@
         "admin": "Admin",
         "teacher": "Teacher",
         "student": "Student",
-        "parent": "Parent"
+        "parent": "Parent",
+        "employee": "Employee"
     },
     "sidebar": {
         "mainMenu": "Main Menu",
@@ -43,6 +44,7 @@
         "emailLabel": "Email",
         "required": "is required",
         "minLength": "must be longer than {{length}} characters",
-        "emailInvalid": "must be a valid email"
+        "emailInvalid": "must be a valid email",
+        "permissionDenied": "You don't have permission to access this page"
     }
 }

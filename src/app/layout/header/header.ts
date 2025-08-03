@@ -20,6 +20,13 @@ export class Header {
   private authService = inject(AuthService);
   private router = inject(Router);
 
+  ngOnInit() {
+    this.authService.currentUser$.subscribe((user) => {
+      this.userName = user?.name || '';
+      this.role = user?.role || UserRoleEnum.Admin;
+    });
+  }
+
   getUserRole(): string {
     return "userRole." + getRoleString(this.role);
   }
