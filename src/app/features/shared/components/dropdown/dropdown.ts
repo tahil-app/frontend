@@ -5,6 +5,7 @@ import { debounceTime, distinctUntilChanged, Subject, Subscription, takeUntil } 
 import { CommonModule } from '@angular/common';
 import { SelectModule } from 'primeng/select';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { FormError } from '../form-error/form-error';
 
 @Component({
   selector: 'dropdown',
@@ -162,4 +163,20 @@ export class Dropdown implements ControlValueAccessor {
   private onChange: any = () => { };
   private onTouched: any = () => { };
   //#endregion
+
+  getErrorMessage() {
+    if (this.formControl.errors?.['required']) {
+      return `يجب اختيار ${this.label} من القائمة`;
+    }
+
+    if (this.formControl.errors?.['minlength']) {
+      return `${this.label} يجب ان يكون اطول من ${this.formControl.errors?.['minlength'].requiredLength} حرف`;
+    }
+
+    if (this.formControl.errors?.['email']) {
+      return `${this.label} يجب ان يكون بريد إلكتروني صالح`;
+    }
+
+    return '';
+  }
 }

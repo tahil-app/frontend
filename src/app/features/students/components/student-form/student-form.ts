@@ -155,43 +155,6 @@ export class StudentFormComponent {
     this.onCancel.emit();
   }
 
-  onAdd() {
-    this.studentForm.reset();
-    this.studentForm.get('id')?.setValue(0);
-    this.showDialog = true;
-    // Ensure form validation is updated
-    this.studentForm.updateValueAndValidity();
-  }
-
-  onEdit(event: Student) {
-    this.studentForm.patchValue(event);
-    this.showDialog = true;
-    // Ensure form validation is updated after patching values
-    this.studentForm.updateValueAndValidity();
-  }
-
-  onActivate(event: Student) {
-    this.studentService.activate(event.id)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(res => {
-        if (res) {
-          this.onSave.emit();
-          this.toaster.showSuccess('تم تفعيل بيانات الطالب بنجاح');
-        }
-      }, _ => { }, () => this.loader.hide());
-  }
-
-  onDeactivate(event: Student) {
-    this.studentService.deactivate(event.id)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(res => {
-        if (res) {
-          this.onSave.emit();
-          this.toaster.showSuccess('تم تعطيل بيانات الطالب بنجاح');
-        }
-      }, _ => { }, () => this.loader.hide());
-  }
-
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();

@@ -15,10 +15,11 @@ import { GridColumn } from '../../../shared/props/grid-column.props';
 import { ColumnTypeEnum } from '../../../shared/enums/column.type.enum';
 import { ColumnFilterTypeEnum } from '../../../shared/enums/column.filter.type.enum';
 import { AppRoutes } from '../../../../core/consts/app-routes.const';
+import { ScheduleForm } from '../schedule-form/schedule-form';
 
 @Component({
   selector: 'app-schedules-list',
-  imports: [CommonModule, Grid, CardContainer, DialogModule],
+  imports: [CommonModule, Grid, CardContainer, DialogModule, ScheduleForm],
   templateUrl: './schedules-list.html',
   styleUrl: './schedules-list.scss'
 })
@@ -55,16 +56,20 @@ export class SchedulesList {
     this.loader.show();
     this.scheduleService.getPaged(params).pipe(takeUntil(this.destroy$)).subscribe(res => {
       this.schedules = res;
-    }, _ => { }, () => this.loader.hide());
+    }, _ => { }, () => {
+      this.showDialog = false;
+      this.loader.hide();
+    });
   }
 
   onAdd() {
-    this.router.navigate([`/${AppRoutes.SCHEDULES}/form`]);
+    this.schedule = {} as LessonSchedule;
+    this.showDialog = true;
   }
 
   onEdit(event: LessonSchedule) {
-    // this.schedule = event;
-    // this.showDialog = true;
+    this.schedule = event;
+    this.showDialog = true;
   }
 
   onView(event: LessonSchedule) {

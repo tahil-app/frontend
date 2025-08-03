@@ -1,67 +1,42 @@
-<card-container title="بيانات التوزيع الرئيسي">
-    <form [formGroup]="scheduleForm" class="mb-3">
-        <div class="row schedule-form">
-            <div class="col-lg-5 col-12">
-                <p-fieldset>
-                    <legend>البيانات الرئيسية</legend>
+<p-dialog header="بيانات الجدول" [modal]="true" [(visible)]="showDialog" [style]="{ width: '45rem' }">
+    <form [formGroup]="scheduleForm" (ngSubmit)="hasId() ? update() : save()">
 
-                    <div class="mb-2">
-                        <dropdown label="الحلقة" [required]="true" [formControl]="getControl('roomId')" />
-                    </div>
-
-                    <div class="mb-2">
-                        <dropdown label="الدورة" [required]="true" [formControl]="getControl('courseId')" />
-                    </div>
-
-                    <div class="mb-2">
-                        <dropdown label="المعلم" [required]="true" [formControl]="getControl('teacherId')" />
-                    </div>
-
-                    <div class="mb-2">
-                        <dropdown label="المجموعة" [required]="true" [formControl]="getControl('groupId')" />
-                    </div>
-                </p-fieldset>
+        <div class="row">
+            <div class="col-md-6 col-12 flex items-center gap-2 mb-2">
+                <dropdown label="المجموعة" [options]="groupsDropdownOptions" [required]="true" [formControl]="getControl('groupId')" />
             </div>
-
-            <div class="col-lg-7 col-12 time-table-container">
-                <p-fieldset>
-                    <legend>الايام</legend>
-
-                    <div class="time-table overflow-auto ps-3">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th class="pe-3 text-secondary time-table-input">اليوم</th>
-                                    <th class="pe-3 text-secondary time-table-input">وقت البدء</th>
-                                    <th class="pe-3 text-secondary time-table-input">وقت الانتهاء</th>
-                                    <td class="p-0" style="width: 1rem; border-bottom: 1px solid #e0e0e0;"></td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let day of days">
-                                    <td class="p-0 pe-3 pt-1">{{ day.name }}</td>
-                                    <td class="p-0 pe-3 pt-1">
-                                        <label-time-picker />
-                                    </td>
-                                    <td class="p-0 pe-3 pt-1">
-                                        <label-time-picker />
-                                    </td>
-                                    <td class="p-0 pe-3">
-                                        <delete-icon-button />
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                </p-fieldset>
+    
+            <div class="col-md-6 col-12 flex items-center gap-2 mb-2">
+                <dropdown label="الحلقة" [options]="roomsDropdownOptions" [required]="true" [formControl]="getControl('roomId')" />
             </div>
-
+            
         </div>
 
-        <div class="gap-2 mt-4 schedule-form-buttons">
-            <save-btn />
-            <cancel-btn (click)="onCancel()" />
+        <div class="row">
+            <div class="col-md-6 col-12 flex items-center gap-2 mb-2">
+                <dropdown label="الدورة" [options]="coursesDropdownOptions" [required]="true" [formControl]="getControl('courseId')" />
+            </div>
+            
+            <div class="col-md-6 col-12 flex items-center gap-2 mb-2">
+                <dropdown label="المدرس" [options]="teachersDropdownOptions" [required]="true" [formControl]="getControl('teacherId')" />
+                <span class="text-danger" *ngIf="!courseHasTeachers(getControl('courseId').value)">لا يوجد معلمين لهذه الدورة</span>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6 col-12 flex items-center gap-2 mb-2">
+                <label-date-picker label="تاريخ البدء" [required]="true" [formControl]="getControl('startDate')" />
+            </div>
+
+            <div class="col-md-6 col-12 flex items-center gap-2 mb-2">
+                <label-date-picker label="تاريخ النهاية" [required]="true" [formControl]="getControl('endDate')" />
+            </div>
+        </div>
+        
+        <div class="flex justify-end gap-2 mt-4">
+            <save-btn type="submit" [disabled]="!scheduleForm.valid" />
+            &nbsp;
+            <cancel-btn type="button" (click)="cancel()" />
         </div>
     </form>
-</card-container>
+</p-dialog>

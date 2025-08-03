@@ -20,7 +20,7 @@ export class LabelDatePicker  {
   
   @Input() label: string = '';
   @Input() required: boolean = false;
-  @Input() placeholder: string = '';
+  @Input() placeholder: string = 'اختر هنا';
   @Input() formControl: FormControl = new FormControl();
 
   date: Date | undefined;

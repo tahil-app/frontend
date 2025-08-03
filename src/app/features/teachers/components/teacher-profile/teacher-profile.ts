@@ -19,10 +19,13 @@ import { UserAttachmentDialog } from "../../../shared/components/user-attachment
 import { UserAttachment } from '../../../../core/models/user-attachment.model';
 import { TeacherAttachmentComponent } from '../teacher-attachment/teacher-attachment';
 import { ToastService } from '../../../shared/services/toast.service';
+import { TableModule } from 'primeng/table';
+import { CoursesDialog } from '../../../shared/components/courses-dialog/courses-dialog';
+import { Course } from '../../../../core/models/course.model';
 
 @Component({
   selector: 'app-teacher-profile',
-  imports: [CardContainer, TabsModule, TooltipModule, TeacherFormComponent, TeacherQualification, CommonModule, TeacherExperience, UserAttachmentDialog, TeacherAttachmentComponent],
+  imports: [CardContainer, TabsModule, TooltipModule, TeacherFormComponent, TeacherQualification, CommonModule, TeacherExperience, UserAttachmentDialog, TeacherAttachmentComponent, TableModule, CoursesDialog],
   templateUrl: './teacher-profile.html',
   styleUrl: './teacher-profile.scss'
 })
@@ -33,6 +36,7 @@ export class TeacherProfile {
   showQualificationDialog = false;
   showExperienceDialog = false;
   showUserAttachmentDialog = false;
+  showCoursesDialog = false;
   disablePage = false;
 
   teacher: Teacher = {} as Teacher;
@@ -76,6 +80,7 @@ export class TeacherProfile {
       this.showQualificationDialog = false;
       this.showExperienceDialog = false;
       this.showUserAttachmentDialog = false;
+      this.showCoursesDialog = false;
     });
   }
 
@@ -156,6 +161,28 @@ export class TeacherProfile {
     });
   }
 
+  //#endregion
+
+  //#region Teacher Courses
+  
+  onEditCourses() {
+    this.teacher = { ...this.teacher };
+    this.showCoursesDialog = true;
+  }
+
+  saveCourses(courses: Course[]) {
+    this.teacher.courses = courses;
+
+    this.loader.show();
+    this.teacherService.update(this.teacher).pipe(takeUntil(this.destroy$)).subscribe(res => {
+      if(res) {
+        this.loadTeacher();
+        this.toaster.showSuccess('تم تحديث الدورات بنجاح');
+      }
+    }, _ => { }, () => {
+      this.loader.hide();
+    });
+  }
   //#endregion
 
 }

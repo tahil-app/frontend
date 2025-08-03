@@ -67,6 +67,7 @@ export class TeacherExperience {
       this.teacher.experience = this.experienceForm.value.experience == '<p class="ql-align-right"></p>' || this.experienceForm.value.experience == '<p></p>'
         ? '' : this.experienceForm.value.experience;
 
+      this.loader.show();
       this.teacherService.update(this.teacher)
         .pipe(takeUntil(this.destroy$))
         .subscribe(res => {

@@ -1,0 +1,13 @@
+<p-dialog header="الدورات" [modal]="true" [(visible)]="showDialog" [style]="{ width: '30rem' }">
+    <form [formGroup]="coursesForm" (ngSubmit)="save()">
+
+        <dropdown label="الدورات" [multi]="true" [options]="coursesOptions" [formControl]="getFormControl('courses')" />
+
+        <div class="flex justify-end gap-2 mt-4">
+            <save-btn type="submit" [disabled]="!coursesForm.valid" />
+            &nbsp;
+            <cancel-btn type="button" (click)="cancel()" />
+        </div>
+
+    </form>
+</p-dialog>

@@ -3,5 +3,8 @@
           [columns]="columns" [pageSize]="10" [paginator]="true" [showFilters]="true"
           [allowEdit]="true" (onEdit)="onEdit($event)" 
           [allowView]="true" (onView)="onView($event)"
-          [hasIsActive]="true" />
+          [hasIsActive]="false" />
 </card-container>
+
+
+<app-schedule-form [showDialog]="showDialog" [schedule]="schedule" (onSave)="loadSchedules(queryParams)" (onCancel)="showDialog = false" />

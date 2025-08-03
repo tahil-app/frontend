@@ -1,7 +1,7 @@
 export class ApiEndpoints {
     static readonly Generic = {
         Actions: {
-            GetAll: 'getAll',
+            GetAll: 'all',
             GetPaged: 'paged',
             Get: (id: string | number) => `/${id}`,
             Create: 'create',
@@ -73,6 +73,7 @@ export class ApiEndpoints {
         Controller: 'schedules',
         Actions: {
             Paged: `paged`,
+            Lookups: `lookups`,
         }
     };
 }

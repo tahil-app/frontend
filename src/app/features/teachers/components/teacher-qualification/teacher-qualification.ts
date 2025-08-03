@@ -67,6 +67,7 @@ export class TeacherQualification {
       this.teacher.qualification = this.qualificationForm.value.qualification == '<p class="ql-align-right"></p>' || this.qualificationForm.value.qualification == '<p></p>'
         ? '' : this.qualificationForm.value.qualification;
 
+      this.loader.show();
       this.teacherService.update(this.teacher)
         .pipe(takeUntil(this.destroy$))
         .subscribe(res => {

@@ -58,9 +58,9 @@ export class GroupsDialog {
 
   loadGroups() {
     this.loader.show();
-    this.groupService.getPaged({}).pipe(takeUntil(this.destroy$)).subscribe(groups => {
-      this.groups = groups.items;
-      this.groupsOptions = groups.items.map(group => ({ label: group.name, value: group.id }));
+    this.groupService.getAll().pipe(takeUntil(this.destroy$)).subscribe(items => {
+      this.groups = items;
+      this.groupsOptions = items.map(group => ({ label: group.name, value: group.id }));
     }, _ => { }, () => {
       this.loader.hide();
     });

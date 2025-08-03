@@ -48,11 +48,23 @@ function extractErrorMessage(error: HttpErrorResponse): string {
 }
 
 function getValidationErrors(error: HttpErrorResponse): string | null {
-    if (error.error?.errors) {
-        return Object.values(error.error.errors)
-            .flat()
+    // Check for ValidationErrors array in the response
+    if (error.error?.value?.ValidationErrors?.length > 0) {
+        return error.error.value.ValidationErrors
+            .map((err: any) => `${err.propertyName}: ${err.errorMessage}`)
             .join('\n');
     }
+    
+    // Fallback to error.detail if ValidationErrors is empty
+    if (error.error?.value?.detail) {
+        return error.error.value.detail;
+    }
+    
+    // Fallback to simple error message
+    if (error.error?.error) {
+        return error.error.error;
+    }
+    
     return null;
 }
 

@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, forwardRef, Input } from '@angular/core';
-import { FormControl, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { DatePickerModule } from 'primeng/datepicker';
-import { LabelDatePicker } from '../label-date-picker/label-date-picker';
 
 @Component({
   selector: 'label-time-picker',
@@ -12,19 +11,16 @@ import { LabelDatePicker } from '../label-date-picker/label-date-picker';
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => LabelDatePicker),
+      useExisting: forwardRef(() => LabelTimePicker),
       multi: true
     }
   ]
 })
-export class LabelTimePicker {
+export class LabelTimePicker implements ControlValueAccessor {
   
   @Input() label: string = '';
   @Input() required: boolean = false;
   @Input() placeholder: string = '';
-  @Input() formControl: FormControl = new FormControl();
-
-  time: string | undefined;
 
   //#region Control Value Accessor
   innerValue: any;
@@ -42,8 +38,9 @@ export class LabelTimePicker {
   }
 
   onInputChange(event: any): void {
-    this.innerValue = event.target.value;
+    this.innerValue = event;
     this.onChange(this.innerValue);
+    this.onTouched();
   }
 
   onChange: any = () => { };
