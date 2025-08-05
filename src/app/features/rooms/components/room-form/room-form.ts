@@ -11,10 +11,11 @@ import { Subject, takeUntil } from 'rxjs';
 import { RoomService } from '../../../../core/services/room.service';
 import { LoaderService } from '../../../shared/services/loader.service';
 import { ToastService } from '../../../shared/services/toast.service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-room-form',
-  imports: [CommonModule, DialogModule, SaveBtn, CancelBtn, InputTextModule, ReactiveFormsModule, InputLabel],
+  imports: [CommonModule, DialogModule, SaveBtn, CancelBtn, InputTextModule, ReactiveFormsModule, InputLabel, TranslateModule],
   templateUrl: './room-form.html',
   styleUrl: './room-form.scss'
 })
@@ -35,6 +36,7 @@ export class RoomFormComponent {
   private loader = inject(LoaderService);
   private toaster = inject(ToastService);
   private fb = inject(FormBuilder);
+  private translate = inject(TranslateService);
   //#endregion
 
   //#region Methods
@@ -84,7 +86,7 @@ export class RoomFormComponent {
           if (res) {
             this.onSave.emit();
             this.roomForm.reset();
-            this.toaster.showSuccess('تم حفظ الحلقة بنجاح');
+            this.toaster.showSuccess(this.translate.instant('rooms.saveSuccess'));
           }
         }, _ => { }, () => this.loader.hide());
     }
@@ -103,7 +105,7 @@ export class RoomFormComponent {
           if (res) {
             this.roomForm.reset();
             this.onSave.emit();
-            this.toaster.showSuccess('تم تعديل الحلقة بنجاح');
+            this.toaster.showSuccess(this.translate.instant('rooms.updateSuccess'));
           }
         }, _ => { }, () => this.loader.hide());
     }

@@ -1,11 +1,11 @@
-<p-dialog header="بيانات الحلقة" [modal]="true" [(visible)]="showDialog" [style]="{ width: '25rem' }">
+<p-dialog [header]="'rooms.title' | translate" [modal]="true" [(visible)]="showDialog" [style]="{ width: '25rem' }">
     <form [formGroup]="roomForm" (ngSubmit)="hasId() ? update() : save()">
-        <div class="flex items-center gap-4 mb-4">
-            <input-label label="الاسم" [required]="true" [formControl]="getFormControl('name')" />
+        <div class="flex items-center gap-4 mb-2">
+            <input-label [label]="'rooms.name' | translate" [required]="true" [formControl]="getFormControl('name')" />
         </div>
 
         <div class="flex items-center gap-4 mb-4">
-            <input-label label="عدد الطلاب" [formControl]="getFormControl('capacity')" type="number" />
+            <input-label [label]="'rooms.capacity' | translate" [formControl]="getFormControl('capacity')" type="number" />
         </div>
 
         <div class="flex justify-end gap-2">

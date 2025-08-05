@@ -16,11 +16,12 @@ import { ActivateBtn } from '../../buttons/activate-btn/activate-btn';
 import { LabelDatePicker } from '../label-date-picker/label-date-picker';
 import { DateHelper } from '../../../../core/helpers/date.helper';
 import { ColumnTypeEnum } from '../../enums/column.type.enum';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'grid',
   standalone: true,
-  imports: [CommonModule, TableModule, ActivateBtn, DeactivateBtn, ButtonModule, TooltipModule, ReactiveFormsModule, LabelDatePicker],
+  imports: [CommonModule, TableModule, ActivateBtn, DeactivateBtn, ButtonModule, TooltipModule, ReactiveFormsModule, LabelDatePicker, TranslateModule],
   templateUrl: './grid.html',
   styleUrl: './grid.scss'
 })

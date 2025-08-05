@@ -1,7 +1,8 @@
-<card-container title="الحلقات" [addBtn]="true" (onAdd)="showDialog = true">
+<card-container [title]="'rooms.list.title' | translate" [addBtn]="true" (onAdd)="showDialog = true">
     <grid [pagedRows]="rooms" (onLazyLoad)="loadRooms($event)" 
           [columns]="columns" [pageSize]="10" [paginator]="true" [showFilters]="true"
           [allowEdit]="true" (onEdit)="onEdit($event)" 
+          [allowDelete]="true" (onDelete)="onDelete($event)"
           [allowActivate]="true" (onActivate)="onActivate($event)"
           [allowDeactivate]="true"  (onDeactivate)="onDeactivate($event)"
           [hasIsActive]="true" />
@@ -12,3 +13,6 @@
 [room]="room"
 (onSave)="loadRooms(queryParams)" 
 (onCancel)="showDialog = false" />
+
+<delete-confirmation *ngIf="showDeleteDialog" [message]="'shared.dialogs.deleteConfirmation' | translate"
+(confirm)="onConfirmDelete()" (cancel)="onCancelDelete()" />

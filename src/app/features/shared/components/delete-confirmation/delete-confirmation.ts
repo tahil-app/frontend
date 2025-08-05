@@ -1,9 +1,10 @@
 import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'delete-confirmation',
-  imports: [],
+  imports: [TranslateModule],
   templateUrl: './delete-confirmation.html',
   styleUrl: './delete-confirmation.scss',
   providers: [
@@ -15,7 +16,7 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
   ]
 })
 export class DeleteConfirmation {
-  @Input() message: string = 'هل أنت متأكد من حذف هذا العنصر؟';
+  @Input() message: string = 'shared.dialogs.deleteConfirmation';
   @Output() confirm: EventEmitter<void> = new EventEmitter();
   @Output() cancel: EventEmitter<void> = new EventEmitter();
 

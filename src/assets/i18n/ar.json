@@ -45,6 +45,60 @@
         "required": "مطلوب",
         "minLength": "يجب ان يكون اطول من {{length}} حرف",
         "emailInvalid": "يجب ان يكون بريد إلكتروني صالح",
-        "permissionDenied": "ليس لديك صلاحية للوصول إلى هذه الصفحة"
+        "permissionDenied": "ليس لديك صلاحية للوصول إلى هذه الصفحة",
+        "grid": {
+            "searchBy": "بحث ب",
+            "clearFilter": "حذف الفلتر",
+            "noData": "لا توجد بيانات",
+            "delete": "حذف",
+            "edit": "تعديل",
+            "view": "عرض"
+        },
+        "buttons": {
+            "save": "حفظ",
+            "cancel": "إلغاء",
+            "add": "إضافة",
+            "delete": "حذف",
+            "edit": "تعديل",
+            "view": "عرض",
+            "download": "تحميل",
+            "activate": "تفعيل",
+            "deactivate": "تعطيل"
+        },
+        "dialogs": {
+            "deleteConfirmation": "هل أنت متأكد من حذف هذا العنصر؟",
+            "yes": "نعم",
+            "no": "لا"
+        }
+    },
+    "courses": {
+        "title": "بيانات الدورة",
+        "name": "الاسم",
+        "description": "الوصف",
+        "list": {
+            "title": "قائمة الدورات",
+            "name": "الاسم",
+            "description": "الوصف"
+        },
+        "activateSuccess": "تم تفعيل الدورة بنجاح",
+        "deactivateSuccess": "تم تعطيل الدورة بنجاح",
+        "saveSuccess": "تم حفظ الدورة بنجاح",
+        "updateSuccess": "تم تعديل الدورة بنجاح",
+        "deleteSuccess": "تم حذف الدورة بنجاح"
+    },
+    "rooms": {
+        "title": "بيانات الحلقة",
+        "name": "الاسم",
+        "capacity": "عدد الطلاب",
+        "list": {
+            "title": "الحلقات",
+            "name": "الاسم",
+            "capacity": "عدد الطلاب"
+        },
+        "saveSuccess": "تم حفظ الحلقة بنجاح",
+        "updateSuccess": "تم تعديل الحلقة بنجاح",
+        "activateSuccess": "تم تفعيل الحلقة بنجاح",
+        "deactivateSuccess": "تم تعطيل الحلقة بنجاح",
+        "deleteSuccess": "تم حذف الحلقة بنجاح"
     }
 }

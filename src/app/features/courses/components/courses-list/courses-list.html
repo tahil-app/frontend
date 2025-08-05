@@ -1,14 +1,13 @@
-<card-container title="الدورات" [addBtn]="true" (onAdd)="showDialog = true">
-    <grid [pagedRows]="courses" (onLazyLoad)="loadCourses($event)" 
-          [columns]="columns" [pageSize]="10" [paginator]="true" [showFilters]="true"
-          [allowEdit]="true" (onEdit)="onEdit($event)" 
-          [allowActivate]="true" (onActivate)="onActivate($event)"
-          [allowDeactivate]="true"  (onDeactivate)="onDeactivate($event)" 
-          [hasIsActive]="true" />
+<card-container [title]="'courses.list.title' | translate" [addBtn]="true" (onAdd)="showDialog = true">
+    <grid [pagedRows]="courses" (onLazyLoad)="loadCourses($event)" [columns]="columns" [pageSize]="10"
+        [paginator]="true" [showFilters]="true" [allowEdit]="true" (onEdit)="onEdit($event)" [allowDelete]="true"
+        (onDelete)="onDelete($event)" [allowActivate]="true" (onActivate)="onActivate($event)" [allowDeactivate]="true"
+        (onDeactivate)="onDeactivate($event)" [hasIsActive]="true" />
 </card-container>
 
 
-<app-course-form [showDialog]="showDialog" 
-[course]="course"
-(onSave)="loadCourses(queryParams)" 
-(onCancel)="showDialog = false" />
+<app-course-form [showDialog]="showDialog" [course]="course" (onSave)="loadCourses(queryParams)"
+    (onCancel)="showDialog = false" />
+
+<delete-confirmation *ngIf="showDeleteDialog" [message]="'shared.dialogs.deleteConfirmation' | translate"
+    (confirm)="onConfirmDelete()" (cancel)="onCancelDelete()" />

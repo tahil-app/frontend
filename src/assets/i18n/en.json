@@ -45,6 +45,60 @@
         "required": "is required",
         "minLength": "must be longer than {{length}} characters",
         "emailInvalid": "must be a valid email",
-        "permissionDenied": "You don't have permission to access this page"
+        "permissionDenied": "You don't have permission to access this page",
+        "grid": {
+            "searchBy": "Search by",
+            "clearFilter": "Clear Filter",
+            "noData": "No data available",
+            "delete": "Delete",
+            "edit": "Edit",
+            "view": "View"
+        },
+        "buttons": {
+            "save": "Save",
+            "cancel": "Cancel",
+            "add": "Add",
+            "delete": "Delete",
+            "edit": "Edit",
+            "view": "View",
+            "download": "Download",
+            "activate": "Activate",
+            "deactivate": "Deactivate"
+        },
+        "dialogs": {
+            "deleteConfirmation": "Are you sure you want to delete this item?",
+            "yes": "Yes",
+            "no": "No"
+        }
+    },
+    "courses": {
+        "title": "Course Data",
+        "name": "Name",
+        "description": "Description",
+        "list": {
+            "title": "Courses List",
+            "name": "Name",
+            "description": "Description"
+        },
+        "activateSuccess": "Course activated successfully",
+        "deactivateSuccess": "Course deactivated successfully",
+        "saveSuccess": "Course saved successfully",
+        "updateSuccess": "Course updated successfully",
+        "deleteSuccess": "Course deleted successfully"
+    },
+    "rooms": {
+        "title": "Room Data",
+        "name": "Name",
+        "capacity": "Capacity",
+        "list": {
+            "title": "Rooms",
+            "name": "Name",
+            "capacity": "Capacity"
+        },
+        "saveSuccess": "Room saved successfully",
+        "updateSuccess": "Room updated successfully",
+        "activateSuccess": "Room activated successfully",
+        "deactivateSuccess": "Room deactivated successfully",
+        "deleteSuccess": "Room deleted successfully"
     }
 }

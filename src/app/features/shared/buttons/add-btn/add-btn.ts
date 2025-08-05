@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TooltipModule } from 'primeng/tooltip';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'add-btn',
-  imports: [TooltipModule],
+  imports: [TooltipModule, TranslateModule],
   templateUrl: './add-btn.html',
   styleUrl: './add-btn.scss'
 })

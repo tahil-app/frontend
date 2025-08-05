@@ -14,10 +14,12 @@ import { QueryParamsModel } from '../../../shared/models/query-params.model';
 import { Subject, takeUntil } from 'rxjs';
 import { ToastService } from '../../../shared/services/toast.service';
 import { CourseForm } from '../course-form/course-form';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { DeleteConfirmation } from '../../../shared/components/delete-confirmation/delete-confirmation';
 
 @Component({
   selector: 'app-courses-list',
-  imports: [CommonModule, Grid, CardContainer, DialogModule, CourseForm],
+  imports: [CommonModule, Grid, CardContainer, DialogModule, CourseForm, TranslateModule, DeleteConfirmation],
   templateUrl: './courses-list.html',
   styleUrl: './courses-list.scss'
 })
@@ -25,7 +27,9 @@ export class CoursesList {
 
   //#region Properties
   showDialog = false;
+  showDeleteDialog = false;
   course: Course = {} as Course;
+  courseToDelete: Course = {} as Course;
   queryParams: QueryParamsModel = {} as QueryParamsModel;
   courses: PagedList<Course> = {} as PagedList<Course>;
   destroy$ = new Subject<void>();
@@ -35,11 +39,13 @@ export class CoursesList {
   private courseService = inject(CourseService);
   private loader = inject(LoaderService);
   private toaster = inject(ToastService);
+  private translate = inject(TranslateService);
   //#endregion
 
   //#region Columns
   columns: GridColumn[] = [
-    { field: 'name', title: 'الاسم', columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
+    { field: 'name', title: this.translate.instant('courses.list.name'), columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
+    { field: 'description', title: this.translate.instant('courses.list.description'), columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
   ];
   //#endregion
 
@@ -66,7 +72,7 @@ export class CoursesList {
       .subscribe(res => {
         if (res) {
           this.loadCourses(this.queryParams);
-          this.toaster.showSuccess('تم تفعيل الدورة بنجاح');
+          this.toaster.showSuccess(this.translate.instant('courses.activateSuccess'));
         }
       }, _ => { }, () => this.loader.hide());
   }
@@ -77,10 +83,37 @@ export class CoursesList {
       .subscribe(res => {
         if (res) {
           this.loadCourses(this.queryParams);
-          this.toaster.showSuccess('تم تعطيل الدورة بنجاح');
+          this.toaster.showSuccess(this.translate.instant('courses.deactivateSuccess'));
         }
       }, _ => { }, () => this.loader.hide());
-  } 
+  }
+
+  onDelete(event: Course) {
+    this.courseToDelete = event;
+    this.showDeleteDialog = true;
+  }
+
+  onConfirmDelete() {
+
+    this.loader.show();
+
+    this.courseService.delete(this.courseToDelete.id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(res => {
+        if (res) {
+          this.loadCourses(this.queryParams);
+          this.toaster.showSuccess(this.translate.instant('courses.deleteSuccess'));
+        }
+      }, _ => { }, () => this.loader.hide());
+    
+    this.showDeleteDialog = false;
+    this.courseToDelete = {} as Course;
+  }
+
+  onCancelDelete() {
+    this.showDeleteDialog = false;
+    this.courseToDelete = {} as Course;
+  }
 
   ngOnDestroy() {
     this.destroy$.next();

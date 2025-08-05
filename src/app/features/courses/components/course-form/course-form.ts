@@ -11,10 +11,11 @@ import { SaveBtn } from '../../../shared/buttons/save-btn/save-btn';
 import { CancelBtn } from '../../../shared/buttons/cancel-btn/cancel-btn';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputLabel } from '../../../shared/components/input-label/input-label';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-course-form',
-  imports: [CommonModule, DialogModule, SaveBtn, CancelBtn, InputTextModule, ReactiveFormsModule, InputLabel],
+  imports: [CommonModule, DialogModule, SaveBtn, CancelBtn, InputTextModule, ReactiveFormsModule, InputLabel, TranslateModule],
   templateUrl: './course-form.html',
   styleUrl: './course-form.scss'
 })
@@ -35,6 +36,7 @@ export class CourseForm {
   private loader = inject(LoaderService);
   private toaster = inject(ToastService);
   private fb = inject(FormBuilder);
+  private translate = inject(TranslateService);
   //#endregion
 
   //#region Methods
@@ -57,7 +59,8 @@ export class CourseForm {
   initForm() {
     this.courseForm = this.fb.group({
       id: [0],
-      name: ['', [Validators.required, Validators.minLength(2)]]
+      name: ['', [Validators.required, Validators.minLength(2)]],
+      description: ['']
     });
   }
 
@@ -80,7 +83,7 @@ export class CourseForm {
           if (res) {
             this.onSave.emit();
             this.courseForm.reset();
-            this.toaster.showSuccess('تم حفظ الدورة بنجاح');
+            this.toaster.showSuccess(this.translate.instant('courses.saveSuccess'));
           }
         }, _ => { }, () => this.loader.hide());
     }
@@ -96,7 +99,7 @@ export class CourseForm {
           if (res) {
             this.courseForm.reset();
             this.onSave.emit();
-            this.toaster.showSuccess('تم تعديل الدورة بنجاح');
+            this.toaster.showSuccess(this.translate.instant('courses.updateSuccess'));
           }
         }, _ => { }, () => this.loader.hide());
     }

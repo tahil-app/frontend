@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TooltipModule } from 'primeng/tooltip';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'deactivate-btn',
-  imports: [TooltipModule],
+  imports: [TooltipModule, TranslateModule],
   templateUrl: './deactivate-btn.html',
   styleUrl: './deactivate-btn.scss'
 })

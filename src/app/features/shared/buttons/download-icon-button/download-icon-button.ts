@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TooltipModule } from 'primeng/tooltip';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'download-icon-button',
-  imports: [TooltipModule],
+  imports: [TooltipModule, TranslateModule],
   templateUrl: './download-icon-button.html',
   styleUrl: './download-icon-button.scss'
 })

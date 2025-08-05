@@ -9,29 +9,29 @@ import { TranslateService } from "@ngx-translate/core";
 export function resultErrorInterceptor(request: HttpRequest<any>, next: HttpHandlerFn): Observable<any> {
     const toastService = inject(ToastService);
     const loader = inject(LoaderService);
+    const translate = inject(TranslateService);
 
     return next(request).pipe(
         catchError((error: HttpErrorResponse) => {
             loader.hide();
-            
-            const errorMessage = extractErrorMessage(error);
+
+            const errorMessage = extractErrorMessage(error, translate);
 
             if (errorMessage) {
                 toastService.showError(errorMessage);
             }
 
-            return throwError(() => formatError(error));
+            return throwError(() => formatError(error, translate));
         })
     );
 }
 
-function extractErrorMessage(error: HttpErrorResponse): string {
+function extractErrorMessage(error: HttpErrorResponse, translate: TranslateService): string {
+
     // Client-side or network error
     if (error.error instanceof ErrorEvent) {
-        return `Client error: ${error.error.message}`;
+        return `Client error: ${error.error}`;
     }
-
-    const translate = inject(TranslateService);
 
     // Server-side errors
     switch (error.status) {
@@ -45,6 +45,14 @@ function extractErrorMessage(error: HttpErrorResponse): string {
             return translate.instant('shared.permissionDenied');
         case 404:
             return 'The requested resource was not found.';
+        case 500:
+            return getServerErrorMessage(error) || 'Internal server error. Please try again later.';
+        case 502:
+            return 'Bad gateway. The server is temporarily unavailable.';
+        case 503:
+            return 'Service unavailable. The server is temporarily down for maintenance.';
+        case 504:
+            return 'Gateway timeout. The server took too long to respond.';
         default:
             return getServerErrorMessage(error) || 'An unexpected error occurred.';
     }
@@ -72,15 +80,40 @@ function getValidationErrors(error: HttpErrorResponse): string | null {
 }
 
 function getServerErrorMessage(error: HttpErrorResponse): string | null {
-    return error.error?.message 
-        || error.error?.error 
-        || error.message;
+
+    // Try different possible error message locations
+    if (error.error?.message) {
+        return error.error.message;
+    }
+    
+    if (error.error?.error) {
+        return error.error.error;
+    }
+    
+    if (error.error?.detail) {
+        return error.error.detail;
+    }
+    
+    if (error.error?.title) {
+        return error.error.title;
+    }
+    
+    if (error.message) {
+        return error.message;
+    }
+    
+    // If error.error is a string, use it directly
+    if (typeof error.error === 'string') {
+        return error.error;
+    }
+    
+    return null;
 }
 
-function formatError(error: HttpErrorResponse): any {
+function formatError(error: HttpErrorResponse, translate: TranslateService): any {
     return {
         status: error.status,
-        message: extractErrorMessage(error),
+        message: extractErrorMessage(error, translate),
         originalError: error.error,
         validationErrors: error.error?.errors
     };
