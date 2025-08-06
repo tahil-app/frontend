@@ -9,12 +9,12 @@
             <div class="heading-detail d-flex justify-content-between align-items-center">
               <h4 class="mb-2 mt-2">{{ 'groups.profile.groupData' | translate }}</h4>
 
-              <div class="form-group students-up-files mb-1" *ngIf="canEdit()">
+              <div class="form-group students-up-files mb-1" *ngIf="isAdminOrEmployee">
                 <button [pTooltip]="'shared.buttons.edit' | translate" tooltipPosition="top" class="btn p-0 grid-btn"
-                    (click)="onEditGroup()">
-                    <i class="fa fa-edit text-secondary"></i>
+                  (click)="onEditGroup()">
+                  <i class="fa fa-edit text-secondary"></i>
                 </button>
-            </div>
+              </div>
             </div>
 
             <hr class="mt-2 heading-line" />
@@ -46,10 +46,9 @@
               <div class="views-personal">
                 <h4>{{ 'teachers.one' | translate }}</h4>
                 <h5>
-                  <span *ngIf="group.teacher?.name" class="clickable-text" (click)="onTeacherClick()">
-                    {{ group.teacher?.name }}
+                  <span class="clickable-text" (click)="onTeacherClick()">
+                    {{ group.teacher?.name || 'N/A' }}
                   </span>
-                  <span *ngIf="!group.teacher?.name">N/A</span>
                 </h5>
               </div>
             </div>
@@ -63,8 +62,8 @@
                 <h5>{{ group.numberOfStudents || 0 }}</h5>
               </div>
             </div>
-            
-            <div class="personal-activity">
+
+            <div class="personal-activity" *ngIf="isAdminOrEmployee">
               <div class="personal-icons">
                 <i class="fas fa-solid fa-users-cog"></i>
               </div>
@@ -74,7 +73,7 @@
               </div>
             </div>
 
-            <div class="personal-activity">
+            <div class="personal-activity" *ngIf="isAdminOrEmployee">
               <div class="personal-icons">
                 <i class="fas fa-solid fa-chart-pie"></i>
               </div>
@@ -89,7 +88,7 @@
             </div>
 
             <!-- Capacity Progress Bar -->
-            <div class="personal-activity">
+            <div class="personal-activity" *ngIf="isAdminOrEmployee">
               <div class="personal-icons">
                 <i class="fas fa-solid fa-percentage"></i>
               </div>
@@ -125,20 +124,22 @@
 
             <p-table stripedRows [value]="group.students || []" *ngIf="group.students && group.students.length > 0">
               <ng-template pTemplate="header">
-                  <tr>
-                      <th>{{ 'shared.fields.name' | translate }}</th>
-                  </tr>
+                <tr>
+                  <th>{{ 'shared.fields.name' | translate }}</th>
+                </tr>
               </ng-template>
               <ng-template pTemplate="body" let-student>
-                  <tr>
-                      <td class="py-4 clickable-text student-name" (click)="onStudentClick(student.id)">{{student.name}}</td>
-                  </tr>
+                <tr>
+                  <td class="py-4 clickable-text student-name" (click)="onStudentClick(student.id)">
+                    {{ student.name || 'N/A' }}
+                  </td>
+                </tr>
               </ng-template>
-          </p-table>
+            </p-table>
 
-          <div class="text-muted text-center" *ngIf="!group.students || group.students.length === 0">
-            {{ 'shared.table.noData' | translate }}
-          </div>
+            <div class="text-muted text-center" *ngIf="!group.students || group.students.length === 0">
+              {{ 'shared.table.noData' | translate }}
+            </div>
 
           </div>
         </div>
@@ -150,7 +151,5 @@
 </div>
 
 
-<app-group-from [showDialog]="showDialog" 
-[group]="group"
-(onSave)="loadGroup(group.id)" 
-(onCancel)="showDialog = false" />
+<app-group-from [showDialog]="showDialog" [group]="group" (onSave)="loadGroup(group.id)"
+  (onCancel)="showDialog = false" *ngIf="isAdminOrEmployee" />

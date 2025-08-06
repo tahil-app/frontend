@@ -40,5 +40,13 @@ export const routes: Routes = [
         path: 'schedules',
         loadChildren: () => import('./features/lesson-schedules/lesson-schedules.routes').then(m => m.LESSON_SCHEDULE_ROUTES),
         canActivate: [AuthGuard]
+    },
+    {
+        path: 'error',
+        loadChildren: () => import('./features/error-pages/error-pages.routes').then(m => m.ERROR_PAGES_ROUTES)
+    },
+    {
+        path: '**',
+        redirectTo: '/error/404'
     }
 ];

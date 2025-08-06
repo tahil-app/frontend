@@ -1,19 +1,47 @@
-import { HttpErrorResponse, HttpHandlerFn, HttpRequest, HttpResponse } from "@angular/common/http";
+import { HttpErrorResponse, HttpHandlerFn, HttpRequest } from "@angular/common/http";
 import { inject } from "@angular/core";
-import { Observable, throwError } from "rxjs";
+import { Observable, of, throwError } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 import { ToastService } from "../../features/shared/services/toast.service";
 import { LoaderService } from "../../features/shared/services/loader.service";
 import { TranslateService } from "@ngx-translate/core";
+import { ErrorNavigationService } from "../../features/error-pages";
 
 export function resultErrorInterceptor(request: HttpRequest<any>, next: HttpHandlerFn): Observable<any> {
+
     const toastService = inject(ToastService);
     const loader = inject(LoaderService);
     const translate = inject(TranslateService);
+    const errorNavigationService = inject(ErrorNavigationService);
 
     return next(request).pipe(
         catchError((error: HttpErrorResponse) => {
             loader.hide();
+
+            if (error.status === 401 || error.status === 403) {
+                errorNavigationService.navigateToAccessDenied();
+                return of(null);
+            }
+
+            if (error.status === 404) {
+                errorNavigationService.navigateToNotFound();
+                return of(null);
+            }
+
+            if (error.status === 500 || error.status === 502) {
+                errorNavigationService.navigateToServerError();
+                return of(null);
+            }
+
+            if (error.status === 503) {
+                errorNavigationService.navigateToServiceUnavailable();
+                return of(null);
+            }
+
+            if (error.status === 504) {
+                errorNavigationService.navigateToGatewayTimeout();
+                return of(null);
+            }
 
             const errorMessage = extractErrorMessage(error, translate);
 
@@ -39,12 +67,6 @@ function extractErrorMessage(error: HttpErrorResponse, translate: TranslateServi
             return 'Failed to connect to the API server. Please check your network connection.';
         case 400:
             return getValidationErrors(error) || 'Invalid request. Please check your input.';
-        case 401:
-            return translate.instant('shared.permissionDenied');
-        case 403:
-            return translate.instant('shared.permissionDenied');
-        case 404:
-            return 'The requested resource was not found.';
         case 500:
             return getServerErrorMessage(error) || 'Internal server error. Please try again later.';
         case 502:
@@ -59,6 +81,7 @@ function extractErrorMessage(error: HttpErrorResponse, translate: TranslateServi
 }
 
 function getValidationErrors(error: HttpErrorResponse): string | null {
+
     // Check for ValidationErrors array in the response
     if (error.error?.value?.ValidationErrors?.length > 0) {
         return error.error.value.ValidationErrors

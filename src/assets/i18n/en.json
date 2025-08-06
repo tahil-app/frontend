@@ -40,7 +40,6 @@
     },
     "shared": {
         "attachments": "Attachments",
-        "permissionDenied": "You don't have permission to access this page",
         "grid": {
             "searchBy": "Search by",
             "clearFilter": "Clear Filter",
@@ -206,5 +205,45 @@
         "activateSuccess": "Employee data activated successfully",
         "deactivateSuccess": "Employee data deactivated successfully",
         "deleteSuccess": "Employee data deleted successfully"
+    },
+    "errorPages": {
+        "notFound": {
+            "title": "Page Not Found",
+            "message": "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.",
+            "goHome": "Go to Home",
+            "goBack": "Go Back"
+        },
+        "accessDenied": {
+            "title": "Access Denied",
+            "message": "You don't have permission to access this page. Please contact your administrator if you believe this is an error.",
+            "goHome": "Go to Home",
+            "goBack": "Go Back",
+            "contactAdmin": "Contact Admin",
+            "contactAdminMessage": "Please contact your system administrator for access permissions."
+        },
+        "serverError": {
+            "title": "Server Error",
+            "message": "Something went wrong on our end. We're working to fix the problem. Please try again later.",
+            "retry": "Try Again",
+            "goHome": "Go to Home",
+            "contactSupport": "Contact Support",
+            "contactSupportMessage": "Please contact technical support for assistance."
+        },
+        "serviceUnavailable": {
+            "title": "Service Unavailable",
+            "message": "The service is temporarily unavailable due to maintenance or high traffic. Please try again later.",
+            "retry": "Try Again",
+            "goHome": "Go to Home",
+            "contactSupport": "Contact Support",
+            "contactSupportMessage": "Please contact technical support for assistance."
+        },
+        "gatewayTimeout": {
+            "title": "Gateway Timeout",
+            "message": "The server took too long to respond. This might be due to high traffic or server issues. Please try again.",
+            "retry": "Try Again",
+            "goHome": "Go to Home",
+            "contactSupport": "Contact Support",
+            "contactSupportMessage": "Please contact technical support for assistance."
+        }
     }
 }

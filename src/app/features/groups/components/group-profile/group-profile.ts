@@ -40,10 +40,7 @@ export class GroupProfile implements OnInit {
   //#endregion
 
   //#region Methods
-
-  canEdit(): boolean {
-    return this.authService.isAdmin || this.authService.isEmployee;
-  }
+  isAdminOrEmployee = this.authService.isAdmin || this.authService.isEmployee;
 
   ngOnInit() {
     const groupId = Number(this.route.snapshot.paramMap.get('id'));

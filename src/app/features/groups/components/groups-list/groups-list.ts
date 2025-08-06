@@ -19,6 +19,7 @@ import { DeleteConfirmation } from '../../../shared/components/delete-confirmati
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { BadgeHelper } from '../../../shared/helpers/badge.helper';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-groups-list',
@@ -45,9 +46,13 @@ export class GroupsList {
   private toaster = inject(ToastService);
   private translate = inject(TranslateService);
   private router = inject(Router);
+  private authService = inject(AuthService);
   //#endregion
 
   //#region Columns
+  isAdmin = this.authService.isAdmin;
+  isAdminOrEmployee = this.authService.isAdmin || this.authService.isEmployee;
+
   columns: GridColumn[] = [
     { 
       field: 'name', 
@@ -64,25 +69,25 @@ export class GroupsList {
       sortable: true, 
       filterType: ColumnFilterTypeEnum.text 
     },
-    { 
+    ...(this.isAdminOrEmployee ? [{ 
       field: 'teacherName', 
       apiField: 'teacher.user.name',
       title: this.translate.instant('teachers.one'), 
       columnType: ColumnTypeEnum.text, 
       sortable: true, 
       filterType: ColumnFilterTypeEnum.text 
-    },
+    }] : []),
     { 
       field: 'numberOfStudents', 
       title: this.translate.instant('shared.fields.numberOfCurrentStudents'), 
       columnType: ColumnTypeEnum.number, 
     },
-    { 
+    ...(this.isAdminOrEmployee ? [{ 
       field: 'capacityStatus', 
       title: this.translate.instant('shared.fields.capacityStatus'), 
       columnType: ColumnTypeEnum.badge, 
       badgeConfig: BadgeHelper.createCapacityBadge(this.translate, 'capacity', 'numberOfStudents')
-    },
+    }] : []),
   ];
   //#endregion
 
