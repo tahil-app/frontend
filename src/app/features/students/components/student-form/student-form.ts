@@ -17,10 +17,11 @@ import { LoaderService } from '../../../shared/services/loader.service';
 import { ToastService } from '../../../shared/services/toast.service';
 import { DateHelper } from '../../../../core/helpers/date.helper';
 import { UserRoleEnum } from '../../../../core/enums/user-role.enum';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-student-form',
-  imports: [CommonModule, DialogModule, SaveBtn, CancelBtn, InputTextModule, ReactiveFormsModule, InputLabel, LabelDatePicker, Dropdown],
+  imports: [CommonModule, DialogModule, SaveBtn, CancelBtn, InputTextModule, ReactiveFormsModule, InputLabel, LabelDatePicker, Dropdown, TranslateModule],
   templateUrl: './student-form.html',
   styleUrl: './student-form.scss'
 })
@@ -45,6 +46,7 @@ export class StudentFormComponent {
   private loader = inject(LoaderService);
   private toaster = inject(ToastService);
   private fb = inject(FormBuilder);
+  private translate = inject(TranslateService);
   //#endregion
 
   //#region Methods
@@ -106,7 +108,7 @@ export class StudentFormComponent {
 
   save() {
     if (this.studentForm.get('password')?.value !== this.studentForm.get('confirmPassword')?.value) {
-      this.toaster.showError('كلمة المرور وتأكيد كلمة المرور غير متطابقتين');
+      this.toaster.showError(this.translate.instant('shared.validation.passwordMismatch'));
       return;
     }
 
@@ -125,7 +127,7 @@ export class StudentFormComponent {
           if (res) {
             this.onSave.emit();
             this.studentForm.reset();
-            this.toaster.showSuccess('تم حفظ بيانات الطالب بنجاح');
+            this.toaster.showSuccess(this.translate.instant('students.saveSuccess'));
           }
         }, _ => { }, () => this.loader.hide());
     }
@@ -144,7 +146,7 @@ export class StudentFormComponent {
           if (res) {
             this.studentForm.reset();
             this.onSave.emit();
-            this.toaster.showSuccess('تم تعديل بيانات الطالب بنجاح');
+            this.toaster.showSuccess(this.translate.instant('students.updateSuccess'));
           }
         }, _ => { }, () => this.loader.hide());
     }

@@ -1,44 +1,44 @@
-<p-dialog header="بيانات الطالب" [modal]="true" [(visible)]="showDialog" [style]="{ width: '45rem' }">
+<p-dialog [header]="'students.formTitle' | translate" [modal]="true" [(visible)]="showDialog" [style]="{ width: '45rem' }">
     <form [formGroup]="studentForm" (ngSubmit)="hasId() ? update() : save()">
 
         <div class="row">
             <div class="col-md-6 col-12 flex items-center gap-2 mb-2">
-                <input-label label="الاسم" [required]="true" [formControl]="getFormControl('name')" />
+                <input-label [label]="'shared.fields.name' | translate" [required]="true" [formControl]="getFormControl('name')" />
             </div>
     
             <div class="col-md-6 col-12 flex items-center gap-2 mb-2">
-                <dropdown label="الجنس" [required]="true" [options]="genderOptions" [formControl]="getFormControl('gender')" />
+                <dropdown [label]="'shared.fields.gender' | translate" [required]="true" [options]="genderOptions" [formControl]="getFormControl('gender')" />
             </div>
             
         </div>
 
         <div class="row">
             <div class="col-md-6 col-12 flex items-center gap-2 mb-2">
-                <input-label label="رقم الهاتف" [required]="true" [formControl]="getFormControl('phoneNumber')" />
+                <input-label [label]="'shared.fields.phoneNumber' | translate" [required]="true" [formControl]="getFormControl('phoneNumber')" />
             </div>
 
             <div class="col-md-6 col-12 flex items-center gap-2 mb-2">
-                <input-label label="البريد الإلكتروني" [required]="true" [formControl]="getFormControl('email')" />
+                <input-label [label]="'shared.fields.email' | translate" [required]="true" [formControl]="getFormControl('email')" />
             </div>
         </div>
         
         <div class="row">
             <div class="col-md-6 col-12 flex items-center gap-2 mb-2">
-                <input-label label="كلمة المرور" [required]="requiredPassword" [formControl]="getFormControl('password')" />
+                <input-label [label]="'shared.fields.password' | translate" [required]="requiredPassword" [formControl]="getFormControl('password')" />
             </div>
 
             <div class="col-md-6 col-12 flex items-center gap-2 mb-2">
-                <input-label label="تأكيد كلمة المرور" [required]="requiredPassword" [formControl]="getFormControl('confirmPassword')" />
+                <input-label [label]="'shared.fields.confirmPassword' | translate" [required]="requiredPassword" [formControl]="getFormControl('confirmPassword')" />
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-6 col-12 flex items-center gap-2 mb-2">
-                <label-date-picker label="تاريخ الميلاد" [formControl]="getFormControl('birthDate')" />
+                <label-date-picker [label]="'shared.fields.birthDate' | translate" [formControl]="getFormControl('birthDate')" />
             </div>
 
             <div class="col-md-6 col-12 flex items-center gap-2 mb-2">
-                <label-date-picker label="تاريخ الانضمام" [formControl]="getFormControl('joinedDate')" />
+                <label-date-picker [label]="'shared.fields.joinedDate' | translate" [formControl]="getFormControl('joinedDate')" />
             </div>
         </div>
 

@@ -22,10 +22,11 @@ import { ToastService } from '../../../shared/services/toast.service';
 import { TableModule } from 'primeng/table';
 import { CoursesDialog } from '../../../shared/components/courses-dialog/courses-dialog';
 import { Course } from '../../../../core/models/course.model';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-teacher-profile',
-  imports: [CardContainer, TabsModule, TooltipModule, TeacherFormComponent, TeacherQualification, CommonModule, TeacherExperience, UserAttachmentDialog, TeacherAttachmentComponent, TableModule, CoursesDialog],
+  imports: [CardContainer, TabsModule, TooltipModule, TeacherFormComponent, TeacherQualification, CommonModule, TeacherExperience, UserAttachmentDialog, TeacherAttachmentComponent, TableModule, CoursesDialog, TranslateModule],
   templateUrl: './teacher-profile.html',
   styleUrl: './teacher-profile.scss'
 })
@@ -50,6 +51,7 @@ export class TeacherProfile {
   private cdr = inject(ChangeDetectorRef);
   private sanitizer = inject(DomSanitizer);
   private toaster = inject(ToastService);
+  private translate = inject(TranslateService);
 
   //#endregion
 
@@ -69,7 +71,7 @@ export class TeacherProfile {
       this.teacher = teacher;
 
       if(teacher.id == 0) {
-        this.toaster.showError('لا يوجد معلومات عن المعلم');
+        this.toaster.showError(this.translate.instant('teachers.notFound'));
         this.disablePage = true;
       }
 

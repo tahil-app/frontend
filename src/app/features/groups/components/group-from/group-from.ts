@@ -11,10 +11,17 @@ import { Subject, takeUntil } from 'rxjs';
 import { GroupService } from '../../../../core/services/group.service';
 import { LoaderService } from '../../../shared/services/loader.service';
 import { ToastService } from '../../../shared/services/toast.service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { CourseService } from '../../../../core/services/course.service';
+import { TeacherService } from '../../../../core/services/teacher.service';
+import { Dropdown } from '../../../shared/components/dropdown/dropdown';
+import { DropdownProps, getDropdownOptions } from '../../../shared/props/dropdown.props';
+import { Course } from '../../../../core/models/course.model';
+import { Teacher } from '../../../../core/models/teacher.model';
 
 @Component({
   selector: 'app-group-from',
-  imports: [CommonModule, DialogModule, SaveBtn, CancelBtn, InputTextModule, ReactiveFormsModule, InputLabel],
+  imports: [CommonModule, DialogModule, SaveBtn, CancelBtn, InputTextModule, ReactiveFormsModule, InputLabel, TranslateModule, Dropdown],
   templateUrl: './group-from.html',
   styleUrl: './group-from.scss'
 })
@@ -26,6 +33,9 @@ export class GroupFromComponent {
   groupForm!: FormGroup;
   destroy$ = new Subject<void>();
 
+  coursesOptions: DropdownProps[] = [];
+  teachersOptions: DropdownProps[] = [];
+
   @Output() onSave = new EventEmitter<void>();
   @Output() onCancel = new EventEmitter<void>();
   //#endregion
@@ -35,11 +45,16 @@ export class GroupFromComponent {
   private loader = inject(LoaderService);
   private toaster = inject(ToastService);
   private fb = inject(FormBuilder);
+  private translate = inject(TranslateService);
+  private courseService = inject(CourseService);
+  private teacherService = inject(TeacherService);
   //#endregion
 
   //#region Methods
   ngOnInit() {
     this.initForm();
+    this.loadCourses();
+    this.setupCourseChangeListener();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -50,6 +65,10 @@ export class GroupFromComponent {
 
     if (changes['group'] && this.group.id > 0) {
       this.groupForm?.patchValue(this.group);
+      // Load teachers for the existing course when editing
+      if (this.group.courseId) {
+        this.loadTeachersByCourse(this.group.courseId);
+      }
     }
 
   }
@@ -58,7 +77,9 @@ export class GroupFromComponent {
     this.groupForm = this.fb.group({
       id: [0],
       name: ['', [Validators.required, Validators.minLength(2)]],
-      capacity: [0]
+      courseId: ['', [Validators.required]],
+      teacherId: ['', [Validators.required]],
+      capacity: [0],
     });
   }
 
@@ -68,6 +89,36 @@ export class GroupFromComponent {
 
   getFormControl(name: string) {
     return this.groupForm.get(name) as FormControl;
+  }
+
+  loadCourses() {
+    this.courseService.getAll()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(courses => {
+        this.coursesOptions = getDropdownOptions(courses);
+      });
+  }
+
+  setupCourseChangeListener() {
+    this.groupForm.get('courseId')?.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(courseId => {
+        if (courseId) {
+          this.loadTeachersByCourse(courseId);
+        } else {
+          this.teachersOptions = [];
+        }
+        // Reset teacher selection when course changes
+        this.groupForm.get('teacherId')?.setValue('');
+      });
+  }
+
+  loadTeachersByCourse(courseId: number) {
+    this.teacherService.getTeachersByCourseId(courseId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(teachers => {
+        this.teachersOptions = getDropdownOptions(teachers);
+      });
   }
 
   save() {
@@ -84,7 +135,7 @@ export class GroupFromComponent {
           if (res) {
             this.onSave.emit();
             this.groupForm.reset();
-            this.toaster.showSuccess('تم حفظ المجموعة بنجاح');
+            this.toaster.showSuccess(this.translate.instant('groups.saveSuccess'));
           }
         }, _ => { }, () => this.loader.hide());
     }
@@ -95,7 +146,7 @@ export class GroupFromComponent {
       this.loader.show();
 
       const GroupData = this.groupForm.value as Group;
-      GroupData.capacity = Number(GroupData.capacity) ?? 0;
+      GroupData.numberOfStudents = Number(GroupData.numberOfStudents) ?? 0;
 
       this.groupService.update(GroupData)
         .pipe(takeUntil(this.destroy$))
@@ -103,7 +154,7 @@ export class GroupFromComponent {
           if (res) {
             this.groupForm.reset();
             this.onSave.emit();
-            this.toaster.showSuccess('تم تعديل المجموعة بنجاح');
+            this.toaster.showSuccess(this.translate.instant('groups.updateSuccess'));
           }
         }, _ => { }, () => this.loader.hide());
     }

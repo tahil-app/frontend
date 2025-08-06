@@ -6,10 +6,11 @@ import { CommonModule } from '@angular/common';
 import { SelectModule } from 'primeng/select';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { FormError } from '../form-error/form-error';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'dropdown',
-  imports: [FormsModule, CommonModule, SelectModule, ReactiveFormsModule, MultiSelectModule],
+  imports: [FormsModule, CommonModule, SelectModule, ReactiveFormsModule, MultiSelectModule, TranslateModule],
   templateUrl: './dropdown.html',
   styleUrl: './dropdown.scss',
   providers: [
@@ -25,8 +26,8 @@ export class Dropdown implements ControlValueAccessor {
   //#region Inputs
   @Input() label: string = '';
   @Input() required: boolean = false;
-  @Input() placeholder: string = 'اختر هنا';
-  @Input() noResultsMessage: string = 'لا يوجد نتائج';
+  @Input() placeholder: string = 'shared.dropdown.selectHere';
+  @Input() noResultsMessage: string = 'shared.dropdown.noResults';
   @Input() allowFilter: boolean = false;
   @Input() allowCustomFilter: boolean = false;
   @Input() multi: boolean = false;
@@ -55,6 +56,7 @@ export class Dropdown implements ControlValueAccessor {
   private searchSubject$ = new Subject<string>();
   private destroy$ = new Subject<void>();
   private renderer = inject(Renderer2);
+  private translate = inject(TranslateService);
   //#endregion
 
   //#region Lifecycle
@@ -75,7 +77,7 @@ export class Dropdown implements ControlValueAccessor {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['options']) {
       if (!this.options.some(r => r.value == null) && !this.multi)
-        this.options.unshift({ label: this.placeholder, value: null })
+        this.options.unshift({ label: this.translate.instant(this.placeholder), value: null })
     }
 
     if(changes['selectedOption']) {
@@ -144,7 +146,7 @@ export class Dropdown implements ControlValueAccessor {
   }
   getDisplayValue(): string {
     if (!this.selectedItems || this.selectedItems.length === 0) {
-      return this.placeholder;
+      return this.translate.instant(this.placeholder);
     }
 
     if(this.multi && this.options.length == 1){
@@ -152,10 +154,10 @@ export class Dropdown implements ControlValueAccessor {
     }
 
     if (this.selectedItems.length == this.options.length)
-      return 'الكل';
+      return this.translate.instant('shared.dropdown.all');
 
     if (this.selectedItems.length > 2)
-      return `Items ${this.selectedItems.length}`;
+      return this.translate.instant('shared.dropdown.itemsCount', { count: this.selectedItems.length });
 
     return this.selectedItems.map(item => item.label).join(', ');
   }
@@ -166,15 +168,18 @@ export class Dropdown implements ControlValueAccessor {
 
   getErrorMessage() {
     if (this.formControl.errors?.['required']) {
-      return `يجب اختيار ${this.label} من القائمة`;
+      return this.translate.instant('shared.validation.requiredDropdown', { field: this.label });
     }
 
     if (this.formControl.errors?.['minlength']) {
-      return `${this.label} يجب ان يكون اطول من ${this.formControl.errors?.['minlength'].requiredLength} حرف`;
+      return this.translate.instant('shared.validation.minLength', { 
+        field: this.label, 
+        length: this.formControl.errors?.['minlength'].requiredLength 
+      });
     }
 
     if (this.formControl.errors?.['email']) {
-      return `${this.label} يجب ان يكون بريد إلكتروني صالح`;
+      return this.translate.instant('shared.validation.emailInvalid', { field: this.label });
     }
 
     return '';

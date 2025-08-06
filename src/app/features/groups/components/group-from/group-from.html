@@ -1,11 +1,19 @@
-<p-dialog header="بيانات المجموعة" [modal]="true" [(visible)]="showDialog" [style]="{ width: '25rem' }">
+<p-dialog [header]="'groups.formTitle' | translate" [modal]="true" [(visible)]="showDialog" [style]="{ width: '30rem' }">
     <form [formGroup]="groupForm" (ngSubmit)="hasId() ? update() : save()">
-        <div class="flex items-center gap-4 mb-4">
-            <input-label label="الاسم" [required]="true" [formControl]="getFormControl('name')" />
+        <div class="flex items-center gap-4 mb-2">
+            <input-label [label]="'shared.fields.name' | translate" [required]="true" [formControl]="getFormControl('name')" />
+        </div>
+
+        <div class="flex items-center gap-4 mb-2">
+            <dropdown [label]="'courses.one' | translate" [required]="true" [options]="coursesOptions" [formControl]="getFormControl('courseId')" />
+        </div>
+
+        <div class="flex items-center gap-4 mb-2">
+            <dropdown [label]="'teachers.one' | translate" [required]="true" [options]="teachersOptions" [formControl]="getFormControl('teacherId')" />
         </div>
 
         <div class="flex items-center gap-4 mb-4">
-            <input-label label="عدد الطلاب" [formControl]="getFormControl('capacity')" type="number" />
+            <input-label [label]="'shared.fields.capacity' | translate" [formControl]="getFormControl('capacity')" type="number" />
         </div>
 
         <div class="flex justify-end gap-2">

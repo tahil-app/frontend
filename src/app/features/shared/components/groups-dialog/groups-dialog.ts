@@ -10,6 +10,7 @@ import { SaveBtn } from '../../buttons/save-btn/save-btn';
 import { CancelBtn } from '../../buttons/cancel-btn/cancel-btn';
 import { LoaderService } from '../../services/loader.service';
 import { Group } from '../../../../core/models/group.model';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'groups-dialog',
@@ -20,6 +21,7 @@ import { Group } from '../../../../core/models/group.model';
     Dropdown,
     SaveBtn,
     CancelBtn,
+    TranslateModule,
   ],
   templateUrl: './groups-dialog.html',
   styleUrl: './groups-dialog.scss'

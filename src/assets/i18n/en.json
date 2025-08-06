@@ -1,4 +1,4 @@
-{ 
+{
     "welcome": "Welcome to the app",
     "appName": "Dar Al Farqan",
     "profile": "Profile",
@@ -25,6 +25,10 @@
         "parent": "Parent",
         "employee": "Employee"
     },
+    "gender": {
+        "male": "Male",
+        "female": "Female"
+    },
     "sidebar": {
         "mainMenu": "Main Menu",
         "dashboard": "Dashboard",
@@ -32,19 +36,10 @@
         "schedules": "Schedules",
         "sessions": "Lectures",
         "attendance": "Attendance",
-        "students": "Students",
-        "teachers": "Teachers",
-        "parents": "Parents",
-        "settings": "Settings",
-        "groups": "Groups",
-        "rooms": "Rooms",
-        "courses": "Courses"
+        "settings": "Settings"
     },
     "shared": {
-        "emailLabel": "Email",
-        "required": "is required",
-        "minLength": "must be longer than {{length}} characters",
-        "emailInvalid": "must be a valid email",
+        "attachments": "Attachments",
         "permissionDenied": "You don't have permission to access this page",
         "grid": {
             "searchBy": "Search by",
@@ -69,36 +64,147 @@
             "deleteConfirmation": "Are you sure you want to delete this item?",
             "yes": "Yes",
             "no": "No"
+        },
+        "fields": {
+            "name": "Name",
+            "gender": "Gender",
+            "phoneNumber": "Phone Number",
+            "email": "Email",
+            "password": "Password",
+            "confirmPassword": "Confirm Password",
+            "birthDate": "Birth Date",
+            "joinedDate": "Joined Date",
+            "description": "Description",
+            "capacity": "Capacity",
+            "numberOfStudents": "Number of Students",
+            "numberOfCurrentStudents": "Number of Current Students",
+            "capacityStatus": "Capacity Status",
+            "capacityPercentage": "Capacity Percentage"
+        },
+        "validation": {
+            "passwordMismatch": "Password and confirm password do not match",
+            "requiredDropdown": "Please select {{field}} from the list",
+            "minLength": "{{field}} must be longer than {{length}} characters",
+            "emailInvalid": "{{field}} must be a valid email",
+            "required": "{{field}} is required"
+        },
+        "dropdown": {
+            "selectHere": "Select here",
+            "noResults": "No results found",
+            "all": "All",
+            "itemsCount": "{{count}} items",
+            "typeHere": "Type here"
+        },
+        "switch": {
+            "yes": "Yes",
+            "no": "No"
+        },
+        "timePicker": {
+            "selectTime": "Select time"
+        },
+        "fileUpload": {
+            "chooseFile": "Choose file"
+        },
+        "datePicker": {
+            "selectDate": "Select date"
+        },
+        "badges": {
+            "full": "Full",
+            "almostFull": "Almost Full",
+            "halfFull": "Half Full",
+            "available": "Available",
+            "active": "Active",
+            "inactive": "Inactive"
+        },
+        "table": {
+            "showing": "Showing",
+            "to": "to",
+            "of": "of",
+            "entries": "entries",
+            "noData": "No data available"
         }
     },
     "courses": {
-        "title": "Course Data",
-        "name": "Name",
-        "description": "Description",
-        "list": {
-            "title": "Courses List",
-            "name": "Name",
-            "description": "Description"
-        },
+        "all": "Courses",
+        "one": "Course",
+        "formTitle": "Course Data",
         "activateSuccess": "Course activated successfully",
         "deactivateSuccess": "Course deactivated successfully",
         "saveSuccess": "Course saved successfully",
         "updateSuccess": "Course updated successfully",
-        "deleteSuccess": "Course deleted successfully"
+        "deleteSuccess": "Course deleted successfully",
+        "list": {
+            "name": "Course Name"
+        }
     },
     "rooms": {
-        "title": "Room Data",
-        "name": "Name",
-        "capacity": "Capacity",
-        "list": {
-            "title": "Rooms",
-            "name": "Name",
-            "capacity": "Capacity"
-        },
+        "all": "Rooms",
+        "one": "Room",
+        "formTitle": "Room Data",
         "saveSuccess": "Room saved successfully",
         "updateSuccess": "Room updated successfully",
         "activateSuccess": "Room activated successfully",
         "deactivateSuccess": "Room deactivated successfully",
         "deleteSuccess": "Room deleted successfully"
+    },
+    "teachers": {
+        "all": "Teachers",
+        "one": "Teacher",
+        "formTitle": "Teacher Data",
+        "saveSuccess": "Teacher data saved successfully",
+        "updateSuccess": "Teacher data updated successfully",
+        "activateSuccess": "Teacher data activated successfully",
+        "deactivateSuccess": "Teacher data deactivated successfully",
+        "deleteSuccess": "Teacher data deleted successfully",
+        "notFound": "No teacher information found",
+        "profile": {
+            "teacherData": "Teacher Data",
+            "education": "Education",
+            "qualifications": "Qualifications",
+            "experience": "Experience",
+            "noQualifications": "No qualifications found",
+            "noExperience": "No experience found",
+            "noCourses": "No courses found",
+            "noGroups": "No groups found",
+            "noAttachments": "No attachments found",
+            "qualificationsSaveSuccess": "Qualifications saved successfully",
+            "experienceSaveSuccess": "Experience saved successfully"
+        }
+    },
+    "groups": {
+        "all": "Groups",
+        "one": "Group",
+        "formTitle": "Group Data",
+        "saveSuccess": "Group saved successfully",
+        "updateSuccess": "Group updated successfully",
+        "activateSuccess": "Group activated successfully",
+        "deactivateSuccess": "Group deactivated successfully",
+        "deleteSuccess": "Group deleted successfully",
+        "profile": {
+            "groupData": "Group Data",
+            "studentsList": "Students List",
+            "groupNotFoundMessage": "The requested group was not found"
+        },
+        "notFound": "Group not found"
+    },
+    "students": {
+        "all": "Students",
+        "one": "Student",
+        "formTitle": "Student Data",
+        "saveSuccess": "Student data saved successfully",
+        "updateSuccess": "Student data updated successfully",
+        "activateSuccess": "Student data activated successfully",
+        "deactivateSuccess": "Student data deactivated successfully",
+        "deleteSuccess": "Student data deleted successfully"
+    },
+    "employees": {
+        "all": "Employees",
+        "one": "Employee",
+        "formTitle": "Employee Data",
+        "saveSuccess": "Employee data saved successfully",
+        "updateSuccess": "Employee data updated successfully",
+        "activateSuccess": "Employee data activated successfully",
+        "deactivateSuccess": "Employee data deactivated successfully",
+        "deleteSuccess": "Employee data deleted successfully"
     }
 }

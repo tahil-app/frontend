@@ -53,4 +53,8 @@ export class TeacherService extends ApiService<Teacher> {
     
     return this.httpClient.post<string>(this.appURLGenerator.getEndPoint(ApiEndpoints.TEACHERS.Actions.UploadImage), formData);
   }
+
+  getTeachersByCourseId(courseId: number): Observable<Teacher[]> {
+    return this.httpClient.get<Teacher[]>(this.appURLGenerator.getEndPoint(ApiEndpoints.TEACHERS.Actions.GetTeachersByCourseId(courseId)));
+  }
 }

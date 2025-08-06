@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
+import { Component, EventEmitter, forwardRef, Input, Output, inject } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'switch',
-  imports: [CommonModule, ToggleSwitchModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, ToggleSwitchModule, FormsModule, ReactiveFormsModule, TranslateModule],
   templateUrl: './switch.html',
   styleUrl: './switch.scss',
   providers: [
@@ -17,10 +18,12 @@ import { ToggleSwitchModule } from 'primeng/toggleswitch';
   ]
 })
 export class Switch implements ControlValueAccessor {
-  @Input() checkedText: string = 'نعم';
-  @Input() unCheckedText: string = 'لا';
+  @Input() checkedText: string = 'shared.switch.yes';
+  @Input() unCheckedText: string = 'shared.switch.no';
   @Input() formControl: FormControl = new FormControl();
   @Output() changeEvent = new EventEmitter<boolean>();
+  
+  private translate = inject(TranslateService);
 
 
   disabled: boolean = false;

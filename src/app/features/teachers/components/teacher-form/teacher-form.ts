@@ -18,10 +18,11 @@ import { DropdownProps } from '../../../shared/props/dropdown.props';
 import { GenderEnum } from '../../../../core/enums/gender.enum';
 import { DateHelper } from '../../../../core/helpers/date.helper';
 import { GenderHelper } from '../../../../core/helpers/gender.helper';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-teacher-form',
-  imports: [CommonModule, DialogModule, SaveBtn, CancelBtn, InputTextModule, ReactiveFormsModule, InputLabel, LabelDatePicker, Dropdown],
+  imports: [CommonModule, DialogModule, SaveBtn, CancelBtn, InputTextModule, ReactiveFormsModule, InputLabel, LabelDatePicker, Dropdown, TranslateModule],
   templateUrl: './teacher-form.html',
   styleUrl: './teacher-form.scss'
 })
@@ -45,6 +46,7 @@ export class TeacherFormComponent {
   private loader = inject(LoaderService);
   private toaster = inject(ToastService);
   private fb = inject(FormBuilder);
+  private translate = inject(TranslateService);
   //#endregion
 
   //#region Methods
@@ -105,7 +107,7 @@ export class TeacherFormComponent {
 
   save() {
     if (this.teacherForm.get('password')?.value !== this.teacherForm.get('confirmPassword')?.value) {
-      this.toaster.showError('كلمة المرور وتأكيد كلمة المرور غير متطابقتين');
+      this.toaster.showError(this.translate.instant('shared.validation.passwordMismatch'));
       return;
     }
 
@@ -124,7 +126,7 @@ export class TeacherFormComponent {
           if (res) {
             this.onSave.emit();
             this.teacherForm.reset();
-            this.toaster.showSuccess('تم حفظ بيانات المعلم بنجاح');
+            this.toaster.showSuccess(this.translate.instant('teachers.saveSuccess'));
           }
         }, _ => { }, () => this.loader.hide());
     }
@@ -143,7 +145,7 @@ export class TeacherFormComponent {
           if (res) {
             this.teacherForm.reset();
             this.onSave.emit();
-            this.toaster.showSuccess('تم تعديل بيانات المعلم بنجاح');
+            this.toaster.showSuccess(this.translate.instant('teachers.updateSuccess'));
           }
         }, _ => { }, () => this.loader.hide());
     }
@@ -175,7 +177,7 @@ export class TeacherFormComponent {
       .subscribe(res => {
         if (res) {
           this.onSave.emit();
-          this.toaster.showSuccess('تم تفعيل بيانات المعلم بنجاح');
+          this.toaster.showSuccess(this.translate.instant('teachers.activateSuccess'));
         }
       }, _ => { }, () => this.loader.hide());
   }
@@ -186,7 +188,7 @@ export class TeacherFormComponent {
       .subscribe(res => {
         if (res) {
           this.onSave.emit();
-          this.toaster.showSuccess('تم تعطيل بيانات المعلم بنجاح');
+          this.toaster.showSuccess(this.translate.instant('teachers.deactivateSuccess'));
         }
       }, _ => { }, () => this.loader.hide());
   }

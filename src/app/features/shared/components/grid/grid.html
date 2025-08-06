@@ -56,6 +56,13 @@
                         <img [src]="item[col.field]" alt="Image" style="width: 65px; height: 65px; border-radius: 5px;">
                     </span>
 
+                    <span *ngIf="col.columnType == 'badge'" 
+                          class="badge" 
+                          [style.background-color]="col.badgeConfig?.getColor(item)"
+                          [class]="col.badgeConfig?.getClass?.(item)">
+                        {{ col.badgeConfig?.getValue(item) }}
+                    </span>
+
                 </ng-container>
 
             </td>

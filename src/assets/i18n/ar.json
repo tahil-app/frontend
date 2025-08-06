@@ -1,104 +1,210 @@
-{ 
-    "welcome": "مرحبًا بك في التطبيق",
-    "appName": "دار الفرقان",
-    "profile": "الملف الشخصي",
-    "logout": "تسجيل الخروج",
-    "auth": {
-        "loginTitle": "مرحبًا بك في تطبيق دار الفرقان",
-        "login": "تسجيل الدخول",
-        "username": "اسم المستخدم",
-        "password": "كلمة المرور",
-        "register": "تسجيل حساب",
-        "forgotPassword": "هل نسيت كلمة المرور؟",
-        "rememberMe": "تذكرني",
-        "forgetPasswordTitle": "نسيت كلمة المرور",
-        "forgetPasswordbtn": "إرسال",
-        "backToLogin": "العودة إلى تسجيل الدخول",
-        "loginSuccess": "تم تسجيل الدخول بنجاح",
-        "loginError": "فشل تسجيل الدخول. يرجى التحقق من بياناتك.",
-        "forgetPasswordSuccess": "تم إرسال رابط تعديل كلمة المرور إلى بريدك الإلكتروني"
-    },
-    "userRole": {
-        "admin": "مدير النظام",
-        "teacher": "مدرس",
-        "student": "طالب",
-        "parent": "ولي أمر",
-        "employee": "موظف"
-    },
-    "sidebar": {
-        "mainMenu": "القائمة الرئيسية",
-        "dashboard": "الرئيسية",
-        "timeTable": "الجدول الدراسي",
-        "schedules": "الجداول",
-        "sessions": "المحاضرات",
-        "attendance": "الحضور والغياب",
-        "students": "الطلاب",
-        "teachers": "المدرسين",
-        "parents": "الوليين",
-        "settings": "الإعدادات",
-        "groups": "المجموعات",
-        "rooms": "الحلقات",
-        "courses": "الدورات"
-    },
-    "shared": {
-        "emailLabel": "البريد الإلكتروني",
-        "required": "مطلوب",
-        "minLength": "يجب ان يكون اطول من {{length}} حرف",
-        "emailInvalid": "يجب ان يكون بريد إلكتروني صالح",
-        "permissionDenied": "ليس لديك صلاحية للوصول إلى هذه الصفحة",
-        "grid": {
-            "searchBy": "بحث ب",
-            "clearFilter": "حذف الفلتر",
-            "noData": "لا توجد بيانات",
-            "delete": "حذف",
-            "edit": "تعديل",
-            "view": "عرض"
+    {
+        "welcome": "مرحبًا بك في التطبيق",
+        "appName": "دار الفرقان",
+        "profile": "الملف الشخصي",
+        "logout": "تسجيل الخروج",
+        "auth": {
+            "loginTitle": "مرحبًا بك في تطبيق دار الفرقان",
+            "login": "تسجيل الدخول",
+            "username": "اسم المستخدم",
+            "password": "كلمة المرور",
+            "register": "تسجيل حساب",
+            "forgotPassword": "هل نسيت كلمة المرور؟",
+            "rememberMe": "تذكرني",
+            "forgetPasswordTitle": "نسيت كلمة المرور",
+            "forgetPasswordbtn": "إرسال",
+            "backToLogin": "العودة إلى تسجيل الدخول",
+            "loginSuccess": "تم تسجيل الدخول بنجاح",
+            "loginError": "فشل تسجيل الدخول. يرجى التحقق من بياناتك.",
+            "forgetPasswordSuccess": "تم إرسال رابط تعديل كلمة المرور إلى بريدك الإلكتروني"
         },
-        "buttons": {
-            "save": "حفظ",
-            "cancel": "إلغاء",
-            "add": "إضافة",
-            "delete": "حذف",
-            "edit": "تعديل",
-            "view": "عرض",
-            "download": "تحميل",
-            "activate": "تفعيل",
-            "deactivate": "تعطيل"
+        "userRole": {
+            "admin": "مدير النظام",
+            "teacher": "مدرس",
+            "student": "طالب",
+            "parent": "ولي أمر",
+            "employee": "موظف"
         },
-        "dialogs": {
-            "deleteConfirmation": "هل أنت متأكد من حذف هذا العنصر؟",
-            "yes": "نعم",
-            "no": "لا"
+        "gender": {
+            "male": "ذكر",
+            "female": "أنثى"
+        },
+        "sidebar": {
+            "mainMenu": "القائمة الرئيسية",
+            "dashboard": "الرئيسية",
+            "timeTable": "الجدول الدراسي",
+            "schedules": "الجداول",
+            "sessions": "المحاضرات",
+            "attendance": "الحضور والغياب",
+            "settings": "الإعدادات"
+        },
+        "shared": {
+            "attachments": "المرفقات",
+            "permissionDenied": "ليس لديك صلاحية للوصول إلى هذه الصفحة",
+            "grid": {
+                "searchBy": "بحث ب",
+                "clearFilter": "حذف الفلتر",
+                "noData": "لا توجد بيانات",
+                "delete": "حذف",
+                "edit": "تعديل",
+                "view": "عرض"
+            },
+            "buttons": {
+                "save": "حفظ",
+                "cancel": "إلغاء",
+                "add": "إضافة",
+                "delete": "حذف",
+                "edit": "تعديل",
+                "view": "عرض",
+                "download": "تحميل",
+                "activate": "تفعيل",
+                "deactivate": "تعطيل"
+            },
+            "dialogs": {
+                "deleteConfirmation": "هل أنت متأكد من حذف هذا العنصر؟",
+                "yes": "نعم",
+                "no": "لا"
+            },
+            "fields": {
+                "name": "الاسم",
+                "gender": "الجنس",
+                "phoneNumber": "رقم الهاتف",
+                "email": "البريد الإلكتروني",
+                "password": "كلمة المرور",
+                "confirmPassword": "تأكيد كلمة المرور",
+                "birthDate": "تاريخ الميلاد",
+                "joinedDate": "تاريخ الانضمام",
+                "description": "الوصف",
+                "capacity": "الكثافة الطلابية",
+                "numberOfStudents": "عدد الطلاب",
+                "numberOfCurrentStudents": "عدد الطلاب الحالي",
+                "capacityStatus": "حالة الكثافة",
+                "capacityPercentage": "نسبة الكثافة"
+            },
+            "validation": {
+                "passwordMismatch": "كلمة المرور وتأكيد كلمة المرور غير متطابقتين",
+                "requiredDropdown": "يجب اختيار {{field}} من القائمة",
+                "minLength": "{{field}} يجب ان يكون اطول من {{length}} حرف",
+                "emailInvalid": "{{field}} يجب ان يكون بريد إلكتروني صالح",
+                "required": "{{field}} مطلوب"
+            },
+            "dropdown": {
+                "selectHere": "اختر هنا",
+                "noResults": "لا يوجد نتائج",
+                "all": "الكل",
+                "itemsCount": "العناصر {{count}}",
+                "typeHere": "اكتب هنا"
+            },
+            "switch": {
+                "yes": "نعم",
+                "no": "لا"
+            },
+            "timePicker": {
+                "selectTime": "اختر الوقت"
+            },
+            "fileUpload": {
+                "chooseFile": "اختر ملف"
+            },
+            "datePicker": {
+                "selectDate": "اختر التاريخ"
+            },
+            "badges": {
+                "full": "ممتلئة",
+                "almostFull": "شبه ممتلئة",
+                "halfFull": "نصف ممتلئة",
+                "available": "متاحة",
+                "active": "نشط",
+                "inactive": "غير نشط"
+            },
+            "table": {
+                "showing": "عرض",
+                "to": "إلى",
+                "of": "من",
+                "entries": "عنصر",
+                "noData": "لا توجد بيانات"
+            }
+        },
+        "courses": {
+            "all": "الدورات",
+            "one": "الدورة",
+            "formTitle": "بيانات الدورة",
+            "activateSuccess": "تم تفعيل الدورة بنجاح",
+            "deactivateSuccess": "تم تعطيل الدورة بنجاح",
+            "saveSuccess": "تم حفظ الدورة بنجاح",
+            "updateSuccess": "تم تعديل الدورة بنجاح",
+            "deleteSuccess": "تم حذف الدورة بنجاح",
+            "list": {
+                "name": "اسم الدورة"
+            }
+        },
+        "rooms": {
+            "all": "الحلقات",
+            "one": "الحلقة",
+            "formTitle": "بيانات الحلقة",
+            "saveSuccess": "تم حفظ الحلقة بنجاح",
+            "updateSuccess": "تم تعديل الحلقة بنجاح",
+            "activateSuccess": "تم تفعيل الحلقة بنجاح",
+            "deactivateSuccess": "تم تعطيل الحلقة بنجاح",
+            "deleteSuccess": "تم حذف الحلقة بنجاح"
+        },
+        "teachers": {
+            "all": "المعلمون",
+            "one": "المعلم",
+            "formTitle": "بيانات المعلم",
+            "saveSuccess": "تم حفظ بيانات المعلم بنجاح",
+            "updateSuccess": "تم تعديل بيانات المعلم بنجاح",
+            "activateSuccess": "تم تفعيل بيانات المعلم بنجاح",
+            "deactivateSuccess": "تم تعطيل بيانات المعلم بنجاح",
+            "deleteSuccess": "تم حذف بيانات المعلم بنجاح",
+            "notFound": "لا يوجد معلومات عن المعلم",
+            "profile": {
+                "teacherData": "بيانات المعلم",
+                "education": "التعليم",
+                "qualifications": "المؤهلات",
+                "experience": "الخبرات",
+                "noQualifications": "لا يوجد مؤهلات",
+                "noExperience": "لا يوجد خبرات",
+                "noCourses": "لا يوجد دورات",
+                "noGroups": "لا يوجد مجموعات",
+                "noAttachments": "لا يوجد مرفقات",
+                "qualificationsSaveSuccess": "تم حفظ المؤهلات بنجاح",
+                "experienceSaveSuccess": "تم حفظ الخبرات بنجاح"
+            }
+        },
+        "groups": {
+            "all": "المجموعات",
+            "one": "المجموعة",
+            "formTitle": "بيانات المجموعة",
+            "saveSuccess": "تم حفظ المجموعة بنجاح",
+            "updateSuccess": "تم تعديل المجموعة بنجاح",
+            "activateSuccess": "تم تفعيل المجموعة بنجاح",
+            "deactivateSuccess": "تم تعطيل المجموعة بنجاح",
+            "deleteSuccess": "تم حذف المجموعة بنجاح",
+            "profile": {
+                "groupData": "بيانات المجموعة",
+                "studentsList": "قائمة الطلاب",
+                "groupNotFoundMessage": "المجموعة المطلوبة غير موجودة"
+            },
+            "notFound": "المجموعة غير موجودة"
+        },
+        "students": {
+            "all": "الطلاب",
+            "one": "الطالب",
+            "formTitle": "بيانات الطالب",
+            "saveSuccess": "تم حفظ بيانات الطالب بنجاح",
+            "updateSuccess": "تم تعديل بيانات الطالب بنجاح",
+            "activateSuccess": "تم تفعيل بيانات الطالب بنجاح",
+            "deactivateSuccess": "تم تعطيل بيانات الطالب بنجاح",
+            "deleteSuccess": "تم حذف بيانات الطالب بنجاح"
+        },
+        "employees": {
+            "all": "الموظفين",
+            "one": "الموظف",
+            "formTitle": "بيانات الموظف",
+            "saveSuccess": "تم حفظ بيانات الموظف بنجاح",
+            "updateSuccess": "تم تعديل بيانات الموظف بنجاح",
+            "activateSuccess": "تم تفعيل بيانات الموظف بنجاح",
+            "deactivateSuccess": "تم تعطيل بيانات الموظف بنجاح",
+            "deleteSuccess": "تم حذف بيانات الموظف بنجاح"
         }
-    },
-    "courses": {
-        "title": "بيانات الدورة",
-        "name": "الاسم",
-        "description": "الوصف",
-        "list": {
-            "title": "قائمة الدورات",
-            "name": "الاسم",
-            "description": "الوصف"
-        },
-        "activateSuccess": "تم تفعيل الدورة بنجاح",
-        "deactivateSuccess": "تم تعطيل الدورة بنجاح",
-        "saveSuccess": "تم حفظ الدورة بنجاح",
-        "updateSuccess": "تم تعديل الدورة بنجاح",
-        "deleteSuccess": "تم حذف الدورة بنجاح"
-    },
-    "rooms": {
-        "title": "بيانات الحلقة",
-        "name": "الاسم",
-        "capacity": "عدد الطلاب",
-        "list": {
-            "title": "الحلقات",
-            "name": "الاسم",
-            "capacity": "عدد الطلاب"
-        },
-        "saveSuccess": "تم حفظ الحلقة بنجاح",
-        "updateSuccess": "تم تعديل الحلقة بنجاح",
-        "activateSuccess": "تم تفعيل الحلقة بنجاح",
-        "deactivateSuccess": "تم تعطيل الحلقة بنجاح",
-        "deleteSuccess": "تم حذف الحلقة بنجاح"
     }
-}

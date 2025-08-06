@@ -30,4 +30,11 @@ export class GridColumn {
 
     customTemplate?: TemplateRef<any>;
     mapper?: (value: any) => string;
+    
+    // Badge configuration
+    badgeConfig?: {
+        getValue: (item: any) => string;
+        getColor: (item: any) => string;
+        getClass?: (item: any) => string;
+    };
 }

@@ -1,4 +1,4 @@
-<card-container [title]="'rooms.list.title' | translate" [addBtn]="true" (onAdd)="showDialog = true">
+<card-container [title]="'rooms.all' | translate" [addBtn]="true" (onAdd)="showDialog = true">
     <grid [pagedRows]="rooms" (onLazyLoad)="loadRooms($event)" 
           [columns]="columns" [pageSize]="10" [paginator]="true" [showFilters]="true"
           [allowEdit]="true" (onEdit)="onEdit($event)" 

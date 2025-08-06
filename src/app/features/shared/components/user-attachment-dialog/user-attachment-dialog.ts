@@ -8,10 +8,11 @@ import { InputLabel } from "../input-label/input-label";
 import { FileUpload, FileUploadModule } from 'primeng/fileupload';
 import { CommonModule } from '@angular/common';
 import { UserAttachment } from '../../../../core/models/user-attachment.model';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'user-attachment-dialog',
-  imports: [DialogModule, ReactiveFormsModule, SaveBtn, CancelBtn, InputLabel, FileUploadModule, InputLabel, CommonModule],
+  imports: [DialogModule, ReactiveFormsModule, SaveBtn, CancelBtn, InputLabel, FileUploadModule, InputLabel, CommonModule, TranslateModule],
   templateUrl: './user-attachment-dialog.html',
   styleUrl: './user-attachment-dialog.scss',
   providers: [

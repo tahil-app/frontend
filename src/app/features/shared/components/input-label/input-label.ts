@@ -59,16 +59,16 @@ export class InputLabel implements ControlValueAccessor{
 
   getErrorMessage() {
     if (this.formControl.errors?.['required']) {
-      return `${this.label} ${this.translate.instant('shared.required')}`;
+      return `${this.translate.instant('shared.validation.required', { field: this.label })}`;
     }
 
     if (this.formControl.errors?.['minlength']) {
       const length = this.formControl.errors?.['minlength'].requiredLength;
-      return `${this.label} ${this.translate.instant('shared.minLength', { length })}`;
+      return `${this.translate.instant('shared.validation.minLength', { field: this.label, length })}`;
     }
 
     if (this.formControl.errors?.['email']) {
-      return `${this.label} ${this.translate.instant('shared.emailInvalid')}`;
+      return `${this.translate.instant('shared.validation.emailInvalid', { field: this.label })}`;
     }
 
     return '';

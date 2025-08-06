@@ -92,4 +92,20 @@ export class AuthService {
       this.currentUserSubject.next(user);
     }
   }
+
+  get isAdmin(): boolean {
+    return this.hasRole(UserRoleEnum.Admin);
+  }
+
+  get isEmployee(): boolean {
+    return this.hasRole(UserRoleEnum.Employee);
+  }
+
+  get isTeacher(): boolean {
+    return this.hasRole(UserRoleEnum.Teacher);
+  }
+
+  get isStudent(): boolean {
+    return this.hasRole(UserRoleEnum.Student);
+  }
 }

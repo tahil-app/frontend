@@ -1,0 +1,156 @@
+<div class="group-profile-container">
+  <div class="row">
+
+    <!-- Group Information Section - Right Side -->
+    <div class="col-md-4">
+      <div class="student-personals-grp">
+        <div class="card">
+          <div class="card-body pt-2">
+            <div class="heading-detail d-flex justify-content-between align-items-center">
+              <h4 class="mb-2 mt-2">{{ 'groups.profile.groupData' | translate }}</h4>
+
+              <div class="form-group students-up-files mb-1" *ngIf="canEdit()">
+                <button [pTooltip]="'shared.buttons.edit' | translate" tooltipPosition="top" class="btn p-0 grid-btn"
+                    (click)="onEditGroup()">
+                    <i class="fa fa-edit text-secondary"></i>
+                </button>
+            </div>
+            </div>
+
+            <hr class="mt-2 heading-line" />
+
+            <div class="personal-activity">
+              <div class="personal-icons">
+                <i class="fas fa-solid fa-users"></i>
+              </div>
+              <div class="views-personal">
+                <h4>{{ 'shared.fields.name' | translate }}</h4>
+                <h5>{{ group.name || 'N/A' }}</h5>
+              </div>
+            </div>
+
+            <div class="personal-activity">
+              <div class="personal-icons">
+                <i class="fas fa-solid fa-book"></i>
+              </div>
+              <div class="views-personal">
+                <h4>{{ 'courses.one' | translate }}</h4>
+                <h5>{{ group.course?.name || 'N/A' }}</h5>
+              </div>
+            </div>
+
+            <div class="personal-activity">
+              <div class="personal-icons">
+                <i class="fas fa-solid fa-chalkboard-teacher"></i>
+              </div>
+              <div class="views-personal">
+                <h4>{{ 'teachers.one' | translate }}</h4>
+                <h5>
+                  <span *ngIf="group.teacher?.name" class="clickable-text" (click)="onTeacherClick()">
+                    {{ group.teacher?.name }}
+                  </span>
+                  <span *ngIf="!group.teacher?.name">N/A</span>
+                </h5>
+              </div>
+            </div>
+
+            <div class="personal-activity">
+              <div class="personal-icons">
+                <i class="fas fa-solid fa-user-graduate"></i>
+              </div>
+              <div class="views-personal">
+                <h4>{{ 'shared.fields.numberOfCurrentStudents' | translate }}</h4>
+                <h5>{{ group.numberOfStudents || 0 }}</h5>
+              </div>
+            </div>
+            
+            <div class="personal-activity">
+              <div class="personal-icons">
+                <i class="fas fa-solid fa-users-cog"></i>
+              </div>
+              <div class="views-personal">
+                <h4>{{ 'shared.fields.capacity' | translate }}</h4>
+                <h5>{{ group.capacity || 0 }}</h5>
+              </div>
+            </div>
+
+            <div class="personal-activity">
+              <div class="personal-icons">
+                <i class="fas fa-solid fa-chart-pie"></i>
+              </div>
+              <div class="views-personal">
+                <h4>{{ 'shared.fields.capacityStatus' | translate }}</h4>
+                <h5>
+                  <span class="badge badge-status" [style.background-color]="getCapacityStatusColor()">
+                    {{ getCapacityStatus() }}
+                  </span>
+                </h5>
+              </div>
+            </div>
+
+            <!-- Capacity Progress Bar -->
+            <div class="personal-activity">
+              <div class="personal-icons">
+                <i class="fas fa-solid fa-percentage"></i>
+              </div>
+              <div class="views-personal w-100">
+                <h4>{{ 'shared.fields.capacityPercentage' | translate }}</h4>
+                <h5>
+                  <div class="progress" style="height: 8px; margin-top: 5px;">
+                    <div class="progress-bar" [style.width.%]="getCapacityPercentage()"
+                      [style.background-color]="getCapacityStatusColor()">
+                    </div>
+                  </div>
+                  <small class="text-muted">{{ getCapacityPercentage() }}%</small>
+                </h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Students Section - Left Side -->
+    <div class="col-md-8">
+
+      <div class="student-personals-grp">
+        <div class="card">
+          <div class="card-body pt-2">
+            <div class="heading-detail d-flex justify-content-between align-items-center">
+              <h4 class="mb-2 mt-2">{{ 'groups.profile.studentsList' | translate }}</h4>
+            </div>
+
+            <hr class="mt-2 mb-1 heading-line" />
+
+
+            <p-table stripedRows [value]="group.students || []" *ngIf="group.students && group.students.length > 0">
+              <ng-template pTemplate="header">
+                  <tr>
+                      <th>{{ 'shared.fields.name' | translate }}</th>
+                  </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-student>
+                  <tr>
+                      <td class="py-4 clickable-text student-name" (click)="onStudentClick(student.id)">{{student.name}}</td>
+                  </tr>
+              </ng-template>
+          </p-table>
+
+          <div class="text-muted text-center" *ngIf="!group.students || group.students.length === 0">
+            {{ 'shared.table.noData' | translate }}
+          </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+
+<app-group-from [showDialog]="showDialog" 
+[group]="group"
+(onSave)="loadGroup(group.id)" 
+(onCancel)="showDialog = false" />

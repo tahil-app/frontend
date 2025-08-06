@@ -1,7 +1,8 @@
-<card-container title="المعلمون" [addBtn]="true" (onAdd)="showDialog = true">
+<card-container [title]="'teachers.all' | translate" [addBtn]="true" (onAdd)="showDialog = true">
     <grid [pagedRows]="teachers" (onLazyLoad)="loadTeachers($event)" 
           [columns]="columns" [pageSize]="10" [paginator]="true" [showFilters]="true"
           [allowEdit]="true" (onEdit)="onEdit($event)" 
+          [allowDelete]="true" (onDelete)="onDelete($event)"
           [allowActivate]="true" (onActivate)="onActivate($event)"
           [allowDeactivate]="true"  (onDeactivate)="onDeactivate($event)"
           [allowView]="true" (onView)="onView($event)"
@@ -12,3 +13,6 @@
 <app-teacher-form [showDialog]="showDialog" 
 [teacher]="teacher" (onSave)="loadTeachers(queryParams)" 
 (onCancel)="showDialog = false" />
+
+<delete-confirmation *ngIf="showDeleteDialog" [message]="'shared.dialogs.deleteConfirmation' | translate"
+(confirm)="onConfirmDelete()" (cancel)="onCancelDelete()" />

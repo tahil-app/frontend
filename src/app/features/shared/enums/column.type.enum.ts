@@ -3,4 +3,5 @@ export enum ColumnTypeEnum {
     number = 'number',
     date = 'date',
     image = 'image',
+    badge = 'badge',
 }

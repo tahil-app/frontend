@@ -1,11 +1,11 @@
-<p-dialog [header]="'rooms.title' | translate" [modal]="true" [(visible)]="showDialog" [style]="{ width: '25rem' }">
+<p-dialog [header]="'rooms.formTitle' | translate" [modal]="true" [(visible)]="showDialog" [style]="{ width: '25rem' }">
     <form [formGroup]="roomForm" (ngSubmit)="hasId() ? update() : save()">
         <div class="flex items-center gap-4 mb-2">
-            <input-label [label]="'rooms.name' | translate" [required]="true" [formControl]="getFormControl('name')" />
+            <input-label [label]="'shared.fields.name' | translate" [required]="true" [formControl]="getFormControl('name')" />
         </div>
 
         <div class="flex items-center gap-4 mb-4">
-            <input-label [label]="'rooms.capacity' | translate" [formControl]="getFormControl('capacity')" type="number" />
+            <input-label [label]="'shared.fields.capacity' | translate" [formControl]="getFormControl('capacity')" type="number" />
         </div>
 
         <div class="flex justify-end gap-2">

@@ -10,10 +10,11 @@ import { SaveBtn } from '../../../shared/buttons/save-btn/save-btn';
 import { DialogModule } from 'primeng/dialog';
 import { CommonModule } from '@angular/common';
 import { Editor } from '../../../shared/components/editor/editor';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-teacher-experience',
-  imports: [CommonModule, DialogModule, SaveBtn, CancelBtn, ReactiveFormsModule, Editor],
+  imports: [CommonModule, DialogModule, SaveBtn, CancelBtn, ReactiveFormsModule, Editor, TranslateModule],
   templateUrl: './teacher-experience.html',
   styleUrl: './teacher-experience.scss'
 })
@@ -36,6 +37,7 @@ export class TeacherExperience {
   private teacherService = inject(TeacherService);
   private toaster = inject(ToastService);
   private loader = inject(LoaderService);
+  private translate = inject(TranslateService);
   //#endregion
 
   //#region Methods
@@ -74,7 +76,7 @@ export class TeacherExperience {
           if (res) {
             this.onSave.emit();
             this.experienceForm.reset();
-            this.toaster.showSuccess('تم حفظ الخبرات بنجاح');
+            this.toaster.showSuccess(this.translate.instant('teachers.profile.experienceSaveSuccess'));
           }
         }, _ => { }, () => this.loader.hide());
     }

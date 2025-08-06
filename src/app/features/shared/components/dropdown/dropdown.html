@@ -11,8 +11,8 @@
     [loading]="isLoading"
     [options]="options" 
     [filter]="allowFilter || allowCustomFilter" 
-    [placeholder]="placeholder"
-    [emptyMessage]="noResultsMessage"
+    [placeholder]="placeholder | translate"
+    [emptyMessage]="noResultsMessage | translate"
     [disabled]="disabled"
     [formControl]="formControl"
     (onChange)="onSelectOption($event.value)"
@@ -31,7 +31,7 @@
                 class="form-control dropdown-input-search-radius"
                 type="text"
                 pInputText
-                placeholder="Type here"
+                placeholder="{{ 'shared.dropdown.typeHere' | translate }}"
             />
 
             <button class="p-inputgroup-addon dropdown-icon-search-radius" (click)="onLoad()">
@@ -47,8 +47,8 @@
     optionValue="value" 
     [options]="options" 
     [filter]="allowFilter"
-    [placeholder]="placeholder"
-    [emptyMessage]="noResultsMessage"
+    [placeholder]="placeholder | translate"
+    [emptyMessage]="noResultsMessage | translate"
     [showHeader]="options.length > 1"
     [disabled]="disabled"
     [formControl]="formControl"
@@ -71,7 +71,7 @@
                 class="form-control dropdown-input-search-radius"
                 type="text"
                 pInputText
-                placeholder="Type here"
+                placeholder="{{ 'shared.dropdown.typeHere' | translate }}"
             />
 
             <button class="p-inputgroup-addon dropdown-icon-search-radius" (click)="onLoad()">

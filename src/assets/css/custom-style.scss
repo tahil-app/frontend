@@ -134,3 +134,8 @@ label,
     color: #ababab !important;
     margin-bottom: 0.25rem !important;
 }
+
+.p-datatable-tbody > tr > td,
+.p-datatable-thead > tr > th {
+    text-wrap-mode: nowrap !important;
+}

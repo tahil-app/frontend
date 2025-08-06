@@ -36,10 +36,10 @@
                     <div class="card-body pt-2">
 
                         <div class="heading-detail d-flex justify-content-between align-items-center">
-                            <h4 class="mb-2 mt-2">بيانات المعلم</h4>
+                            <h4 class="mb-2 mt-2">{{ 'teachers.profile.teacherData' | translate }}</h4>
 
                             <div class="form-group students-up-files mb-1" *ngIf="!disablePage">
-                                <button pTooltip="تعديل" tooltipPosition="top" class="btn p-0 grid-btn"
+                                <button [pTooltip]="'shared.buttons.edit' | translate" tooltipPosition="top" class="btn p-0 grid-btn"
                                     (click)="onEditTeacher()">
                                     <i class="fa fa-edit text-secondary"></i>
                                 </button>
@@ -53,7 +53,7 @@
                                 <i class="fas fa-solid fa-user"></i>
                             </div>
                             <div class="views-personal">
-                                <h4>الاسم</h4>
+                                <h4>{{ 'shared.fields.name' | translate }}</h4>
                                 <h5>{{teacher.name}}</h5>
                             </div>
                         </div>
@@ -63,7 +63,7 @@
                                 <i class="fas fa-solid fa-phone"></i>
                             </div>
                             <div class="views-personal">
-                                <h4>الهاتف</h4>
+                                <h4>{{ 'shared.fields.phoneNumber' | translate }}</h4>
                                 <h5>{{teacher.phoneNumber}}</h5>
                             </div>
                         </div>
@@ -73,7 +73,7 @@
                                 <i class="fas fa-solid fa-envelope"></i>
                             </div>
                             <div class="views-personal">
-                                <h4>البريد الإلكتروني</h4>
+                                <h4>{{ 'shared.fields.email' | translate }}</h4>
                                 <h5><a href="mailto:{{teacher.email}}">{{teacher.email}}</a></h5>
                             </div>
                         </div>
@@ -83,7 +83,7 @@
                                 <i class="fas fa-solid fa-venus-mars"></i>
                             </div>
                             <div class="views-personal">
-                                <h4>الجنس</h4>
+                                <h4>{{ 'shared.fields.gender' | translate }}</h4>
                                 <h5 *ngIf="!disablePage">{{getGender(teacher.gender)}}</h5>
                             </div>
                         </div>
@@ -93,7 +93,7 @@
                                 <i class="fas fa-solid fa-calendar-alt"></i>
                             </div>
                             <div class="views-personal">
-                                <h4>تاريخ الانضمام</h4>
+                                <h4>{{ 'shared.fields.joinedDate' | translate }}</h4>
                                 <h5 *ngIf="!disablePage">{{teacher.joinedDate}}</h5>
                             </div>
                         </div>
@@ -103,7 +103,7 @@
                                 <i class="fas fa-solid fa-calendar-alt"></i>
                             </div>
                             <div class="views-personal">
-                                <h4>تاريخ الميلاد</h4>
+                                <h4>{{ 'shared.fields.birthDate' | translate }}</h4>
                                 <h5 *ngIf="!disablePage">{{teacher.birthDate}}</h5>
                             </div>
                         </div>
@@ -122,10 +122,10 @@
                         <p-tabs value="0" scrollable>
 
                             <p-tablist>
-                                <p-tab value="0">التعليم</p-tab>
-                                <p-tab value="1">الدورات</p-tab>
-                                <p-tab value="2">المجموعات</p-tab>
-                                <p-tab value="3">المرفقات</p-tab>
+                                <p-tab value="0">{{ 'teachers.profile.education' | translate }}</p-tab>
+                                <p-tab value="1">{{ 'courses.all' | translate }}</p-tab>
+                                <p-tab value="2">{{ 'groups.all' | translate }}</p-tab>
+                                <p-tab value="3">{{ 'shared.attachments' | translate }}</p-tab>
                             </p-tablist>
 
                             <p-tabpanels class="px-0">
@@ -135,10 +135,10 @@
                                         <div class="hello-park">
 
                                             <div class="heading-detail d-flex justify-content-between">
-                                                <h5>المؤهلات</h5>
+                                                <h5>{{ 'teachers.profile.qualifications' | translate }}</h5>
 
                                                 <div class="form-group students-up-files mb-0" *ngIf="!disablePage">
-                                                    <button pTooltip="تعديل" tooltipPosition="top"
+                                                    <button [pTooltip]="'shared.buttons.edit' | translate" tooltipPosition="top"
                                                         class="btn p-0 grid-btn" (click)="onEditQualification()">
                                                         <i class="fa fa-edit text-secondary"></i>
                                                     </button>
@@ -150,16 +150,16 @@
 
                                                 <div class="text-muted text-center"
                                                     *ngIf="teacher.qualification === null || teacher.qualification?.length === 0">
-                                                    لا يوجد مؤهلات
+                                                    {{ 'teachers.profile.noQualifications' | translate }}
                                                 </div>
 
                                                 <hr class="my-3 heading-line" />
 
                                                 <div class="heading-detail d-flex justify-content-between">
-                                                    <h5>الخبرات</h5>
+                                                    <h5>{{ 'teachers.profile.experience' | translate }}</h5>
 
                                                     <div class="form-group students-up-files mb-0" *ngIf="!disablePage">
-                                                        <button pTooltip="تعديل" tooltipPosition="top"
+                                                        <button [pTooltip]="'shared.buttons.edit' | translate" tooltipPosition="top"
                                                             class="btn p-0 grid-btn" (click)="onEditExperience()">
                                                             <i class="fa fa-edit text-secondary"></i>
                                                         </button>
@@ -169,7 +169,7 @@
                                                 <div [innerHTML]="getSafeHtml(teacher.experience)"></div>
                                                 <div class="text-muted text-center"
                                                     *ngIf="teacher.experience === null || teacher.experience?.length === 0">
-                                                    لا يوجد خبرات
+                                                    {{ 'teachers.profile.noExperience' | translate }}
                                                 </div>
 
                                             </div>
@@ -183,10 +183,10 @@
                                         <div class="hello-park">
 
                                             <div class="heading-detail d-flex justify-content-between">
-                                                <h5>الدورات</h5>
+                                                <h5>{{ 'courses.all' | translate }}</h5>
 
                                                 <div class="form-group students-up-files mb-0" *ngIf="!disablePage">
-                                                    <button pTooltip="تعديل" tooltipPosition="top"
+                                                    <button [pTooltip]="'shared.buttons.edit' | translate" tooltipPosition="top"
                                                         class="btn p-0 grid-btn" (click)="onEditCourses()">
                                                         <i class="fa fa-edit text-secondary"></i>
                                                     </button>
@@ -198,7 +198,7 @@
                                                 <p-table stripedRows [value]="teacher.courses" *ngIf="teacher.courses && teacher.courses.length > 0">
                                                     <ng-template pTemplate="header">
                                                         <tr>
-                                                            <th>اسم الدورة</th>
+                                                            <th>{{ 'courses.list.name' | translate }}</th>
                                                         </tr>
                                                     </ng-template>
                                                     <ng-template pTemplate="body" let-group>
@@ -210,7 +210,7 @@
 
                                                 <div class="text-muted text-center"
                                                     *ngIf="teacher.courses === null || teacher.courses?.length === 0">
-                                                    لا يوجد دورات
+                                                    {{ 'teachers.profile.noCourses' | translate }}
                                                 </div>
                                             </div>
 
@@ -223,10 +223,10 @@
                                         <div class="hello-park">
 
                                             <div class="heading-detail d-flex justify-content-between">
-                                                <h5>المجموعات</h5>
+                                                <h5>{{ 'groups.all' | translate }}</h5>
 
                                                 <div class="form-group students-up-files mb-0" *ngIf="!disablePage">
-                                                    <button pTooltip="تعديل" tooltipPosition="top"
+                                                    <button [pTooltip]="'shared.buttons.edit' | translate" tooltipPosition="top"
                                                         class="btn p-0 grid-btn" (click)="onEditTeacher()">
                                                         <i class="fa fa-edit text-secondary"></i>
                                                     </button>
@@ -236,7 +236,7 @@
                                             <div class="tab-section-container">
                                                 <div class="text-muted text-center"
                                                     *ngIf="teacher.attachments === null || teacher.attachments?.length === 0">
-                                                    لا يوجد مجموعات
+                                                    {{ 'teachers.profile.noGroups' | translate }}
                                                 </div>
                                             </div>
 
@@ -249,10 +249,10 @@
                                         <div class="hello-park">
 
                                             <div class="heading-detail d-flex justify-content-between">
-                                                <h5>المرفقات</h5>
+                                                <h5>{{ 'shared.attachments' | translate }}</h5>
 
                                                 <div class="form-group students-up-files mb-0" *ngIf="!disablePage">
-                                                    <button pTooltip="إضافة" tooltipPosition="top"
+                                                    <button [pTooltip]="'shared.buttons.add' | translate" tooltipPosition="top"
                                                         class="btn p-0 grid-btn" (click)="onAddUserAttachment()">
                                                         <i class="fa fa-plus text-secondary"></i>
                                                     </button>
@@ -264,7 +264,7 @@
 
                                                 <div class="text-muted text-center"
                                                     *ngIf="teacher.attachments === null || teacher.attachments?.length === 0">
-                                                    لا يوجد مرفقات
+                                                    {{ 'teachers.profile.noAttachments' | translate }}
                                                 </div>
                                             </div>
 

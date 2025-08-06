@@ -16,10 +16,13 @@ import { ColumnTypeEnum } from '../../../shared/enums/column.type.enum';
 import { ColumnFilterTypeEnum } from '../../../shared/enums/column.filter.type.enum';
 import { FilterOperators } from '../../../shared/props/query-filter-params.props';
 import { DeleteConfirmation } from '../../../shared/components/delete-confirmation/delete-confirmation';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { BadgeHelper } from '../../../shared/helpers/badge.helper';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-groups-list',
-  imports: [CommonModule, Grid, CardContainer, DialogModule, GroupFromComponent, DeleteConfirmation],
+  imports: [CommonModule, Grid, CardContainer, DialogModule, GroupFromComponent, DeleteConfirmation, TranslateModule],
   templateUrl: './groups-list.html',
   styleUrl: './groups-list.scss'
 })
@@ -29,6 +32,7 @@ export class GroupsList {
   showDialog = false;
   showDelete = false;
   deleteMessage = '';
+
   group: Group = {} as Group;
   queryParams: QueryParamsModel = {} as QueryParamsModel;
   groups: PagedList<Group> = {} as PagedList<Group>;
@@ -39,13 +43,46 @@ export class GroupsList {
   private groupService = inject(GroupService);
   private loader = inject(LoaderService);
   private toaster = inject(ToastService);
+  private translate = inject(TranslateService);
+  private router = inject(Router);
   //#endregion
 
   //#region Columns
   columns: GridColumn[] = [
-    { field: 'name', title: 'الاسم', columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
-    { field: 'capacity', title: 'الكثافة الطلابية', columnType: ColumnTypeEnum.number, sortable: true, filterType: ColumnFilterTypeEnum.number, filterOperator: FilterOperators.equal },
-    { field: 'numberOfStudents', title: 'عدد الطلاب', columnType: ColumnTypeEnum.number, sortable: true, filterType: ColumnFilterTypeEnum.number, filterOperator: FilterOperators.equal },
+    { 
+      field: 'name', 
+      title: this.translate.instant('shared.fields.name'), 
+      columnType: ColumnTypeEnum.text, 
+      sortable: true, 
+      filterType: ColumnFilterTypeEnum.text 
+    },
+    { 
+      field: 'courseName', 
+      apiField: 'course.name',
+      title: this.translate.instant('courses.one'), 
+      columnType: ColumnTypeEnum.text, 
+      sortable: true, 
+      filterType: ColumnFilterTypeEnum.text 
+    },
+    { 
+      field: 'teacherName', 
+      apiField: 'teacher.user.name',
+      title: this.translate.instant('teachers.one'), 
+      columnType: ColumnTypeEnum.text, 
+      sortable: true, 
+      filterType: ColumnFilterTypeEnum.text 
+    },
+    { 
+      field: 'numberOfStudents', 
+      title: this.translate.instant('shared.fields.numberOfCurrentStudents'), 
+      columnType: ColumnTypeEnum.number, 
+    },
+    { 
+      field: 'capacityStatus', 
+      title: this.translate.instant('shared.fields.capacityStatus'), 
+      columnType: ColumnTypeEnum.badge, 
+      badgeConfig: BadgeHelper.createCapacityBadge(this.translate, 'capacity', 'numberOfStudents')
+    },
   ];
   //#endregion
 
@@ -57,6 +94,14 @@ export class GroupsList {
 
     this.loader.show();
     this.groupService.getPaged(params).pipe(takeUntil(this.destroy$)).subscribe(groups => {
+      // Transform the data to include course and teacher names
+      if (groups.items) {
+        groups.items = groups.items.map(group => ({
+          ...group,
+          courseName: group.course?.name || 'N/A',
+          teacherName: group.teacher?.name || 'N/A'
+        }));
+      }
       this.groups = groups;
     }, _ => { }, () => this.loader.hide());
   }
@@ -66,9 +111,13 @@ export class GroupsList {
     this.showDialog = true;
   }
 
+  onView(event: Group) {
+    this.router.navigate(['/groups', event.id]);
+  }
+
   deletedGroup: Group = {} as Group;
   onDelete(event: Group) {
-    this.deleteMessage = `هل أنت متأكد من حذف المجموعة <b>${event.name}</b>؟`;
+    this.deleteMessage = this.translate.instant('shared.dialogs.deleteConfirmation');
     this.deletedGroup = event;
     this.showDelete = true;
   }
@@ -77,7 +126,7 @@ export class GroupsList {
     this.groupService.delete(this.deletedGroup.id).pipe(takeUntil(this.destroy$)).subscribe(res => {
       if (res) {
         this.showDelete = false;
-        this.toaster.showSuccess('تم حذف المجموعة بنجاح');
+        this.toaster.showSuccess(this.translate.instant('groups.deleteSuccess'));
         this.loadGroups(this.queryParams);
       }
     }, _ => { }, () => this.loader.hide());

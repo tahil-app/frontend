@@ -10,10 +10,11 @@ import { Teacher } from '../../../../core/models/teacher.model';
 import { TeacherService } from '../../../../core/services/teacher.service';
 import { ToastService } from '../../../shared/services/toast.service';
 import { LoaderService } from '../../../shared/services/loader.service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-teacher-qualification',
-  imports: [CommonModule, DialogModule, SaveBtn, CancelBtn, ReactiveFormsModule, Editor],
+  imports: [CommonModule, DialogModule, SaveBtn, CancelBtn, ReactiveFormsModule, Editor, TranslateModule],
   templateUrl: './teacher-qualification.html',
   styleUrl: './teacher-qualification.scss'
 })
@@ -36,6 +37,7 @@ export class TeacherQualification {
   private teacherService = inject(TeacherService);
   private toaster = inject(ToastService);
   private loader = inject(LoaderService);
+  private translate = inject(TranslateService);
   //#endregion
 
   //#region Methods
@@ -74,7 +76,7 @@ export class TeacherQualification {
           if (res) {
             this.onSave.emit();
             this.qualificationForm.reset();
-            this.toaster.showSuccess('تم حفظ المؤهلات بنجاح');
+            this.toaster.showSuccess(this.translate.instant('teachers.profile.qualificationsSaveSuccess'));
           }
         }, _ => { }, () => this.loader.hide());
     }

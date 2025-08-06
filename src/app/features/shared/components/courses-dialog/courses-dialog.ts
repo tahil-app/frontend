@@ -10,6 +10,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { CourseService } from '../../../../core/services/course.service';
 import { LoaderService } from '../../services/loader.service';
 import { Course } from '../../../../core/models/course.model';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'courses-dialog',
@@ -20,6 +21,7 @@ import { Course } from '../../../../core/models/course.model';
     Dropdown,
     SaveBtn,
     CancelBtn,
+    TranslateModule,
   ],
   templateUrl: './courses-dialog.html',
   styleUrl: './courses-dialog.scss'

@@ -3,8 +3,8 @@
     <span *ngIf="required" class="text-danger">*</span>
 </label>
 
-<p-datepicker [(ngModel)]="innerValue" (onSelect)="onInputChange($event)" class="w-100"
-    [readonlyInput]="true" [iconDisplay]="'input'" [showIcon]="true" [placeholder]="placeholder" [timeOnly]="true" [hourFormat]="'12'" [appendTo]="'body'" >
+<p-datepicker [(ngModel)]="innerValue" (onSelect)="onInputChange($event)" (onClear)="onClear()" class="w-100"
+    [readonlyInput]="true" [iconDisplay]="'input'" [showIcon]="true" [placeholder]="placeholder | translate" [timeOnly]="true" [hourFormat]="'12'" [appendTo]="'body'" >
 
     <ng-template #inputicon let-clickCallBack="clickCallBack">
         <i class="pi pi-clock" (click)="clickCallBack($event)"></i>

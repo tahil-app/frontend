@@ -16,10 +16,12 @@ import { DialogModule } from 'primeng/dialog';
 import { TeacherFormComponent } from '../teacher-form/teacher-form';
 import { FilterOperators } from '../../../shared/props/query-filter-params.props';
 import { Router } from '@angular/router';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { DeleteConfirmation } from '../../../shared/components/delete-confirmation/delete-confirmation';
 
 @Component({
   selector: 'app-teachers-list',
-  imports: [CommonModule, Grid, CardContainer, DialogModule, TeacherFormComponent],
+  imports: [CommonModule, Grid, CardContainer, DialogModule, TeacherFormComponent, TranslateModule, DeleteConfirmation],
   templateUrl: './teachers-list.html',
   styleUrl: './teachers-list.scss'
 })
@@ -27,7 +29,9 @@ export class TeachersList {
 
   //#region Properties
   showDialog = false;
+  showDeleteDialog = false;
   teacher: Teacher = {} as Teacher;
+  teacherToDelete: Teacher = {} as Teacher;
   queryParams: QueryParamsModel = {} as QueryParamsModel;
   teachers: PagedList<Teacher> = {} as PagedList<Teacher>;
   destroy$ = new Subject<void>();
@@ -38,14 +42,15 @@ export class TeachersList {
   private loader = inject(LoaderService);
   private toaster = inject(ToastService);
   private router = inject(Router);
+  private translate = inject(TranslateService);
   //#endregion
 
   //#region Columns
   columns: GridColumn[] = [
-    { field: 'name', apiField:'User.Name', title: 'الاسم', columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
-    { field: 'phoneNumber', apiField:'User.PhoneNumber', title: 'رقم الهاتف', columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
-    { field: 'email', apiField:'User.Email.Value', title: 'البريد الإلكتروني', columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
-    { field: 'joinedDate', apiField:'User.JoinedDate', title: 'تاريخ الانضمام', columnType: ColumnTypeEnum.date, sortable: true, filterType: ColumnFilterTypeEnum.date, filterOperator: FilterOperators.equal },
+    { field: 'name', apiField:'User.Name', title: this.translate.instant('shared.fields.name'), columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
+    { field: 'phoneNumber', apiField:'User.PhoneNumber', title: this.translate.instant('shared.fields.phoneNumber'), columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
+    { field: 'email', apiField:'User.Email.Value', title: this.translate.instant('shared.fields.email'), columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
+    { field: 'joinedDate', apiField:'User.JoinedDate', title: this.translate.instant('shared.fields.joinedDate'), columnType: ColumnTypeEnum.date, sortable: true, filterType: ColumnFilterTypeEnum.date, filterOperator: FilterOperators.equal },
   ];
   //#endregion
 
@@ -72,7 +77,7 @@ export class TeachersList {
       .subscribe(res => {
         if (res) {
           this.loadTeachers(this.queryParams);
-          this.toaster.showSuccess('تم تفعيل المعلم بنجاح');
+          this.toaster.showSuccess(this.translate.instant('teachers.activateSuccess'));
         }
       }, _ => { }, () => this.loader.hide());
   }
@@ -83,13 +88,39 @@ export class TeachersList {
       .subscribe(res => {
         if (res) {
           this.loadTeachers(this.queryParams);
-          this.toaster.showSuccess('تم تعطيل المعلم بنجاح');
+          this.toaster.showSuccess(this.translate.instant('teachers.deactivateSuccess'));
         }
       }, _ => { }, () => this.loader.hide());
   }
 
   onView(event: Teacher) {
     this.router.navigate(['/teachers', event.id]);
+  }
+
+  onDelete(event: Teacher) {
+    this.teacherToDelete = event;
+    this.showDeleteDialog = true;
+  }
+
+  onConfirmDelete() {
+    this.loader.show();
+    
+    this.teacherService.delete(this.teacherToDelete.id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(res => {
+        if (res) {
+          this.loadTeachers(this.queryParams);
+          this.toaster.showSuccess(this.translate.instant('teachers.deleteSuccess'));
+        }
+      }, _ => { }, () => this.loader.hide());
+    
+    this.showDeleteDialog = false;
+    this.teacherToDelete = {} as Teacher;
+  }
+
+  onCancelDelete() {
+    this.showDeleteDialog = false;
+    this.teacherToDelete = {} as Teacher;
   }
 
   ngOnDestroy() {
