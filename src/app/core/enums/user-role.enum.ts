@@ -1,4 +1,5 @@
 export enum UserRoleEnum {
+  None,
   Admin,
   Employee,
   Teacher,

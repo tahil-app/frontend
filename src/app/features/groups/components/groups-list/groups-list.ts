@@ -14,12 +14,11 @@ import { ToastService } from '../../../shared/services/toast.service';
 import { GridColumn } from '../../../shared/props/grid-column.props';
 import { ColumnTypeEnum } from '../../../shared/enums/column.type.enum';
 import { ColumnFilterTypeEnum } from '../../../shared/enums/column.filter.type.enum';
-import { FilterOperators } from '../../../shared/props/query-filter-params.props';
 import { DeleteConfirmation } from '../../../shared/components/delete-confirmation/delete-confirmation';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { BadgeHelper } from '../../../shared/helpers/badge.helper';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../../core/services/auth.service';
+import { PermissionAccessService } from '../../../../core/services/permission-access.service';
 
 @Component({
   selector: 'app-groups-list',
@@ -46,13 +45,10 @@ export class GroupsList {
   private toaster = inject(ToastService);
   private translate = inject(TranslateService);
   private router = inject(Router);
-  private authService = inject(AuthService);
+  public permissionAccess = inject(PermissionAccessService);
   //#endregion
 
   //#region Columns
-  isAdmin = this.authService.isAdmin;
-  isAdminOrEmployee = this.authService.isAdmin || this.authService.isEmployee;
-
   columns: GridColumn[] = [
     { 
       field: 'name', 
@@ -69,7 +65,7 @@ export class GroupsList {
       sortable: true, 
       filterType: ColumnFilterTypeEnum.text 
     },
-    ...(this.isAdminOrEmployee ? [{ 
+    ...(this.permissionAccess.canViewPagedAdminColumns.group ? [{ 
       field: 'teacherName', 
       apiField: 'teacher.user.name',
       title: this.translate.instant('teachers.one'), 
@@ -82,7 +78,7 @@ export class GroupsList {
       title: this.translate.instant('shared.fields.numberOfCurrentStudents'), 
       columnType: ColumnTypeEnum.number, 
     },
-    ...(this.isAdminOrEmployee ? [{ 
+    ...(this.permissionAccess.canViewPagedAdminColumns.group ? [{ 
       field: 'capacityStatus', 
       title: this.translate.instant('shared.fields.capacityStatus'), 
       columnType: ColumnTypeEnum.badge, 

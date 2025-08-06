@@ -16,8 +16,6 @@ import { CourseService } from '../../../../core/services/course.service';
 import { TeacherService } from '../../../../core/services/teacher.service';
 import { Dropdown } from '../../../shared/components/dropdown/dropdown';
 import { DropdownProps, getDropdownOptions } from '../../../shared/props/dropdown.props';
-import { Course } from '../../../../core/models/course.model';
-import { Teacher } from '../../../../core/models/teacher.model';
 
 @Component({
   selector: 'app-group-from',

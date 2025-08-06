@@ -12,7 +12,7 @@ import { BadgeHelper } from '../../../shared/helpers/badge.helper';
 import { GroupService } from '../../../../core/services/group.service';
 import { TooltipModule } from 'primeng/tooltip';
 import { GroupFromComponent } from '../group-from/group-from';
-import { AuthService } from '../../../../core/services/auth.service';
+import { PermissionAccessService } from '../../../../core/services/permission-access.service';
 
 @Component({
   selector: 'app-group-profile',
@@ -36,11 +36,10 @@ export class GroupProfile implements OnInit {
   private toaster = inject(ToastService);
   private translate = inject(TranslateService);
   private badgeHelper = BadgeHelper.createCapacityBadge(this.translate);
-  private authService = inject(AuthService);
+  public permissionAccess = inject(PermissionAccessService);
   //#endregion
 
   //#region Methods
-  isAdminOrEmployee = this.authService.isAdmin || this.authService.isEmployee;
 
   ngOnInit() {
     const groupId = Number(this.route.snapshot.paramMap.get('id'));
