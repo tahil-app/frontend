@@ -1,7 +1,7 @@
 <p-dialog [header]="'students.all' | translate" [modal]="true" [(visible)]="showDialog" [style]="{ width: '30rem' }">
     <form [formGroup]="studentsForm" (ngSubmit)="save()">
 
-        <dropdown [label]="'students.all' | translate" [allowFilter]="true" [multi]="true" [options]="studentsOptions" [formControl]="getFormControl('students')" />
+        <dropdown [label]="'shared.fields.name' | translate" [allowFilter]="true" [multi]="true" [options]="studentsOptions" [formControl]="getFormControl('students')" />
 
         <div class="flex justify-end gap-2 mt-4">
             <save-btn type="submit" [disabled]="!studentsForm.valid" />

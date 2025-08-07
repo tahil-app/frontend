@@ -1,8 +1,7 @@
 <card-container [title]="'groups.all' | translate" [addBtn]="permissionAccess.canAdd.group" (onAdd)="showDialog = true">
     <grid [pagedRows]="groups" (onLazyLoad)="loadGroups($event)" 
           [columns]="columns" [pageSize]="10" [paginator]="true" [showFilters]="true"
-          [allowEdit]="permissionAccess.canEdit.group" (onEdit)="onEdit($event)"
-          [allowView]="true" (onView)="onView($event)"
+          [allowView]="permissionAccess.canView.groupProfile" (onView)="onView($event)"
           [allowDelete]="permissionAccess.canDelete.group" (onDelete)="onDelete($event)" />
 </card-container>
 
@@ -11,7 +10,7 @@
 [group]="group"
 (onSave)="loadGroups(queryParams)" 
 (onCancel)="showDialog = false"
-*ngIf="permissionAccess.canEdit.group"
+*ngIf="permissionAccess.canAdd.group || permissionAccess.canEdit.group"
 />
 
 <delete-confirmation *ngIf="showDelete && permissionAccess.canDelete.group" [message]="'shared.dialogs.deleteConfirmation' | translate" (confirm)="onDeleteConfirm()" (cancel)="onDeleteCancel()" />

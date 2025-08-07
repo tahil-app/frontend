@@ -25,6 +25,7 @@ export class ApiEndpoints {
             Paged: `paged`,
             Activate: (id: string | number) => `activate/${id}`,
             Deactivate: (id: string | number) => `deactivate/${id}`,
+            UpdateTeachers: (id: string | number) => `update-teachers/${id}`,
         }
     };
 

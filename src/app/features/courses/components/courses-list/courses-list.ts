@@ -16,6 +16,8 @@ import { ToastService } from '../../../shared/services/toast.service';
 import { CourseForm } from '../course-form/course-form';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { DeleteConfirmation } from '../../../shared/components/delete-confirmation/delete-confirmation';
+import { PermissionAccessService } from '../../../../core/services/permission-access.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-courses-list',
@@ -40,12 +42,15 @@ export class CoursesList {
   private loader = inject(LoaderService);
   private toaster = inject(ToastService);
   private translate = inject(TranslateService);
+  private router = inject(Router);
+  public permissionAccess = inject(PermissionAccessService);
   //#endregion
 
   //#region Columns
   columns: GridColumn[] = [
     { field: 'name', title: this.translate.instant('shared.fields.name'), columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
     { field: 'description', title: this.translate.instant('shared.fields.description'), columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
+    { field: 'numberOfTeachers', title: this.translate.instant('shared.fields.numberOfTeachers'), columnType: ColumnTypeEnum.number },
   ];
   //#endregion
 
@@ -113,6 +118,10 @@ export class CoursesList {
   onCancelDelete() {
     this.showDeleteDialog = false;
     this.courseToDelete = {} as Course;
+  }
+
+  onView(event: Course) {
+    this.router.navigate(['/courses', event.id]);
   }
 
   ngOnDestroy() {

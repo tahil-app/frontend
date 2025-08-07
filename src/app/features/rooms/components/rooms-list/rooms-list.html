@@ -10,9 +10,10 @@
 
 
 <app-room-form [showDialog]="showDialog" 
+*ngIf="permissionAccess.canAdd.room || permissionAccess.canEdit.room"
 [room]="room"
 (onSave)="loadRooms(queryParams)" 
 (onCancel)="showDialog = false" />
 
-<delete-confirmation *ngIf="showDeleteDialog" [message]="'shared.dialogs.deleteConfirmation' | translate"
+<delete-confirmation *ngIf="showDeleteDialog && permissionAccess.canDelete.room" [message]="'shared.dialogs.deleteConfirmation' | translate"
 (confirm)="onConfirmDelete()" (cancel)="onCancelDelete()" />

@@ -1,0 +1,104 @@
+<div class="course-profile-container">
+  <div class="row">
+
+    <!-- Course Information Section - Right Side -->
+    <div class="col-md-4">
+      <div class="student-personals-grp">
+        <div class="card">
+          <div class="card-body pt-2">
+            <div class="heading-detail d-flex justify-content-between align-items-center">
+              <h4 class="mb-2 mt-2">{{ 'courses.profile.courseData' | translate }}</h4>
+
+              <div class="form-group students-up-files mb-1" *ngIf="permissionAccess.canEdit.course">
+                <button [pTooltip]="'shared.buttons.edit' | translate" tooltipPosition="top" class="btn p-0 grid-btn"
+                  (click)="onEditCourse()">
+                  <i class="fa fa-edit text-secondary"></i>
+                </button>
+              </div>
+            </div>
+
+            <hr class="mt-2 heading-line" />
+
+            <div class="personal-activity">
+              <div class="personal-icons">
+                <i class="fas fa-solid fa-book"></i>
+              </div>
+              <div class="views-personal">
+                <h4>{{ 'shared.fields.name' | translate }}</h4>
+                <h5>{{ course.name }}</h5>
+              </div>
+            </div>
+
+            <div class="personal-activity" *ngIf="course.description">
+              <div class="personal-icons">
+                <i class="fas fa-solid fa-align-left"></i>
+              </div>
+              <div class="views-personal">
+                <h4>{{ 'shared.fields.description' | translate }}</h4>
+                <h5>{{ course.description }}</h5>
+              </div>
+            </div>
+
+            <div class="personal-activity">
+              <div class="personal-icons">
+                <i class="fas fa-solid fa-chalkboard-teacher"></i>
+              </div>
+              <div class="views-personal">
+                <h4>{{ 'shared.fields.numberOfTeachers' | translate }}</h4>
+                <h5>{{ course.numberOfTeachers || 0 }}</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Teachers Section - Left Side -->
+    <div class="col-md-8">
+      <div class="student-personals-grp">
+        <div class="card">
+          <div class="card-body pt-2">
+            <div class="heading-detail d-flex justify-content-between align-items-center">
+              <h4 class="mb-2 mt-2">{{ 'teachers.all' | translate }}</h4>
+
+              <div class="form-group students-up-files mb-1" *ngIf="permissionAccess.canEdit.course">
+                <edit-icon-button [pTooltip]="'shared.buttons.add' | translate" tooltipPosition="top" class="btn p-0 grid-btn"
+                  (onClick)="onAddTeacher()" />
+              </div>
+            </div>
+
+            <hr class="mt-2 mb-1 heading-line" />
+
+            <p-table stripedRows [value]="course.teachers || []" *ngIf="course.teachers && course.teachers.length > 0">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>{{ 'shared.fields.name' | translate }}</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-teacher>
+                <tr>
+                  <td class="py-4 clickable-text student-name" (click)="onTeacherClick(teacher.id)">
+                    {{ teacher.name }}
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+
+            <div class="text-muted text-center" *ngIf="!course.teachers || course.teachers.length === 0">
+              <p>{{ 'shared.grid.noData' | translate }}</p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<app-course-form [showDialog]="showDialog" [course]="course" (onSave)="loadCourse(course.id)" (onCancel)="showDialog = false"
+  *ngIf="permissionAccess.canEdit.course" /> 
+
+
+<teachers-dialog [showDialog]="showTeachersDialog" [selectedTeachers]="course.teachers" (onSave)="onSaveTeachers($event)"
+  (onCancel)="showTeachersDialog = false" />

@@ -78,7 +78,9 @@
             "numberOfStudents": "Number of Students",
             "numberOfCurrentStudents": "Number of Current Students",
             "capacityStatus": "Capacity Status",
-            "capacityPercentage": "Capacity Percentage"
+            "capacityPercentage": "Capacity Percentage",
+            "numberOfTeachers": "Number of Teachers",
+            "status": "Status"
         },
         "validation": {
             "passwordMismatch": "Password and confirm password do not match",
@@ -121,7 +123,8 @@
             "of": "of",
             "entries": "entries",
             "noData": "No data available"
-        }
+        },
+        "comingSoon": "More details coming soon..."
     },
     "courses": {
         "all": "Courses",
@@ -132,8 +135,17 @@
         "saveSuccess": "Course saved successfully",
         "updateSuccess": "Course updated successfully",
         "deleteSuccess": "Course deleted successfully",
+        "notFound": "Course not found",
         "list": {
             "name": "Course Name"
+        },
+        "profile": {
+            "courseData": "Course Data",
+            "courseDetails": "Course Details",
+            "noTeachers": "No teachers found",
+            "noGroups": "No groups found",
+            "teachersInfo": "This course has {{count}} teacher(s)",
+            "teachersComingSoon": "Detailed teacher list will be available soon"
         }
     },
     "rooms": {

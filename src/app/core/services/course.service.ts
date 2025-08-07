@@ -4,6 +4,7 @@ import { Course } from '../models/course.model';
 import { ApiService } from './api.service';
 import { ApiEndpoints } from '../consts/api-endpoints';
 import { Observable } from 'rxjs';
+import { Teacher } from '../models/teacher.model';
 
 @Injectable({
   providedIn: 'root',
@@ -23,4 +24,7 @@ export class CourseService extends ApiService<Course> {
     return this.httpClient.put<boolean>(this.appURLGenerator.getEndPoint(ApiEndpoints.COURSES.Actions.Deactivate(id)), {});
   }
 
+  updateTeachers(id: number, teachers: number[]): Observable<boolean> {
+    return this.httpClient.put<boolean>(this.appURLGenerator.getEndPoint(ApiEndpoints.COURSES.Actions.UpdateTeachers(id)), teachers);
+  }
 }

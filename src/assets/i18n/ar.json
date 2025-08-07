@@ -77,8 +77,10 @@
                 "capacity": "الكثافة الطلابية",
                 "numberOfStudents": "عدد الطلاب",
                 "numberOfCurrentStudents": "عدد الطلاب الحالي",
+                "numberOfTeachers": "عدد المعلمين",
                 "capacityStatus": "حالة الكثافة",
-                "capacityPercentage": "نسبة الكثافة"
+                "capacityPercentage": "نسبة الكثافة",
+                "status": "الحالة"
             },
             "validation": {
                 "passwordMismatch": "كلمة المرور وتأكيد كلمة المرور غير متطابقتين",
@@ -121,7 +123,8 @@
                 "of": "من",
                 "entries": "عنصر",
                 "noData": "لا توجد بيانات"
-            }
+            },
+            "comingSoon": "المزيد من التفاصيل قريباً..."
         },
         "courses": {
             "all": "الدورات",
@@ -132,8 +135,17 @@
             "saveSuccess": "تم حفظ الدورة بنجاح",
             "updateSuccess": "تم تعديل الدورة بنجاح",
             "deleteSuccess": "تم حذف الدورة بنجاح",
+            "notFound": "الدورة غير موجودة",
             "list": {
                 "name": "اسم الدورة"
+            },
+            "profile": {
+                "courseData": "بيانات الدورة",
+                "courseDetails": "تفاصيل الدورة",
+                "noTeachers": "لا يوجد معلمون",
+                "noGroups": "لا يوجد مجموعات",
+                "teachersInfo": "هذه الدورة تحتوي على {{count}} معلم",
+                "teachersComingSoon": "قائمة المعلمين التفصيلية ستكون متاحة قريباً"
             }
         },
         "rooms": {

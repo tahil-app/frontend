@@ -1,13 +1,16 @@
-<card-container [title]="'courses.all' | translate" [addBtn]="true" (onAdd)="showDialog = true">
+<card-container [title]="'courses.all' | translate" [addBtn]="permissionAccess.canAdd.course" (onAdd)="showDialog = true">
     <grid [pagedRows]="courses" (onLazyLoad)="loadCourses($event)" [columns]="columns" [pageSize]="10"
-        [paginator]="true" [showFilters]="true" [allowEdit]="true" (onEdit)="onEdit($event)" [allowDelete]="true"
-        (onDelete)="onDelete($event)" [allowActivate]="true" (onActivate)="onActivate($event)" [allowDeactivate]="true"
-        (onDeactivate)="onDeactivate($event)" [hasIsActive]="true" />
+        [paginator]="true" [showFilters]="true" 
+        [allowDelete]="permissionAccess.canDelete.course" (onDelete)="onDelete($event)" 
+        [allowActivate]="permissionAccess.canActivate.course" (onActivate)="onActivate($event)" 
+        [allowDeactivate]="permissionAccess.canDeactivate.course" (onDeactivate)="onDeactivate($event)" 
+        [allowView]="permissionAccess.canView.courseProfile" (onView)="onView($event)"
+        [hasIsActive]="true" />
 </card-container>
 
 
 <app-course-form [showDialog]="showDialog" [course]="course" (onSave)="loadCourses(queryParams)"
-    (onCancel)="showDialog = false" />
+    (onCancel)="showDialog = false" *ngIf="permissionAccess.canAdd.course || permissionAccess.canEdit.course"/>
 
-<delete-confirmation *ngIf="showDeleteDialog" [message]="'shared.dialogs.deleteConfirmation' | translate"
+<delete-confirmation *ngIf="showDeleteDialog && permissionAccess.canDelete.course" [message]="'shared.dialogs.deleteConfirmation' | translate"
     (confirm)="onConfirmDelete()" (cancel)="onCancelDelete()" />

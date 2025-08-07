@@ -22,6 +22,7 @@ export class PermissionAccessService {
         return {
             groupProfile: this.authService.isAdmin || this.authService.isEmployee || this.authService.isTeacher,
             studentProfile: this.authService.isAdmin || this.authService.isEmployee || this.authService.isTeacher || this.authService.isStudent,
+            courseProfile: this.authService.isAdmin || this.authService.isEmployee,
         };
     }
 
@@ -64,12 +65,14 @@ export class PermissionAccessService {
     get canActivate() {
         return {
             room: this.authService.isAdmin,
+            course: this.authService.isAdmin,
         };
     }
 
     get canDeactivate() {
         return {
             room: this.authService.isAdmin,
+            course: this.authService.isAdmin,
         };
     }
 
