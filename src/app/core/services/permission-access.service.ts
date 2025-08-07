@@ -20,8 +20,8 @@ export class PermissionAccessService {
 
     get canView() {
         return {
-            group: this.authService.isAdmin || this.authService.isEmployee || this.authService.isTeacher,
-            student: this.authService.isAdmin || this.authService.isEmployee || this.authService.isTeacher || this.authService.isStudent,
+            groupProfile: this.authService.isAdmin || this.authService.isEmployee || this.authService.isTeacher,
+            studentProfile: this.authService.isAdmin || this.authService.isEmployee || this.authService.isTeacher || this.authService.isStudent,
         };
     }
 
@@ -58,6 +58,18 @@ export class PermissionAccessService {
             teacher: this.authService.isAdmin,
             room: this.authService.isAdmin,
             course: this.authService.isAdmin,
+        };
+    }
+
+    get canActivate() {
+        return {
+            room: this.authService.isAdmin,
+        };
+    }
+
+    get canDeactivate() {
+        return {
+            room: this.authService.isAdmin,
         };
     }
 

@@ -17,6 +17,7 @@ import { RoomFormComponent } from '../room-form/room-form';
 import { FilterOperators } from '../../../shared/props/query-filter-params.props';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { DeleteConfirmation } from '../../../shared/components/delete-confirmation/delete-confirmation';
+import { PermissionAccessService } from '../../../../core/services/permission-access.service';
 
 @Component({
   selector: 'app-rooms-list',
@@ -41,6 +42,7 @@ export class RoomsList {
   private loader = inject(LoaderService);
   private toaster = inject(ToastService);
   private translate = inject(TranslateService);
+  public permissionAccess = inject(PermissionAccessService);
   //#endregion
 
   //#region Columns

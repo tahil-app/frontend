@@ -18,9 +18,9 @@ import { DateHelper } from '../../../../core/helpers/date.helper';
 import { GenderEnum } from '../../../../core/enums/gender.enum';
 import { GenderHelper } from '../../../../core/helpers/gender.helper';
 import { UserAttachment } from '../../../../core/models/user-attachment.model';
-import { GroupsDialog } from '../../../shared/components/groups-dialog/groups-dialog';
 import { Group } from '../../../../core/models/group.model';
 import { TableModule } from 'primeng/table';
+import { GroupsDialog } from '../../../shared/dialogs/groups-dialog/groups-dialog';
 
 @Component({
   selector: 'app-student-profile',

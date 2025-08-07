@@ -20,9 +20,9 @@ import { UserAttachment } from '../../../../core/models/user-attachment.model';
 import { TeacherAttachmentComponent } from '../teacher-attachment/teacher-attachment';
 import { ToastService } from '../../../shared/services/toast.service';
 import { TableModule } from 'primeng/table';
-import { CoursesDialog } from '../../../shared/components/courses-dialog/courses-dialog';
 import { Course } from '../../../../core/models/course.model';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { CoursesDialog } from '../../../shared/dialogs/courses-dialog/courses-dialog';
 
 @Component({
   selector: 'app-teacher-profile',

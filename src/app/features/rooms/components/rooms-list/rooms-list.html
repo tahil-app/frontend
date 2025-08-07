@@ -1,10 +1,10 @@
-<card-container [title]="'rooms.all' | translate" [addBtn]="true" (onAdd)="showDialog = true">
+<card-container [title]="'rooms.all' | translate" [addBtn]="permissionAccess.canAdd.room" (onAdd)="showDialog = true">
     <grid [pagedRows]="rooms" (onLazyLoad)="loadRooms($event)" 
           [columns]="columns" [pageSize]="10" [paginator]="true" [showFilters]="true"
-          [allowEdit]="true" (onEdit)="onEdit($event)" 
-          [allowDelete]="true" (onDelete)="onDelete($event)"
-          [allowActivate]="true" (onActivate)="onActivate($event)"
-          [allowDeactivate]="true"  (onDeactivate)="onDeactivate($event)"
+          [allowEdit]="permissionAccess.canEdit.room" (onEdit)="onEdit($event)" 
+          [allowDelete]="permissionAccess.canDelete.room" (onDelete)="onDelete($event)"
+          [allowActivate]="permissionAccess.canActivate.room" (onActivate)="onActivate($event)"
+          [allowDeactivate]="permissionAccess.canDeactivate.room"  (onDeactivate)="onDeactivate($event)"
           [hasIsActive]="true" />
 </card-container>
 

@@ -184,6 +184,7 @@
                 "studentsList": "قائمة الطلاب",
                 "groupNotFoundMessage": "المجموعة المطلوبة غير موجودة"
             },
+            "studentsUpdated": "تم تحديث الطلاب بنجاح",
             "notFound": "المجموعة غير موجودة"
         },
         "students": {

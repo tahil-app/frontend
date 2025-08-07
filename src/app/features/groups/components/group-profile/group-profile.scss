@@ -7,7 +7,7 @@
       box-shadow: none;
     }
 
-    .views-personal h5{
+    .views-personal h5 {
       font-size: 1rem;
       margin-top: 0.5rem;
       font-weight: 500;
@@ -32,7 +32,7 @@
 .progress {
   background-color: #e9ecef;
   border-radius: 0.375rem;
-  
+
   .progress-bar {
     border-radius: 0.375rem;
     transition: width 0.3s ease;
@@ -42,18 +42,18 @@
 ::ng-deep .p-tabview {
   .p-tabview-nav {
     border-bottom: 1px solid #dee2e6;
-    
+
     .p-tabview-nav-link {
       border: none;
       background: transparent;
       color: #6c757d;
       padding: 0.75rem 1rem;
-      
+
       &:hover {
         background: #f8f9fa;
         color: #495057;
       }
-      
+
       &.p-highlight {
         color: #007bff;
         border-bottom: 2px solid #007bff;
@@ -61,7 +61,7 @@
       }
     }
   }
-  
+
   .p-tabview-panels {
     padding: 1rem 0;
   }
@@ -70,7 +70,7 @@
 .clickable-text {
   color: #007bff;
   cursor: pointer;
-  
+
   &:hover {
     font-weight: 600;
   }
@@ -78,4 +78,8 @@
 
 .student-name {
   padding: 0.5rem !important;
+}
+
+::ng-deep .p-datatable-tbody>tr:last-child>td {
+  border-bottom: 0px !important;
 }

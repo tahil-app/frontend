@@ -40,7 +40,8 @@ export class ApiEndpoints {
     static readonly GROUPS = {
         Controller: 'groups',
         Actions: {
-            Paged: `paged`
+            Paged: `paged`,
+            UpdateStudents: (groupId: string | number) => `update-students/${groupId}`,
         }
     };
 

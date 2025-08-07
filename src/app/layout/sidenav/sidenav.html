@@ -10,34 +10,41 @@
 
                     <li class="submenu" [class.active]="isActiveRoute(['/sessions', '/schedules'])">
                         <a href="#" [class.subdrop]="isActiveRoute(['/sessions', '/schedules'])">
-                            <i class="fas fa-calendar-alt"></i> 
-                            <span>{{ 'sidebar.timeTable' | translate }}</span> 
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>{{ 'sidebar.timeTable' | translate }}</span>
                             <span class="menu-arrow"></span>
                         </a>
                         <ul>
-                            <li><a routerLink="/schedules" routerLinkActive="active">{{ 'sidebar.schedules' | translate }}</a></li>
-                            <li><a routerLink="/sessions" routerLinkActive="active">{{ 'sidebar.sessions' | translate }}</a></li>
+                            <li><a routerLink="/schedules" routerLinkActive="active">{{ 'sidebar.schedules' | translate
+                                    }}</a></li>
+                            <li><a routerLink="/sessions" routerLinkActive="active">{{ 'sidebar.sessions' | translate
+                                    }}</a></li>
                         </ul>
                     </li>
-                    
+
                     <li routerLinkActive="active" *ngIf="permissionAccess.canViewSideNav.students">
-                        <a routerLink="/students"><i class="fas fa-user-graduate"></i> <span>{{ 'students.all' | translate }}</span></a>
+                        <a routerLink="/students"><i class="fas fa-user-graduate"></i> <span>{{ 'students.all' |
+                                translate }}</span></a>
                     </li>
 
                     <li routerLinkActive="active" *ngIf="permissionAccess.canViewSideNav.groups">
-                        <a routerLink="/groups"><i class="fas fa-users"></i> <span>{{ 'groups.all' | translate }}</span></a>
+                        <a routerLink="/groups"><i class="fas fa-users"></i> <span>{{ 'groups.all' | translate
+                                }}</span></a>
                     </li>
 
                     <li routerLinkActive="active" *ngIf="permissionAccess.canViewSideNav.teachers">
-                        <a routerLink="/teachers"><i class="fas fa-user-tie"></i> <span>{{ 'teachers.all' | translate }}</span></a>
-                    </li>
-
-                    <li routerLinkActive="active" *ngIf="permissionAccess.canViewSideNav.rooms">
-                        <a routerLink="/rooms"><i class="fas fa-door-open"></i> <span>{{ 'rooms.all' | translate }}</span></a>
+                        <a routerLink="/teachers"><i class="fas fa-user-tie"></i> <span>{{ 'teachers.all' | translate
+                                }}</span></a>
                     </li>
 
                     <li routerLinkActive="active" *ngIf="permissionAccess.canViewSideNav.courses">
-                        <a routerLink="/courses"><i class="fas fa-book-reader"></i> <span>{{ 'courses.all' | translate }}</span></a>
+                        <a routerLink="/courses"><i class="fas fa-book-reader"></i> <span>{{ 'courses.all' | translate
+                                }}</span></a>
+                    </li>
+
+                    <li routerLinkActive="active" *ngIf="permissionAccess.canViewSideNav.rooms">
+                        <a routerLink="/rooms"><i class="fas fa-door-open"></i> <span>{{ 'rooms.all' | translate
+                                }}</span></a>
                     </li>
 
                 </ul>

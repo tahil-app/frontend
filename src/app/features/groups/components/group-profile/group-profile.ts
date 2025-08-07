@@ -13,10 +13,13 @@ import { GroupService } from '../../../../core/services/group.service';
 import { TooltipModule } from 'primeng/tooltip';
 import { GroupFromComponent } from '../group-from/group-from';
 import { PermissionAccessService } from '../../../../core/services/permission-access.service';
+import { StudentsDialog } from '../../../shared/dialogs/students-dialog/students-dialog';
+import { Student } from '../../../../core/models/student.model';
+import { EditIconButton } from '../../../shared/buttons/edit-icon-button/edit-icon-button';
 
 @Component({
   selector: 'app-group-profile',
-  imports: [CommonModule, TabsModule, TableModule, TranslateModule, TooltipModule, GroupFromComponent],
+  imports: [CommonModule, TabsModule, TableModule, TranslateModule, TooltipModule, GroupFromComponent, StudentsDialog, EditIconButton],
   templateUrl: './group-profile.html',
   styleUrl: './group-profile.scss'
 })
@@ -24,6 +27,7 @@ export class GroupProfile implements OnInit {
 
   //#region Properties
   showDialog = false;
+  showStudentsDialog = false;
   group: Group = {} as Group;
   destroy$ = new Subject<void>();
   //#endregion
@@ -56,6 +60,7 @@ export class GroupProfile implements OnInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe(group => {
         this.group = group;
+        this.group.students = this.group.students?.sort((a, b) => a.name.localeCompare(b.name)) || [];
       }, error => {}, () => {
         this.loader.hide();
         this.showDialog = false;
@@ -89,6 +94,26 @@ export class GroupProfile implements OnInit {
 
   onEditGroup() {
     this.showDialog = true;
+  }
+
+  onAddStudent() {
+    this.showStudentsDialog = true;
+  }
+
+  onSaveStudents(students: Student[]) {
+    this.group.students = students;
+
+    this.loader.show();
+    this.groupService.updateStudents(this.group.id, students.map(student => student.id)).pipe(takeUntil(this.destroy$)).subscribe(result => {
+      if (result) {
+        this.toaster.showSuccess(this.translate.instant('groups.studentsUpdated'));
+        this.loadGroup(this.group.id);
+      }
+    }, error => {}, () => {
+      this.loader.hide();
+      this.showStudentsDialog = false;
+    });
+
   }
 
   ngOnDestroy() {
