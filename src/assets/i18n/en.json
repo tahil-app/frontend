@@ -80,7 +80,8 @@
             "capacityStatus": "Capacity Status",
             "capacityPercentage": "Capacity Percentage",
             "numberOfTeachers": "Number of Teachers",
-            "status": "Status"
+            "status": "Status",
+            "years": "Years"
         },
         "validation": {
             "passwordMismatch": "Password and confirm password do not match",
@@ -191,6 +192,9 @@
         "activateSuccess": "Group activated successfully",
         "deactivateSuccess": "Group deactivated successfully",
         "deleteSuccess": "Group deleted successfully",
+        "list": {
+            "name": "Group Name"
+        },
         "profile": {
             "groupData": "Group Data",
             "studentsList": "Students List",

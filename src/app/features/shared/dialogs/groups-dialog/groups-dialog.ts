@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, Output, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, inject, Input, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { GroupService } from '../../../../core/services/group.service';
 import { DropdownProps } from '../../props/dropdown.props';
@@ -42,6 +42,7 @@ export class GroupsDialog {
   private groupService = inject(GroupService);
   private fb = inject(FormBuilder);
   private loader = inject(LoaderService);
+  private cdr = inject(ChangeDetectorRef);
 
   ngOnInit() {
     this.initForm();
@@ -63,16 +64,24 @@ export class GroupsDialog {
     this.groupService.getAll().pipe(takeUntil(this.destroy$)).subscribe(items => {
       this.groups = items;
       this.groupsOptions = items.map(group => ({ label: group.name, value: group.id }));
+
+      this.cdr.detectChanges();
+      this.setSelectedGroups();
+
     }, _ => { }, () => {
       this.loader.hide();
     });
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['showDialog'] && this.showDialog == true) {
+    if (this.groupsForm && changes['showDialog'] && this.showDialog == true) {
       this.groupsForm.reset();
     }
 
+    this.setSelectedGroups();
+  }
+
+  setSelectedGroups() {
     if (this.groupsForm && this.selectedGroups.length > 0) {
       this.getFormControl('groups')?.setValue(this.selectedGroups.map(group => group.id));
       this.getFormControl('groups')?.updateValueAndValidity();

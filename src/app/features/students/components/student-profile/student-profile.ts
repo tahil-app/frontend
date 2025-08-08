@@ -5,7 +5,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { StudentFormComponent } from '../student-form/student-form';
 import { StudentQualification } from '../student-qualification/student-qualification';
 import { CommonModule } from '@angular/common';
-import { UserAttachmentDialog } from '../../../shared/components/user-attachment-dialog/user-attachment-dialog';
+import { UserAttachmentDialog } from '../../../shared/dialogs/user-attachment-dialog/user-attachment-dialog';
 import { StudentAttachmentComponent } from '../student-attachment/student-attachment';
 import { Student } from '../../../../core/models/student.model';
 import { Subject, takeUntil } from 'rxjs';

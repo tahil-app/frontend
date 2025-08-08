@@ -15,7 +15,7 @@ import { TeacherQualification } from '../teacher-qualification/teacher-qualifica
 import { CommonModule } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TeacherExperience } from '../teacher-experience/teacher-experience';
-import { UserAttachmentDialog } from "../../../shared/components/user-attachment-dialog/user-attachment-dialog";
+import { UserAttachmentDialog } from "../../../shared/dialogs/user-attachment-dialog/user-attachment-dialog";
 import { UserAttachment } from '../../../../core/models/user-attachment.model';
 import { TeacherAttachmentComponent } from '../teacher-attachment/teacher-attachment';
 import { ToastService } from '../../../shared/services/toast.service';
@@ -23,10 +23,24 @@ import { TableModule } from 'primeng/table';
 import { Course } from '../../../../core/models/course.model';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CoursesDialog } from '../../../shared/dialogs/courses-dialog/courses-dialog';
+import { PermissionAccessService } from '../../../../core/services/permission-access.service';
 
 @Component({
   selector: 'app-teacher-profile',
-  imports: [CardContainer, TabsModule, TooltipModule, TeacherFormComponent, TeacherQualification, CommonModule, TeacherExperience, UserAttachmentDialog, TeacherAttachmentComponent, TableModule, CoursesDialog, TranslateModule],
+  imports: [
+    CardContainer, 
+    TabsModule, 
+    TooltipModule, 
+    TeacherFormComponent, 
+    TeacherQualification, 
+    CommonModule, 
+    TeacherExperience, 
+    UserAttachmentDialog, 
+    TeacherAttachmentComponent, 
+    TableModule, 
+    CoursesDialog, 
+    TranslateModule
+  ],
   templateUrl: './teacher-profile.html',
   styleUrl: './teacher-profile.scss'
 })
@@ -52,6 +66,7 @@ export class TeacherProfile {
   private sanitizer = inject(DomSanitizer);
   private toaster = inject(ToastService);
   private translate = inject(TranslateService);
+  public permissionService = inject(PermissionAccessService); 
 
   //#endregion
 
@@ -69,6 +84,7 @@ export class TeacherProfile {
     this.loader.show();
     this.teacherService.get(this.teacher.id).pipe(takeUntil(this.destroy$)).subscribe((teacher: Teacher) => {
       this.teacher = teacher;
+      this.teacher.courses = this.teacher.courses?.sort((a, b) => a.name.localeCompare(b.name)) || [];
 
       if(teacher.id == 0) {
         this.toaster.showError(this.translate.instant('teachers.notFound'));
@@ -118,8 +134,8 @@ export class TeacherProfile {
     }
   }
 
-  getAge(birthDate: string) {
-    return birthDate ? DateHelper.getAge(birthDate) : '';
+  getAge(birthDate: string | null) {
+    return birthDate ? DateHelper.getAge(birthDate!) : '--';
   }
 
   getGender(gender: GenderEnum) {
@@ -185,6 +201,7 @@ export class TeacherProfile {
       this.loader.hide();
     });
   }
+
   //#endregion
 
 }

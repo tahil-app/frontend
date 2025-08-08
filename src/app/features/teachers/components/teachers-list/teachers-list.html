@@ -1,18 +1,18 @@
-<card-container [title]="'teachers.all' | translate" [addBtn]="true" (onAdd)="showDialog = true">
+<card-container [title]="'teachers.all' | translate" [addBtn]="permissionService.canAdd.teacher" (onAdd)="onAdd()">
     <grid [pagedRows]="teachers" (onLazyLoad)="loadTeachers($event)" 
           [columns]="columns" [pageSize]="10" [paginator]="true" [showFilters]="true"
-          [allowEdit]="true" (onEdit)="onEdit($event)" 
-          [allowDelete]="true" (onDelete)="onDelete($event)"
-          [allowActivate]="true" (onActivate)="onActivate($event)"
-          [allowDeactivate]="true"  (onDeactivate)="onDeactivate($event)"
-          [allowView]="true" (onView)="onView($event)"
+          [allowEdit]="permissionService.canEdit.teacher" (onEdit)="onEdit($event)" 
+          [allowDelete]="permissionService.canDelete.teacher" (onDelete)="onDelete($event)"
+          [allowActivate]="permissionService.canActivate.teacher" (onActivate)="onActivate($event)"
+          [allowDeactivate]="permissionService.canDeactivate.teacher"  (onDeactivate)="onDeactivate($event)"
+          [allowView]="permissionService.canView.teacherProfile" (onView)="onView($event)"
           [hasIsActive]="true" />
 </card-container>
 
 
-<app-teacher-form [showDialog]="showDialog" 
+<app-teacher-form [showDialog]="showDialog && permissionService.canEdit.teacher" 
 [teacher]="teacher" (onSave)="loadTeachers(queryParams)" 
 (onCancel)="showDialog = false" />
 
-<delete-confirmation *ngIf="showDeleteDialog" [message]="'shared.dialogs.deleteConfirmation' | translate"
+<delete-confirmation *ngIf="showDeleteDialog && permissionService.canDelete.teacher" [message]="'shared.dialogs.deleteConfirmation' | translate"
 (confirm)="onConfirmDelete()" (cancel)="onCancelDelete()" />

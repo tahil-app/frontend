@@ -11,6 +11,7 @@ import { DateHelper } from '../../../../core/helpers/date.helper';
 import { DeleteConfirmation } from '../../../shared/components/delete-confirmation/delete-confirmation';
 import { LoaderService } from '../../../shared/services/loader.service';
 import { ToastService } from '../../../shared/services/toast.service';
+import { PermissionAccessService } from '../../../../core/services/permission-access.service';
 
 @Component({
   selector: 'app-teacher-attachment',
@@ -30,6 +31,7 @@ export class TeacherAttachmentComponent {
   private teacherService = inject(TeacherService);
   private loaderService = inject(LoaderService);
   private toastr = inject(ToastService);
+  public permissionService = inject(PermissionAccessService);
   //#endregion
 
 

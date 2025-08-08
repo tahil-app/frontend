@@ -80,7 +80,8 @@
                 "numberOfTeachers": "عدد المعلمين",
                 "capacityStatus": "حالة الكثافة",
                 "capacityPercentage": "نسبة الكثافة",
-                "status": "الحالة"
+                "status": "الحالة",
+                "years": "سنة"
             },
             "validation": {
                 "passwordMismatch": "كلمة المرور وتأكيد كلمة المرور غير متطابقتين",
@@ -191,6 +192,9 @@
             "activateSuccess": "تم تفعيل المجموعة بنجاح",
             "deactivateSuccess": "تم تعطيل المجموعة بنجاح",
             "deleteSuccess": "تم حذف المجموعة بنجاح",
+            "list": {
+                "name": "اسم المجموعة"
+            },
             "profile": {
                 "groupData": "بيانات المجموعة",
                 "studentsList": "قائمة الطلاب",

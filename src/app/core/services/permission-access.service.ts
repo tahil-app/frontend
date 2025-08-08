@@ -23,6 +23,7 @@ export class PermissionAccessService {
             groupProfile: this.authService.isAdmin || this.authService.isEmployee || this.authService.isTeacher,
             studentProfile: this.authService.isAdmin || this.authService.isEmployee || this.authService.isTeacher || this.authService.isStudent,
             courseProfile: this.authService.isAdmin || this.authService.isEmployee,
+            teacherProfile: this.authService.isAdmin || this.authService.isEmployee || this.authService.isTeacher,
         };
     }
 
@@ -66,6 +67,7 @@ export class PermissionAccessService {
         return {
             room: this.authService.isAdmin,
             course: this.authService.isAdmin,
+            teacher: this.authService.isAdmin,
         };
     }
 
@@ -73,6 +75,7 @@ export class PermissionAccessService {
         return {
             room: this.authService.isAdmin,
             course: this.authService.isAdmin,
+            teacher: this.authService.isAdmin,
         };
     }
 

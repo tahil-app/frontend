@@ -18,6 +18,7 @@ import { FilterOperators } from '../../../shared/props/query-filter-params.props
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { DeleteConfirmation } from '../../../shared/components/delete-confirmation/delete-confirmation';
+import { PermissionAccessService } from '../../../../core/services/permission-access.service';
 
 @Component({
   selector: 'app-teachers-list',
@@ -43,6 +44,7 @@ export class TeachersList {
   private toaster = inject(ToastService);
   private router = inject(Router);
   private translate = inject(TranslateService);
+  public permissionService = inject(PermissionAccessService);
   //#endregion
 
   //#region Columns
@@ -64,6 +66,11 @@ export class TeachersList {
     this.teacherService.getPaged(params).pipe(takeUntil(this.destroy$)).subscribe(teachers => {
       this.teachers = teachers;
     }, _ => { }, () => this.loader.hide());
+  }
+
+  onAdd() {
+    this.teacher = {} as Teacher;
+    this.showDialog = true;
   }
 
   onEdit(event: Teacher) {

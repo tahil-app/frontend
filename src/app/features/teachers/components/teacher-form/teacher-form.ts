@@ -56,30 +56,32 @@ export class TeacherFormComponent {
 
   ngOnChanges(changes: SimpleChanges) {
 
-    if (changes['showDialog'] && (!this.teacher.id || this.teacher.id === 0)) {
+    if (changes['showDialog'] && !this.teacher.id) {
       this.requiredPassword = true;
       this.teacherForm?.get('password')?.setValidators([Validators.required, Validators.minLength(8)]);
       this.teacherForm?.get('confirmPassword')?.setValidators([Validators.required, Validators.minLength(8)]);
       this.teacherForm?.reset();
+
+      return;
     }
-    
-    if (this.teacherForm && changes['teacher'] && this.teacher.id > 0) {
+
+    else if (this.teacherForm && changes['teacher'] && this.teacher.id > 0) {
       this.requiredPassword = false;
-      
+
       this.teacherForm.get('password')?.removeValidators([Validators.required, Validators.minLength(8)]);
       this.teacherForm.get('confirmPassword')?.removeValidators([Validators.required, Validators.minLength(8)]);
-      
+
       // Update validation state after removing validators
       this.teacherForm.get('password')?.updateValueAndValidity();
       this.teacherForm.get('confirmPassword')?.updateValueAndValidity();
-      
-      this.teacherForm.patchValue(this.teacher);
-
-      this.teacherForm.get('joinedDate')?.setValue(new Date(this.teacher.joinedDate));
-      this.teacherForm.get('birthDate')?.setValue(new Date(this.teacher.birthDate));
 
       this.teacherForm.markAllAsTouched();
     }
+
+    this.teacherForm?.patchValue(this.teacher);
+
+    this.teacherForm?.get('joinedDate')?.setValue(this.teacher.joinedDate ? new Date(this.teacher.joinedDate) : null);
+    this.teacherForm?.get('birthDate')?.setValue(this.teacher.birthDate ? new Date(this.teacher.birthDate) : null);
 
   }
 
@@ -117,8 +119,8 @@ export class TeacherFormComponent {
       const teacherData = this.teacherForm.value as Teacher;
       teacherData.id = 0;
       teacherData.role = UserRoleEnum.Teacher;
-      teacherData.joinedDate = DateHelper.toDate(teacherData.joinedDate);
-      teacherData.birthDate = DateHelper.toDate(teacherData.birthDate);
+      teacherData.joinedDate = teacherData.joinedDate ? DateHelper.toDate(teacherData.joinedDate) : null;
+      teacherData.birthDate = teacherData.birthDate ? DateHelper.toDate(teacherData.birthDate) : null;
 
       this.teacherService.add(teacherData)
         .pipe(takeUntil(this.destroy$))
@@ -136,8 +138,8 @@ export class TeacherFormComponent {
     if (this.teacherForm.valid) {
       this.loader.show();
       const teacherData = { ...this.teacher, ...this.teacherForm.value } as Teacher;
-      teacherData.joinedDate = DateHelper.toDate(teacherData.joinedDate);
-      teacherData.birthDate = DateHelper.toDate(teacherData.birthDate);
+      teacherData.joinedDate = teacherData.joinedDate ? DateHelper.toDate(teacherData.joinedDate) : null;
+      teacherData.birthDate = teacherData.birthDate ? DateHelper.toDate(teacherData.birthDate) : null;
 
       this.teacherService.update(teacherData)
         .pipe(takeUntil(this.destroy$))

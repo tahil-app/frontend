@@ -16,7 +16,7 @@
     </div>
 
     <div class="attachment-controls d-flex justify-content-around">
-        <delete-icon-button [disabled]="false" (onClick)="onDeleteAttachment(attachment)"></delete-icon-button>
+        <delete-icon-button [disabled]="false" *ngIf="permissionService.canEdit.teacher" (onClick)="onDeleteAttachment(attachment)"></delete-icon-button>
         &nbsp;&nbsp;
         <download-icon-button [disabled]="false" (onClick)="onDownloadAttachment(attachment)"></download-icon-button>
         &nbsp;&nbsp;

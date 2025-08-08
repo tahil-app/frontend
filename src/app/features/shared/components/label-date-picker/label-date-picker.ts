@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, forwardRef, Input, inject } from '@angular/core';
-import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { DatePickerModule } from 'primeng/datepicker';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'label-date-picker',
-  imports: [DatePickerModule, FormsModule, CommonModule, ReactiveFormsModule, TranslateModule],
+  imports: [DatePickerModule, CommonModule, ReactiveFormsModule, TranslateModule],
   templateUrl: './label-date-picker.html',
   styleUrl: './label-date-picker.scss',
   providers: [
@@ -22,6 +22,8 @@ export class LabelDatePicker implements ControlValueAccessor {
   @Input() label: string = '';
   @Input() required: boolean = false;
   @Input() placeholder: string = 'shared.datePicker.selectDate';
+  @Input() formControl: FormControl = new FormControl();
+  
   
   private translate = inject(TranslateService);
 
@@ -49,8 +51,8 @@ export class LabelDatePicker implements ControlValueAccessor {
   }
 
   onDateChange(event: any): void {
-    if (event && event.value) {
-      this.onChange(event.value);
+    if (event) {
+      this.onChange(event);
     } else {
       this.onChange(null);
     }

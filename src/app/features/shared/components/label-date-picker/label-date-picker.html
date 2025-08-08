@@ -3,5 +3,17 @@
     <span *ngIf="required" class="text-danger">*</span>
 </label>
 
-<p-datepicker [(ngModel)]="date" (onSelect)="onDateChange($event)" (onClear)="onClear()" [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay" class="w-100"
-    [readonlyInput]="true" dateFormat="dd/mm/yy" [placeholder]="placeholder | translate" [showButtonBar]="true" [firstDayOfWeek]="6" [appendTo]="'body'" />
+<p-datepicker 
+    [formControl]="formControl"
+    (onSelect)="onDateChange($event)" 
+    (onClear)="onClear()" 
+    [iconDisplay]="'input'" 
+    [showIcon]="true" 
+    inputId="icondisplay" 
+    class="w-100"
+    [readonlyInput]="true" 
+    dateFormat="dd/mm/yy" 
+    [placeholder]="placeholder | translate" 
+    [showButtonBar]="true" 
+    [firstDayOfWeek]="6" 
+    [appendTo]="'body'" />

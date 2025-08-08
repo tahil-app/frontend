@@ -474,3 +474,13 @@ direction: ltr;
 .p-datepicker-timeonly .p-datepicker-time-picker{
     direction: ltr;
 }
+
+.p-fileupload-file-list {
+
+    .p-fileupload-file-actions {
+        position: absolute;
+        left: 20px !important;
+        right: auto !important;
+    }
+    
+}

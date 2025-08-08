@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, inject, Input, Output, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, inject, Input, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
 import { SaveBtn } from '../../buttons/save-btn/save-btn';
@@ -42,6 +42,7 @@ export class CoursesDialog {
   private courseService = inject(CourseService);
   private fb = inject(FormBuilder);
   private loader = inject(LoaderService);
+  private cdr = inject(ChangeDetectorRef);
 
   ngOnInit() {
     this.initForm();
@@ -61,21 +62,31 @@ export class CoursesDialog {
   loadCourses() {
     this.loader.show();
     this.courseService.getAll().pipe(takeUntil(this.destroy$)).subscribe(items => {
+      
       this.courses = items;
       this.coursesOptions = items.map(course => ({ label: course.name, value: course.id }));
+      
+      this.cdr.detectChanges();
+      this.setSelectedCourses();
+
     }, _ => { }, () => {
       this.loader.hide();
     });
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['showDialog'] && this.showDialog == true) {
+    if (this.coursesForm && changes['showDialog'] && this.showDialog == true) {
       this.coursesForm.reset();
     }
 
+    this.setSelectedCourses();
+  }
+
+  setSelectedCourses() {
     if (this.coursesForm && this.selectedCourses.length > 0) {
       this.getFormControl('courses')?.setValue(this.selectedCourses.map(course => course.id));
       this.getFormControl('courses')?.updateValueAndValidity();
+      this.getFormControl('courses')?.markAsTouched();
     }
   }
 

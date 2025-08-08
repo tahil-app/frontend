@@ -4,7 +4,7 @@ import { DialogModule } from 'primeng/dialog';
 import { Subject } from 'rxjs';
 import { CancelBtn } from '../../buttons/cancel-btn/cancel-btn';
 import { SaveBtn } from '../../buttons/save-btn/save-btn';
-import { InputLabel } from "../input-label/input-label";
+import { InputLabel } from "../../components/input-label/input-label";
 import { FileUpload, FileUploadModule } from 'primeng/fileupload';
 import { CommonModule } from '@angular/common';
 import { UserAttachment } from '../../../../core/models/user-attachment.model';
