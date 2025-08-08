@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, inject, Input, Output, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, inject, Input, Output, SimpleChanges } from '@angular/core';
 import { DialogModule } from 'primeng/dialog';
 import { SaveBtn } from '../../../shared/buttons/save-btn/save-btn';
 import { CancelBtn } from '../../../shared/buttons/cancel-btn/cancel-btn';
@@ -37,6 +37,7 @@ export class RoomFormComponent {
   private toaster = inject(ToastService);
   private fb = inject(FormBuilder);
   private translate = inject(TranslateService);
+  private cd = inject(ChangeDetectorRef);
   //#endregion
 
   //#region Methods
@@ -51,6 +52,7 @@ export class RoomFormComponent {
     }
 
     if (changes['room'] && this.room.id > 0) {
+      this.cd.detectChanges();
       this.roomForm?.patchValue(this.room);
     }
 

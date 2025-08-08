@@ -15,10 +15,10 @@ import { UserRoleEnum } from '../../../../core/enums/user-role.enum';
 import { LabelDatePicker } from '../../../shared/components/label-date-picker/label-date-picker';
 import { Dropdown } from '../../../shared/components/dropdown/dropdown';
 import { DropdownProps } from '../../../shared/props/dropdown.props';
-import { GenderEnum } from '../../../../core/enums/gender.enum';
 import { DateHelper } from '../../../../core/helpers/date.helper';
 import { GenderHelper } from '../../../../core/helpers/gender.helper';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { PermissionAccessService } from '../../../../core/services/permission-access.service';
 
 @Component({
   selector: 'app-teacher-form',
@@ -47,6 +47,7 @@ export class TeacherFormComponent {
   private toaster = inject(ToastService);
   private fb = inject(FormBuilder);
   private translate = inject(TranslateService);
+  public permissionAccess = inject(PermissionAccessService);
   //#endregion
 
   //#region Methods
@@ -83,6 +84,13 @@ export class TeacherFormComponent {
     this.teacherForm?.get('joinedDate')?.setValue(this.teacher.joinedDate ? new Date(this.teacher.joinedDate) : null);
     this.teacherForm?.get('birthDate')?.setValue(this.teacher.birthDate ? new Date(this.teacher.birthDate) : null);
 
+    this.teacherForm?.get('password')?.valueChanges.subscribe(value => {
+      this.requiredPassword = value.length > 0;
+      });
+
+    this.teacherForm?.get('confirmPassword')?.valueChanges.subscribe(value => {
+      this.requiredPassword = value.length > 0;
+    });
   }
 
   initForm() {

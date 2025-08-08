@@ -10,7 +10,7 @@
 [group]="group"
 (onSave)="loadGroups(queryParams)" 
 (onCancel)="showDialog = false"
-*ngIf="permissionAccess.canAdd.group || permissionAccess.canEdit.group"
+*ngIf="(permissionAccess.canAdd.group || permissionAccess.canEdit.group) && showDialog"
 />
 
 <delete-confirmation *ngIf="showDelete && permissionAccess.canDelete.group" [message]="'shared.dialogs.deleteConfirmation' | translate" (confirm)="onDeleteConfirm()" (cancel)="onDeleteCancel()" />

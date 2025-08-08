@@ -64,8 +64,13 @@ export class RoomsList {
     }, _ => { }, () => this.loader.hide());
   }
 
+  onAdd() {
+    this.room = {} as Room;
+    this.showDialog = true;
+  }
+
   onEdit(event: Room) {
-    this.room = event;
+    this.room = {...event};
     this.showDialog = true;
   }
 

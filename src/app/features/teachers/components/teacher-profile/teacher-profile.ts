@@ -22,7 +22,6 @@ import { ToastService } from '../../../shared/services/toast.service';
 import { TableModule } from 'primeng/table';
 import { Course } from '../../../../core/models/course.model';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { CoursesDialog } from '../../../shared/dialogs/courses-dialog/courses-dialog';
 import { PermissionAccessService } from '../../../../core/services/permission-access.service';
 
 @Component({
@@ -38,7 +37,6 @@ import { PermissionAccessService } from '../../../../core/services/permission-ac
     UserAttachmentDialog, 
     TeacherAttachmentComponent, 
     TableModule, 
-    CoursesDialog, 
     TranslateModule
   ],
   templateUrl: './teacher-profile.html',

@@ -76,7 +76,6 @@
             "description": "Description",
             "capacity": "Capacity",
             "numberOfStudents": "Number of Students",
-            "numberOfCurrentStudents": "Number of Current Students",
             "capacityStatus": "Capacity Status",
             "capacityPercentage": "Capacity Percentage",
             "numberOfTeachers": "Number of Teachers",

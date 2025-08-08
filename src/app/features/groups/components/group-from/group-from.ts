@@ -49,14 +49,17 @@ export class GroupFromComponent {
   //#endregion
 
   //#region Methods
-  ngOnInit() {
+
+  constructor(){
     this.initForm();
+  }
+
+  ngOnInit() {
     this.loadCourses();
     this.setupCourseChangeListener();
   }
-
+  
   ngOnChanges(changes: SimpleChanges) {
-
     if (changes['showDialog'] && !this.group.id) {
       this.groupForm?.reset();
     }
@@ -68,7 +71,6 @@ export class GroupFromComponent {
         this.loadTeachersByCourse(this.group.courseId);
       }
     }
-
   }
 
   initForm() {
@@ -90,11 +92,12 @@ export class GroupFromComponent {
   }
 
   loadCourses() {
+    this.loader.show();
     this.courseService.getAll()
       .pipe(takeUntil(this.destroy$))
       .subscribe(courses => {
         this.coursesOptions = getDropdownOptions(courses);
-      });
+      }, _ => { }, () => this.loader.hide());
   }
 
   setupCourseChangeListener() {
@@ -112,11 +115,17 @@ export class GroupFromComponent {
   }
 
   loadTeachersByCourse(courseId: number) {
+    this.loader.show();
     this.teacherService.getTeachersByCourseId(courseId)
       .pipe(takeUntil(this.destroy$))
       .subscribe(teachers => {
         this.teachersOptions = getDropdownOptions(teachers);
-      });
+
+        console.log(this.teachersOptions);
+        this.groupForm.get('teacherId')?.setValue(this.group.teacherId);
+
+
+      }, _ => { }, () => this.loader.hide());
   }
 
   save() {

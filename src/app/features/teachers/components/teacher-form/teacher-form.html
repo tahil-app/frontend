@@ -7,7 +7,7 @@
             </div>
     
             <div class="col-md-6 col-12 flex items-center gap-2 mb-2">
-                <dropdown [label]="'shared.fields.gender' | translate" [required]="true" [options]="genderOptions" [formControl]="getFormControl('gender')" />
+                <dropdown [label]="'shared.fields.gender' | translate" [required]="true" [options]="genderOptions" [formControl]="getFormControl('gender')" [disabled]="!(permissionAccess.canEdit.teacherOnlyAdminOrEmployee)" />
             </div>
             
         </div>
@@ -38,7 +38,7 @@
             </div>
 
             <div class="col-md-6 col-12 flex items-center gap-2 mb-2">
-                <label-date-picker [label]="'shared.fields.joinedDate' | translate" [formControl]="getFormControl('joinedDate')" />
+                <label-date-picker [label]="'shared.fields.joinedDate' | translate" [disabled]="!(permissionAccess.canEdit.teacherOnlyAdminOrEmployee)" [formControl]="getFormControl('joinedDate')" />
             </div>
         </div>
 

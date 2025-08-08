@@ -101,4 +101,4 @@
 
 
 <teachers-dialog [showDialog]="showTeachersDialog" [selectedTeachers]="course.teachers" (onSave)="onSaveTeachers($event)"
-  (onCancel)="showTeachersDialog = false" />
+  (onCancel)="showTeachersDialog = false" *ngIf="showTeachersDialog"/>

@@ -76,7 +76,6 @@
                 "description": "الوصف",
                 "capacity": "الكثافة الطلابية",
                 "numberOfStudents": "عدد الطلاب",
-                "numberOfCurrentStudents": "عدد الطلاب الحالي",
                 "numberOfTeachers": "عدد المعلمين",
                 "capacityStatus": "حالة الكثافة",
                 "capacityPercentage": "نسبة الكثافة",

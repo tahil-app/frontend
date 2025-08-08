@@ -6,6 +6,7 @@
 <p-datepicker 
     [formControl]="formControl"
     (onSelect)="onDateChange($event)" 
+    [disabled]="disabled"
     (onClear)="onClear()" 
     [iconDisplay]="'input'" 
     [showIcon]="true" 

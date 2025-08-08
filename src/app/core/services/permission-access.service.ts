@@ -47,7 +47,8 @@ export class PermissionAccessService {
         return {
             group: this.authService.isAdmin || this.authService.isEmployee,
             student: this.authService.isAdmin || this.authService.isEmployee,
-            teacher: this.authService.isAdmin || this.authService.isEmployee,
+            teacher: this.authService.isAdmin || this.authService.isEmployee || this.authService.isTeacher,
+            teacherOnlyAdminOrEmployee: this.authService.isAdmin || this.authService.isEmployee,
             room: this.authService.isAdmin || this.authService.isEmployee,
             course: this.authService.isAdmin || this.authService.isEmployee,
         };

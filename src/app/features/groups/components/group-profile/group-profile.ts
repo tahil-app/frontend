@@ -69,10 +69,13 @@ export class GroupProfile implements OnInit {
 
   getCapacityPercentage(): number {
     if (!this.group.capacity || this.group.capacity === 0) return 0;
+
     return Math.round((this.group.numberOfStudents / this.group.capacity) * 100);
   }
 
   getCapacityStatus(): string {
+    if (this.group.capacity === 0) return '-';
+
     return this.badgeHelper.getValue(this.group);
   }
 

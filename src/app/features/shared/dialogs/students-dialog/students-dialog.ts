@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, inject, Input, Output, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, inject, Input, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
 import { Dropdown } from '../../components/dropdown/dropdown';
@@ -42,6 +42,7 @@ export class StudentsDialog {
   private studentService = inject(StudentService);
   private fb = inject(FormBuilder);
   private loader = inject(LoaderService);
+  private cd = inject(ChangeDetectorRef);
 
   ngOnInit() {
     this.initForm();
@@ -63,6 +64,10 @@ export class StudentsDialog {
     this.studentService.getAll().pipe(takeUntil(this.destroy$)).subscribe(items => {
       this.students = items;
       this.studentsOptions = items.map(student => ({ label: student.name, value: student.id }));
+
+      this.cd.detectChanges();
+      this.setSelectedStudents();
+
     }, _ => { }, () => {
       this.loader.hide();
     });
@@ -73,6 +78,10 @@ export class StudentsDialog {
       this.studentsForm.reset();
     }
 
+    this.setSelectedStudents();
+  }
+
+  setSelectedStudents() {
     if (this.studentsForm && this.selectedStudents.length > 0) {
       this.getFormControl('students')?.setValue(this.selectedStudents.map(student => student.id));
       this.getFormControl('students')?.updateValueAndValidity();

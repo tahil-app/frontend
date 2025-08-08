@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 })
 export class Header {
 
-  userName = 'جمال عثمان';
+  userName = '';
   role: UserRoleEnum = UserRoleEnum.Admin;
 
   private authService = inject(AuthService);
@@ -29,6 +29,12 @@ export class Header {
 
   getUserRole(): string {
     return "userRole." + getRoleString(this.role);
+  }
+
+  goToProfile() {
+    if(this.authService.isTeacher) {
+      this.router.navigate(['/teachers' , this.authService.getUser()?.id]);
+    }
   }
 
   logout() {

@@ -184,13 +184,6 @@
 
                                             <div class="heading-detail d-flex justify-content-between">
                                                 <h5>{{ 'courses.all' | translate }}</h5>
-
-                                                <div class="form-group students-up-files mb-0" *ngIf="!disablePage && permissionService.canEdit.teacher">
-                                                    <button [pTooltip]="'shared.buttons.edit' | translate" tooltipPosition="top"
-                                                        class="btn p-0 grid-btn" (click)="onEditCourses()">
-                                                        <i class="fa fa-edit text-secondary"></i>
-                                                    </button>
-                                                </div>
                                             </div>
 
                                             <div class="tab-section-container">
@@ -303,6 +296,3 @@
 
 <user-attachment-dialog [showDialog]="showUserAttachmentDialog" (onSave)="saveUserAttachment($event)"
     (onCancel)="showUserAttachmentDialog = false" [userId]="teacher.id" />
-
-<courses-dialog [showDialog]="showCoursesDialog" [selectedCourses]="teacher.courses!" (onSave)="saveCourses($event)"
-    (onCancel)="showCoursesDialog = false" *ngIf="showCoursesDialog" />

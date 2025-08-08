@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, inject, Input, Output, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, inject, Input, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
 import { Dropdown } from '../../components/dropdown/dropdown';
@@ -42,6 +42,7 @@ export class TeachersDialog {
   private teacherService = inject(TeacherService);
   private fb = inject(FormBuilder);
   private loader = inject(LoaderService);
+  private cd = inject(ChangeDetectorRef);
 
   ngOnInit() {
     this.initForm();
@@ -55,7 +56,7 @@ export class TeachersDialog {
   }
 
   getFormControl(controlName: string) {
-    return this.teachersForm.get(controlName) as FormControl;
+    return this.teachersForm?.get(controlName) as FormControl;
   }
 
   loadTeachers() {
@@ -63,6 +64,10 @@ export class TeachersDialog {
     this.teacherService.getAll().pipe(takeUntil(this.destroy$)).subscribe(items => {
       this.teachers = items;
       this.teachersOptions = items.map(teacher => ({ label: teacher.name, value: teacher.id }));
+
+      this.cd.detectChanges();
+      this.setSelectedTeachers();
+      
     }, _ => { }, () => {
       this.loader.hide();
     });
@@ -70,9 +75,13 @@ export class TeachersDialog {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['showDialog'] && this.showDialog == true) {
-      this.teachersForm.reset();
+      this.teachersForm?.reset();
     }
 
+    this.setSelectedTeachers();
+  }
+
+  setSelectedTeachers() {
     if (this.teachersForm && this.selectedTeachers.length > 0) {
       this.getFormControl('teachers')?.setValue(this.selectedTeachers.map(teacher => teacher.id));
       this.getFormControl('teachers')?.updateValueAndValidity();

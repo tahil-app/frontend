@@ -21,6 +21,7 @@ export class LabelDatePicker implements ControlValueAccessor {
   
   @Input() label: string = '';
   @Input() required: boolean = false;
+  @Input() disabled: boolean = false;
   @Input() placeholder: string = 'shared.datePicker.selectDate';
   @Input() formControl: FormControl = new FormControl();
   

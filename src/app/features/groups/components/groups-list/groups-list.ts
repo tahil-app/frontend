@@ -75,7 +75,7 @@ export class GroupsList {
     }] : []),
     { 
       field: 'numberOfStudents', 
-      title: this.translate.instant('shared.fields.numberOfCurrentStudents'), 
+      title: this.translate.instant('shared.fields.numberOfStudents'), 
       columnType: ColumnTypeEnum.number, 
     },
     ...(this.permissionAccess.canViewPagedAdminColumns.group ? [{ 
@@ -124,12 +124,14 @@ export class GroupsList {
   }
 
   onDeleteConfirm() {
+    this.loader.show();
     this.groupService.delete(this.deletedGroup.id).pipe(takeUntil(this.destroy$)).subscribe(res => {
       if (res) {
-        this.showDelete = false;
         this.toaster.showSuccess(this.translate.instant('groups.deleteSuccess'));
         this.loadGroups(this.queryParams);
       }
+      
+      this.showDelete = false;
     }, _ => { }, () => this.loader.hide());
   }
   onDeleteCancel() {
