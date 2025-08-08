@@ -43,7 +43,7 @@ export class UserAttachmentDialog {
 
   //#region Methods
 
-  ngOnInit() {
+  constructor() {
     this.initForm();
   }
 

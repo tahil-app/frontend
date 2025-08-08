@@ -1,4 +1,4 @@
-<p-dialog [header]="'teachers.profile.experience' | translate" [modal]="true" [(visible)]="showDialog" [style]="{ width: '45rem' }">
+<p-dialog [header]="'shared.profile.experience' | translate" [modal]="true" [(visible)]="showDialog" [style]="{ width: '45rem' }">
     <form [formGroup]="experienceForm" (ngSubmit)="save()">
         <editor [formControl]="getFormControl('experience')" />
 

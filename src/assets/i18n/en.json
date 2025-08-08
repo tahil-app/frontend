@@ -124,6 +124,18 @@
             "entries": "entries",
             "noData": "No data available"
         },
+        "profile": {
+            "education": "Education",
+            "qualifications": "Qualifications",
+            "experience": "Experience",
+            "noQualifications": "No qualifications",
+            "noExperience": "No experience",
+            "noCourses": "No courses",
+            "noGroups": "No groups",
+            "noAttachments": "No attachments",
+            "qualificationsSaveSuccess": "Qualifications saved successfully",
+            "experienceSaveSuccess": "Experience saved successfully"
+        },
         "comingSoon": "More details coming soon..."
     },
     "courses": {
@@ -169,17 +181,7 @@
         "deleteSuccess": "Teacher data deleted successfully",
         "notFound": "No teacher information found",
         "profile": {
-            "teacherData": "Teacher Data",
-            "education": "Education",
-            "qualifications": "Qualifications",
-            "experience": "Experience",
-            "noQualifications": "No qualifications found",
-            "noExperience": "No experience found",
-            "noCourses": "No courses found",
-            "noGroups": "No groups found",
-            "noAttachments": "No attachments found",
-            "qualificationsSaveSuccess": "Qualifications saved successfully",
-            "experienceSaveSuccess": "Experience saved successfully"
+            "teacherData": "Teacher Data"
         }
     },
     "groups": {
@@ -210,7 +212,13 @@
         "updateSuccess": "Student data updated successfully",
         "activateSuccess": "Student data activated successfully",
         "deactivateSuccess": "Student data deactivated successfully",
-        "deleteSuccess": "Student data deleted successfully"
+        "deleteSuccess": "Student data deleted successfully",
+        "notFound": "No student information found",
+        "imageUpdateSuccess": "Student image updated successfully",
+        "groupsUpdateSuccess": "Student groups updated successfully",
+        "profile": {
+            "studentData": "Student Data"
+        }
     },
     "employees": {
         "all": "Employees",

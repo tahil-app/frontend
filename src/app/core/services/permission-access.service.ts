@@ -46,11 +46,12 @@ export class PermissionAccessService {
     get canEdit() {
         return {
             group: this.authService.isAdmin || this.authService.isEmployee,
-            student: this.authService.isAdmin || this.authService.isEmployee,
-            teacher: this.authService.isAdmin || this.authService.isEmployee || this.authService.isTeacher,
-            teacherOnlyAdminOrEmployee: this.authService.isAdmin || this.authService.isEmployee,
             room: this.authService.isAdmin || this.authService.isEmployee,
             course: this.authService.isAdmin || this.authService.isEmployee,
+            teacher: this.authService.isAdmin || this.authService.isEmployee || this.authService.isTeacher,
+            teacherOnlyAdminOrEmployee: this.authService.isAdmin || this.authService.isEmployee,
+            student: this.authService.isAdmin || this.authService.isEmployee || this.authService.isStudent,
+            studentOnlyAdminOrEmployee: this.authService.isAdmin || this.authService.isEmployee,
         };
     }
 
@@ -69,6 +70,7 @@ export class PermissionAccessService {
             room: this.authService.isAdmin,
             course: this.authService.isAdmin,
             teacher: this.authService.isAdmin,
+            student: this.authService.isAdmin,
         };
     }
 
@@ -77,6 +79,7 @@ export class PermissionAccessService {
             room: this.authService.isAdmin,
             course: this.authService.isAdmin,
             teacher: this.authService.isAdmin,
+            student: this.authService.isAdmin,
         };
     }
 

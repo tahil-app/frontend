@@ -3,11 +3,11 @@
 
         <div class="row">
             <div class="col-md-6 col-12 flex items-center gap-2 mb-2">
-                <input-label [label]="'shared.fields.name' | translate" [required]="true" [formControl]="getFormControl('name')" />
+                <input-label [label]="'shared.fields.name' | translate" [disabled]="!(permissionAccess.canEdit.studentOnlyAdminOrEmployee)" [required]="true" [formControl]="getFormControl('name')" />
             </div>
     
             <div class="col-md-6 col-12 flex items-center gap-2 mb-2">
-                <dropdown [label]="'shared.fields.gender' | translate" [required]="true" [options]="genderOptions" [formControl]="getFormControl('gender')" />
+                <dropdown [label]="'shared.fields.gender' | translate" [required]="true" [options]="genderOptions" [formControl]="getFormControl('gender')" [disabled]="!(permissionAccess.canEdit.studentOnlyAdminOrEmployee)" />
             </div>
             
         </div>
@@ -34,11 +34,11 @@
 
         <div class="row">
             <div class="col-md-6 col-12 flex items-center gap-2 mb-2">
-                <label-date-picker [label]="'shared.fields.birthDate' | translate" [formControl]="getFormControl('birthDate')" />
+                <label-date-picker [label]="'shared.fields.birthDate' | translate" [disabled]="!(permissionAccess.canEdit.studentOnlyAdminOrEmployee)" [formControl]="getFormControl('birthDate')" />
             </div>
 
             <div class="col-md-6 col-12 flex items-center gap-2 mb-2">
-                <label-date-picker [label]="'shared.fields.joinedDate' | translate" [formControl]="getFormControl('joinedDate')" />
+                <label-date-picker [label]="'shared.fields.joinedDate' | translate" [disabled]="!(permissionAccess.canEdit.studentOnlyAdminOrEmployee)"  [formControl]="getFormControl('joinedDate')" />
             </div>
         </div>
 

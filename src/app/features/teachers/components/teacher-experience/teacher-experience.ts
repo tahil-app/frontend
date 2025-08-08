@@ -76,7 +76,7 @@ export class TeacherExperience {
           if (res) {
             this.onSave.emit();
             this.experienceForm.reset();
-            this.toaster.showSuccess(this.translate.instant('teachers.profile.experienceSaveSuccess'));
+            this.toaster.showSuccess(this.translate.instant('shared.profile.experienceSaveSuccess'));
           }
         }, _ => { }, () => this.loader.hide());
     }

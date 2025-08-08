@@ -24,6 +24,7 @@ export class InputLabel implements ControlValueAccessor{
   @Input() required: boolean = false;
   @Input() placeholder: string = '';
   @Input() type: string = 'text';
+  @Input() disabled: boolean = false;
   @Input() formControl: FormControl = new FormControl();
 
   private translate = inject(TranslateService);

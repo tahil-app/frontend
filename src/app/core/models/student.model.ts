@@ -11,8 +11,8 @@ export class Student {
   password!: string;
   role: UserRoleEnum = UserRoleEnum.Student;
   gender!: GenderEnum;
-  joinedDate!: string;
-  birthDate!: string;
+  joinedDate!: string | null;
+  birthDate!: string | null;
   isActive!: boolean;
   imagePath!: string;
 

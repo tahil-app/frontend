@@ -16,10 +16,13 @@ import { GridColumn } from '../../../shared/props/grid-column.props';
 import { ColumnTypeEnum } from '../../../shared/enums/column.type.enum';
 import { ColumnFilterTypeEnum } from '../../../shared/enums/column.filter.type.enum';
 import { FilterOperators } from '../../../shared/props/query-filter-params.props';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { DeleteConfirmation } from '../../../shared/components/delete-confirmation/delete-confirmation';
+import { PermissionAccessService } from '../../../../core/services/permission-access.service';
 
 @Component({
   selector: 'app-students-list',
-  imports: [CommonModule, Grid, CardContainer, DialogModule, StudentFormComponent],
+  imports: [CommonModule, Grid, CardContainer, DialogModule, StudentFormComponent, TranslateModule, DeleteConfirmation],
   templateUrl: './students-list.html',
   styleUrl: './students-list.scss'
 })
@@ -27,7 +30,9 @@ export class StudentsList {
 
   //#region Properties
   showDialog = false;
+  showDeleteDialog = false;
   student: Student = {} as Student;
+  studentToDelete: Student = {} as Student;
   queryParams: QueryParamsModel = {} as QueryParamsModel;
   students: PagedList<Student> = {} as PagedList<Student>;
   destroy$ = new Subject<void>();
@@ -38,14 +43,16 @@ export class StudentsList {
   private loader = inject(LoaderService);
   private toaster = inject(ToastService);
   private router = inject(Router);
+  private translate = inject(TranslateService);
+  public permissionService = inject(PermissionAccessService);
   //#endregion
 
   //#region Columns
   columns: GridColumn[] = [
-    { field: 'name', apiField:'User.Name', title: 'الاسم', columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
-    { field: 'phoneNumber', apiField:'User.PhoneNumber', title: 'رقم الهاتف', columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
-    { field: 'email', apiField:'User.Email.Value', title: 'البريد الإلكتروني', columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
-    { field: 'joinedDate', apiField:'User.JoinedDate', title: 'تاريخ الانضمام', columnType: ColumnTypeEnum.date, sortable: true, filterType: ColumnFilterTypeEnum.date, filterOperator: FilterOperators.equal },
+    { field: 'name', apiField:'User.Name', title: this.translate.instant('shared.fields.name'), columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
+    { field: 'phoneNumber', apiField:'User.PhoneNumber', title: this.translate.instant('shared.fields.phoneNumber'), columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
+    { field: 'email', apiField:'User.Email.Value', title: this.translate.instant('shared.fields.email'), columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
+    { field: 'joinedDate', apiField:'User.JoinedDate', title: this.translate.instant('shared.fields.joinedDate'), columnType: ColumnTypeEnum.date, sortable: true, filterType: ColumnFilterTypeEnum.date, filterOperator: FilterOperators.equal },
   ];
   //#endregion
 
@@ -61,6 +68,11 @@ export class StudentsList {
     }, _ => { }, () => this.loader.hide());
   }
 
+  onAdd() {
+    this.student = {} as Student;
+    this.showDialog = true;
+  }
+
   onEdit(event: Student) {
     this.student = event;
     this.showDialog = true;
@@ -72,7 +84,7 @@ export class StudentsList {
       .subscribe(res => {
         if (res) {
           this.loadStudents(this.queryParams);
-          this.toaster.showSuccess('تم تفعيل الطالب بنجاح');
+          this.toaster.showSuccess(this.translate.instant('students.activateSuccess'));
         }
       }, _ => { }, () => this.loader.hide());
   }
@@ -83,13 +95,40 @@ export class StudentsList {
       .subscribe(res => {
         if (res) {
           this.loadStudents(this.queryParams);
-          this.toaster.showSuccess('تم تعطيل الطالب بنجاح');
+          this.toaster.showSuccess(this.translate.instant('students.deactivateSuccess'));
         }
       }, _ => { }, () => this.loader.hide());
   }
 
   onView(event: Student) {
     this.router.navigate(['/students', event.id]);
+  }
+
+  onDelete(event: Student) {
+    this.studentToDelete = event;
+    this.showDeleteDialog = true;
+  }
+
+  onConfirmDelete() {
+    this.loader.show();
+    
+    this.studentService.delete(this.studentToDelete.id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(res => {
+        if (res) {
+          this.loadStudents(this.queryParams);
+          this.toaster.showSuccess(this.translate.instant('students.deleteSuccess'));
+        }
+        
+        this.showDeleteDialog = false;
+        this.studentToDelete = {} as Student;
+      }, _ => { }, () => this.loader.hide());
+    
+  }
+
+  onCancelDelete() {
+    this.showDeleteDialog = false;
+    this.studentToDelete = {} as Student;
   }
 
   ngOnDestroy() {

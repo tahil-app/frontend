@@ -122,7 +122,7 @@
                         <p-tabs value="0" scrollable>
 
                             <p-tablist>
-                                <p-tab value="0">{{ 'teachers.profile.education' | translate }}</p-tab>
+                                <p-tab value="0">{{ 'shared.profile.education' | translate }}</p-tab>
                                 <p-tab value="1">{{ 'courses.all' | translate }}</p-tab>
                                 <p-tab value="2">{{ 'groups.all' | translate }}</p-tab>
                                 <p-tab value="3">{{ 'shared.attachments' | translate }}</p-tab>
@@ -135,7 +135,7 @@
                                         <div class="hello-park">
 
                                             <div class="heading-detail d-flex justify-content-between">
-                                                <h5>{{ 'teachers.profile.qualifications' | translate }}</h5>
+                                                <h5>{{ 'shared.profile.qualifications' | translate }}</h5>
 
                                                 <div class="form-group students-up-files mb-0" *ngIf="!disablePage && permissionService.canEdit.teacher">
                                                     <button [pTooltip]="'shared.buttons.edit' | translate" tooltipPosition="top"
@@ -150,13 +150,13 @@
 
                                                 <div class="text-muted text-center"
                                                     *ngIf="teacher.qualification === null || teacher.qualification?.length === 0">
-                                                    {{ 'teachers.profile.noQualifications' | translate }}
+                                                    {{ 'shared.profile.noQualifications' | translate }}
                                                 </div>
 
                                                 <hr class="my-3 heading-line" />
 
                                                 <div class="heading-detail d-flex justify-content-between">
-                                                    <h5>{{ 'teachers.profile.experience' | translate }}</h5>
+                                                    <h5>{{ 'shared.profile.experience' | translate }}</h5>
 
                                                     <div class="form-group students-up-files mb-0" *ngIf="!disablePage && permissionService.canEdit.teacher">
                                                         <button [pTooltip]="'shared.buttons.edit' | translate" tooltipPosition="top"
@@ -169,7 +169,7 @@
                                                 <div [innerHTML]="getSafeHtml(teacher.experience)"></div>
                                                 <div class="text-muted text-center"
                                                     *ngIf="teacher.experience === null || teacher.experience?.length === 0">
-                                                    {{ 'teachers.profile.noExperience' | translate }}
+                                                    {{ 'shared.profile.noExperience' | translate }}
                                                 </div>
 
                                             </div>
@@ -183,7 +183,7 @@
                                         <div class="hello-park">
 
                                             <div class="heading-detail d-flex justify-content-between">
-                                                <h5>{{ 'courses.all' | translate }}</h5>
+                                                <h5 class="mb-1">{{ 'courses.all' | translate }}</h5>
                                             </div>
 
                                             <div class="tab-section-container">
@@ -203,7 +203,7 @@
 
                                                 <div class="text-muted text-center"
                                                     *ngIf="teacher.courses === null || teacher.courses?.length === 0">
-                                                    {{ 'teachers.profile.noCourses' | translate }}
+                                                    {{ 'shared.profile.noCourses' | translate }}
                                                 </div>
                                             </div>
 
@@ -216,7 +216,7 @@
                                         <div class="hello-park">
 
                                             <div class="heading-detail d-flex justify-content-between">
-                                                <h5>{{ 'groups.all' | translate }}</h5>
+                                                <h5 class="mb-1">{{ 'groups.all' | translate }}</h5>
                                             </div>
 
                                             <div class="tab-section-container">
@@ -236,7 +236,7 @@
 
                                                 <div class="text-muted text-center"
                                                     *ngIf="teacher.groups === null || teacher.groups?.length === 0">
-                                                    {{ 'teachers.profile.noGroups' | translate }}
+                                                    {{ 'shared.profile.noGroups' | translate }}
                                                 </div>
                                             </div>
 
@@ -264,7 +264,7 @@
 
                                                 <div class="text-muted text-center"
                                                     *ngIf="teacher.attachments === null || teacher.attachments?.length === 0">
-                                                    {{ 'teachers.profile.noAttachments' | translate }}
+                                                    {{ 'shared.profile.noAttachments' | translate }}
                                                 </div>
                                             </div>
 

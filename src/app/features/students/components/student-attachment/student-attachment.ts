@@ -11,6 +11,7 @@ import { LoaderService } from '../../../shared/services/loader.service';
 import { ToastService } from '../../../shared/services/toast.service';
 import { AttachmentHelper } from '../../../../core/helpers/attachmet-helper';
 import { DateHelper } from '../../../../core/helpers/date.helper';
+import { PermissionAccessService } from '../../../../core/services/permission-access.service';
 
 @Component({
   selector: 'app-student-attachment',
@@ -30,6 +31,7 @@ export class StudentAttachmentComponent {
   private studentService = inject(StudentService);
   private loaderService = inject(LoaderService);
   private toastr = inject(ToastService);
+  public permissionService = inject(PermissionAccessService);
   //#endregion
 
 

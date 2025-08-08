@@ -18,6 +18,7 @@ import { ToastService } from '../../../shared/services/toast.service';
 import { DateHelper } from '../../../../core/helpers/date.helper';
 import { UserRoleEnum } from '../../../../core/enums/user-role.enum';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { PermissionAccessService } from '../../../../core/services/permission-access.service';
 
 @Component({
   selector: 'app-student-form',
@@ -47,6 +48,7 @@ export class StudentFormComponent {
   private toaster = inject(ToastService);
   private fb = inject(FormBuilder);
   private translate = inject(TranslateService);
+  public permissionAccess = inject(PermissionAccessService);
   //#endregion
 
   //#region Methods
@@ -75,8 +77,8 @@ export class StudentFormComponent {
       
       this.studentForm.patchValue(this.student);
 
-      this.studentForm.get('joinedDate')?.setValue(new Date(this.student.joinedDate));
-      this.studentForm.get('birthDate')?.setValue(new Date(this.student.birthDate));
+      this.studentForm.get('joinedDate')?.setValue(this.student.joinedDate ? new Date(this.student.joinedDate) : null);
+      this.studentForm.get('birthDate')?.setValue(this.student.birthDate ? new Date(this.student.birthDate) : null);
 
       this.studentForm.markAllAsTouched();
     }
@@ -118,8 +120,8 @@ export class StudentFormComponent {
       const studentData = this.studentForm.value as Student;
       studentData.id = 0;
       studentData.role = UserRoleEnum.Student;
-      studentData.joinedDate = DateHelper.toDate(studentData.joinedDate);
-      studentData.birthDate = DateHelper.toDate(studentData.birthDate);
+      studentData.joinedDate = studentData.joinedDate ? DateHelper.toDate(studentData.joinedDate) : null;
+      studentData.birthDate = studentData.birthDate ? DateHelper.toDate(studentData.birthDate) : null;
 
       this.studentService.add(studentData)
         .pipe(takeUntil(this.destroy$))
@@ -137,8 +139,8 @@ export class StudentFormComponent {
     if (this.studentForm.valid) {
       this.loader.show();
       const studentData = { ...this.student, ...this.studentForm.value } as Student;
-      studentData.joinedDate = DateHelper.toDate(studentData.joinedDate);
-      studentData.birthDate = DateHelper.toDate(studentData.birthDate);
+      studentData.joinedDate = studentData.joinedDate ? DateHelper.toDate(studentData.joinedDate) : null;
+      studentData.birthDate = studentData.birthDate ? DateHelper.toDate(studentData.birthDate) : null;
 
       this.studentService.update(studentData)
         .pipe(takeUntil(this.destroy$))

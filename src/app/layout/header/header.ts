@@ -34,6 +34,8 @@ export class Header {
   goToProfile() {
     if(this.authService.isTeacher) {
       this.router.navigate(['/teachers' , this.authService.getUser()?.id]);
+    } else if(this.authService.isStudent) {
+      this.router.navigate(['/students' , this.authService.getUser()?.id]);
     }
   }
 

@@ -28,7 +28,7 @@ export function resultErrorInterceptor(request: HttpRequest<any>, next: HttpHand
                 return of(null);
             }
 
-            if (error.status === 500 || error.status === 502) {
+            if (error.status === 502) {
                 errorNavigationService.navigateToServerError();
                 return of(null);
             }

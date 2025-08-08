@@ -20,12 +20,13 @@ import { GenderHelper } from '../../../../core/helpers/gender.helper';
 import { UserAttachment } from '../../../../core/models/user-attachment.model';
 import { Group } from '../../../../core/models/group.model';
 import { TableModule } from 'primeng/table';
-import { GroupsDialog } from '../../../shared/dialogs/groups-dialog/groups-dialog';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { PermissionAccessService } from '../../../../core/services/permission-access.service';
 
 @Component({
   selector: 'app-student-profile',
-  imports: [CardContainer, TabsModule, TooltipModule, StudentFormComponent, StudentQualification, CommonModule, UserAttachmentDialog, StudentAttachmentComponent, GroupsDialog,
-    TableModule
+  imports: [CardContainer, TabsModule, TooltipModule, StudentFormComponent, StudentQualification, CommonModule, UserAttachmentDialog, StudentAttachmentComponent,
+    TableModule, TranslateModule
   ],
   templateUrl: './student-profile.html',
   styleUrl: './student-profile.scss'
@@ -50,7 +51,8 @@ export class StudentProfile {
   private cdr = inject(ChangeDetectorRef);
   private sanitizer = inject(DomSanitizer);
   private toaster = inject(ToastService);
-
+  private translate = inject(TranslateService);
+  public permissionService = inject(PermissionAccessService);
   //#endregion
 
   //#region Methods
@@ -69,7 +71,7 @@ export class StudentProfile {
       this.student = student;
 
       if(student.id == 0) {
-        this.toaster.showError('لا يوجد معلومات عن الطالب');
+        this.toaster.showError(this.translate.instant('students.notFound'));
         this.disablePage = true;
       }
 
@@ -107,7 +109,7 @@ export class StudentProfile {
       this.studentService.uploadImage(file, this.student.id).subscribe(res => {
         if(res) {
           this.loadStudent();
-          this.toaster.showSuccess('تم تحديث الصورة بنجاح');
+          this.toaster.showSuccess(this.translate.instant('students.imageUpdateSuccess'));
         }
       }, _ => { }, () => {
         this.loader.hide();
@@ -115,7 +117,7 @@ export class StudentProfile {
     }
   }
 
-  getAge(birthDate: string) {
+  getAge(birthDate: string | null) {
     return birthDate ? DateHelper.getAge(birthDate) : '';
   }
 
@@ -169,10 +171,10 @@ export class StudentProfile {
 
     this.loader.show();
     this.studentService.update(this.student).pipe(takeUntil(this.destroy$)).subscribe(res => {
-      if(res) {
-        this.loadStudent();
-        this.toaster.showSuccess('تم تحديث المجموعات بنجاح');
-      }
+              if(res) {
+          this.loadStudent();
+          this.toaster.showSuccess(this.translate.instant('students.groupsUpdateSuccess'));
+        }
     }, _ => { }, () => {
       this.loader.hide();
       this.showGroupsDialog = false;

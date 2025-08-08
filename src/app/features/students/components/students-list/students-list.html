@@ -1,14 +1,17 @@
-<card-container title="الطلاب" [addBtn]="true" (onAdd)="showDialog = true">
+<card-container [title]="'students.all' | translate" [addBtn]="permissionService.canAdd.student" (onAdd)="onAdd()">
     <grid [pagedRows]="students" (onLazyLoad)="loadStudents($event)" 
           [columns]="columns" [pageSize]="10" [paginator]="true" [showFilters]="true"
-          [allowEdit]="true" (onEdit)="onEdit($event)" 
-          [allowActivate]="true" (onActivate)="onActivate($event)"
-          [allowDeactivate]="true"  (onDeactivate)="onDeactivate($event)"
-          [allowView]="true" (onView)="onView($event)"
+          [allowDelete]="permissionService.canDelete.student" (onDelete)="onDelete($event)"
+          [allowActivate]="permissionService.canActivate.student" (onActivate)="onActivate($event)"
+          [allowDeactivate]="permissionService.canDeactivate.student"  (onDeactivate)="onDeactivate($event)"
+          [allowView]="permissionService.canView.studentProfile" (onView)="onView($event)"
           [hasIsActive]="true" />
 </card-container>
 
 
-<app-student-form [showDialog]="showDialog" 
+<app-student-form [showDialog]="showDialog && permissionService.canEdit.student" 
 [student]="student" (onSave)="loadStudents(queryParams)" 
 (onCancel)="showDialog = false" />
+
+<delete-confirmation *ngIf="showDeleteDialog && permissionService.canDelete.student" [message]="'shared.dialogs.deleteConfirmation' | translate"
+(confirm)="onConfirmDelete()" (cancel)="onCancelDelete()" />

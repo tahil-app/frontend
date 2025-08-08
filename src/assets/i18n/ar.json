@@ -124,7 +124,26 @@
                 "entries": "عنصر",
                 "noData": "لا توجد بيانات"
             },
+            "profile": {
+                "education": "التعليم",
+                "qualifications": "المؤهلات",
+                "experience": "الخبرات",
+                "noQualifications": "لا يوجد مؤهلات",
+                "noExperience": "لا يوجد خبرات",
+                "noCourses": "لا يوجد دورات",
+                "noGroups": "لا يوجد مجموعات",
+                "noAttachments": "لا يوجد مرفقات",
+                "qualificationsSaveSuccess": "تم حفظ المؤهلات بنجاح",
+                "experienceSaveSuccess": "تم حفظ الخبرات بنجاح"
+            },
             "comingSoon": "المزيد من التفاصيل قريباً..."
+        },
+        "validation": {
+            "passwordMismatch": "كلمة المرور وتأكيد كلمة المرور غير متطابقين",
+            "requiredDropdown": "يرجى اختيار {{field}} من القائمة",
+            "minLength": "{{field}} يجب أن يكون أطول من {{length}} أحرف",
+            "emailInvalid": "{{field}} يجب أن يكون بريد إلكتروني صحيح",
+            "required": "{{field}} مطلوب"
         },
         "courses": {
             "all": "الدورات",
@@ -169,17 +188,7 @@
             "deleteSuccess": "تم حذف بيانات المعلم بنجاح",
             "notFound": "لا يوجد معلومات عن المعلم",
             "profile": {
-                "teacherData": "بيانات المعلم",
-                "education": "التعليم",
-                "qualifications": "المؤهلات",
-                "experience": "الخبرات",
-                "noQualifications": "لا يوجد مؤهلات",
-                "noExperience": "لا يوجد خبرات",
-                "noCourses": "لا يوجد دورات",
-                "noGroups": "لا يوجد مجموعات",
-                "noAttachments": "لا يوجد مرفقات",
-                "qualificationsSaveSuccess": "تم حفظ المؤهلات بنجاح",
-                "experienceSaveSuccess": "تم حفظ الخبرات بنجاح"
+                "teacherData": "بيانات المعلم"
             }
         },
         "groups": {
@@ -210,7 +219,13 @@
             "updateSuccess": "تم تعديل بيانات الطالب بنجاح",
             "activateSuccess": "تم تفعيل بيانات الطالب بنجاح",
             "deactivateSuccess": "تم تعطيل بيانات الطالب بنجاح",
-            "deleteSuccess": "تم حذف بيانات الطالب بنجاح"
+            "deleteSuccess": "تم حذف بيانات الطالب بنجاح",
+            "notFound": "لا يوجد معلومات عن الطالب",
+            "imageUpdateSuccess": "تم تحديث صورة الطالب بنجاح",
+            "groupsUpdateSuccess": "تم تحديث مجموعات الطالب بنجاح",
+            "profile": {
+                "studentData": "بيانات الطالب"
+            }
         },
         "employees": {
             "all": "الموظفين",

@@ -119,10 +119,11 @@ export class TeachersList {
           this.loadTeachers(this.queryParams);
           this.toaster.showSuccess(this.translate.instant('teachers.deleteSuccess'));
         }
+        this.showDeleteDialog = false;
+        this.teacherToDelete = {} as Teacher;
+        
       }, _ => { }, () => this.loader.hide());
     
-    this.showDeleteDialog = false;
-    this.teacherToDelete = {} as Teacher;
   }
 
   onCancelDelete() {

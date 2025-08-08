@@ -3,7 +3,7 @@
 
         <div class="row">
             <div class="col-md-6 col-12 flex items-center gap-2 mb-2">
-                <input-label [label]="'shared.fields.name' | translate" [required]="true" [formControl]="getFormControl('name')" />
+                <input-label [label]="'shared.fields.name' | translate" [disabled]="!(permissionAccess.canEdit.teacherOnlyAdminOrEmployee)" [required]="true" [formControl]="getFormControl('name')" />
             </div>
     
             <div class="col-md-6 col-12 flex items-center gap-2 mb-2">
@@ -34,7 +34,7 @@
 
         <div class="row">
             <div class="col-md-6 col-12 flex items-center gap-2 mb-2">
-                <label-date-picker [label]="'shared.fields.birthDate' | translate" [formControl]="getFormControl('birthDate')" />
+                <label-date-picker [label]="'shared.fields.birthDate' | translate" [disabled]="!(permissionAccess.canEdit.teacherOnlyAdminOrEmployee)" [formControl]="getFormControl('birthDate')" />
             </div>
 
             <div class="col-md-6 col-12 flex items-center gap-2 mb-2">

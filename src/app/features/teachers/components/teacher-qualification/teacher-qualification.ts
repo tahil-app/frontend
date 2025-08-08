@@ -76,7 +76,7 @@ export class TeacherQualification {
           if (res) {
             this.onSave.emit();
             this.qualificationForm.reset();
-            this.toaster.showSuccess(this.translate.instant('teachers.profile.qualificationsSaveSuccess'));
+            this.toaster.showSuccess(this.translate.instant('shared.profile.qualificationsSaveSuccess'));
           }
         }, _ => { }, () => this.loader.hide());
     }

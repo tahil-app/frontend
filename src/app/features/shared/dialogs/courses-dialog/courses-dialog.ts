@@ -44,8 +44,11 @@ export class CoursesDialog {
   private loader = inject(LoaderService);
   private cdr = inject(ChangeDetectorRef);
 
-  ngOnInit() {
+  constructor() {
     this.initForm();
+  }
+
+  ngOnInit() {
     this.loadCourses();
   }
 

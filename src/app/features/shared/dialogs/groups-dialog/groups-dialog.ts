@@ -44,8 +44,11 @@ export class GroupsDialog {
   private loader = inject(LoaderService);
   private cdr = inject(ChangeDetectorRef);
 
-  ngOnInit() {
+  constructor() {
     this.initForm();
+  }
+
+  ngOnInit() {
     this.loadGroups();
   }
 

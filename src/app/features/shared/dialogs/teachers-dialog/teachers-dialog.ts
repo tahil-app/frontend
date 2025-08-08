@@ -44,8 +44,11 @@ export class TeachersDialog {
   private loader = inject(LoaderService);
   private cd = inject(ChangeDetectorRef);
 
-  ngOnInit() {
+  constructor() {
     this.initForm();
+  }
+
+  ngOnInit() {
     this.loadTeachers();
   }
 

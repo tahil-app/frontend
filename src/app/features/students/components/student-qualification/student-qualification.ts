@@ -10,10 +10,11 @@ import { StudentService } from '../../../../core/services/student.service';
 import { ToastService } from '../../../shared/services/toast.service';
 import { LoaderService } from '../../../shared/services/loader.service';
 import { Editor } from '../../../shared/components/editor/editor';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-student-qualification',
-  imports: [CommonModule, DialogModule, SaveBtn, CancelBtn, ReactiveFormsModule, Editor],
+  imports: [CommonModule, DialogModule, SaveBtn, CancelBtn, ReactiveFormsModule, Editor, TranslateModule],
   templateUrl: './student-qualification.html',
   styleUrl: './student-qualification.scss'
 })
@@ -36,6 +37,7 @@ export class StudentQualification {
   private studentService = inject(StudentService);
   private toaster = inject(ToastService);
   private loader = inject(LoaderService);
+  private translate = inject(TranslateService);
   //#endregion
 
   //#region Methods
@@ -73,7 +75,7 @@ export class StudentQualification {
           if (res) {
             this.onSave.emit();
             this.qualificationForm.reset();
-            this.toaster.showSuccess('تم حفظ المؤهلات بنجاح');
+            this.toaster.showSuccess(this.translate.instant('shared.profile.qualificationsSaveSuccess'));
           }
         }, _ => { }, () => this.loader.hide());
     }
