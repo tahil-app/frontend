@@ -1,4 +1,4 @@
-export interface LessonScheduleForm {
+export interface ScheduleForm {
     id: number;
     groupId: number;
     roomId: number;

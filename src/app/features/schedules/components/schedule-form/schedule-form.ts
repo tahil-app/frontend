@@ -1,0 +1,218 @@
+import { ChangeDetectorRef, Component, EventEmitter, inject, Input, Output, SimpleChanges } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Subject, takeUntil } from 'rxjs';
+import { LoaderService } from '../../../shared/services/loader.service';
+import { ToastService } from '../../../shared/services/toast.service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ScheduleService } from '../../../../core/services/schedule.service';
+import { ClassSchedule } from '../../../../core/models/class-schedule.model';
+import { ScheduleLookup } from '../../../../core/models/schedule-lookup.model';
+import { Dialog } from "primeng/dialog";
+import { CommonModule } from '@angular/common';
+import { Dropdown } from '../../../shared/components/dropdown/dropdown';
+import { LabelTimePicker } from '../../../shared/components/label-time-picker/label-time-picker';
+import { LabelDatePicker } from '../../../shared/components/label-date-picker/label-date-picker';
+import { SaveBtn } from '../../../shared/buttons/save-btn/save-btn';
+import { CancelBtn } from '../../../shared/buttons/cancel-btn/cancel-btn';
+import { DropdownProps } from '../../../shared/props/dropdown.props';
+import { DayOfWeek } from '../../../../core/enums/day-week.enum';
+import { DateHelper } from '../../../../core/helpers/date.helper';
+import { ClassScheduleStatus } from '../../../../core/enums/class-schedule-status.enum';
+import { TimeHelper } from '../../../../core/helpers/time.helper';
+
+@Component({
+  selector: 'app-schedule-form',
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    Dialog,
+    TranslateModule,
+    Dropdown,
+    LabelTimePicker,
+    LabelDatePicker,
+    SaveBtn,
+    CancelBtn
+  ],
+  templateUrl: './schedule-form.html',
+  styleUrl: './schedule-form.scss'
+})
+export class ScheduleForm {
+
+  //#region Properties
+  @Input() showDialog = false;
+  @Input() schedule: ClassSchedule = {} as ClassSchedule;
+  @Output() onSave = new EventEmitter<void>();
+  @Output() onCancel = new EventEmitter<void>();
+
+  lookups: ScheduleLookup = {} as ScheduleLookup;
+  scheduleForm!: FormGroup;
+  destroy$ = new Subject<void>();
+
+  //#region Services
+  private scheduleService = inject(ScheduleService);
+  private loader = inject(LoaderService);
+  private toaster = inject(ToastService);
+  private fb = inject(FormBuilder);
+  private translate = inject(TranslateService);
+  private cd = inject(ChangeDetectorRef);
+  //#endregion
+
+  // Dropdown options
+  dayOptions: DropdownProps[] = [
+    { label: this.translate.instant('shared.days.saturday'), value: DayOfWeek.Saturday },
+    { label: this.translate.instant('shared.days.sunday'), value: DayOfWeek.Sunday },
+    { label: this.translate.instant('shared.days.monday'), value: DayOfWeek.Monday },
+    { label: this.translate.instant('shared.days.tuesday'), value: DayOfWeek.Tuesday },
+    { label: this.translate.instant('shared.days.wednesday'), value: DayOfWeek.Wednesday },
+    { label: this.translate.instant('shared.days.thursday'), value: DayOfWeek.Thursday },
+    { label: this.translate.instant('shared.days.friday'), value: DayOfWeek.Friday }
+  ];
+  //#endregion
+
+  //#region Methods
+
+  constructor() {
+    this.initForm();
+  }
+
+  ngOnInit() {
+    this.loadLookups();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['showDialog'] && this.showDialog && !this.schedule.id) {
+      this.scheduleForm?.reset();
+      this.scheduleForm?.patchValue({} as ClassSchedule);
+    }
+
+    if (changes['schedule'] && this.schedule.id > 0) {
+      this.cd.detectChanges();
+
+      // Convert time strings to Date objects for the form controls
+      const scheduleForForm = { ...this.schedule } as any;
+      if (scheduleForForm.startTime && typeof scheduleForForm.startTime === 'string') {
+        scheduleForForm.startTime = TimeHelper.toDate(scheduleForForm.startTime);
+      }
+      if (scheduleForForm.endTime && typeof scheduleForForm.endTime === 'string') {
+        scheduleForForm.endTime = TimeHelper.toDate(scheduleForForm.endTime);
+      }
+
+      this.scheduleForm?.patchValue(scheduleForForm);
+    }
+  }
+
+  initForm() {
+    this.scheduleForm = this.fb.group({
+      id: [0],
+      roomId: [0, [Validators.required]],
+      groupId: [0, [Validators.required]],
+      day: [null, [Validators.required]],
+      startTime: [null, [Validators.required]],
+      endTime: [null, [Validators.required]],
+      startDate: [null],
+      endDate: [null],
+    });
+  }
+
+  hasId() {
+    return this.schedule.id > 0;
+  }
+
+  getFormControl(name: string) {
+    return this.scheduleForm.get(name) as FormControl;
+  }
+
+  loadLookups() {
+    this.loader.show();
+    this.scheduleService.getLookups().pipe(takeUntil(this.destroy$)).subscribe((res) => {
+      this.lookups = res;
+      this.loader.hide();
+      // Trigger change detection after loading lookups
+      this.cd.detectChanges();
+    });
+  }
+
+  getDropdownOptions(name: string): DropdownProps[] {
+    if (!this.lookups) {
+      return [{ label: this.translate.instant('shared.dropdown.selectHere'), value: null }];
+    }
+
+    const data = this.lookups[name as keyof ScheduleLookup];
+    if (!data) {
+      return [{ label: this.translate.instant('shared.dropdown.selectHere'), value: null }];
+    }
+
+    const options = (data as any[]).map((item: any) => ({
+      label: item.name || item.title || item.label,
+      value: item.id || item.value
+    }));
+
+    // Add default option at the beginning
+    return [
+      { label: this.translate.instant('shared.dropdown.selectHere'), value: null },
+      ...options
+    ];
+  }
+
+  save() {
+    if (this.scheduleForm.invalid) {
+      this.scheduleForm.markAllAsTouched();
+      return;
+    }
+
+    const schedule = this.scheduleForm.value as ClassSchedule;
+    schedule.id = 0;
+    schedule.status = ClassScheduleStatus.New;
+    schedule.startDate = schedule.startDate ? DateHelper.toDate(schedule.startDate) : null;
+    schedule.endDate = schedule.endDate ? DateHelper.toDate(schedule.endDate) : null;
+
+    // Convert Date objects to TimeOnly compatible format (HH:mm:ss)
+    (schedule as any).startTime = schedule.startTime ? TimeHelper.toTime(schedule.startTime) : '';
+    (schedule as any).endTime = schedule.endTime ? TimeHelper.toTime(schedule.endTime) : '';
+
+    console.log(schedule);
+
+    this.loader.show();
+
+    this.scheduleService.create(schedule).subscribe((res: any) => {
+      this.toaster.showSuccess(this.translate.instant('schedules.saveSuccess'));
+      this.scheduleForm.reset();
+      this.onSave.emit();
+    }, (err: any) => { }, () => this.loader.hide());
+
+  }
+
+  update() {
+    if (this.scheduleForm.invalid) {
+      this.scheduleForm.markAllAsTouched();
+      return;
+    }
+
+    const schedule = this.scheduleForm.value as ClassSchedule;
+    schedule.startDate = schedule.startDate ? DateHelper.toDate(schedule.startDate) : null;
+    schedule.endDate = schedule.endDate ? DateHelper.toDate(schedule.endDate) : null;
+
+    // Convert Date objects to TimeOnly compatible format (HH:mm:ss)
+    (schedule as any).startTime = schedule.startTime ? TimeHelper.toTime(schedule.startTime) : '';
+    (schedule as any).endTime = schedule.endTime ? TimeHelper.toTime(schedule.endTime) : '';
+
+    this.loader.show();
+    this.scheduleService.update(schedule).subscribe((res: any) => {
+      this.toaster.showSuccess(this.translate.instant('schedules.updateSuccess'));
+      this.scheduleForm.reset();
+      this.onSave.emit();
+    }, (err: any) => { }, () => this.loader.hide());
+
+  }
+
+  cancel() {
+    this.scheduleForm.reset();
+    this.onCancel.emit();
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+}

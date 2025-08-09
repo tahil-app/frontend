@@ -80,7 +80,12 @@
             "capacityPercentage": "Capacity Percentage",
             "numberOfTeachers": "Number of Teachers",
             "status": "Status",
-            "years": "Years"
+            "years": "Years",
+            "day": "Day",
+            "startTime": "Start Time",
+            "endTime": "End Time",
+            "startDate": "Start Date",
+            "endDate": "End Date"
         },
         "validation": {
             "passwordMismatch": "Password and confirm password do not match",
@@ -136,7 +141,20 @@
             "qualificationsSaveSuccess": "Qualifications saved successfully",
             "experienceSaveSuccess": "Experience saved successfully"
         },
-        "comingSoon": "More details coming soon..."
+        "comingSoon": "More details coming soon...",
+        "days": {
+            "monday": "Monday",
+            "tuesday": "Tuesday", 
+            "wednesday": "Wednesday",
+            "thursday": "Thursday",
+            "friday": "Friday",
+            "saturday": "Saturday",
+            "sunday": "Sunday"
+        },
+        "messages": {
+            "savedSuccessfully": "Saved successfully",
+            "updatedSuccessfully": "Updated successfully"
+        }
     },
     "courses": {
         "all": "Courses",
@@ -269,5 +287,16 @@
             "contactSupport": "Contact Support",
             "contactSupportMessage": "Please contact technical support for assistance."
         }
+    },
+    "schedules": {
+        "all": "Schedules",
+        "one": "Schedule",
+        "formTitle": "Schedule Data",
+        "saveSuccess": "Schedule saved successfully",
+        "updateSuccess": "Schedule updated successfully",
+        "deleteSuccess": "Schedule deleted successfully",
+        "activateSuccess": "Schedule activated successfully",
+        "deactivateSuccess": "Schedule deactivated successfully",
+        "notFound": "Schedule not found"
     }
 }

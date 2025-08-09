@@ -1,0 +1,53 @@
+<p-dialog [header]="'schedules.formTitle' | translate" [modal]="true" [(visible)]="showDialog"
+    [style]="{ width: '30rem' }">
+    <form [formGroup]="scheduleForm" (ngSubmit)="hasId() ? update() : save()">
+
+        <div class="row">
+            <div class="col-md-12 col-12 flex items-center gap-2 mb-2">
+                <dropdown [label]="'rooms.one' | translate" [required]="true" [options]="getDropdownOptions('rooms')"
+                    [formControl]="getFormControl('roomId')" [allowFilter]="true" />
+            </div>
+
+            <div class="col-md-12 col-12 flex items-center gap-2 mb-2">
+                <dropdown [label]="'groups.one' | translate" [required]="true" [options]="getDropdownOptions('groups')"
+                    [formControl]="getFormControl('groupId')" [allowFilter]="true" />
+            </div>
+
+            <div class="col-md-12 col-12 flex items-center gap-2 mb-2">
+                <dropdown [label]="'shared.fields.day' | translate" [required]="true" [options]="dayOptions"
+                    [formControl]="getFormControl('day')" [allowFilter]="true" />
+            </div>
+
+            <div class="col-md-12 col-12 flex items-center gap-2 mb-2">
+                <div class="row">
+                    <div class="col-6 flex items-center gap-2 mb-2">
+                        <label-time-picker [label]="'shared.fields.startTime' | translate" [required]="true"
+                            [formControl]="getFormControl('startTime')" />
+                    </div>
+    
+                    <div class="col-6 flex items-center gap-2 mb-2">
+                        <label-time-picker [label]="'shared.fields.endTime' | translate" [required]="true"
+                            [formControl]="getFormControl('endTime')" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 col-12 flex items-center gap-2 mb-2">
+                <label-date-picker [label]="'shared.fields.startDate' | translate" [required]="false"
+                    [formControl]="getFormControl('startDate')" />
+            </div>
+
+            <div class="col-md-12 col-12 flex items-center gap-2 mb-2">
+                <label-date-picker [label]="'shared.fields.endDate' | translate" [required]="false"
+                    [formControl]="getFormControl('endDate')" />
+            </div>
+        </div>
+
+        <div class="flex justify-end gap-2 mt-4">
+            <save-btn type="submit" [disabled]="!scheduleForm.valid"/>
+            &nbsp;
+            <cancel-btn type="button" (click)="cancel()" />
+        </div>
+
+    </form>
+</p-dialog>

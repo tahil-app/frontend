@@ -15,6 +15,7 @@ export class PermissionAccessService {
             teachers: this.authService.isAdmin || this.authService.isEmployee,
             rooms: this.authService.isAdmin,
             courses: this.authService.isAdmin,
+            schedules: this.authService.isAdmin || this.authService.isEmployee || this.authService.isTeacher || this.authService.isStudent,
         };
     }
 

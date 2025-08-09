@@ -81,7 +81,7 @@ export class ApiEndpoints {
         }
     };
 
-    static readonly LESSON_SCHEDULES = {
+    static readonly CLASS_SCHEDULES = {
         Controller: 'schedules',
         Actions: {
             Paged: `paged`,

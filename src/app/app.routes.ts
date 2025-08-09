@@ -38,7 +38,7 @@ export const routes: Routes = [
     },
     {
         path: 'schedules',
-        loadChildren: () => import('./features/lesson-schedules/lesson-schedules.routes').then(m => m.LESSON_SCHEDULE_ROUTES),
+        loadChildren: () => import('./features/schedules/schedules.routes').then(m => m.SCHEDULES_ROUTES),
         canActivate: [AuthGuard]
     },
     {

@@ -119,11 +119,9 @@ export class GroupFromComponent {
     this.teacherService.getTeachersByCourseId(courseId)
       .pipe(takeUntil(this.destroy$))
       .subscribe(teachers => {
+
         this.teachersOptions = getDropdownOptions(teachers);
-
-        console.log(this.teachersOptions);
         this.groupForm.get('teacherId')?.setValue(this.group.teacherId);
-
 
       }, _ => { }, () => this.loader.hide());
   }

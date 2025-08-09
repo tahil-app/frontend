@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, forwardRef, inject } from '@angular/core';
+import { Component, Input, SimpleChanges, forwardRef, inject } from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormError } from '../form-error/form-error';
@@ -29,6 +29,15 @@ export class InputLabel implements ControlValueAccessor{
 
   private translate = inject(TranslateService);
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['disabled']) {
+      this.formControl.disable();
+    } else {
+      this.formControl.enable();
+    }
+  }
+
+
   //#region Control Value Accessor
   innerValue: any;
   writeValue(value: any): void {
@@ -41,7 +50,7 @@ export class InputLabel implements ControlValueAccessor{
     this.onTouched = fn ?? this.onTouched;
   }
   setDisabledState(isDisabled: boolean): void {
-    // this.disabled = isDisabled;
+    this.disabled = isDisabled;
   }
 
   onInputChange(event: any): void {
