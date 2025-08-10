@@ -11,6 +11,7 @@ import { MessageService, ConfirmationService } from 'primeng/api';
 import { DatePickerAr } from './features/shared/components/label-date-picker/date-picker-ar';
 import { resultErrorInterceptor } from './core/interceptors/error.http.interceptor';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
+import { languageInterceptor } from './core/interceptors/language.interceptor';
 
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { provideTranslateService } from '@ngx-translate/core';
@@ -23,7 +24,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideHttpClient(
-      withInterceptors([resultModelInterceptor, resultErrorInterceptor, authInterceptor])
+      withInterceptors([languageInterceptor, resultModelInterceptor, resultErrorInterceptor, authInterceptor])
     ),
     provideAnimationsAsync(),
     providePrimeNG({

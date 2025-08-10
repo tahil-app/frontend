@@ -302,5 +302,16 @@
             "activateSuccess": "تم تفعيل الجدول بنجاح",
             "deactivateSuccess": "تم تعطيل الجدول بنجاح",
             "notFound": "الجدول غير موجود"
+        },
+        "calendar": {
+            "month": "شهر",
+            "week": "أسبوع",
+            "day": "يوم",
+            "previous": "السابق",
+            "next": "التالي",
+            "today": "اليوم",
+            "todaySchedule": "جدول اليوم",
+            "tomorrowSchedule": "جدول الغد",
+            "mathClass": "حصة الرياضيات"
         }
     }

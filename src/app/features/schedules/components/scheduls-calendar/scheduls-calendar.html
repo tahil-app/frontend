@@ -1,5 +1,11 @@
-<card-container [title]="'schedules.all' | translate" [addBtn]="true" (onAdd)="onAdd()">
+<card-container [title]="'schedules.all' | translate" [addBtn]="true" (onAdd)="this.showDialog = true">
+  
+  <!-- Shared Calendar Component -->
+  <calendar 
+    [config]="calendarConfig"
+    (eventClicked)="eventClicked($event)">
+  </calendar>
 
 </card-container>
 
-<app-schedule-form [showDialog]="showDialog" *ngIf="showDialog" [schedule]="schedule" (onSave)="onSave()" (onCancel)="onCancel()" />
+<app-schedule-form [showDialog]="showDialog" *ngIf="showDialog" [schedule]="schedule" (onSave)="onSave()" (onCancel)="this.showDialog = false" />

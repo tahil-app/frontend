@@ -1,5 +1,8 @@
 @use "./confirm-dialog.scss";
 
+// Angular Calendar CSS
+@import "../../../node_modules/angular-calendar/css/angular-calendar.css";
+
 html {
     height: 100%;
 }

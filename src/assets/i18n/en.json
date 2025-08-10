@@ -298,5 +298,16 @@
         "activateSuccess": "Schedule activated successfully",
         "deactivateSuccess": "Schedule deactivated successfully",
         "notFound": "Schedule not found"
+    },
+    "calendar": {
+        "month": "Month",
+        "week": "Week",
+        "day": "Day",
+        "previous": "Previous",
+        "next": "Next",
+        "today": "Today",
+        "todaySchedule": "Today's Schedule",
+        "tomorrowSchedule": "Tomorrow's Schedule",
+        "mathClass": "Math Class"
     }
 }

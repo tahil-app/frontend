@@ -170,14 +170,16 @@ export class ScheduleForm {
     (schedule as any).startTime = schedule.startTime ? TimeHelper.toTime(schedule.startTime) : '';
     (schedule as any).endTime = schedule.endTime ? TimeHelper.toTime(schedule.endTime) : '';
 
-    console.log(schedule);
-
     this.loader.show();
 
     this.scheduleService.create(schedule).subscribe((res: any) => {
-      this.toaster.showSuccess(this.translate.instant('schedules.saveSuccess'));
-      this.scheduleForm.reset();
-      this.onSave.emit();
+      
+      if (res) {
+        this.toaster.showSuccess(this.translate.instant('schedules.saveSuccess'));
+        this.scheduleForm.reset();
+        this.onSave.emit();
+      }
+
     }, (err: any) => { }, () => this.loader.hide());
 
   }
@@ -198,9 +200,13 @@ export class ScheduleForm {
 
     this.loader.show();
     this.scheduleService.update(schedule).subscribe((res: any) => {
-      this.toaster.showSuccess(this.translate.instant('schedules.updateSuccess'));
-      this.scheduleForm.reset();
-      this.onSave.emit();
+
+      if (res) {
+        this.toaster.showSuccess(this.translate.instant('schedules.updateSuccess'));
+        this.scheduleForm.reset();
+        this.onSave.emit();
+      }
+
     }, (err: any) => { }, () => this.loader.hide());
 
   }
