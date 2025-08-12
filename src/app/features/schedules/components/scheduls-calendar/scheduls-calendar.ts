@@ -12,6 +12,8 @@ import { PermissionAccessService } from '../../../../core/services/permission-ac
 import { ScheduleService } from '../../../../core/services/schedule.service';
 import { LoaderService } from '../../../shared/services/loader.service';
 import { TimeHelper } from '../../../../core/helpers/time.helper';
+import { ScheduleForm } from '../schedule-form/schedule-form';
+import { DeleteConfirmation } from '../../../shared/components/delete-confirmation/delete-confirmation';
 
 @Component({
   selector: 'app-scheduls-calendar',
@@ -20,7 +22,9 @@ import { TimeHelper } from '../../../../core/helpers/time.helper';
     CardContainer,
     TranslateModule,
     ScheduleDialog,
-    Calendar
+    Calendar,
+    ScheduleForm,
+    DeleteConfirmation
   ],
   templateUrl: './scheduls-calendar.html',
   styleUrl: './scheduls-calendar.scss'
@@ -32,8 +36,11 @@ export class SchedulsCalendar implements OnInit {
   calendarConfig: CalendarProps = {};
 
   showDialog = false;
+  showScheduleForm = false;
+  showDeleteConfirmation = false;
   schedule: ClassSchedule = {} as ClassSchedule;
   schedules: ClassSchedule[] = [];
+  scheduleToDelete: ClassSchedule = {} as ClassSchedule;
 
   //#endregion
 
@@ -59,12 +66,20 @@ export class SchedulsCalendar implements OnInit {
       this.setupCalendarConfig();
     }, err => { }, () => {
       this.showDialog = false;
+      this.showScheduleForm = false;
+      this.showDeleteConfirmation = false;
       this.loader.hide();
     });
 
   }
 
   setupCalendarConfig(): void {
+
+    let group = this.translateService.instant('groups.one');
+    let room = this.translateService.instant('rooms.one');
+    let teacher = this.translateService.instant('teachers.one');
+    let course = this.translateService.instant('courses.one');
+
     this.calendarConfig = {
       showNavigation: true,
       showViewSwitcher: true,
@@ -72,6 +87,32 @@ export class SchedulsCalendar implements OnInit {
       events: this.events,
       showEditBtn: this.permissionService.canEdit.schedule,
       showDeleteBtn: this.permissionService.canDelete.schedule,
+      tooltip: (event: CalendarEvent) => {
+        let schedule = this.schedules.find(schedule => schedule.id === event.id);
+
+        return `<table>
+          <tr>
+            <td class="text-secondary"><b>${group}: </b><br/>&nbsp;</td>
+            <td>
+              &nbsp;${schedule?.groupName}
+              <br/>
+              &nbsp;${TimeHelper.getTime(schedule?.startTime ?? '')} - ${TimeHelper.getTime(schedule?.endTime ?? '')}
+            </td>
+          </tr>
+          <tr>
+            <td class="text-secondary"><b>${teacher}:</b></td>
+            <td>&nbsp;${schedule?.teacherName}</td>
+          </tr>
+          <tr>
+            <td class="text-secondary"><b>${room}:</b></td>
+            <td>&nbsp;${schedule?.roomName}</td>
+          </tr>
+          <tr>
+            <td class="text-secondary"><b>${course}:</b></td>
+            <td>&nbsp;${schedule?.courseName}</td>
+          </tr>
+        </table>`;
+      }
     };
   }
 
@@ -121,14 +162,39 @@ export class SchedulsCalendar implements OnInit {
   }
 
   editEvent(event: CalendarEvent): void {
-    console.log('Event clicked:', event);
+    this.schedule = this.schedules.find(schedule => schedule.id === event.id) ?? {} as ClassSchedule;
+    this.showScheduleForm = true;
   }
 
   deleteEvent(event: CalendarEvent): void {
-    console.log('Event clicked:', event);
+    this.scheduleToDelete = this.schedules.find(schedule => schedule.id === event.id) ?? {} as ClassSchedule;
+    this.showDeleteConfirmation = true;
+  }
+
+  onDeleteConfirm(): void {
+    this.loader.show();
+    this.scheduleService.delete(this.scheduleToDelete.id!).subscribe({
+      next: () => {
+        this.loadEvents();
+        this.showDeleteConfirmation = false;
+      },
+      error: (error: any) => {
+        console.error('Error deleting schedule:', error);
+        this.showDeleteConfirmation = false;
+      },
+      complete: () => {
+        this.loader.hide();
+      }
+    });
+  }
+
+  onDeleteCancel(): void {
+    this.scheduleToDelete = {} as ClassSchedule;
+    this.showDeleteConfirmation = false;
   }
 
   onSave() {
+    this.showScheduleForm = false;
     this.loadEvents();
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, Inject, LOCALE_ID, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CalendarModule, DateAdapter, CalendarUtils, CalendarA11y, CalendarEventTitleFormatter, CalendarDateFormatter, CalendarEventAction } from 'angular-calendar';
@@ -10,13 +10,15 @@ import localeAr from '@angular/common/locales/ar';
 import { CalendarProps } from '../../props/calendar.props';
 import { CustomDateFormatter } from './custom-date-formatter';
 import { CALENDAR_CONSTANTS } from './calendar.constants';
+import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
   selector: 'calendar',
   imports: [
     CommonModule,
     TranslateModule,
-    CalendarModule
+    CalendarModule,
+    TooltipModule
   ],
   providers: [
     {
@@ -61,6 +63,14 @@ export class Calendar implements OnInit {
         setTimeout(() => this.viewDate = new Date(this.viewDate), 0);
       }
     });
+  }
+
+  buildTooltip(event: CalendarEvent): string {
+    if(this.config.tooltip) {
+      return this.config.tooltip(event);
+    }
+
+    return event.title;
   }
 
   ngOnInit(): void {

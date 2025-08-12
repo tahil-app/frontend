@@ -22,7 +22,7 @@ import { TimeHelper } from '../../../../core/helpers/time.helper';
 import { ColorPickerModule } from 'primeng/colorpicker';
 
 @Component({
-  selector: 'app-schedule-form',
+  selector: 'schedule-form',
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -97,6 +97,14 @@ export class ScheduleForm {
       }
       if (scheduleForForm.endTime && typeof scheduleForForm.endTime === 'string') {
         scheduleForForm.endTime = TimeHelper.toDate(scheduleForForm.endTime);
+      }
+
+      // Convert date strings to Date objects for the date pickers
+      if (scheduleForForm.startDate && typeof scheduleForForm.startDate === 'string') {
+        scheduleForForm.startDate = new Date(scheduleForForm.startDate);
+      }
+      if (scheduleForForm.endDate && typeof scheduleForForm.endDate === 'string') {
+        scheduleForForm.endDate = new Date(scheduleForForm.endDate);
       }
 
       this.scheduleForm?.patchValue(scheduleForForm);

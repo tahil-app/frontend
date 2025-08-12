@@ -1,3 +1,4 @@
+import { TemplateRef } from "@angular/core";
 import { CalendarEvent, CalendarView } from "angular-calendar";
 
 export interface CalendarProps {
@@ -5,6 +6,7 @@ export interface CalendarProps {
     showViewSwitcher?: boolean;
     showEditBtn?: boolean;
     showDeleteBtn?: boolean;
+    tooltip?: (event: CalendarEvent) => string;
     defaultView?: CalendarView;
     events?: CalendarEvent[];
   }

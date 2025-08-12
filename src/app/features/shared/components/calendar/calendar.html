@@ -49,6 +49,12 @@
 <!-- Calendar Views -->
 <div class="calendar-views">
   <div [ngSwitch]="view">
+
+    <ng-template #tooltipTemplate let-event="event">
+      <div tooltipPosition="top" [innerHTML]="buildTooltip(event)" class="tooltip-container" style="background-color: #555; color: #fff; padding: 10px 15px 15px 15px; border-radius: 5px;">
+      </div>
+    </ng-template>
+
     <!-- Month View -->
     <mwl-calendar-month-view
       *ngSwitchCase="CalendarView.Month"
@@ -57,7 +63,9 @@
       [events]="events"
       [weekStartsOn]="6"
       (dayClicked)="onDayClicked($event.day)"
-      (eventClicked)="onEventClicked($event.event)">
+      (eventClicked)="onEventClicked($event.event)"
+      [tooltipAppendToBody]="true"
+      [tooltipTemplate]="tooltipTemplate">
     </mwl-calendar-month-view>
 
     <!-- Week View -->
@@ -66,7 +74,9 @@
       [viewDate]="viewDate"
       [events]="events"
       [weekStartsOn]="6"
-      (eventClicked)="onEventClicked($event.event)">
+      (eventClicked)="onEventClicked($event.event)"
+      [tooltipAppendToBody]="true"
+      [tooltipTemplate]="tooltipTemplate">
     </mwl-calendar-week-view>
 
     <!-- Day View -->
@@ -74,7 +84,9 @@
       *ngSwitchCase="CalendarView.Day"
       [viewDate]="viewDate"
       [events]="events"
-      (eventClicked)="onEventClicked($event.event)">
+      (eventClicked)="onEventClicked($event.event)"
+      [tooltipAppendToBody]="true"
+      [tooltipTemplate]="tooltipTemplate">
     </mwl-calendar-day-view>
   </div>
 </div>
