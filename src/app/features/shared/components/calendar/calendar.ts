@@ -40,6 +40,11 @@ export class Calendar implements OnInit {
   @Input() config: CalendarProps = {};
   @Output() dayClicked = new EventEmitter<any>();
   @Output() eventClicked = new EventEmitter<CalendarEvent>();
+  @Output() editClicked = new EventEmitter<CalendarEvent>();
+  @Output() deleteClicked = new EventEmitter<CalendarEvent>();
+  @Output() nextClicked = new EventEmitter<Date>();
+  @Output() previousClicked = new EventEmitter<Date>();
+  @Output() todayClicked = new EventEmitter<Date>();
 
   view: CalendarView = CalendarView.Month;
   CalendarView = CalendarView;
@@ -47,24 +52,6 @@ export class Calendar implements OnInit {
   events: CalendarEvent[] = [];
   activeDayIsOpen: boolean = true;
 
-
-  actions: CalendarEventAction[] = [
-    {
-      label: '<i class="fas fa-fw fa-pencil-alt"></i>',
-      a11yLabel: 'Edit',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        console.log('Edit', event);
-      },
-    },
-    {
-      label: '<i class="fas fa-fw fa-trash-alt"></i>',
-      a11yLabel: 'Delete',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        // this.events = this.events.filter((iEvent) => iEvent !== event);
-        console.log('Delete', event);
-      },
-    },
-  ];
 
   constructor(private translateService: TranslateService) {
     registerLocaleData(localeAr);
@@ -90,17 +77,38 @@ export class Calendar implements OnInit {
         this.events = [...this.config.events];
       }
     });
+
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['config'] && changes['config'].currentValue) {
       this.events = changes['config']?.currentValue?.events;
+      let actions = this.getActions();
+
       this.events?.forEach(event => {
-        event.actions = this.actions;
+        event.actions = actions;
       });
 
-      console.log('events', this.events);
     }
+  }
+
+  getActions(): CalendarEventAction[] {
+    return [
+      ...(this.config.showEditBtn ? [{
+        label: '<i class="fas fa-fw fa-pencil-alt"></i>',
+        a11yLabel: 'Edit',
+        onClick: ({ event }: { event: CalendarEvent }): void => {
+          this.editClicked.emit(event);
+        },
+      }] : []),
+      ...(this.config.showDeleteBtn ? [{
+        label: '<i class="fas fa-fw fa-trash-alt"></i>',
+        a11yLabel: 'Delete',
+        onClick: ({ event }: { event: CalendarEvent }): void => {
+          this.deleteClicked.emit(event);
+        },
+      }] : []),
+    ];
   }
 
   setView(view: CalendarView) {
@@ -116,6 +124,8 @@ export class Calendar implements OnInit {
       [CalendarView.Day]: addDaysFn
     };
     this.viewDate = addFn[this.view](this.viewDate, -1);
+
+    this.previousClicked.emit(this.viewDate);
   }
 
   next(): void {
@@ -127,12 +137,16 @@ export class Calendar implements OnInit {
       [CalendarView.Day]: addDaysFn
     };
     this.viewDate = addFn[this.view](this.viewDate, 1);
+
+    this.nextClicked.emit(this.viewDate);
   }
 
   today(): void {
     this.activeDayIsOpen = false;
 
     this.viewDate = new Date();
+
+    this.todayClicked.emit(this.viewDate);
   }
 
   onDayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {

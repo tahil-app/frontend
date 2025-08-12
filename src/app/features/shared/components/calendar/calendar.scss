@@ -102,6 +102,30 @@
       direction: rtl;
     }
   }
+
+  .cal-event-actions {
+    display: block !important;
+  }
+
+  .cal-event span {
+    color: #fff !important;
+    font-size: 16px !important;
+  }
+
+  .cal-event span:hover {
+    color: #000 !important;
+    font-weight: 600 !important;
+  }
+
+  a.cal-event-action {
+    margin-left: 10px;
+    color: #fff !important;
+  }
+
+  a.cal-event-action:hover {
+    background-color: transparent !important;
+    color: #000 !important;
+  }
 }
 
 ::ng-deep .cal-week-view {
@@ -118,6 +142,10 @@
 
   .cal-day-columns:first-child {
     padding-right: 17px;
+  }
+
+  .cal-event span {
+    color: #fff !important;
   }
 
   // Hide the date (month) information below day names in weekly view
@@ -143,7 +171,7 @@
   .cal-ends-within-day .cal-event {
     display: flex;
     justify-content: space-between;
-    padding: 0px 15px;
+    padding: 10px;
   }
 
   .cal-event-actions {
@@ -161,7 +189,8 @@
 
       .cal-event-title:hover {
         text-decoration: none !important;
-        color: var(--primary-color) !important;
+        color: #000 !important;
+        font-weight: 600 !important;
       }
 
     }
@@ -184,7 +213,7 @@
 
       a.cal-event-action:hover {
         background-color: transparent !important;
-        color: var(--primary-color) !important;
+        color: #000 !important;
       }
     }
   }

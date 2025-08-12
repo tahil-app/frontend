@@ -292,12 +292,23 @@
         "all": "Schedules",
         "one": "Schedule",
         "formTitle": "Schedule Data",
+        "information": "Schedule Information",
+        "basicInfo": "Basic Information",
+        "scheduleDetails": "Schedule Details",
+        "startDate": "Start Date",
+        "endDate": "End Date",
         "saveSuccess": "Schedule saved successfully",
         "updateSuccess": "Schedule updated successfully",
         "deleteSuccess": "Schedule deleted successfully",
         "activateSuccess": "Schedule activated successfully",
         "deactivateSuccess": "Schedule deactivated successfully",
-        "notFound": "Schedule not found"
+        "notFound": "Schedule not found",
+        "status": {
+            "new": "New",
+            "active": "Active",
+            "cancelled": "Cancelled",
+            "completed": "Completed"
+        }
     },
     "calendar": {
         "month": "Month",

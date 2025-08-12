@@ -53,6 +53,7 @@ export class PermissionAccessService {
             teacherOnlyAdminOrEmployee: this.authService.isAdmin || this.authService.isEmployee,
             student: this.authService.isAdmin || this.authService.isEmployee || this.authService.isStudent,
             studentOnlyAdminOrEmployee: this.authService.isAdmin || this.authService.isEmployee,
+            schedule: this.authService.isAdmin || this.authService.isEmployee,
         };
     }
 
@@ -63,6 +64,7 @@ export class PermissionAccessService {
             teacher: this.authService.isAdmin,
             room: this.authService.isAdmin,
             course: this.authService.isAdmin,
+            schedule: this.authService.isAdmin,
         };
     }
 

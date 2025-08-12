@@ -3,6 +3,8 @@ import { CalendarEvent, CalendarView } from "angular-calendar";
 export interface CalendarProps {
     showNavigation?: boolean;
     showViewSwitcher?: boolean;
+    showEditBtn?: boolean;
+    showDeleteBtn?: boolean;
     defaultView?: CalendarView;
     events?: CalendarEvent[];
   }

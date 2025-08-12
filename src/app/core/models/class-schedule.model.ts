@@ -5,7 +5,8 @@ export class ClassSchedule {
     id!: number;
     roomId!: number;
     groupId!: number;
-
+    color!: string;
+    
     day!: DayOfWeek;
     startTime!: string;
     endTime!: string;
@@ -13,4 +14,9 @@ export class ClassSchedule {
 
     startDate!: string | null;
     endDate!: string | null;
+
+    groupName?: string;
+    roomName?: string;
+    courseName?: string;
+    teacherName?: string;
 }

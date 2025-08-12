@@ -19,6 +19,7 @@ import { DayOfWeek } from '../../../../core/enums/day-week.enum';
 import { DateHelper } from '../../../../core/helpers/date.helper';
 import { ClassScheduleStatus } from '../../../../core/enums/class-schedule-status.enum';
 import { TimeHelper } from '../../../../core/helpers/time.helper';
+import { ColorPickerModule } from 'primeng/colorpicker';
 
 @Component({
   selector: 'app-schedule-form',
@@ -31,7 +32,8 @@ import { TimeHelper } from '../../../../core/helpers/time.helper';
     LabelTimePicker,
     LabelDatePicker,
     SaveBtn,
-    CancelBtn
+    CancelBtn,
+    ColorPickerModule
   ],
   templateUrl: './schedule-form.html',
   styleUrl: './schedule-form.scss'
@@ -109,8 +111,9 @@ export class ScheduleForm {
       day: [null, [Validators.required]],
       startTime: [null, [Validators.required]],
       endTime: [null, [Validators.required]],
-      startDate: [null],
+      startDate: [null, [Validators.required]],
       endDate: [null],
+      color: ['#f5f5f5']
     });
   }
 

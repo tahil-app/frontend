@@ -296,12 +296,23 @@
             "all": "الجدول الدراسي",
             "one": "الجدول الدراسي",
             "formTitle": "بيانات الجدول الدراسي",
+            "information": "معلومات الجدول الدراسي",
+            "basicInfo": "المعلومات الأساسية",
+            "scheduleDetails": "تفاصيل الجدول",
+            "startDate": "تاريخ البداية",
+            "endDate": "تاريخ النهاية",
             "saveSuccess": "تم حفظ الجدول بنجاح",
             "updateSuccess": "تم تعديل الجدول بنجاح",
             "deleteSuccess": "تم حذف الجدول بنجاح",
             "activateSuccess": "تم تفعيل الجدول بنجاح",
             "deactivateSuccess": "تم تعطيل الجدول بنجاح",
-            "notFound": "الجدول غير موجود"
+            "notFound": "الجدول غير موجود",
+            "status": {
+                "new": "جديد",
+                "active": "نشط",
+                "cancelled": "ملغي",
+                "completed": "مكتمل"
+            }
         },
         "calendar": {
             "month": "شهر",

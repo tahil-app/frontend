@@ -3,9 +3,12 @@
   <!-- Shared Calendar Component -->
   <calendar 
     [config]="calendarConfig"
-    (eventClicked)="eventClicked($event)">
+    (eventClicked)="eventClicked($event)"
+    (editClicked)="editEvent($event)"
+    (deleteClicked)="deleteEvent($event)"
+    >
   </calendar>
 
 </card-container>
 
-<app-schedule-form [showDialog]="showDialog" *ngIf="showDialog" [schedule]="schedule" (onSave)="onSave()" (onCancel)="this.showDialog = false" />
+<schedule-dialog [showDialog]="showDialog" *ngIf="showDialog" [schedule]="schedule" (onClose)="this.showDialog = false" />

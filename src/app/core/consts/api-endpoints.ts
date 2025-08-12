@@ -86,6 +86,7 @@ export class ApiEndpoints {
         Actions: {
             Paged: `paged`,
             Lookups: `lookups`,
+            GetMonthlySchedule: (month: number, year: number) => `monthly/${month}/${year}`,
         }
     };
 }

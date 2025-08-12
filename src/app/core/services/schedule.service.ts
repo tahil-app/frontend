@@ -28,6 +28,10 @@ export class ScheduleService extends ApiService<ClassSchedule> {
         );
     }
 
+    getMonthlySchedule(month: number, year: number): Observable<ClassSchedule[]> {
+        return this.httpClient.get<ClassSchedule[]>(this.appURLGenerator.getEndPoint(ApiEndpoints.CLASS_SCHEDULES.Actions.GetMonthlySchedule(month, year)));
+    }
+
     create(schedule: ClassSchedule): Observable<boolean> {
         return this.httpClient.post<boolean>(this.appURLGenerator.getEndPoint(ApiEndpoints.Generic.Actions.Create), schedule);
     }

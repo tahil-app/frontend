@@ -30,4 +30,21 @@ export class TimeHelper {
     return `${hours}:${minutes}:${seconds}`;
   }
 
+  static getTime(time: Date | string): string {
+
+    // get the time from 24 hours format to 12 hours format
+
+    if (typeof time === 'string') {
+      const [hours, minutes] = time.split(':').map(Number);
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      const hours12 = hours % 12 || 12;
+      return `${hours12}:${minutes.toString().padStart(2, '0')}${ampm}`;
+    }
+
+    const hours = time.getHours();
+    const minutes = time.getMinutes();
+    const seconds = time.getSeconds();
+
+    return `${hours}:${minutes}:${seconds}`;
+  }
 }
