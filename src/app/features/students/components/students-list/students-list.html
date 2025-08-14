@@ -1,3 +1,4 @@
+
 <card-container [title]="'students.all' | translate" [addBtn]="permissionService.canAdd.student" (onAdd)="onAdd()">
     <grid [pagedRows]="students" (onLazyLoad)="loadStudents($event)" 
           [columns]="columns" [pageSize]="10" [paginator]="true" [showFilters]="true"

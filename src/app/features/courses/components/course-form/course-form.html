@@ -8,7 +8,7 @@
             <input-label [label]="'shared.fields.description' | translate" [required]="false" [formControl]="getFormControl('description')" />
         </div>
 
-        <div class="flex justify-end gap-2">
+        <div class="actions-buttons-save-cancel">
             <save-btn type="submit" [disabled]="!courseForm.valid" />
             &nbsp;
             <cancel-btn type="button" (click)="cancel()" />

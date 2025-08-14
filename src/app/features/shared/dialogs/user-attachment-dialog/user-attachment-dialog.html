@@ -3,7 +3,7 @@
 
         <input-label [label]="'shared.fields.name' | translate" [formControl]="getFormControl('displayName')" [required]="true" />
 
-        <div class="flex justify-end gap-2 mt-3">
+        <div class="actions-buttons-save-cancel mt-3">
             <p-fileupload 
                 mode="advanced" 
                 chooseLabel="{{ 'shared.fileUpload.chooseFile' | translate }}" 
@@ -14,7 +14,7 @@
                 (onSelect)="onFileSelect($event)"/>
         </div>
 
-        <div class="flex justify-end gap-2 mt-4">
+        <div class="actions-buttons-save-cancel mt-4">
             <save-btn type="submit" [disabled]="!userAttachmentForm.valid" />
             &nbsp;
             <cancel-btn type="button" (click)="cancel()" />

@@ -89,4 +89,23 @@ export class ApiEndpoints {
             GetMonthlySchedule: (month: number, year: number) => `monthly/${month}/${year}`,
         }
     };
+
+    static readonly CLASS_SESSIONS = {
+        Controller: 'sessions',
+        Actions: {
+            User: 'user',
+            Paged: `paged`,
+            Refresh: 'refresh',
+        }
+    };
+
+    static readonly ATTENDANCE = {
+        Controller: 'attendance',
+        Actions: {
+            GetSessionAttendance: 'session',
+            RecordAttendance: 'record',
+            UpdateAttendance: 'update',
+            GetStudentAttendance: 'student',
+        }
+    };
 }

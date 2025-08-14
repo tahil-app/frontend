@@ -1,0 +1,59 @@
+.sessions-header {
+  margin-bottom: 1rem;
+  margin-top: -1rem;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h2 {
+    color: #2c3e50;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    color: #6c757d;
+    font-size: 1rem;
+    margin: 0;
+  }
+}
+
+.sessions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.no-sessions {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #6c757d;
+
+  i {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  p {
+    font-size: 1.125rem;
+    margin: 0;
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .sessions-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .sessions-header {
+    h2 {
+      font-size: 1.5rem;
+    }
+  }
+} 

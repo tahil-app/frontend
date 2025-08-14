@@ -1,0 +1,24 @@
+<div class="sessions-container">
+  <div class="sessions-header">
+    <h2>{{ 'sessions.list.title' | translate }}</h2>
+    <button class="btn btn-sm btn-outline-primary" *ngIf="permissionService.canAdd.refreshSessions"
+      (click)="refreshSessions()" [pTooltip]="'shared.buttons.refresh' | translate" tooltipPosition="top">
+      <i class="fas fa-sync"></i>
+    </button>
+  </div>
+</div>
+
+<div class="sessions-grid" *ngIf="sessions.length > 0; else noSessions">
+  <session-card 
+    *ngFor="let session of sessions" 
+    [session]="session"
+    (recordAttendance)="onRecordAttendance($event)">
+  </session-card>
+</div>
+
+<ng-template #noSessions>
+  <div class="no-sessions">
+    <i class="fa fa-calendar-times"></i>
+    <p>{{ 'sessions.list.noSessions' | translate }}</p>
+  </div>
+</ng-template>

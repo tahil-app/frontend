@@ -1,0 +1,154 @@
+<card-container [title]="'attendance.recordAttendance' | translate">
+
+    <div class="attendance-form-content">
+        <div *ngIf="attendanceRecords.length > 0">
+            <div class="session-info-container">
+                <div class="session-info d-flex gap-2">
+                    <p class="text-muted">
+                        <i class="fas fa-door-open"></i> {{ session.roomName || 'Sample Room' }}
+                    </p> |
+                    <p class="text-muted">
+                        <i class="fa fa-users"></i> {{ session.groupName || 'Sample Group' }}
+                    </p> |
+                    <p class="text-muted">
+                        <i class="fas fa-book-reader"></i> {{session.courseName || 'Sample Course' }}
+                    </p> |
+                    <p class="text-muted">
+                        <i class="fas fa-calendar-alt"></i> {{ session.date | date:'mediumDate' }}
+                    </p> |
+                    <p class="text-muted">
+                        <i class="fa fa-clock"></i> {{ session.startTime || '09:00' }} - {{ session.endTime || '10:00'
+                        }}
+                    </p>
+                </div>
+            </div>
+
+            <div class="attendance-table">
+                <p-table stripedRows rowHover [value]="attendanceRecords" [paginator]="false" [scrollable]="true"
+                    scrollHeight="400px">
+
+                    <ng-template pTemplate="header">
+                        <tr>
+
+                            <th style="min-width: 15rem;">{{ 'attendance.table.studentName' | translate }}</th>
+
+                            <th style="min-width: 15rem;">{{ 'shared.fields.notes' | translate }}</th>
+
+                            <th style="width: 10rem;">
+                                <div class="attendance-actions">
+                                    <button class="btn btn-sm btn-success px-2 py-1" (click)="markAllPresent()">
+                                        <i class="fa fa-check"></i> {{ 'attendance.actions.markAllPresent' | translate
+                                        }}
+                                    </button>
+                                    <button class="btn btn-sm btn-warning px-2 py-1" (click)="markAllLate()">
+                                        <i class="fa fa-clock"></i> {{ 'attendance.actions.markAllLate' | translate }}
+                                    </button>
+                                    <button class="btn btn-sm btn-danger px-2 py-1" (click)="markAllAbsent()">
+                                        <i class="fa fa-times"></i> {{ 'attendance.actions.markAllAbsent' | translate }}
+                                    </button>
+                                </div>
+                            </th>
+
+                        </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="body" let-record>
+                        <tr>
+
+                            <td>{{ record.studentName }}</td>
+
+                            <td>
+                                <input type="text" class="form-control form-control-sm" [(ngModel)]="record.notes"
+                                    [placeholder]="'shared.fields.notesPlaceholder' | translate">
+                            </td>
+
+                            <td>
+                                <div class="attendance-radio-group">
+
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio"
+                                            name="attendance_{{record.studentId}}" id="present_{{record.studentId}}"
+                                            [value]="AttendanceStatus.Present" [(ngModel)]="record.status"
+                                            [checked]="record.status === AttendanceStatus.Present">
+                                        <label class="form-check-label text-success" for="present_{{record.studentId}}">
+                                            {{ 'shared.attendanceStatus.present' | translate }}
+                                        </label>
+                                    </div>
+
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio"
+                                            name="attendance_{{record.studentId}}" id="late_{{record.studentId}}"
+                                            [value]="AttendanceStatus.Late" [(ngModel)]="record.status"
+                                            [checked]="record.status === AttendanceStatus.Late">
+                                        <label class="form-check-label text-warning" for="late_{{record.studentId}}">
+                                            {{ 'shared.attendanceStatus.late' | translate }}
+                                        </label>
+                                    </div>
+
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio"
+                                            name="attendance_{{record.studentId}}" id="absent_{{record.studentId}}"
+                                            [value]="AttendanceStatus.Absent" [(ngModel)]="record.status"
+                                            [checked]="record.status === AttendanceStatus.Absent">
+                                        <label class="form-check-label text-danger" for="absent_{{record.studentId}}">
+                                            {{ 'shared.attendanceStatus.absent' | translate }}
+                                        </label>
+                                    </div>
+
+                                </div>
+                            </td>
+
+                        </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="3" class="text-center">
+                                {{ 'attendance.table.noStudents' | translate }}
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+
+            <div class="attendance-summary-container mt-3">
+                <div class="attendance-summary">
+
+                    <div class="summary-item">
+                        <span class="label">{{ 'attendance.summary.total' | translate }}:</span>
+                        <span class="value">{{ totalStudents }}</span>
+                    </div>
+
+                    <div class="summary-item">
+                        <span class="label">{{ 'shared.attendanceStatus.present' | translate }}:</span>
+                        <span class="value text-success">{{ presentStudents }}</span>
+                    </div>
+
+                    <div class="summary-item">
+                        <span class="label">{{ 'shared.attendanceStatus.late' | translate }}:</span>
+                        <span class="value text-warning">{{ lateStudents }}</span>
+                    </div>
+
+                    <div class="summary-item">
+                        <span class="label">{{ 'shared.attendanceStatus.absent' | translate }}:</span>
+                        <span class="value text-danger">{{ absentStudents }}</span>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-actions actions-buttons-save-cancel mt-4">
+                <save-btn type="submit" (click)="onSave()" />
+                &nbsp;
+                <cancel-btn type="button" (click)="onCancel()" />
+            </div>
+
+        </div>
+
+        <div *ngIf="attendanceRecords.length === 0" class="text-center p-4">
+            <i class="fa fa-users"></i>
+            <p>{{ 'attendance.table.noStudents' | translate }}</p>
+        </div>
+    </div>
+
+</card-container>

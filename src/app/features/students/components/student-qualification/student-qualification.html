@@ -2,7 +2,7 @@
     <form [formGroup]="qualificationForm" (ngSubmit)="save()">
         <editor [formControl]="getFormControl('qualification')" />
 
-        <div class="flex justify-end gap-2 mt-4">
+        <div class="actions-buttons-save-cancel mt-4">
             <save-btn type="submit" [disabled]="!qualificationForm.valid" />
             &nbsp;
             <cancel-btn type="button" (click)="cancel()" />

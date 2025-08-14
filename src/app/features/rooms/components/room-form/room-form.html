@@ -8,7 +8,7 @@
             <input-label [label]="'shared.fields.capacity' | translate" [formControl]="getFormControl('capacity')" type="number" />
         </div>
 
-        <div class="flex justify-end gap-2">
+        <div class="actions-buttons-save-cancel">
             <save-btn type="submit" [disabled]="!roomForm.valid" />
             &nbsp;
             <cancel-btn type="button" (click)="cancel()" />

@@ -57,7 +57,8 @@
             "view": "View",
             "download": "Download",
             "activate": "Activate",
-            "deactivate": "Deactivate"
+            "deactivate": "Deactivate",
+            "refresh": "Refresh"
         },
         "dialogs": {
             "deleteConfirmation": "Are you sure you want to delete this item?",
@@ -85,7 +86,9 @@
             "startTime": "Start Time",
             "endTime": "End Time",
             "startDate": "Start Date",
-            "endDate": "End Date"
+            "endDate": "End Date",
+            "notes": "Notes",
+            "notesPlaceholder": "Add notes..."
         },
         "validation": {
             "passwordMismatch": "Password and confirm password do not match",
@@ -154,6 +157,11 @@
         "messages": {
             "savedSuccessfully": "Saved successfully",
             "updatedSuccessfully": "Updated successfully"
+        },
+        "attendanceStatus": {
+            "present": "Present",
+            "late": "Late",
+            "absent": "Absent"
         }
     },
     "courses": {
@@ -320,5 +328,51 @@
         "todaySchedule": "Today's Schedule",
         "tomorrowSchedule": "Tomorrow's Schedule",
         "mathClass": "Math Class"
+    },
+    "sessions": {
+        "all": "Daily Schedule",
+        "list": {
+            "title": "Daily Schedule",
+            "subtitle": "View and manage all daily schedule",
+            "noSessions": "No schedule found"
+        },
+        "status": {
+            "scheduled": "Scheduled",
+            "completed": "Completed",
+            "cancelled": "Cancelled",
+            "unknown": "Unknown"
+        },
+        "unknown": {
+            "course": "Unknown Course"
+        },
+        "actions": {
+            "recordAttendance": "Record Attendance",
+            "markCompleted": "Completed",
+            "reschedule": "Reschedule"
+        }
+    },
+    "attendance": {
+        "all": "Attendance",
+        "record": "Record Attendance",
+        "table": {
+            "studentName": "Student Name",
+            "noStudents": "No students found for this session"
+        },
+        "summary": {
+            "total": "Total Students"
+        },
+        "list": {
+            "title": "Attendance Records",
+            "subtitle": "View and manage attendance records for all sessions",
+            "noRecords": "No attendance records found"
+        },
+
+        "actions": {
+            "markAllPresent": "All",
+            "markAllLate": "All",
+            "markAllAbsent": "All",
+            "view": "View Details",
+            "edit": "Edit"
+        }
     }
 }

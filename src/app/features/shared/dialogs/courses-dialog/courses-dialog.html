@@ -1,9 +1,9 @@
-<p-dialog [header]="'courses.all' | translate" [modal]="true" [(visible)]="showDialog" [style]="{ width: '30rem' }">
+<p-dialog [header]="'courses.all' | translate" [modal]="true" [(visible)]="showDialog" [style]="{ width: '25rem' }">
     <form [formGroup]="coursesForm" (ngSubmit)="save()">
 
         <dropdown [label]="'courses.all' | translate" [multi]="true" [options]="coursesOptions" [formControl]="getFormControl('courses')" />
 
-        <div class="flex justify-end gap-2 mt-4">
+        <div class="actions-buttons-save-cancel mt-4">
             <save-btn type="submit" [disabled]="!coursesForm.valid" />
             &nbsp;
             <cancel-btn type="button" (click)="cancel()" />

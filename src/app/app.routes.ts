@@ -42,6 +42,11 @@ export const routes: Routes = [
         canActivate: [AuthGuard]
     },
     {
+        path: 'sessions',
+        loadChildren: () => import('./features/sessions/sessions-routes').then(m => m.SESSIONS_ROUTES),
+        canActivate: [AuthGuard]
+    },
+    {
         path: 'error',
         loadChildren: () => import('./features/error-pages/error-pages.routes').then(m => m.ERROR_PAGES_ROUTES)
     },

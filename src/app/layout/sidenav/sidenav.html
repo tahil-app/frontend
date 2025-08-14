@@ -6,6 +6,13 @@
                 <ul>
                     <li class="menu-title">
                         <span>{{ 'sidebar.mainMenu' | translate }}</span>
+                        
+                    <li routerLinkActive="active" *ngIf="permissionAccess.canViewSideNav.sessions">
+                        <a routerLink="/sessions">
+                            <i class="fas fa-clock"></i>
+                            <span>{{ 'sessions.all' | translate }}</span>
+                        </a>
+                    </li>
 
                     <li routerLinkActive="active" *ngIf="permissionAccess.canViewSideNav.schedules">
                         <a routerLink="/schedules">
