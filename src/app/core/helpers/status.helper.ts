@@ -1,13 +1,13 @@
-import { LessonSessionStatus } from "../enums/lesson-session-status.enum";
+import { ClassSessionStatus } from "../enums/class-session-status.enum";
 
 export class StatusHelper {
-    static getStatusBadge(status: LessonSessionStatus): { value: string; severity: 'info' | 'success' | 'warn' | 'danger' | 'secondary' | 'contrast' } {
+    static getStatusBadge(status: ClassSessionStatus): { value: string; severity: 'info' | 'success' | 'warn' | 'danger' | 'secondary' | 'contrast' } {
         switch (status) {
-            case LessonSessionStatus.Scheduled:
+            case ClassSessionStatus.Scheduled:
                 return { value: 'sessions.status.scheduled', severity: 'info' };
-            case LessonSessionStatus.Completed:
+            case ClassSessionStatus.Completed:
                 return { value: 'sessions.status.completed', severity: 'success' };
-            case LessonSessionStatus.cancelled:
+            case ClassSessionStatus.Cancelled:
                 return { value: 'sessions.status.cancelled', severity: 'danger' };
             default:
         }

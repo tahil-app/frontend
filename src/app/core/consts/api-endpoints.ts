@@ -1,3 +1,5 @@
+import { ClassSessionStatus } from "../enums/class-session-status.enum";
+
 export class ApiEndpoints {
     static readonly Generic = {
         Actions: {
@@ -96,6 +98,8 @@ export class ApiEndpoints {
             User: 'user',
             Paged: `paged`,
             Refresh: 'refresh',
+            Lookups: (courseId: string | number) => `lookups/${courseId}`,
+            UpdateStatus: (sessionId: string | number, status: ClassSessionStatus) => `update-status/${sessionId}/${status}`,
         }
     };
 

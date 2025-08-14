@@ -1,14 +1,15 @@
-import { LessonSessionStatus } from "../enums/lesson-session-status.enum";
+import { ClassSessionStatus } from "../enums/class-session-status.enum";
 
 export class ClassSession {
     id!: number;
     date!: string | null;
     scheduleId!: number;
-    status!: LessonSessionStatus;
+    status!: ClassSessionStatus;
     teacherId!: number;
     roomId!: number;
     startTime?: string | null;
     endTime?: string | null;
+    courseId!: number | null;
 
     roomName?: string;
     groupName?: string;

@@ -39,17 +39,7 @@ import { Router } from '@angular/router';
 export class SessionAttendance implements OnInit {
 
   //#region Properties
-  session: ClassSession = {
-    id: 0,
-    date: new Date().toISOString(),
-    scheduleId: 0,
-    status: 0,
-    teacherId: 0,
-    roomId: 0,
-    courseName: 'Sample Course',
-    groupName: 'Sample Group',
-  };
-
+  session: ClassSession = {} as ClassSession;
   attendanceRecords: Attendance[] = [];
   students: Student[] = [];
   AttendanceStatus = AttendanceStatus;

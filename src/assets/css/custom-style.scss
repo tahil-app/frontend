@@ -151,3 +151,36 @@ label,
         width: 7rem !important;
     }
 }
+
+
+
+// Custom confirmation dialog icon colors
+
+.confirm-icon-edit {
+    color: var(--primary-color) !important;
+    font-size: 4rem !important;
+    margin-top: 1rem !important;
+    margin-bottom: -0.5rem !important;
+    margin-right: -3rem !important;
+}
+
+.confirm-icon-cancel {
+    color: #dc3545 !important; // Red for cancel
+}
+
+.confirm-icon-attendance {
+    color: #7bb13c !important; // Green for attendance
+    
+}
+
+.confirm-icon-completed {
+    color: #009efb !important; // Cyan for completed
+}
+
+.confirm-icon-reschedule {
+    color: #ffc107 !important; // Yellow/Orange for reschedule
+    font-size: 4rem !important;
+    margin-top: 1rem !important;
+    margin-bottom: -0.5rem !important;
+    margin-right: -1.5rem !important;
+}

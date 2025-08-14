@@ -65,6 +65,9 @@
             "yes": "Yes",
             "no": "No"
         },
+        "confirm": {
+            "unsavedChanges": "Are you sure you want to leave without saving your changes?"
+        },
         "fields": {
             "name": "Name",
             "gender": "Gender",
@@ -83,6 +86,7 @@
             "status": "Status",
             "years": "Years",
             "day": "Day",
+            "date": "Date",
             "startTime": "Start Time",
             "endTime": "End Time",
             "startDate": "Start Date",
@@ -331,6 +335,7 @@
     },
     "sessions": {
         "all": "Daily Schedule",
+        "formTitle": "Update Session",
         "list": {
             "title": "Daily Schedule",
             "subtitle": "View and manage all daily schedule",
@@ -349,7 +354,16 @@
             "recordAttendance": "Record Attendance",
             "markCompleted": "Completed",
             "reschedule": "Reschedule"
-        }
+        },
+        "confirm": {
+            "recordAttendance": "Are you sure you want to record attendance for this session?",
+            "markCompleted": "Are you sure you want to mark this session as completed?",
+            "reschedule": "Are you sure you want to reschedule this session?",
+            "cancel": "Are you sure you want to cancel this session?",
+            "edit": "Are you sure you want to edit this session?"
+        },
+        "cancelledSuccessfully": "Session cancelled successfully",
+        "updatedSuccessfully": "Session updated successfully"
     },
     "attendance": {
         "all": "Attendance",

@@ -12,9 +12,24 @@
   <session-card 
     *ngFor="let session of sessions" 
     [session]="session"
-    (recordAttendance)="onRecordAttendance($event)">
+    (recordAttendance)="onRecordAttendance($event)"
+    (update)="updateSession($event)"
+    (cancel)="cancelSession($event)"
+    (markCompleted)="markCompletedSession($event)"
+    (reschedule)="rescheduleSession($event)"
+    >
   </session-card>
 </div>
+
+<!-- Session Form Dialog -->
+<session-form
+  *ngIf="showSessionForm && permissionService.canEdit.session"
+  [showDialog]="showSessionForm"
+  [session]="selectedSession"
+  (onSave)="onSessionUpdated()"
+  (onCancel)="onSessionFormCancelled()"
+  >
+</session-form>
 
 <ng-template #noSessions>
   <div class="no-sessions">

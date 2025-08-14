@@ -35,45 +35,46 @@
   </div>
 
   <div class="session-actions mt-3 d-flex justify-content-end">
-    <button class="btn btn-sm btn-outline-success" (click)="onRecordAttendance()" *ngIf="permissionService.canEdit.attendance">
+    <button class="btn btn-sm btn-outline-success" (click)="onRecordAttendance()" *ngIf="permission.canRecordAttendance">
       <i class="fa fa-check-circle"></i>
       {{ 'sessions.actions.recordAttendance' | translate }}
     </button>
 
-    <span *ngIf="permissionService.canEdit.attendance">
+    <span *ngIf="permission.canMarkCompleted">
       &nbsp; &nbsp;
     </span>
 
-    <button class="btn btn-sm btn-outline-info" (click)="onMarkCompleted()" *ngIf="permissionService.canEdit.session && session.status !== 1">
+    <button class="btn btn-sm btn-outline-info" (click)="onMarkCompleted()" *ngIf="permission.canMarkCompleted">
       <i class="fa fa-check"></i>
       {{ 'sessions.actions.markCompleted' | translate }}
     </button>
 
-    <span *ngIf="permissionService.canEdit.session && session.status !== 1">
+    <span *ngIf="permission.canReschedule">
       &nbsp; &nbsp;
     </span>
 
-    <button class="btn btn-sm btn-outline-warning" (click)="onReschedule()" *ngIf="permissionService.canEdit.session && session.status !== 1">
+    <button class="btn btn-sm btn-outline-warning" (click)="onReschedule()" *ngIf="permission.canReschedule">
       <i class="fa fa-calendar-plus"></i>
       {{ 'sessions.actions.reschedule' | translate }}
     </button>
 
-    <span *ngIf="permissionService.canEdit.session && session.status !== 1">
+    <span *ngIf="permission.canUpdate">
       &nbsp; &nbsp;
     </span>
 
-    <button class="btn btn-sm btn-outline-primary" (click)="onUpdate()" *ngIf="permissionService.canEdit.session">
+    <button class="btn btn-sm btn-outline-primary" (click)="onUpdate()" *ngIf="permission.canUpdate">
       <i class="fa fa-edit"></i>
       {{ 'shared.buttons.edit' | translate }}
     </button>
 
-    <span *ngIf="permissionService.canEdit.session">
+    <span *ngIf="permission.canCancel">
       &nbsp; &nbsp;
     </span>
 
-    <button class="btn btn-sm btn-outline-danger" (click)="onCancel()" *ngIf="permissionService.canDelete.session">
+    <button class="btn btn-sm btn-outline-danger" (click)="onCancel()" *ngIf="permission.canCancel">
       <i class="fa fa-times"></i>
       {{ 'shared.buttons.cancel' | translate }}
     </button>
+
   </div>
 </p-card>
