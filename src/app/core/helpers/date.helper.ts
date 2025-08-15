@@ -1,8 +1,17 @@
 import { formatDate } from "@angular/common";
 
 export class DateHelper {
-  static toDate(date: string) {
-    return formatDate(date, 'yyyy-MM-dd', 'en-US');
+
+  static toOldDatePicker(date: string | null | undefined): string | null {
+    return date ? formatDate(date, 'yyyy-MM-dd', 'en-US') : null;
+  }
+
+  static toDatePicker(date: string | null | undefined): Date | null {
+    return date ? new Date(date) : null;
+  }
+
+  static toDateOnly(date: string | null | undefined): string | null {
+    return date ? formatDate(date, 'yyyy-MM-dd', 'en-US') : null;
   }
 
   static getAge(birthDate: string) {

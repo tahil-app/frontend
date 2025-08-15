@@ -73,7 +73,7 @@ export class TeacherAttachmentComponent {
   }
 
   displayDate(date: string) {
-    return DateHelper.toDate(date);
+    return DateHelper.toOldDatePicker(date);
   }
 
 }

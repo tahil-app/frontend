@@ -120,8 +120,8 @@ export class StudentFormComponent {
       const studentData = this.studentForm.value as Student;
       studentData.id = 0;
       studentData.role = UserRoleEnum.Student;
-      studentData.joinedDate = studentData.joinedDate ? DateHelper.toDate(studentData.joinedDate) : null;
-      studentData.birthDate = studentData.birthDate ? DateHelper.toDate(studentData.birthDate) : null;
+      studentData.joinedDate = studentData.joinedDate ? DateHelper.toOldDatePicker(studentData.joinedDate) : null;
+      studentData.birthDate = studentData.birthDate ? DateHelper.toOldDatePicker(studentData.birthDate) : null;
 
       this.studentService.add(studentData)
         .pipe(takeUntil(this.destroy$))
@@ -139,8 +139,8 @@ export class StudentFormComponent {
     if (this.studentForm.valid) {
       this.loader.show();
       const studentData = { ...this.student, ...this.studentForm.value } as Student;
-      studentData.joinedDate = studentData.joinedDate ? DateHelper.toDate(studentData.joinedDate) : null;
-      studentData.birthDate = studentData.birthDate ? DateHelper.toDate(studentData.birthDate) : null;
+      studentData.joinedDate = studentData.joinedDate ? DateHelper.toOldDatePicker(studentData.joinedDate) : null;
+      studentData.birthDate = studentData.birthDate ? DateHelper.toOldDatePicker(studentData.birthDate) : null;
 
       this.studentService.update(studentData)
         .pipe(takeUntil(this.destroy$))

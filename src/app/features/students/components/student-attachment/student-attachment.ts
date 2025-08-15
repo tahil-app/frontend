@@ -73,7 +73,7 @@ export class StudentAttachmentComponent {
   }
 
   displayDate(date: string) {
-    return DateHelper.toDate(date);
+    return DateHelper.toOldDatePicker(date);
   }
 
 }

@@ -35,7 +35,7 @@ export class SessionCard {
   }
 
   getFormattedTime(): string {
-    return `${TimeHelper.getTime(this.session.startTime!)} - ${TimeHelper.getTime(this.session.endTime!)}`;
+    return `${TimeHelper.displayTime(this.session.startTime!)} - ${TimeHelper.displayTime(this.session.endTime!)}`;
   }
 
   getStatusBadge(){

@@ -93,10 +93,10 @@ export class ScheduleForm {
       // Convert time strings to Date objects for the form controls
       const scheduleForForm = { ...this.schedule } as any;
       if (scheduleForForm.startTime && typeof scheduleForForm.startTime === 'string') {
-        scheduleForForm.startTime = TimeHelper.toDate(scheduleForForm.startTime);
+        scheduleForForm.startTime = TimeHelper.toTimePicker(scheduleForForm.startTime);
       }
       if (scheduleForForm.endTime && typeof scheduleForForm.endTime === 'string') {
-        scheduleForForm.endTime = TimeHelper.toDate(scheduleForForm.endTime);
+        scheduleForForm.endTime = TimeHelper.toTimePicker(scheduleForForm.endTime);
       }
 
       // Convert date strings to Date objects for the date pickers
@@ -174,12 +174,12 @@ export class ScheduleForm {
     const schedule = this.scheduleForm.value as ClassSchedule;
     schedule.id = 0;
     schedule.status = ClassScheduleStatus.New;
-    schedule.startDate = schedule.startDate ? DateHelper.toDate(schedule.startDate) : null;
-    schedule.endDate = schedule.endDate ? DateHelper.toDate(schedule.endDate) : null;
+    schedule.startDate = schedule.startDate ? DateHelper.toOldDatePicker(schedule.startDate) : null;
+    schedule.endDate = schedule.endDate ? DateHelper.toOldDatePicker(schedule.endDate) : null;
 
     // Convert Date objects to TimeOnly compatible format (HH:mm:ss)
-    (schedule as any).startTime = schedule.startTime ? TimeHelper.toTime(schedule.startTime) : '';
-    (schedule as any).endTime = schedule.endTime ? TimeHelper.toTime(schedule.endTime) : '';
+    (schedule as any).startTime = schedule.startTime ? TimeHelper.toTimeOnly(schedule.startTime) : '';
+    (schedule as any).endTime = schedule.endTime ? TimeHelper.toTimeOnly(schedule.endTime) : '';
 
     this.loader.show();
 
@@ -202,12 +202,12 @@ export class ScheduleForm {
     }
 
     const schedule = this.scheduleForm.value as ClassSchedule;
-    schedule.startDate = schedule.startDate ? DateHelper.toDate(schedule.startDate) : null;
-    schedule.endDate = schedule.endDate ? DateHelper.toDate(schedule.endDate) : null;
+    schedule.startDate = schedule.startDate ? DateHelper.toOldDatePicker(schedule.startDate) : null;
+    schedule.endDate = schedule.endDate ? DateHelper.toOldDatePicker(schedule.endDate) : null;
 
     // Convert Date objects to TimeOnly compatible format (HH:mm:ss)
-    (schedule as any).startTime = schedule.startTime ? TimeHelper.toTime(schedule.startTime) : '';
-    (schedule as any).endTime = schedule.endTime ? TimeHelper.toTime(schedule.endTime) : '';
+    (schedule as any).startTime = schedule.startTime ? TimeHelper.toTimeOnly(schedule.startTime) : '';
+    (schedule as any).endTime = schedule.endTime ? TimeHelper.toTimeOnly(schedule.endTime) : '';
 
     this.loader.show();
     this.scheduleService.update(schedule).subscribe((res: any) => {

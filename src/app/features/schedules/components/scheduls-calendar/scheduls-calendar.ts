@@ -96,7 +96,7 @@ export class SchedulsCalendar implements OnInit {
             <td>
               &nbsp;${schedule?.groupName}
               <br/>
-              &nbsp;${TimeHelper.getTime(schedule?.startTime ?? '')} - ${TimeHelper.getTime(schedule?.endTime ?? '')}
+              &nbsp;${TimeHelper.displayTime(schedule?.startTime ?? '')} - ${TimeHelper.displayTime(schedule?.endTime ?? '')}
             </td>
           </tr>
           <tr>
@@ -143,7 +143,7 @@ export class SchedulsCalendar implements OnInit {
             id: schedule.id,
             start,
             end,
-            title: `${schedule.groupName} (${TimeHelper.getTime(schedule.startTime)} - ${TimeHelper.getTime(schedule.endTime)})`,
+            title: `${schedule.groupName} (${TimeHelper.displayTime(schedule.startTime)} - ${TimeHelper.displayTime(schedule.endTime)})`,
             color: {
               primary: schedule.color ?? 'rgb(44, 141, 163)',
               secondary: schedule.color ?? 'rgb(44, 141, 163)'

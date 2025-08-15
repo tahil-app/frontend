@@ -127,8 +127,8 @@ export class TeacherFormComponent {
       const teacherData = this.teacherForm.value as Teacher;
       teacherData.id = 0;
       teacherData.role = UserRoleEnum.Teacher;
-      teacherData.joinedDate = teacherData.joinedDate ? DateHelper.toDate(teacherData.joinedDate) : null;
-      teacherData.birthDate = teacherData.birthDate ? DateHelper.toDate(teacherData.birthDate) : null;
+      teacherData.joinedDate = teacherData.joinedDate ? DateHelper.toOldDatePicker(teacherData.joinedDate) : null;
+      teacherData.birthDate = teacherData.birthDate ? DateHelper.toOldDatePicker(teacherData.birthDate) : null;
 
       this.teacherService.add(teacherData)
         .pipe(takeUntil(this.destroy$))
@@ -146,8 +146,8 @@ export class TeacherFormComponent {
     if (this.teacherForm.valid) {
       this.loader.show();
       const teacherData = { ...this.teacher, ...this.teacherForm.value } as Teacher;
-      teacherData.joinedDate = teacherData.joinedDate ? DateHelper.toDate(teacherData.joinedDate) : null;
-      teacherData.birthDate = teacherData.birthDate ? DateHelper.toDate(teacherData.birthDate) : null;
+      teacherData.joinedDate = teacherData.joinedDate ? DateHelper.toOldDatePicker(teacherData.joinedDate) : null;
+      teacherData.birthDate = teacherData.birthDate ? DateHelper.toOldDatePicker(teacherData.birthDate) : null;
 
       this.teacherService.update(teacherData)
         .pipe(takeUntil(this.destroy$))

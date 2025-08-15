@@ -55,7 +55,8 @@
             "download": "تحميل",
             "activate": "تفعيل",
             "deactivate": "تعطيل",
-            "refresh": "تحديث"
+            "refresh": "تحديث",
+            "search": "بحث"
         },
         "dialogs": {
             "deleteConfirmation": "هل أنت متأكد من حذف هذا العنصر؟",
@@ -84,10 +85,10 @@
             "years": "سنة",
             "day": "اليوم",
             "date": "التاريخ",
-            "startTime": "وقت البدء",
-            "endTime": "وقت الانتهاء",
-            "startDate": "تاريخ البدء",
-            "endDate": "تاريخ الانتهاء",
+            "startDate": "تاريخ البداية",
+            "endDate": "تاريخ النهاية",
+            "startTime": "وقت البداية",
+            "endTime": "وقت النهاية",
             "notes": "ملاحظات",
             "notesPlaceholder": "إضافة ملاحظات..."
         },
@@ -311,8 +312,6 @@
         "information": "معلومات الجدول الدراسي",
         "basicInfo": "المعلومات الأساسية",
         "scheduleDetails": "تفاصيل الجدول",
-        "startDate": "تاريخ البداية",
-        "endDate": "تاريخ النهاية",
         "saveSuccess": "تم حفظ الجدول بنجاح",
         "updateSuccess": "تم تعديل الجدول بنجاح",
         "deleteSuccess": "تم حذف الجدول بنجاح",
@@ -340,6 +339,19 @@
     "sessions": {
         "all": "الجدول اليومي",
         "formTitle": "تحديث الحصة",
+        "search": {
+            "placeholder": "البحث في الحصص...",
+            "dialogTitle": "البحث في الحصص",
+            "selectCourse": "اختر المادة",
+            "selectGroup": "اختر المجموعة",
+            "selectRoom": "اختر الحلقة",
+            "selectStatus": "اختر الحالة",
+            "atLeastOneFieldRequired": "يجب اختيار على الأقل حقل واحد",
+            "activeFilters": "الفلاتر النشطة",
+            "clearAll": "مسح الكل",
+            "clearAllFilters": "مسح جميع الفلاتر",
+            "removeFilter": "إزالة الفلتر"
+        },
         "list": {
             "title": "الجدول اليومي",
             "subtitle": "عرض وإدارة جميع الجدول اليومي",
@@ -364,7 +376,8 @@
             "markCompleted": "هل أنت متأكد من تحديد هذه الحصة كمكتملة؟",
             "reschedule": "هل أنت متأكد من إعادة جدولة هذه الحصة؟",
             "cancel": "هل أنت متأكد من إلغاء هذه الحصة؟",
-            "edit": "هل أنت متأكد من تعديل هذه الحصة؟"
+            "edit": "هل أنت متأكد من تعديل هذه الحصة؟",
+            "refresh": "هل أنت متأكد من تحديث الجدول؟"
         },
         "cancelledSuccessfully": "تم إلغاء الحصة بنجاح",
         "updatedSuccessfully": "تم تحديث الحصة بنجاح"

@@ -6,6 +6,7 @@ import { ApiEndpoints } from '../consts/api-endpoints';
 import { Observable } from 'rxjs';
 import { SessionLookup } from '../models/session-lookup.model';
 import { ClassSessionStatus } from '../enums/class-session-status.enum';
+import { SessionSearchCriteria } from '../models/session-search-criteria.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +16,8 @@ export class SessionService extends ApiService<ClassSession> {
     super(httpClient, ApiEndpoints.CLASS_SESSIONS.Controller);
   }
 
-  getUserSessions(): Observable<ClassSession[]> {
-    return this.httpClient.get<ClassSession[]>(this.appURLGenerator.getEndPoint(ApiEndpoints.CLASS_SESSIONS.Actions.User));
+  getUserSessions(searchCriteria: SessionSearchCriteria): Observable<ClassSession[]> {
+    return this.httpClient.post<ClassSession[]>(this.appURLGenerator.getEndPoint(ApiEndpoints.CLASS_SESSIONS.Actions.User), searchCriteria);
   }
 
   refreshSessions(): Observable<boolean> {
@@ -27,8 +28,8 @@ export class SessionService extends ApiService<ClassSession> {
     return this.httpClient.put<ClassSession>(this.appURLGenerator.getEndPoint(ApiEndpoints.Generic.Actions.Update), session);
   }
 
-  getLookups(courseId: string | number): Observable<SessionLookup> {
-    return this.httpClient.get<SessionLookup>(this.appURLGenerator.getEndPoint(ApiEndpoints.CLASS_SESSIONS.Actions.Lookups(courseId)));
+  getLookups(courseId: number | null = null): Observable<SessionLookup> {
+    return this.httpClient.get<SessionLookup>(this.appURLGenerator.getEndPoint(ApiEndpoints.CLASS_SESSIONS.Actions.Lookups(courseId ?? 0)));
   }
 
   updateStatus(sessionId: string | number, status: ClassSessionStatus): Observable<boolean> {

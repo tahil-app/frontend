@@ -112,10 +112,10 @@ export class SessionForm implements OnInit, OnDestroy {
 
       const sessionForForm = { ...this.session } as any;
       if (sessionForForm.startTime && typeof sessionForForm.startTime === 'string') {
-        sessionForForm.startTime = TimeHelper.toDate(sessionForForm.startTime);
+        sessionForForm.startTime = TimeHelper.toTimePicker(sessionForForm.startTime);
       }
       if (sessionForForm.endTime && typeof sessionForForm.endTime === 'string') {
-        sessionForForm.endTime = TimeHelper.toDate(sessionForForm.endTime);
+        sessionForForm.endTime = TimeHelper.toTimePicker(sessionForForm.endTime);
       }
 
       if (sessionForForm.date && typeof sessionForForm.date === 'string') {
@@ -141,9 +141,9 @@ export class SessionForm implements OnInit, OnDestroy {
       const sessionData: ClassSession = {...this.sessionForm.value};
 
       sessionData.scheduleId = this.session!.scheduleId;
-      sessionData.date = sessionData.date ? DateHelper.toDate(sessionData.date) : null;
-      sessionData.startTime = sessionData.startTime ? TimeHelper.toTime(sessionData.startTime) : '';
-      sessionData.endTime = sessionData.endTime ? TimeHelper.toTime(sessionData.endTime) : '';
+      sessionData.date = sessionData.date ? DateHelper.toOldDatePicker(sessionData.date) : null;
+      sessionData.startTime = sessionData.startTime ? TimeHelper.toTimeOnly(sessionData.startTime) : '';
+      sessionData.endTime = sessionData.endTime ? TimeHelper.toTimeOnly(sessionData.endTime) : '';
 
       this.loader.show();
       this.sessionService.updateSession(sessionData).pipe(
