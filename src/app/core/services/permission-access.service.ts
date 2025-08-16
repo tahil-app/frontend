@@ -17,7 +17,6 @@ export class PermissionAccessService {
             courses: this.authService.isAdmin,
             schedules: this.authService.isAdmin || this.authService.isEmployee || this.authService.isTeacher || this.authService.isStudent,
             sessions: this.authService.isAdmin || this.authService.isEmployee || this.authService.isTeacher || this.authService.isStudent,
-            attendance: this.authService.isAdmin || this.authService.isEmployee || this.authService.isTeacher,
         };
     }
 
@@ -58,7 +57,11 @@ export class PermissionAccessService {
             studentOnlyAdminOrEmployee: this.authService.isAdmin || this.authService.isEmployee,
             schedule: this.authService.isAdmin || this.authService.isEmployee,
             session: this.authService.isAdmin || this.authService.isEmployee,
-            attendance: this.authService.isAdmin || this.authService.isEmployee || this.authService.isTeacher,
+            studentAttendance: this.authService.isAdmin || this.authService.isEmployee,
+            studentAttendanceToBeRescheduled: this.authService.isAdmin || this.authService.isEmployee,
+            studentAttendanceToBeCancelled: this.authService.isAdmin || this.authService.isEmployee,
+            studentAttendanceToRecord: this.authService.isAdmin || this.authService.isEmployee || this.authService.isTeacher,
+            studentAttendanceToBeCompleted: this.authService.isAdmin || this.authService.isEmployee || this.authService.isTeacher,
         };
     }
 

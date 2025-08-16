@@ -22,6 +22,7 @@ import { PermissionAccessService } from '../../../../core/services/permission-ac
 import { ConfirmService } from '../../../shared/services/confirm.serivce';
 import { Subject, takeUntil } from 'rxjs';
 import { ToastService } from '../../../shared/services/toast.service';
+import { ClassSessionStatus } from '../../../../core/enums/class-session-status.enum';
 
 @Component({
   selector: 'app-session-attendance',
@@ -49,6 +50,7 @@ export class SessionAttendance implements OnInit {
   attendanceRecords: StudentAttendance[] = [];
   students: Student[] = [];
   AttendanceStatus = AttendanceStatus;
+  ClassSessionStatus = ClassSessionStatus;
   $destroy = new Subject<void>();
   //#endregion
 
@@ -153,5 +155,8 @@ export class SessionAttendance implements OnInit {
     return this.attendanceRecords.filter(r => r.status === AttendanceStatus.Absent).length;
   }
 
+  get canEditAttendance(): boolean {
+    return this.permissionService.canEdit.studentAttendance && this.attendanceDisplay.sessionStatus === ClassSessionStatus.Scheduled;
+  }
   //#endregion
 }

@@ -1,4 +1,5 @@
 import { AttendanceStatus } from '../enums/attendance-status.enum';
+import { ClassSessionStatus } from '../enums/class-session-status.enum';
 
 export class StudentAttendanceDisplay
 {
@@ -8,6 +9,7 @@ export class StudentAttendanceDisplay
     sessionDate?: string | null;
     startTime?: string | null;
     endTime?: string | null;
+    sessionStatus?: ClassSessionStatus | null;
 
     attendances: StudentAttendance[] = [];
 }

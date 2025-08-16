@@ -100,11 +100,11 @@ export class SessionCard {
 
   get permission() {
     return {
-      canReschedule: this.permissionService.canEdit.session && this.session.status !== ClassSessionStatus.Scheduled,
-      canUpdate: this.permissionService.canEdit.session && this.session.status === ClassSessionStatus.Scheduled && this.validToEditOrCancel(),
-      canCancel: this.permissionService.canEdit.session && this.session.status === ClassSessionStatus.Scheduled && this.validToEditOrCancel(),
-      canMarkCompleted: this.permissionService.canEdit.session && this.session.status === ClassSessionStatus.Scheduled && this.validToMarkCompletedOrRecordAttendance(),
-      canRecordAttendance: this.permissionService.canEdit.attendance && this.session.status !== ClassSessionStatus.Cancelled && this.validToMarkCompletedOrRecordAttendance(),
+      canReschedule: this.permissionService.canEdit.studentAttendanceToBeRescheduled && this.session.status !== ClassSessionStatus.Scheduled,
+      canUpdate: this.permissionService.canEdit.studentAttendance && this.session.status === ClassSessionStatus.Scheduled && this.validToEditOrCancel(),
+      canCancel: this.permissionService.canEdit.studentAttendanceToBeCancelled && this.session.status === ClassSessionStatus.Scheduled && this.validToEditOrCancel(),
+      canMarkCompleted: this.permissionService.canEdit.studentAttendanceToBeCompleted && this.session.status === ClassSessionStatus.Scheduled && this.validToMarkCompletedOrRecordAttendance(),
+      canRecordAttendance: this.permissionService.canEdit.studentAttendanceToRecord && this.session.status !== ClassSessionStatus.Cancelled && this.validToMarkCompletedOrRecordAttendance(),
     }
   }
 
