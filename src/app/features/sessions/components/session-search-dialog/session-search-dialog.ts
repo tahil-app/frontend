@@ -106,12 +106,9 @@ export class SessionSearchDialog implements OnInit {
   performSearch() {
 
     // check at least one field is filled
-    if (this.searchForm.value.startDate === '' &&
-      this.searchForm.value.endDate === '' &&
-      this.searchForm.value.courseId === '' &&
-      this.searchForm.value.groupId === '' &&
-      this.searchForm.value.roomId === '' &&
-      this.searchForm.value.startTime === '' && this.searchForm.value.endTime === '' && this.searchForm.value.status === '') {
+    const searchCriteria = this.searchForm.value;
+    const isEmpty = Object.values(searchCriteria).every(value => value === '' || value === null || value === undefined);
+    if (isEmpty) {
       this.toaster.showError(this.translateService.instant('sessions.search.atLeastOneFieldRequired'));
       return;
     }

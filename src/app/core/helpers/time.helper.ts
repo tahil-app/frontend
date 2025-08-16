@@ -30,8 +30,9 @@ export class TimeHelper {
     return `${hours}:${minutes}:${seconds}`;
   }
 
-  static displayTime(time: Date | string): string {
-
+  static displayTime(time: Date | string | null | undefined): string {
+    if (!time) return '';
+    
     // get the time from 24 hours format to 12 hours format
 
     if (typeof time === 'string') {

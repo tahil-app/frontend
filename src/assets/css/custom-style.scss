@@ -171,3 +171,16 @@ label,
     margin-bottom: -0.5rem !important;
     margin-right: -1.5rem !important;
 }
+
+.actions-buttons-save-cancel {
+    display: flex;
+    justify-content: flex-end;
+    gap: .25rem;
+    margin-top: 1rem;
+    border-top: 1px solid #e0e0e0;
+    padding-top: 1rem;
+
+    button {
+        width: 7rem !important;
+    }
+}

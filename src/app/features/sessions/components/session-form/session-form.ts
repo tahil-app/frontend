@@ -1,12 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, inject, OnInit, OnDestroy, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { DialogModule } from 'primeng/dialog';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
 
 import { ClassSession } from '../../../../core/models/class-session.model';
-import { ClassSessionStatus } from '../../../../core/enums/class-session-status.enum';
 import { SessionService } from '../../../../core/services/session.service';
 import { LoaderService } from '../../../shared/services/loader.service';
 import { ConfirmService } from '../../../shared/services/confirm.serivce';
@@ -15,12 +13,12 @@ import { ConfirmService } from '../../../shared/services/confirm.serivce';
 import { LabelDatePicker } from '../../../shared/components/label-date-picker/label-date-picker';
 import { LabelTimePicker } from '../../../shared/components/label-time-picker/label-time-picker';
 import { Dropdown } from '../../../shared/components/dropdown/dropdown';
-import { SaveBtn } from '../../../shared/buttons/save-btn/save-btn';
-import { CancelBtn } from '../../../shared/buttons/cancel-btn/cancel-btn';
 import { DropdownProps } from '../../../shared/props/dropdown.props';
 import { DateHelper } from '../../../../core/helpers/date.helper';
 import { TimeHelper } from '../../../../core/helpers/time.helper';
 import { ToastService } from '../../../shared/services/toast.service';
+import { StatusService } from '../../../../core/services/status.service';
+import { DialogButtons } from '../../../shared/components/dialog-buttons/dialog-buttons';
 
 @Component({
   selector: 'session-form',
@@ -28,13 +26,11 @@ import { ToastService } from '../../../shared/services/toast.service';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    DialogModule,
     TranslateModule,
     LabelDatePicker,
     LabelTimePicker,
-    Dropdown,
-    SaveBtn,
-    CancelBtn
+    DialogButtons,
+    Dropdown
   ],
   templateUrl: './session-form.html',
   styleUrl: './session-form.scss'
@@ -46,13 +42,7 @@ export class SessionForm implements OnInit, OnDestroy {
   @Output() onSave = new EventEmitter<void>();
   @Output() onCancel = new EventEmitter<void>();
 
-  sessionForm!: FormGroup;
-  statusOptions: DropdownProps[] = [];
-  teachersOptions: DropdownProps[] = [];
-  roomsOptions: DropdownProps[] = [];
-  coursesOptions: DropdownProps[] = [];
-  groupsOptions: DropdownProps[] = [];
-  destroy$ = new Subject<void>();
+
 
   private fb = inject(FormBuilder);
   private sessionService = inject(SessionService);
@@ -61,14 +51,22 @@ export class SessionForm implements OnInit, OnDestroy {
   private translateService = inject(TranslateService);
   private cd = inject(ChangeDetectorRef);
   private toaster = inject(ToastService);
+  private statusService = inject(StatusService);
+
+  sessionForm!: FormGroup;
+  teachersOptions: DropdownProps[] = [];
+  roomsOptions: DropdownProps[] = [];
+  coursesOptions: DropdownProps[] = [];
+  groupsOptions: DropdownProps[] = [];
+  statusOptions: DropdownProps[] = this.statusService.getSessionStatusOptions();
+  destroy$ = new Subject<void>();
 
   constructor() {
     this.initForm();
   }
 
   ngOnInit() {
-    this.initStatusOptions();
-    this.loadDropdownOptions();
+    this.loadLookups();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -93,15 +91,8 @@ export class SessionForm implements OnInit, OnDestroy {
     });
   }
 
-  private initStatusOptions() {
-    this.statusOptions = [
-      { label: this.translateService.instant('sessions.status.scheduled'), value: ClassSessionStatus.Scheduled },
-      { label: this.translateService.instant('sessions.status.completed'), value: ClassSessionStatus.Completed },
-      { label: this.translateService.instant('sessions.status.cancelled'), value: ClassSessionStatus.Cancelled }
-    ];
-  }
 
-  private loadDropdownOptions() {
+  private loadLookups() {
     this.loader.show();
 
     this.sessionService.getLookups(this.session!.courseId!).pipe(takeUntil(this.destroy$)).subscribe(lookups => {
@@ -111,20 +102,13 @@ export class SessionForm implements OnInit, OnDestroy {
       this.cd.detectChanges();
 
       const sessionForForm = { ...this.session } as any;
-      if (sessionForForm.startTime && typeof sessionForForm.startTime === 'string') {
-        sessionForForm.startTime = TimeHelper.toTimePicker(sessionForForm.startTime);
-      }
-      if (sessionForForm.endTime && typeof sessionForForm.endTime === 'string') {
-        sessionForForm.endTime = TimeHelper.toTimePicker(sessionForForm.endTime);
-      }
-
-      if (sessionForForm.date && typeof sessionForForm.date === 'string') {
-        sessionForForm.date = new Date(sessionForForm.date);
-      }
+      sessionForForm.startTime = TimeHelper.toTimePicker(sessionForForm.startTime);
+      sessionForForm.endTime = TimeHelper.toTimePicker(sessionForForm.endTime);
+      sessionForForm.date = DateHelper.toDatePicker(sessionForForm.date);
 
       this.sessionForm.patchValue(sessionForForm);
 
-    }, error => {}, () => this.loader.hide());
+    }, error => { }, () => this.loader.hide());
 
   }
 
@@ -138,12 +122,12 @@ export class SessionForm implements OnInit, OnDestroy {
 
   save() {
     if (this.sessionForm.valid) {
-      const sessionData: ClassSession = {...this.sessionForm.value};
+      const sessionData: ClassSession = { ...this.sessionForm.value };
 
       sessionData.scheduleId = this.session!.scheduleId;
-      sessionData.date = sessionData.date ? DateHelper.toOldDatePicker(sessionData.date) : null;
-      sessionData.startTime = sessionData.startTime ? TimeHelper.toTimeOnly(sessionData.startTime) : '';
-      sessionData.endTime = sessionData.endTime ? TimeHelper.toTimeOnly(sessionData.endTime) : '';
+      sessionData.date = DateHelper.toDateOnly(sessionData.date);
+      sessionData.startTime = TimeHelper.toTimeOnly(sessionData.startTime);
+      sessionData.endTime = TimeHelper.toTimeOnly(sessionData.endTime);
 
       this.loader.show();
       this.sessionService.updateSession(sessionData).pipe(
@@ -153,7 +137,7 @@ export class SessionForm implements OnInit, OnDestroy {
           this.toaster.showSuccess(this.translateService.instant('sessions.updatedSuccessfully'));
           this.onSave.emit();
         }
-      }, error => {}, () => this.loader.hide());
+      }, error => { }, () => this.loader.hide());
     }
   }
 

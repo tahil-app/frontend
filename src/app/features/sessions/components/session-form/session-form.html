@@ -1,5 +1,7 @@
-<p-dialog [header]="'sessions.formTitle' | translate" [modal]="true" [(visible)]="showDialog"
-    [style]="{ width: '30rem' }">
+<dialog-buttons [header]="'sessions.formTitle' | translate" 
+    [showSaveButton]="true" [showDialog]="showDialog" [width]="'30rem'"
+    [saveDisabled]="!sessionForm.valid" (onSave)="save()" (onCancel)="cancel()">
+
     <form [formGroup]="sessionForm" (ngSubmit)="save()">
 
         <!-- Group Selection -->
@@ -48,11 +50,6 @@
             </div>
         </div>
 
-        <!-- Action Buttons -->
-        <div class="actions-buttons-save-cancel mt-4">
-            <save-btn type="submit" [disabled]="!sessionForm.valid" />
-            &nbsp;
-            <cancel-btn type="button" (click)="cancel()" />
-        </div>
     </form>
-</p-dialog>
+
+</dialog-buttons>

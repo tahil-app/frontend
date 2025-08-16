@@ -14,6 +14,10 @@ export class DateHelper {
     return date ? formatDate(date, 'yyyy-MM-dd', 'en-US') : null;
   }
 
+  static displayDate(date: string | null | undefined): string | null {
+    return date ? formatDate(date, 'dd/MM/yyyy', 'en-US') : null;
+  }
+
   static getAge(birthDate: string) {
     const today = new Date();
     const _birthDate = new Date(birthDate);

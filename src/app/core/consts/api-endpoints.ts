@@ -103,13 +103,11 @@ export class ApiEndpoints {
         }
     };
 
-    static readonly ATTENDANCE = {
-        Controller: 'attendance',
+    static readonly STUDENT_ATTENDANCE = {
+        Controller: 'student_attendances',
         Actions: {
-            GetSessionAttendance: 'session',
-            RecordAttendance: 'record',
-            UpdateAttendance: 'update',
-            GetStudentAttendance: 'student',
+            Session: (sessionId: string | number) => `/${sessionId}`,
+            Update:  (sessionId: string | number) => `update/${sessionId}`,
         }
     };
 }

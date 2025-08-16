@@ -4,11 +4,12 @@ import { CardModule } from 'primeng/card';
 import { BadgeModule } from 'primeng/badge';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ClassSession } from '../../../../core/models/class-session.model';
-import { StatusHelper } from '../../../../core/helpers/status.helper';
 import { TimeHelper } from '../../../../core/helpers/time.helper';
 import { PermissionAccessService } from '../../../../core/services/permission-access.service';
 import { ConfirmService } from '../../../shared/services/confirm.serivce';
 import { ClassSessionStatus } from '../../../../core/enums/class-session-status.enum';
+import { DateHelper } from '../../../../core/helpers/date.helper';
+import { StatusService } from '../../../../core/services/status.service';
 
 @Component({
   selector: 'session-card',
@@ -25,13 +26,13 @@ export class SessionCard {
   @Output() markCompleted = new EventEmitter<ClassSession>();
   @Output() reschedule = new EventEmitter<ClassSession>();
 
-  public permissionService: PermissionAccessService = inject(PermissionAccessService);
   private confirmService: ConfirmService = inject(ConfirmService);
   private translateService: TranslateService = inject(TranslateService);
+  private statusService: StatusService = inject(StatusService);
+  public permissionService: PermissionAccessService = inject(PermissionAccessService);
 
   getFormattedDate(): string {
-    if (!this.session.date) return '-';
-    return new Date(this.session.date).toLocaleDateString();
+    return DateHelper.displayDate(this.session.date) || '-';
   }
 
   getFormattedTime(): string {
@@ -39,7 +40,7 @@ export class SessionCard {
   }
 
   getStatusBadge(){
-    return StatusHelper.getStatusBadge(this.session.status);
+    return this.statusService.getSessionStatusBadge(this.session.status);
   }
 
   onUpdate(): void {
@@ -100,23 +101,33 @@ export class SessionCard {
   get permission() {
     return {
       canReschedule: this.permissionService.canEdit.session && this.session.status !== ClassSessionStatus.Scheduled,
-      canMarkCompleted: this.permissionService.canEdit.session && this.session.status === ClassSessionStatus.Scheduled,
-      canUpdate: this.permissionService.canEdit.session && this.session.status === ClassSessionStatus.Scheduled && this.validTimeBefore(30),
-      canCancel: this.permissionService.canEdit.session && this.session.status === ClassSessionStatus.Scheduled && this.validTimeBefore(30),
-      canRecordAttendance: this.permissionService.canEdit.attendance && this.session.status !== ClassSessionStatus.Cancelled,
+      canUpdate: this.permissionService.canEdit.session && this.session.status === ClassSessionStatus.Scheduled && this.validToEditOrCancel(),
+      canCancel: this.permissionService.canEdit.session && this.session.status === ClassSessionStatus.Scheduled && this.validToEditOrCancel(),
+      canMarkCompleted: this.permissionService.canEdit.session && this.session.status === ClassSessionStatus.Scheduled && this.validToMarkCompletedOrRecordAttendance(),
+      canRecordAttendance: this.permissionService.canEdit.attendance && this.session.status !== ClassSessionStatus.Cancelled && this.validToMarkCompletedOrRecordAttendance(),
     }
   }
 
-  validTimeBefore(beforeTime: number) {
-    // if the session date is in the future or today and the time is greater than the current time with 1 hour
-    const sessionDate = new Date(this.session.date!);
-    const currentDate = new Date();
-    const currentTime = new Date().getHours() * 60 + new Date().getMinutes() + beforeTime;
-    
-    const sessionTimeParts = this.session.startTime!.split(':');
-    const sessionTimeMinutes = parseInt(sessionTimeParts[0]) * 60 + parseInt(sessionTimeParts[1]);
-    
-    return sessionDate >= currentDate && sessionTimeMinutes > currentTime;
+  validToEditOrCancel(): boolean {
+    if (!this.session?.date || !this.session?.startTime) return false;
+  
+    const [startHour, startMinute] = this.session.startTime.split(':').map(Number);
+    const sessionDateTime = new Date(this.session.date);
+    sessionDateTime.setHours(startHour, startMinute, 0, 0);
+  
+    const oneHourFromNow = new Date(new Date().getTime()); // 1 hour from now  ( + 60 * 60 * 1000)
+
+    return sessionDateTime >= oneHourFromNow;
+  }
+  
+  validToMarkCompletedOrRecordAttendance(): boolean {
+    if (!this.session?.date || !this.session?.startTime) return false;
+
+    const [startHour, startMinute] = this.session.startTime.split(':').map(Number);
+    const sessionDateTime = new Date(this.session.date);
+    sessionDateTime.setHours(startHour, startMinute, 0, 0);
+  
+    return sessionDateTime <= new Date();
   }
 
 } 

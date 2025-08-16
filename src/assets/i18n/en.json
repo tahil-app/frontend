@@ -393,13 +393,17 @@
             "subtitle": "View and manage attendance records for all sessions",
             "noRecords": "No attendance records found"
         },
-
+        "confirm": {
+            "cancel": "Are you sure you want to cancel this session?",
+            "save": "Are you sure you want to save this session?"
+        },
         "actions": {
             "markAllPresent": "All",
             "markAllLate": "All",
             "markAllAbsent": "All",
             "view": "View Details",
             "edit": "Edit"
-        }
+        },
+        "updateSuccess": "Attendance updated successfully"
     }
 }
