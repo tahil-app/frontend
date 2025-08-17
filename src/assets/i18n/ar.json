@@ -323,6 +323,9 @@
             "active": "نشط",
             "cancelled": "ملغي",
             "completed": "مكتمل"
+        },
+        "confirm": {
+            "cancelUpdate": "هل أنت متأكد من إلغاء تعديل هذا الجدول؟"
         }
     },
     "calendar": {

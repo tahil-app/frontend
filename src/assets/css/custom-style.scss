@@ -7,38 +7,38 @@
     width: 8px !important;
 }
 
-.sk-ball-spin-clockwise > div {
+.sk-ball-spin-clockwise>div {
     background-color: var(--primary-color) !important;
 }
 
 //#region Datatable
-.p-datatable-thead > tr > th,
+.p-datatable-thead>tr>th,
 .p-datatable-sort-icon {
     // background-color: var(--primary-color) !important;
     // color: #fff !important;
     font-weight: 500 !important;
 }
 
-.p-paginator-page-selected ,
-.p-datatable-thead > tr > th.p-datatable-column-sorted,
-.p-datatable-thead > tr > th.p-datatable-column-sorted .p-datatable-sort-icon {
+.p-paginator-page-selected,
+.p-datatable-thead>tr>th.p-datatable-column-sorted,
+.p-datatable-thead>tr>th.p-datatable-column-sorted .p-datatable-sort-icon {
     color: #fff !important;
     background-color: var(--primary-color) !important;
 }
 
-.p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(odd) {
+.p-datatable.p-datatable-striped .p-datatable-tbody>tr:nth-child(odd) {
     background-color: #f9f9f9 !important;
 }
 
-.p-datatable-striped.p-datatable-hoverable .p-datatable-tbody > tr:not(.p-datatable-row-selected):hover,
-.p-datatable-sortable-column:not(.p-datatable-column-sorted):hover
-{
+.p-datatable-striped.p-datatable-hoverable .p-datatable-tbody>tr:not(.p-datatable-row-selected):hover,
+.p-datatable-sortable-column:not(.p-datatable-column-sorted):hover {
     background-color: #f5f5f5 !important;
 }
 
-.p-datatable-tbody > tr > td {
+.p-datatable-tbody>tr>td {
     padding: 0.25rem 1rem !important;
 }
+
 //#endregion
 
 //#region Buttons
@@ -129,14 +129,14 @@ body {
 }
 
 label,
-.p-datatable-thead > tr > th {
+.p-datatable-thead>tr>th {
     font-size: 16px !important;
     color: #ababab !important;
     margin-bottom: 0.25rem !important;
 }
 
-.p-datatable-tbody > tr > td,
-.p-datatable-thead > tr > th {
+.p-datatable-tbody>tr>td,
+.p-datatable-thead>tr>th {
     text-wrap-mode: nowrap !important;
 }
 
@@ -157,7 +157,7 @@ label,
 
 .confirm-icon-attendance {
     color: #7bb13c !important; // Green for attendance
-    
+
 }
 
 .confirm-icon-completed {
@@ -183,4 +183,26 @@ label,
     button {
         width: 7rem !important;
     }
+}
+
+
+.p-radiobutton .p-radiobutton-box {
+    width: 15px;
+    height: 15px;
+    transition: all 0.2s ease-in-out;
+}
+
+.p-radiobutton .p-radiobutton-icon {
+    width: 7px;
+    height: 7px;
+}
+
+.p-radiobutton {
+    border: unset;
+    background-color: unset;
+}
+
+.p-radiobutton-checked .p-radiobutton-box {
+    background-color: #000 !important;
+    border-color: #000 !important;
 }

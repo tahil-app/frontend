@@ -1,12 +1,7 @@
 import { Routes } from '@angular/router';
-import { UiControls } from './features/ui-controls/ui-controls';
 import { AuthGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
-    {
-        path: '',
-        component: UiControls
-    },
     {
         path: 'auth',
         loadChildren: () => import('./features/auth/auth.routes').then(m => m.AUTH_ROUTES)

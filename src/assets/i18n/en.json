@@ -319,6 +319,9 @@
             "active": "Active",
             "cancelled": "Cancelled",
             "completed": "Completed"
+        },
+        "confirm": {
+            "cancelUpdate": "Are you sure you want to cancel this schedule?"
         }
     },
     "calendar": {

@@ -7,32 +7,29 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ScheduleService } from '../../../../core/services/schedule.service';
 import { ClassSchedule } from '../../../../core/models/class-schedule.model';
 import { ScheduleLookup } from '../../../../core/models/schedule-lookup.model';
-import { Dialog } from "primeng/dialog";
 import { CommonModule } from '@angular/common';
 import { Dropdown } from '../../../shared/components/dropdown/dropdown';
 import { LabelTimePicker } from '../../../shared/components/label-time-picker/label-time-picker';
 import { LabelDatePicker } from '../../../shared/components/label-date-picker/label-date-picker';
-import { SaveBtn } from '../../../shared/buttons/save-btn/save-btn';
-import { CancelBtn } from '../../../shared/buttons/cancel-btn/cancel-btn';
 import { DropdownProps } from '../../../shared/props/dropdown.props';
-import { DayOfWeek } from '../../../../core/enums/day-week.enum';
 import { DateHelper } from '../../../../core/helpers/date.helper';
 import { ClassScheduleStatus } from '../../../../core/enums/class-schedule-status.enum';
 import { TimeHelper } from '../../../../core/helpers/time.helper';
 import { ColorPickerModule } from 'primeng/colorpicker';
+import { WeekDaysService } from '../../../../core/services/week-days.service';
+import { DialogButtons } from '../../../shared/components/dialog-buttons/dialog-buttons';
+import { ConfirmService } from '../../../shared/services/confirm.serivce';
 
 @Component({
   selector: 'schedule-form',
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    Dialog,
+    DialogButtons,
     TranslateModule,
     Dropdown,
     LabelTimePicker,
     LabelDatePicker,
-    SaveBtn,
-    CancelBtn,
     ColorPickerModule
   ],
   templateUrl: './schedule-form.html',
@@ -57,18 +54,12 @@ export class ScheduleForm {
   private fb = inject(FormBuilder);
   private translate = inject(TranslateService);
   private cd = inject(ChangeDetectorRef);
+  private weekDaysService = inject(WeekDaysService);
+  private confirmService = inject(ConfirmService);
   //#endregion
 
   // Dropdown options
-  dayOptions: DropdownProps[] = [
-    { label: this.translate.instant('shared.days.saturday'), value: DayOfWeek.Saturday },
-    { label: this.translate.instant('shared.days.sunday'), value: DayOfWeek.Sunday },
-    { label: this.translate.instant('shared.days.monday'), value: DayOfWeek.Monday },
-    { label: this.translate.instant('shared.days.tuesday'), value: DayOfWeek.Tuesday },
-    { label: this.translate.instant('shared.days.wednesday'), value: DayOfWeek.Wednesday },
-    { label: this.translate.instant('shared.days.thursday'), value: DayOfWeek.Thursday },
-    { label: this.translate.instant('shared.days.friday'), value: DayOfWeek.Friday }
-  ];
+  dayOptions: DropdownProps[] = this.weekDaysService.getDayOptions();
   //#endregion
 
   //#region Methods
@@ -92,20 +83,10 @@ export class ScheduleForm {
 
       // Convert time strings to Date objects for the form controls
       const scheduleForForm = { ...this.schedule } as any;
-      if (scheduleForForm.startTime && typeof scheduleForForm.startTime === 'string') {
-        scheduleForForm.startTime = TimeHelper.toTimePicker(scheduleForForm.startTime);
-      }
-      if (scheduleForForm.endTime && typeof scheduleForForm.endTime === 'string') {
-        scheduleForForm.endTime = TimeHelper.toTimePicker(scheduleForForm.endTime);
-      }
-
-      // Convert date strings to Date objects for the date pickers
-      if (scheduleForForm.startDate && typeof scheduleForForm.startDate === 'string') {
-        scheduleForForm.startDate = new Date(scheduleForForm.startDate);
-      }
-      if (scheduleForForm.endDate && typeof scheduleForForm.endDate === 'string') {
-        scheduleForForm.endDate = new Date(scheduleForForm.endDate);
-      }
+      scheduleForForm.startTime = TimeHelper.toTimePicker(scheduleForForm.startTime);
+      scheduleForForm.endTime = TimeHelper.toTimePicker(scheduleForForm.endTime);
+      scheduleForForm.startDate = DateHelper.toDatePicker(scheduleForForm.startDate);
+      scheduleForForm.endDate = DateHelper.toDatePicker(scheduleForForm.endDate);
 
       this.scheduleForm?.patchValue(scheduleForForm);
     }
@@ -174,16 +155,16 @@ export class ScheduleForm {
     const schedule = this.scheduleForm.value as ClassSchedule;
     schedule.id = 0;
     schedule.status = ClassScheduleStatus.New;
-    schedule.startDate = schedule.startDate ? DateHelper.toOldDatePicker(schedule.startDate) : null;
-    schedule.endDate = schedule.endDate ? DateHelper.toOldDatePicker(schedule.endDate) : null;
+    schedule.startDate = DateHelper.toDateOnly(schedule.startDate);
+    schedule.endDate = DateHelper.toDateOnly(schedule.endDate);
 
     // Convert Date objects to TimeOnly compatible format (HH:mm:ss)
-    (schedule as any).startTime = schedule.startTime ? TimeHelper.toTimeOnly(schedule.startTime) : '';
-    (schedule as any).endTime = schedule.endTime ? TimeHelper.toTimeOnly(schedule.endTime) : '';
+    (schedule as any).startTime = TimeHelper.toTimeOnly(schedule.startTime);
+    (schedule as any).endTime = TimeHelper.toTimeOnly(schedule.endTime);
 
     this.loader.show();
 
-    this.scheduleService.create(schedule).subscribe((res: any) => {
+    this.scheduleService.create(schedule).pipe(takeUntil(this.destroy$)).subscribe((res: any) => {
       
       if (res) {
         this.toaster.showSuccess(this.translate.instant('schedules.saveSuccess'));
@@ -202,15 +183,15 @@ export class ScheduleForm {
     }
 
     const schedule = this.scheduleForm.value as ClassSchedule;
-    schedule.startDate = schedule.startDate ? DateHelper.toOldDatePicker(schedule.startDate) : null;
-    schedule.endDate = schedule.endDate ? DateHelper.toOldDatePicker(schedule.endDate) : null;
+    schedule.startDate = DateHelper.toDateOnly(schedule.startDate);
+    schedule.endDate = DateHelper.toDateOnly(schedule.endDate);
 
     // Convert Date objects to TimeOnly compatible format (HH:mm:ss)
-    (schedule as any).startTime = schedule.startTime ? TimeHelper.toTimeOnly(schedule.startTime) : '';
-    (schedule as any).endTime = schedule.endTime ? TimeHelper.toTimeOnly(schedule.endTime) : '';
+    (schedule as any).startTime = TimeHelper.toTimeOnly(schedule.startTime);
+    (schedule as any).endTime = TimeHelper.toTimeOnly(schedule.endTime);
 
     this.loader.show();
-    this.scheduleService.update(schedule).subscribe((res: any) => {
+    this.scheduleService.update(schedule).pipe(takeUntil(this.destroy$)).subscribe((res: any) => {
 
       if (res) {
         this.toaster.showSuccess(this.translate.instant('schedules.updateSuccess'));
@@ -223,8 +204,10 @@ export class ScheduleForm {
   }
 
   cancel() {
-    this.scheduleForm.reset();
-    this.onCancel.emit();
+    this.confirmService.confirm(this.translate.instant('schedules.confirm.cancelUpdate'), () => {
+      this.scheduleForm.reset();
+      this.onCancel.emit();
+    });
   }
 
   ngOnDestroy() {

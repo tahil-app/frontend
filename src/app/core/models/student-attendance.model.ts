@@ -20,7 +20,7 @@ export class StudentAttendance {
   sessionId: number = 0;
   studentId: number = 0;
   status: AttendanceStatus | null = AttendanceStatus.None;
-  notes?: string;
+  note?: string;
   
   studentName?: string;
 } 
