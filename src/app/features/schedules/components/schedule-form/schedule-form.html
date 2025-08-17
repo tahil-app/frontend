@@ -1,4 +1,5 @@
-<dialog-buttons [header]="'schedules.formTitle' | translate" [showDialog]="showDialog" (onSave)="save()"
+<dialog-buttons [header]="'schedules.formTitle' | translate" [showDialog]="showDialog" 
+    (onSave)="hasId() ? update() : save()"
     (onCancel)="cancel()" [width]="'30rem'" [showSaveButton]="true">
 
     <form [formGroup]="scheduleForm" (ngSubmit)="hasId() ? update() : save()">

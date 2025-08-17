@@ -25,6 +25,7 @@ export class SessionCard {
   @Output() cancel = new EventEmitter<ClassSession>();
   @Output() markCompleted = new EventEmitter<ClassSession>();
   @Output() reschedule = new EventEmitter<ClassSession>();
+  @Output() delete = new EventEmitter<ClassSession>();
 
   private confirmService: ConfirmService = inject(ConfirmService);
   private translateService: TranslateService = inject(TranslateService);
@@ -98,6 +99,17 @@ export class SessionCard {
     );
   }
 
+  onDelete(): void {
+    this.confirmService.confirm(
+      this.translateService.instant('sessions.confirm.delete'),
+      () => {
+        this.delete.emit(this.session);
+      },
+      undefined,
+      'pi pi-trash confirm-icon-delete'
+    );
+  }
+
   get permission() {
     return {
       canReschedule: this.permissionService.canEdit.studentAttendanceToBeRescheduled && this.session.status !== ClassSessionStatus.Scheduled,
@@ -105,6 +117,7 @@ export class SessionCard {
       canCancel: this.permissionService.canEdit.studentAttendanceToBeCancelled && this.session.status === ClassSessionStatus.Scheduled && this.validToEditOrCancel(),
       canMarkCompleted: this.permissionService.canEdit.studentAttendanceToBeCompleted && this.session.status === ClassSessionStatus.Scheduled && this.validToMarkCompletedOrRecordAttendance(),
       canRecordAttendance: this.permissionService.canEdit.studentAttendanceToRecord && this.session.status !== ClassSessionStatus.Cancelled && this.validToMarkCompletedOrRecordAttendance(),
+      canDelete: this.permissionService.canDelete.session,
     }
   }
 

@@ -40,6 +40,7 @@ import { TooltipModule } from 'primeng/tooltip';
 export class Calendar implements OnInit {
 
   @Input() config: CalendarProps = {};
+  @Input() activeDayIsOpen: boolean = false;
   @Output() dayClicked = new EventEmitter<any>();
   @Output() eventClicked = new EventEmitter<CalendarEvent>();
   @Output() editClicked = new EventEmitter<CalendarEvent>();
@@ -52,7 +53,6 @@ export class Calendar implements OnInit {
   CalendarView = CalendarView;
   viewDate: Date = new Date();
   events: CalendarEvent[] = [];
-  activeDayIsOpen: boolean = true;
 
 
   constructor(private translateService: TranslateService) {

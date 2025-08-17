@@ -204,10 +204,14 @@ export class ScheduleForm {
   }
 
   cancel() {
-    this.confirmService.confirm(this.translate.instant('schedules.confirm.cancelUpdate'), () => {
+    if (this.scheduleForm.dirty) {  
+    this.confirmService.confirm(this.translate.instant('shared.confirm.unsavedChanges'), () => {
       this.scheduleForm.reset();
+        this.onCancel.emit();
+      });
+    } else {
       this.onCancel.emit();
-    });
+    }
   }
 
   ngOnDestroy() {

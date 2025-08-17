@@ -5,7 +5,6 @@ import { ScheduleDialog } from "../schedule-dialog/schedule-dialog";
 import { ClassSchedule } from '../../../../core/models/class-schedule.model';
 import { CommonModule } from '@angular/common';
 import { CalendarEvent, CalendarView } from 'angular-calendar';
-import { startOfDay, endOfDay, addDays } from 'date-fns';
 import { Calendar } from '../../../shared/components/calendar/calendar';
 import { CalendarProps } from '../../../shared/props/calendar.props';
 import { PermissionAccessService } from '../../../../core/services/permission-access.service';
@@ -14,6 +13,7 @@ import { LoaderService } from '../../../shared/services/loader.service';
 import { TimeHelper } from '../../../../core/helpers/time.helper';
 import { ScheduleForm } from '../schedule-form/schedule-form';
 import { DeleteConfirmation } from '../../../shared/components/delete-confirmation/delete-confirmation';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-scheduls-calendar',
@@ -41,14 +41,17 @@ export class SchedulsCalendar implements OnInit {
   schedule: ClassSchedule = {} as ClassSchedule;
   schedules: ClassSchedule[] = [];
   scheduleToDelete: ClassSchedule = {} as ClassSchedule;
+  activeDayIsOpen: boolean = false;
+
+  destroy$ = new Subject<void>();
 
   //#endregion
 
   //#region Services
   private translateService = inject(TranslateService);
-  private permissionService = inject(PermissionAccessService);
   private scheduleService = inject(ScheduleService);
   private loader = inject(LoaderService);
+  public permissionService = inject(PermissionAccessService);
   //#endregion
 
   //#region Methods
@@ -57,13 +60,25 @@ export class SchedulsCalendar implements OnInit {
     this.loadEvents();
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   private loadEvents(): void {
 
     this.loader.show();
-    this.scheduleService.getMonthlySchedule(8, 2025).subscribe(schedules => {
+    let currentDate = new Date();
+    let currentMonth = currentDate.getMonth() + 1;
+    let currentYear = currentDate.getFullYear();
+
+    this.scheduleService.getMonthlySchedule(currentMonth, currentYear).pipe(takeUntil(this.destroy$)).subscribe(schedules => {
       this.schedules = schedules;
+      
       this.events = this.prepareEvents(schedules);
       this.setupCalendarConfig();
+      
+      this.activeDayIsOpen = this.schedules.some(schedule => schedule.day === currentDate.getDay() && new Date(schedule.startDate!) <= currentDate);
     }, err => { }, () => {
       this.showDialog = false;
       this.showScheduleForm = false;
@@ -92,7 +107,7 @@ export class SchedulsCalendar implements OnInit {
 
         return `<table>
           <tr>
-            <td class="text-secondary"><b>${group}: </b><br/>&nbsp;</td>
+            <td class="text-light"><b>${group}: </b><br/>&nbsp;</td>
             <td>
               &nbsp;${schedule?.groupName}
               <br/>
@@ -100,15 +115,15 @@ export class SchedulsCalendar implements OnInit {
             </td>
           </tr>
           <tr>
-            <td class="text-secondary"><b>${teacher}:</b></td>
+            <td class="text-light"><b>${teacher}:</b></td>
             <td>&nbsp;${schedule?.teacherName}</td>
           </tr>
           <tr>
-            <td class="text-secondary"><b>${room}:</b></td>
+            <td class="text-light"><b>${room}:</b></td>
             <td>&nbsp;${schedule?.roomName}</td>
           </tr>
           <tr>
-            <td class="text-secondary"><b>${course}:</b></td>
+            <td class="text-light"><b>${course}:</b></td>
             <td>&nbsp;${schedule?.courseName}</td>
           </tr>
         </table>`;
@@ -173,7 +188,7 @@ export class SchedulsCalendar implements OnInit {
 
   onDeleteConfirm(): void {
     this.loader.show();
-    this.scheduleService.delete(this.scheduleToDelete.id!).subscribe({
+    this.scheduleService.delete(this.scheduleToDelete.id!).pipe(takeUntil(this.destroy$)).subscribe({
       next: () => {
         this.loadEvents();
         this.showDeleteConfirmation = false;
@@ -196,6 +211,10 @@ export class SchedulsCalendar implements OnInit {
   onSave() {
     this.showScheduleForm = false;
     this.loadEvents();
+  }
+
+  onAdd(): void {
+    this.showScheduleForm = true;
   }
 
   //#endregion

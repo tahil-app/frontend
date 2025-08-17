@@ -1,8 +1,9 @@
-<card-container [title]="'schedules.all' | translate" [addBtn]="true" (onAdd)="this.showDialog = true">
+<card-container [title]="'schedules.all' | translate" [addBtn]="permissionService.canAdd.schedule" (onAdd)="onAdd()">
   
   <!-- Shared Calendar Component -->
   <calendar 
     [config]="calendarConfig"
+    [activeDayIsOpen]="activeDayIsOpen"
     (eventClicked)="eventClicked($event)"
     (editClicked)="editEvent($event)"
     (deleteClicked)="deleteEvent($event)"

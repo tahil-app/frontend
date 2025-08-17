@@ -295,4 +295,15 @@ export class SessionsList implements OnInit {
     return items;
   }
 
+  deleteSession(session: ClassSession) {
+    this.loader.show();
+    this.sessionService.delete(session.id!).pipe(takeUntil(this.destroy$)).subscribe((success) => {
+      
+      if(success) {
+        this.loadSessions();
+        this.toaster.showSuccess(this.translateService.instant('sessions.deletedSuccessfully'));
+      }
+
+    }, err => { }, () => this.loader.hide());
+  }
 } 

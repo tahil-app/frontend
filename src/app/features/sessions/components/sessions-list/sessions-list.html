@@ -53,7 +53,7 @@
 <div class="sessions-grid" *ngIf="sessions.length > 0; else noSessions">
   <session-card *ngFor="let session of sessions" [session]="session" (recordAttendance)="onRecordAttendance($event)"
     (update)="updateSession($event)" (cancel)="cancelSession($event)" (markCompleted)="markCompletedSession($event)"
-    (reschedule)="rescheduleSession($event)">
+    (reschedule)="rescheduleSession($event)" (delete)="deleteSession($event)">
   </session-card>
 </div>
 

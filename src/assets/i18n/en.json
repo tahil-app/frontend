@@ -376,10 +376,12 @@
             "reschedule": "Are you sure you want to reschedule this session?",
             "cancel": "Are you sure you want to cancel this session?",
             "edit": "Are you sure you want to edit this session?",
-            "refresh": "Are you sure you want to refresh the schedule?"
+            "refresh": "Are you sure you want to refresh the schedule?",
+            "delete": "Are you sure you want to delete this session?"
         },
         "cancelledSuccessfully": "Session cancelled successfully",
-        "updatedSuccessfully": "Session updated successfully"
+        "updatedSuccessfully": "Session updated successfully",
+        "deletedSuccessfully": "Session deleted successfully"
     },
     "attendance": {
         "all": "Attendance",
