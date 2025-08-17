@@ -1,5 +1,4 @@
 .attendance-pdf-template {
-  font-family: Arial, sans-serif;
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
@@ -13,7 +12,7 @@
     padding-bottom: 20px;
 
     .pdf-title {
-      font-size: 24px;
+      font-size: 18px !important;
       font-weight: bold;
       margin-bottom: 20px;
       color: #333;
@@ -128,7 +127,7 @@
       display: flex;
       justify-content: space-between;
       margin-bottom: 8px;
-      font-size: 14px;
+      font-size: 12px;
 
       &:last-child {
         margin-bottom: 0;
@@ -148,7 +147,7 @@
 
   .pdf-footer {
     display: flex;
-    justify-content: space-between;
+    justify-content: left;
     padding-top: 40px;
 
     .teacher-signature,
@@ -169,6 +168,23 @@
         font-style: italic;
       }
     }
+  }
+}
+
+.export-info {
+  text-align: left !important;
+
+  .info-line {
+    width: 150px;
+    height: 1px;
+    background-color: #333;
+    margin: 0 auto 8px auto;
+  }
+
+  .info-label {
+    font-size: 10px;
+    color: #666;
+    font-style: italic;
   }
 }
 

@@ -168,7 +168,7 @@ export class SessionAttendance implements CanDeactivateComponent {
         time: `${this.attendanceDisplay.startTime || '00:00'} - ${this.attendanceDisplay.endTime || '00:00'}`
       };
 
-      await this.pdfExportService.exportAttendanceSheet(
+      await this.pdfExportService.exportToPdf(
         this.pdfTemplate.pdfContent.nativeElement,
         `${sessionInfo.courseName}_${sessionInfo.groupName}_${sessionInfo.date}`
       );

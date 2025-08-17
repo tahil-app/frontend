@@ -98,7 +98,9 @@
             "course": "Course",
             "group": "Group",
             "room": "Room",
-            "time": "Time"
+            "time": "Time",
+            "total": "Total",
+            "exportedOn": "Exported On"
         },
         "validation": {
             "passwordMismatch": "Password and confirm password do not match",

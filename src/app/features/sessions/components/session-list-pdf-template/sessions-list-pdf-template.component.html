@@ -1,0 +1,85 @@
+<div class="sessions-list-pdf-template" #pdfContent>
+  <!-- Header -->
+  <div class="pdf-header">
+    <div class="header-content">
+      <h1 class="pdf-title">{{ title || ('sessions.list.title' | translate) }}</h1>
+      <div class="header-details">
+        <div class="detail-row">
+          <span class="label">{{ 'shared.fields.date' | translate }}: &nbsp;</span>
+          <span class="value">{{ exportDate }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">{{ 'shared.fields.total' | translate }}: &nbsp;</span>
+          <span class="value">{{ sessions.length }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sessions Table -->
+  <div class="sessions-table-pdf" *ngIf="sessions.length > 0">
+    <table class="pdf-table">
+      <thead>
+        <tr>
+          <th class="date-col">{{ 'shared.fields.date' | translate }}</th>
+          <th class="time-col">{{ 'shared.fields.time' | translate }}</th>
+          <th class="course-col">{{ 'courses.one' | translate }}</th>
+          <th class="group-col">{{ 'groups.one' | translate }}</th>
+          <th class="room-col">{{ 'rooms.one' | translate }}</th>
+          <th class="teacher-col">{{ 'teachers.one' | translate }}</th>
+          <th class="status-col">{{ 'shared.fields.status' | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let session of sessions; let i = index">
+          <td class="date-cell">{{ getFormattedDate(session.date!) }}</td>
+          <td class="time-cell">{{ getFormattedTime(session.startTime!) }} - {{ getFormattedTime(session.endTime!) }}</td>
+          <td class="course-cell">{{ session.courseName || '-' }}</td>
+          <td class="group-cell">{{ session.groupName || '-' }}</td>
+          <td class="room-cell">{{ session.roomName || '-' }}</td>
+          <td class="teacher-cell">{{ session.teacherName || '-' }}</td>
+          <td class="status-cell">
+            <span [class]="getStatusColor(session.status)">
+              {{ getStatusText(session.status) | translate }}
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- No Sessions Message -->
+  <div class="no-sessions-pdf" *ngIf="sessions.length === 0">
+    <div class="no-sessions-content">
+      <i class="fa fa-calendar-times"></i>
+      <p>{{ 'sessions.list.noSessions' | translate }}</p>
+    </div>
+  </div>
+
+  <!-- Summary -->
+  <div class="sessions-summary-pdf" *ngIf="sessions.length > 0">
+    <div class="summary-row">
+      <span class="summary-label">{{ 'shared.fields.total' | translate }} {{ 'sessions.all' | translate }}: &nbsp;</span>
+      <span class="summary-value">{{ sessions.length }}</span>
+    </div>
+    <div class="summary-row">
+      <span class="summary-label">{{ 'sessions.status.scheduled' | translate }}: &nbsp;</span>
+      <span class="summary-value">{{ 0 }}</span>
+    </div>
+    <div class="summary-row">
+      <span class="summary-label">{{ 'sessions.status.completed' | translate }}: &nbsp;</span>
+      <span class="summary-value">{{ 0 }}</span>
+    </div>
+    <div class="summary-row">
+      <span class="summary-label">{{ 'sessions.status.cancelled' | translate }}: &nbsp;</span>
+      <span class="summary-value">{{ 0 }}</span>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="pdf-footer">
+    <div class="export-info">
+      <span class="info-label">{{ 'shared.fields.exportedOn' | translate }}: {{ exportDate }}</span>
+    </div>
+  </div>
+</div> 

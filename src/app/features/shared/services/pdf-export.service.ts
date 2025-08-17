@@ -30,7 +30,7 @@ export class PdfExportService {
         orientation = 'portrait',
         format = 'a4',
         margin = 10,
-        scale = 2
+        scale = 5
       } = options;
 
       // Create canvas from HTML element
@@ -41,8 +41,13 @@ export class PdfExportService {
         backgroundColor: '#ffffff'
       });
 
-      const imgWidth = format === 'a4' ? 210 : 297;
-      const pageHeight = format === 'a4' ? 295 : 420;
+      // For landscape orientation, swap width and height
+      const imgWidth = orientation === 'landscape' 
+        ? (format === 'a4' ? 297 : 420) 
+        : (format === 'a4' ? 210 : 297);
+      const pageHeight = orientation === 'landscape' 
+        ? (format === 'a4' ? 210 : 297) 
+        : (format === 'a4' ? 295 : 420);
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
       let heightLeft = imgHeight;
 
@@ -71,22 +76,4 @@ export class PdfExportService {
       throw error;
     }
   }
-
-  /**
-   * Export attendance sheet to PDF
-   * @param element HTML element containing attendance data
-   * @param sessionInfo Session information for filename
-   */
-  async exportAttendanceSheet(
-    element: HTMLElement, 
-    fileName: string
-  ): Promise<void> {
-    
-    await this.exportToPdf(element, `${fileName}.pdf`, {
-      orientation: 'portrait',
-      format: 'a4',
-      margin: 15,
-      scale: 2
-    });
-  }
-} 
+}

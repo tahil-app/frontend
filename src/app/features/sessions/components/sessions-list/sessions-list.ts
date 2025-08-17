@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { SessionCard } from '../session-card/session-card';
 import { SessionForm } from '../session-form/session-form';
@@ -16,6 +16,8 @@ import { SessionSearchCriteria } from '../../../../core/models/session-search-cr
 import { ConfirmService } from '../../../shared/services/confirm.serivce';
 import { Subject, takeUntil } from 'rxjs';
 import { TimeHelper } from '../../../../core/helpers/time.helper';
+import { PdfExportService } from '../../../shared/services/pdf-export.service';
+import { SessionsListPdfTemplateComponent } from '../session-list-pdf-template/sessions-list-pdf-template.component';
 
 @Component({
   selector: 'sessions-list',
@@ -26,7 +28,8 @@ import { TimeHelper } from '../../../../core/helpers/time.helper';
     SessionCard,
     SessionForm,
     TooltipModule,
-    SessionSearchDialog
+    SessionSearchDialog,
+    SessionsListPdfTemplateComponent
   ],
   templateUrl: './sessions-list.html',
   styleUrl: './sessions-list.scss'
@@ -38,6 +41,7 @@ export class SessionsList implements OnInit {
   showSessionForm = false;
   showSearchDialog = false;
   currentSearchCriteria: SessionSearchCriteria = {} as SessionSearchCriteria;
+  @ViewChild(SessionsListPdfTemplateComponent, { static: false }) pdfTemplate!: SessionsListPdfTemplateComponent;
 
   private loader = inject(LoaderService);
   private sessionService: SessionService = inject(SessionService);
@@ -45,6 +49,7 @@ export class SessionsList implements OnInit {
   private toaster = inject(ToastService);
   private translateService = inject(TranslateService);
   private confirmService = inject(ConfirmService);
+  private pdfExportService: PdfExportService = inject(PdfExportService);
   public permissionService: PermissionAccessService = inject(PermissionAccessService);
 
   destroy$ = new Subject<void>();
@@ -305,5 +310,41 @@ export class SessionsList implements OnInit {
       }
 
     }, err => { }, () => this.loader.hide());
+  }
+
+  async exportToPdf() {
+    try {
+      this.loader.show();
+      
+      if (!this.pdfTemplate) {
+        this.toaster.showError(this.translateService.instant('shared.pdf.error.noContent'));
+        return;
+      }
+
+      const currentDate = new Date().toISOString().split('T')[0]; // Format as YYYY-MM-DD
+      const title = this.hasActiveSearch() ? 'filtered' : 'all';
+      const subtitle = this.hasActiveSearch() ? this.getSearchCriteriaText() : '';
+
+      const exportInfo = {
+        title: title,
+        subtitle: subtitle,
+        date: currentDate,
+        sessionCount: this.sessions.length
+      };
+
+      await this.pdfExportService.exportToPdf(
+        this.pdfTemplate.pdfContent.nativeElement,
+        `${this.translateService.instant('sessions.list.title')}_${exportInfo.date}`, {
+          orientation: 'landscape'
+        }
+      );
+
+      this.toaster.showSuccess(this.translateService.instant('shared.pdf.success'));
+    } catch (error) {
+      console.error('Error exporting PDF:', error);
+      this.toaster.showError(this.translateService.instant('shared.pdf.error.general'));
+    } finally {
+      this.loader.hide();
+    }
   }
 } 
