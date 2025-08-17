@@ -165,7 +165,8 @@
         },
         "messages": {
             "savedSuccessfully": "تم الحفظ بنجاح",
-            "updatedSuccessfully": "تم التحديث بنجاح"
+            "updatedSuccessfully": "تم التحديث بنجاح",
+            "deletedSuccessfully": "تم الحذف بنجاح"
         },
         "attendanceStatus": {
             "present": "حاضر",

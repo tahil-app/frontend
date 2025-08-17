@@ -7,6 +7,9 @@
     (eventClicked)="eventClicked($event)"
     (editClicked)="editEvent($event)"
     (deleteClicked)="deleteEvent($event)"
+    (nextClicked)="onNext($event)"
+    (previousClicked)="onPrev($event)"
+    (todayClicked)="onToday($event)"
     >
   </calendar>
 
@@ -15,10 +18,3 @@
 <schedule-dialog [showDialog]="showDialog" *ngIf="showDialog" [schedule]="schedule" (onClose)="this.showDialog = false" />
 
 <schedule-form [showDialog]="showScheduleForm" *ngIf="showScheduleForm" [schedule]="schedule" (onSave)="onSave()" (onCancel)="this.showScheduleForm = false" />
-
-<delete-confirmation 
-  *ngIf="showDeleteConfirmation" 
-  [message]="'shared.dialogs.deleteConfirmation' | translate" 
-  (confirm)="onDeleteConfirm()" 
-  (cancel)="onDeleteCancel()" 
-/>

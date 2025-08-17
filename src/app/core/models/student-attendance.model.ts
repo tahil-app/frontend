@@ -10,6 +10,7 @@ export class StudentAttendanceDisplay
     startTime?: string | null;
     endTime?: string | null;
     sessionStatus?: ClassSessionStatus | null;
+    dayName?: string | null;
 
     attendances: StudentAttendance[] = [];
 }

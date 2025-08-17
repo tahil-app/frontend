@@ -1,18 +1,23 @@
 import { Component, EventEmitter, forwardRef, inject, Input, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule, Validators } from '@angular/forms';
-import { DialogModule } from 'primeng/dialog';
-import { Subject } from 'rxjs';
-import { CancelBtn } from '../../buttons/cancel-btn/cancel-btn';
-import { SaveBtn } from '../../buttons/save-btn/save-btn';
 import { InputLabel } from "../../components/input-label/input-label";
 import { FileUpload, FileUploadModule } from 'primeng/fileupload';
 import { CommonModule } from '@angular/common';
 import { UserAttachment } from '../../../../core/models/user-attachment.model';
 import { TranslateModule } from '@ngx-translate/core';
+import { DialogButtons } from '../../components/dialog-buttons/dialog-buttons';
 
 @Component({
   selector: 'user-attachment-dialog',
-  imports: [DialogModule, ReactiveFormsModule, SaveBtn, CancelBtn, InputLabel, FileUploadModule, InputLabel, CommonModule, TranslateModule],
+  imports: [
+    ReactiveFormsModule, 
+    InputLabel, 
+    FileUploadModule, 
+    InputLabel, 
+    CommonModule, 
+    TranslateModule,
+    DialogButtons
+  ],
   templateUrl: './user-attachment-dialog.html',
   styleUrl: './user-attachment-dialog.scss',
   providers: [

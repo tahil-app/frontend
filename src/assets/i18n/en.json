@@ -168,7 +168,8 @@
         },
         "messages": {
             "savedSuccessfully": "Saved successfully",
-            "updatedSuccessfully": "Updated successfully"
+            "updatedSuccessfully": "Updated successfully",
+            "deletedSuccessfully": "Deleted successfully"
         },
         "attendanceStatus": {
             "present": "Present",

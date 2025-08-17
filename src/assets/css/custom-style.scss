@@ -206,3 +206,16 @@ label,
     background-color: #000 !important;
     border-color: #000 !important;
 }
+
+.deleted-item-name {
+    font-weight: bold;
+    font-size: 1rem;
+
+    &::before {
+        content: ' " ';
+    }
+
+    &::after {
+        content: ' " ';
+    }
+}

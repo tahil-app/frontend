@@ -10,6 +10,7 @@ import { ConfirmService } from '../../../shared/services/confirm.serivce';
 import { ClassSessionStatus } from '../../../../core/enums/class-session-status.enum';
 import { DateHelper } from '../../../../core/helpers/date.helper';
 import { StatusService } from '../../../../core/services/status.service';
+import { ConfirmDeleteService } from '../../../shared/services/confirm-delete-service';
 
 @Component({
   selector: 'session-card',
@@ -28,6 +29,7 @@ export class SessionCard {
   @Output() delete = new EventEmitter<ClassSession>();
 
   private confirmService: ConfirmService = inject(ConfirmService);
+  private confirmDeleteService: ConfirmDeleteService = inject(ConfirmDeleteService);
   private translateService: TranslateService = inject(TranslateService);
   private statusService: StatusService = inject(StatusService);
   public permissionService: PermissionAccessService = inject(PermissionAccessService);
@@ -100,13 +102,9 @@ export class SessionCard {
   }
 
   onDelete(): void {
-    this.confirmService.confirm(
-      this.translateService.instant('sessions.confirm.delete'),
-      () => {
-        this.delete.emit(this.session);
-      },
-      undefined,
-      'pi pi-trash confirm-icon-delete'
+    this.confirmDeleteService.confirm(
+      () => this.delete.emit(this.session),
+      `${this.translateService.instant('shared.dialogs.deleteConfirmation')} <br /> <span class="deleted-item-name">${this.session.courseName}</span>`
     );
   }
 

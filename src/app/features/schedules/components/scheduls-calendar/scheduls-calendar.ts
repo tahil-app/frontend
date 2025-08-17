@@ -12,8 +12,8 @@ import { ScheduleService } from '../../../../core/services/schedule.service';
 import { LoaderService } from '../../../shared/services/loader.service';
 import { TimeHelper } from '../../../../core/helpers/time.helper';
 import { ScheduleForm } from '../schedule-form/schedule-form';
-import { DeleteConfirmation } from '../../../shared/components/delete-confirmation/delete-confirmation';
 import { Subject, takeUntil } from 'rxjs';
+import { ConfirmDeleteService } from '../../../shared/services/confirm-delete-service';
 
 @Component({
   selector: 'app-scheduls-calendar',
@@ -23,8 +23,7 @@ import { Subject, takeUntil } from 'rxjs';
     TranslateModule,
     ScheduleDialog,
     Calendar,
-    ScheduleForm,
-    DeleteConfirmation
+    ScheduleForm
   ],
   templateUrl: './scheduls-calendar.html',
   styleUrl: './scheduls-calendar.scss'
@@ -37,13 +36,13 @@ export class SchedulsCalendar implements OnInit {
 
   showDialog = false;
   showScheduleForm = false;
-  showDeleteConfirmation = false;
   schedule: ClassSchedule = {} as ClassSchedule;
   schedules: ClassSchedule[] = [];
   scheduleToDelete: ClassSchedule = {} as ClassSchedule;
   activeDayIsOpen: boolean = false;
 
   destroy$ = new Subject<void>();
+  currentDate = new Date();
 
   //#endregion
 
@@ -51,6 +50,7 @@ export class SchedulsCalendar implements OnInit {
   private translateService = inject(TranslateService);
   private scheduleService = inject(ScheduleService);
   private loader = inject(LoaderService);
+  private confirmDeleteService = inject(ConfirmDeleteService);
   public permissionService = inject(PermissionAccessService);
   //#endregion
 
@@ -68,9 +68,8 @@ export class SchedulsCalendar implements OnInit {
   private loadEvents(): void {
 
     this.loader.show();
-    let currentDate = new Date();
-    let currentMonth = currentDate.getMonth() + 1;
-    let currentYear = currentDate.getFullYear();
+    let currentMonth = this.currentDate.getMonth() + 1;
+    let currentYear = this.currentDate.getFullYear();
 
     this.scheduleService.getMonthlySchedule(currentMonth, currentYear).pipe(takeUntil(this.destroy$)).subscribe(schedules => {
       this.schedules = schedules;
@@ -78,11 +77,10 @@ export class SchedulsCalendar implements OnInit {
       this.events = this.prepareEvents(schedules);
       this.setupCalendarConfig();
       
-      this.activeDayIsOpen = this.schedules.some(schedule => schedule.day === currentDate.getDay() && new Date(schedule.startDate!) <= currentDate);
+      this.activeDayIsOpen = this.schedules.some(schedule => schedule.day === this.currentDate.getDay() && new Date(schedule.startDate!) <= this.currentDate);
     }, err => { }, () => {
       this.showDialog = false;
       this.showScheduleForm = false;
-      this.showDeleteConfirmation = false;
       this.loader.hide();
     });
 
@@ -183,7 +181,11 @@ export class SchedulsCalendar implements OnInit {
 
   deleteEvent(event: CalendarEvent): void {
     this.scheduleToDelete = this.schedules.find(schedule => schedule.id === event.id) ?? {} as ClassSchedule;
-    this.showDeleteConfirmation = true;
+
+    this.confirmDeleteService.confirm(
+      () => this.onDeleteConfirm(), 
+      `${this.translateService.instant('shared.dialogs.deleteConfirmation')} <br /> <span class="deleted-item-name">${this.scheduleToDelete.groupName}</span>`
+    );
   }
 
   onDeleteConfirm(): void {
@@ -191,11 +193,9 @@ export class SchedulsCalendar implements OnInit {
     this.scheduleService.delete(this.scheduleToDelete.id!).pipe(takeUntil(this.destroy$)).subscribe({
       next: () => {
         this.loadEvents();
-        this.showDeleteConfirmation = false;
       },
       error: (error: any) => {
         console.error('Error deleting schedule:', error);
-        this.showDeleteConfirmation = false;
       },
       complete: () => {
         this.loader.hide();
@@ -205,7 +205,6 @@ export class SchedulsCalendar implements OnInit {
 
   onDeleteCancel(): void {
     this.scheduleToDelete = {} as ClassSchedule;
-    this.showDeleteConfirmation = false;
   }
 
   onSave() {
@@ -219,4 +218,26 @@ export class SchedulsCalendar implements OnInit {
 
   //#endregion
 
+  //#region Calendar Events
+
+  onNext(event: any): void {
+    if(event.getMonth() != this.currentDate.getMonth() || event.getFullYear() != this.currentDate.getFullYear()) {
+      this.currentDate = new Date(event.getFullYear(), event.getMonth(), 1);
+      this.loadEvents();
+    } 
+  }
+
+  onPrev(event: any): void {
+    if(event.getMonth() != this.currentDate.getMonth() || event.getFullYear() != this.currentDate.getFullYear()) {
+      this.currentDate = new Date(event.getFullYear(), event.getMonth(), 1);
+      this.loadEvents();
+    } 
+  }
+
+  onToday(event: any): void {
+    this.currentDate = new Date();
+    this.loadEvents();
+  }
+
+  //#endregion
 }

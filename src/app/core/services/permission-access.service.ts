@@ -98,4 +98,9 @@ export class PermissionAccessService {
         };
     }
 
+    get canDownload() {
+        return {
+            studentAttachment: this.authService.isAdmin || this.authService.isEmployee || this.authService.isStudent,
+        };
+    }
 }

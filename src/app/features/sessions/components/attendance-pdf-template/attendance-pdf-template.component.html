@@ -2,28 +2,37 @@
   <!-- Header -->
   <div class="pdf-header">
     <div class="header-content">
-      <h1 class="pdf-title">{{ 'attendance.recordAttendance' | translate }}</h1>
-     
+
+      <div class="d-flex justify-content-between top-header">
+        <h1 class="pdf-title mb-2">{{ 'attendance.recordAttendance' | translate }}</h1>
+        <div class="session-details">
+        
+          <div class="detail-row justify-content-end">
+            <span class="label">{{ 'shared.fields.date' | translate }}: &nbsp;</span>
+            <span class="value">{{ attendanceDisplay.sessionDate }}</span>
+          </div>
+
+        </div>
+      </div>
+      
       <div class="session-details">
+      
         <div class="detail-row">
           <span class="label">{{ 'shared.fields.course' | translate }}: &nbsp;</span>
           <span class="value">{{ attendanceDisplay.courseName }}</span>
         </div>
-        <div class="detail-row">
-          <span class="label">{{ 'shared.fields.group' | translate }}: &nbsp;</span>
-          <span class="value">{{ attendanceDisplay.groupName }}</span>
-        </div>
-        <div class="detail-row">
+
+        <div class="detail-row justify-content-end">
           <span class="label">{{ 'shared.fields.room' | translate }}: &nbsp;</span>
           <span class="value">{{ attendanceDisplay.roomName }}</span>
         </div>
+      
+      </div>
+
+      <div class="session-details">
         <div class="detail-row">
-          <span class="label">{{ 'shared.fields.date' | translate }}: &nbsp;</span>
-          <span class="value">{{ attendanceDisplay.sessionDate }}</span>
-        </div>
-        <div class="detail-row">
-          <span class="label">{{ 'shared.fields.time' | translate }}: &nbsp;</span>
-          <span class="value">{{ attendanceDisplay.startTime }} - {{ attendanceDisplay.endTime }}</span>
+          <span class="label">{{ 'shared.fields.group' | translate }}: &nbsp;</span>
+          <span class="value">{{ attendanceDisplay.groupName }}</span>
         </div>
       </div>
 
