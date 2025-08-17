@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ViewChild, ElementRef } from '@angular/core';
 import { CardContainer } from "../../../shared/components/card-container/card-container";
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ClassSession } from '../../../../core/models/class-session.model';
@@ -23,6 +23,8 @@ import { Subject, takeUntil } from 'rxjs';
 import { ToastService } from '../../../shared/services/toast.service';
 import { ClassSessionStatus } from '../../../../core/enums/class-session-status.enum';
 import { CanDeactivateComponent } from '../../../../core/guards/form-deactivate.guard';
+import { PdfExportService } from '../../../shared/services/pdf-export.service';
+import { AttendancePdfTemplateComponent } from '../attendance-pdf-template/attendance-pdf-template.component';
 
 @Component({
   selector: 'app-session-attendance',
@@ -37,7 +39,8 @@ import { CanDeactivateComponent } from '../../../../core/guards/form-deactivate.
     RadioButtonModule,
     SaveBtn,
     CancelBtn,
-    RouterLink
+    RouterLink,
+    AttendancePdfTemplateComponent
   ],
   templateUrl: './session-attendance.html',
   styleUrl: './session-attendance.scss'
@@ -51,6 +54,7 @@ export class SessionAttendance implements CanDeactivateComponent {
   AttendanceStatus = AttendanceStatus;
   ClassSessionStatus = ClassSessionStatus;
   $destroy = new Subject<void>();
+  @ViewChild(AttendancePdfTemplateComponent, { static: false }) pdfTemplate!: AttendancePdfTemplateComponent;
   //#endregion
 
   //#region Services
@@ -62,6 +66,7 @@ export class SessionAttendance implements CanDeactivateComponent {
   private route = inject(ActivatedRoute);
   private confirmService: ConfirmService = inject(ConfirmService);
   private fb: FormBuilder = inject(FormBuilder);
+  private pdfExportService: PdfExportService = inject(PdfExportService);
   public permissionService: PermissionAccessService = inject(PermissionAccessService);
   //#endregion
 
@@ -147,6 +152,36 @@ export class SessionAttendance implements CanDeactivateComponent {
     this.router.navigate(["sessions"]);
   }
 
+  async exportToPdf() {
+    try {
+      this.loaderService.show();
+      
+      if (!this.pdfTemplate) {
+        this.toastService.showError(this.translateService.instant('shared.pdf.error.noContent'));
+        return;
+      }
+
+      const sessionInfo = {
+        courseName: this.attendanceDisplay.courseName || 'Unknown Course',
+        groupName: this.attendanceDisplay.groupName || 'Unknown Group',
+        date: this.attendanceDisplay.sessionDate || 'Unknown Date',
+        time: `${this.attendanceDisplay.startTime || '00:00'} - ${this.attendanceDisplay.endTime || '00:00'}`
+      };
+
+      await this.pdfExportService.exportAttendanceSheet(
+        this.pdfTemplate.pdfContent.nativeElement,
+        `${sessionInfo.courseName}_${sessionInfo.groupName}_${sessionInfo.date}`
+      );
+
+      this.toastService.showSuccess(this.translateService.instant('shared.pdf.success'));
+    } catch (error) {
+      console.error('Error exporting PDF:', error);
+      this.toastService.showError(this.translateService.instant('shared.pdf.error.general'));
+    } finally {
+      this.loaderService.hide();
+    }
+  }
+
   getFormControlArray() {
     return this.attendanceForm.get('attendances') as FormArray;
   }
@@ -182,6 +217,10 @@ export class SessionAttendance implements CanDeactivateComponent {
   //#endregion
 
   //#region Permissions
+
+  get canExportPdf(): boolean {
+    return this.permissionService.canView.exportAttendancePdf;
+  }
 
   get canEditAttendance(): boolean {
     return this.permissionService.canEdit.studentAttendance && this.attendanceDisplay.sessionStatus === ClassSessionStatus.Scheduled;

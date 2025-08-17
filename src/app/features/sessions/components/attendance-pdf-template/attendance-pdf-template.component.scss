@@ -1,0 +1,186 @@
+.attendance-pdf-template {
+  font-family: Arial, sans-serif;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background: white;
+  color: black;
+
+  .pdf-header {
+    text-align: center;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #ccc9c9;
+    padding-bottom: 20px;
+
+    .pdf-title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .session-details {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 10px;
+
+      .detail-row {
+        display: flex;
+        align-items: center;
+        min-width: 200px;
+
+        .label {
+          font-weight: bold;
+          margin-right: 8px;
+          color: #555;
+        }
+
+        .value {
+          color: #333;
+        }
+      }
+    }
+  }
+
+  .attendance-table-pdf {
+    margin-bottom: 30px;
+
+    .pdf-table {
+      width: 100%;
+      border-collapse: collapse;
+      border: 1px solid #333;
+      font-family: 'din', sans-serif !important;
+
+      th, td {
+        border: 1px solid #333;
+        padding: 8px;
+        padding-top: 0px !important;
+        text-align: center;
+        vertical-align: middle;
+      }
+
+      th {
+        background-color: #f5f5f5;
+        font-weight: bold;
+        font-size: 14px;
+        text-align: start !important;
+      }
+
+      .student-name-col {
+        width: 35%;
+        text-align: start !important;
+      }
+
+      .attendance-col {
+        text-align: center !important;
+        width: 15%;
+      }
+
+      .notes-col {
+        width: 30%;
+        text-align: start !important;
+      }
+
+      .student-name {
+        font-weight: 500;
+        text-align: start !important;
+      }
+
+      .checkbox-cell {
+        text-align: center !important;
+
+        .checkbox {
+          font-size: 16px;
+          font-weight: bold;
+          color: #333;
+
+          &.checked {
+            color: #000;
+            &::before {
+              content: "☒";
+            }
+          }
+
+          &:not(.checked)::before {
+            content: "☐";
+          }
+        }
+      }
+
+      .notes-cell {
+        text-align: left;
+        font-size: 11px;
+        min-height: 20px;
+      }
+    }
+  }
+
+  .attendance-summary-pdf {
+    margin-bottom: 30px;
+    padding: 15px;
+    // border: 1px solid #333;
+    background-color: #f9f9f9;
+    display: flex;
+    justify-content: space-evenly;
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 14px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      .summary-label {
+        font-weight: bold;
+        color: #555;
+      }
+
+      .summary-value {
+        font-weight: bold;
+        color: #333;
+      }
+    }
+  }
+
+  .pdf-footer {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 40px;
+
+    .teacher-signature,
+    .date-signed {
+      flex: 1;
+      text-align: center;
+
+      .signature-line {
+        width: 200px;
+        height: 1px;
+        background-color: #ccc9c9;
+        margin: 0 auto 8px auto;
+      }
+
+      .signature-label {
+        font-size: 12px;
+        color: #666;
+        font-style: italic;
+      }
+    }
+  }
+}
+
+// Print styles
+@media print {
+  .attendance-pdf-template {
+    padding: 0;
+    margin: 0;
+    
+    * {
+      -webkit-print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
+  }
+} 

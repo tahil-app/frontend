@@ -1,0 +1,100 @@
+<div class="attendance-pdf-template" #pdfContent>
+  <!-- Header -->
+  <div class="pdf-header">
+    <div class="header-content">
+      <h1 class="pdf-title">{{ 'attendance.recordAttendance' | translate }}</h1>
+     
+      <div class="session-details">
+        <div class="detail-row">
+          <span class="label">{{ 'shared.fields.course' | translate }}: &nbsp;</span>
+          <span class="value">{{ attendanceDisplay.courseName }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">{{ 'shared.fields.group' | translate }}: &nbsp;</span>
+          <span class="value">{{ attendanceDisplay.groupName }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">{{ 'shared.fields.room' | translate }}: &nbsp;</span>
+          <span class="value">{{ attendanceDisplay.roomName }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">{{ 'shared.fields.date' | translate }}: &nbsp;</span>
+          <span class="value">{{ attendanceDisplay.sessionDate }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">{{ 'shared.fields.time' | translate }}: &nbsp;</span>
+          <span class="value">{{ attendanceDisplay.startTime }} - {{ attendanceDisplay.endTime }}</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Attendance Table -->
+  <div class="attendance-table-pdf">
+    <table class="pdf-table">
+      <thead>
+        <tr>
+          <th class="student-name-col">{{ 'attendance.table.studentName' | translate }}</th>
+          <th class="attendance-col">{{ 'shared.attendanceStatus.present' | translate }}</th>
+          <th class="attendance-col">{{ 'shared.attendanceStatus.late' | translate }}</th>
+          <th class="attendance-col">{{ 'shared.attendanceStatus.absent' | translate }}</th>
+          <th class="notes-col">{{ 'shared.fields.notes' | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let record of getFormControlArray().controls; let i = index">
+          
+          <td class="student-name">{{ record.get('studentName')?.value }}</td>
+          
+          <td class="checkbox-cell">
+            <div class="checkbox" [class.checked]="record.get('status')?.value === AttendanceStatus.Present"></div>
+          </td>
+
+          <td class="checkbox-cell">
+            <div class="checkbox" [class.checked]="record.get('status')?.value === AttendanceStatus.Late"></div>
+          </td>
+          
+          <td class="checkbox-cell">
+            <div class="checkbox" [class.checked]="record.get('status')?.value === AttendanceStatus.Absent"></div>
+          </td>
+          
+          <td class="notes-cell">{{ record.get('note')?.value || '' }}</td>
+
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Summary -->
+  <div class="attendance-summary-pdf">
+    <div class="summary-row">
+      <span class="summary-label">{{ 'attendance.summary.total' | translate }}: &nbsp;</span>
+      <span class="summary-value">{{ totalStudents }}</span>
+    </div>
+    <div class="summary-row">
+      <span class="summary-label">{{ 'shared.attendanceStatus.present' | translate }}: &nbsp;</span>
+      <span class="summary-value">{{ presentStudents }}</span>
+    </div>
+    <div class="summary-row">
+      <span class="summary-label">{{ 'shared.attendanceStatus.late' | translate }}: &nbsp;</span>
+      <span class="summary-value">{{ lateStudents }}</span>
+    </div>
+    <div class="summary-row">
+      <span class="summary-label">{{ 'shared.attendanceStatus.absent' | translate }}: &nbsp;</span>
+      <span class="summary-value">{{ absentStudents }}</span>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="pdf-footer">
+    <div class="teacher-signature">
+      <div class="signature-line"></div>
+      <span class="signature-label">{{ 'shared.teacherSignature' | translate }}</span>
+    </div>
+    <div class="date-signed">
+      <div class="signature-line"></div>
+      <span class="signature-label">{{ 'shared.dateSigned' | translate }}</span>
+    </div>
+  </div>
+</div> 

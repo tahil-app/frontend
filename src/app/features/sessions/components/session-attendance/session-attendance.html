@@ -167,8 +167,15 @@
 
 
             <div class="form-actions actions-buttons-save-cancel mt-4">
+                <button class="btn btn-sm btn-outline-info" style="width: 5rem !important;" (click)="exportToPdf()" *ngIf="canExportPdf">
+                    <i class="fa fa-file-pdf"></i>
+                    {{ 'shared.buttons.exportPdf' | translate }}
+                </button>
+                <span *ngIf="canExportPdf">&nbsp;</span>
+
                 <save-btn type="submit" (click)="onSave()" *ngIf="canEditAttendance" />
-                &nbsp;
+                <span *ngIf="canEditAttendance">&nbsp;</span>
+
                 <cancel-btn type="button" (click)="onCancel()" />
             </div>
 
@@ -178,6 +185,19 @@
             <i class="fa fa-users"></i>
             <p>{{ 'attendance.table.noStudents' | translate }}</p>
         </div>
+    </div>
+
+    <!-- Hidden PDF Template for Export -->
+    <div style="position: absolute; left: -9999px; top: -9999px;">
+        <attendance-pdf-template
+            *ngIf="attendanceDisplay.courseName"
+            [attendanceDisplay]="attendanceDisplay"
+            [attendancesArray]="attendancesArray"
+            [totalStudents]="totalStudents"
+            [presentStudents]="presentStudents"
+            [lateStudents]="lateStudents"
+            [absentStudents]="absentStudents">
+        </attendance-pdf-template>
     </div>
 
 </card-container>

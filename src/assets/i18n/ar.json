@@ -56,7 +56,8 @@
             "activate": "تفعيل",
             "deactivate": "تعطيل",
             "refresh": "تحديث",
-            "search": "بحث"
+            "search": "بحث",
+            "exportPdf": "PDF"
         },
         "dialogs": {
             "deleteConfirmation": "هل أنت متأكد من حذف هذا العنصر؟",
@@ -90,7 +91,11 @@
             "startTime": "وقت البداية",
             "endTime": "وقت النهاية",
             "notes": "ملاحظات",
-            "notesPlaceholder": "إضافة ملاحظات..."
+            "notesPlaceholder": "إضافة ملاحظات...",
+            "course": "المادة",
+            "group": "المجموعة",
+            "room": "الحلقة",
+            "time": "الوقت"
         },
         "validation": {
             "passwordMismatch": "كلمة المرور وتأكيد كلمة المرور غير متطابقتين",
@@ -164,7 +169,16 @@
             "present": "حاضر",
             "late": "متأخر",
             "absent": "غائب"
-        }
+        },
+        "pdf": {
+            "success": "تم تصدير PDF بنجاح",
+            "error": {
+                "general": "خطأ في تصدير PDF",
+                "noContent": "لا يوجد محتوى لتصدير PDF"
+            }
+        },
+        "teacherSignature": "توقيع المعلم",
+        "dateSigned": "تاريخ التوقيع"
     },
     "validation": {
         "passwordMismatch": "كلمة المرور وتأكيد كلمة المرور غير متطابقين",
@@ -409,9 +423,7 @@
         "actions": {
             "markAllPresent": "الكل",
             "markAllLate": "الكل",
-            "markAllAbsent": "الكل",
-            "view": "عرض التفاصيل",
-            "edit": "تعديل"
+            "markAllAbsent": "الكل"
         },
         "updateSuccess": "تم تحديث تسجيل الحضور بنجاح"
     }

@@ -26,6 +26,7 @@ export class PermissionAccessService {
             studentProfile: this.authService.isAdmin || this.authService.isEmployee || this.authService.isTeacher || this.authService.isStudent,
             courseProfile: this.authService.isAdmin || this.authService.isEmployee,
             teacherProfile: this.authService.isAdmin || this.authService.isEmployee || this.authService.isTeacher,
+            exportAttendancePdf: this.authService.isAdmin || this.authService.isEmployee
         };
     }
 
