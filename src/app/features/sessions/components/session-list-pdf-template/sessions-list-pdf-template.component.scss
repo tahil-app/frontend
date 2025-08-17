@@ -8,8 +8,8 @@
     .pdf-header {
       text-align: center;
       margin-bottom: 30px;
-      border-bottom: 1px solid #ccc9c9;
-      padding-bottom: 20px;
+      // border-bottom: 1px solid #ccc9c9;
+      // padding-bottom: 20px;
 
       .pdf-title {
         font-size: 16px !important;
@@ -44,7 +44,7 @@
     }
 
     .sessions-table-pdf {
-      margin-bottom: 30px;
+      margin-bottom: 20px;
 
       .pdf-table {
         width: 100%;
@@ -169,8 +169,8 @@
 
     .sessions-summary-pdf {
       margin-bottom: 20px;
-      padding: 10px;
-      padding-bottom: 5px;
+      padding: 8px;
+      padding-bottom: 12px !important;
       background-color: #f9f9f9;
 
       display: flex;
@@ -180,11 +180,6 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 8px;
-
-        &:last-child {
-          margin-bottom: 0;
-        }
 
         .summary-label {
           font-weight: bold;
