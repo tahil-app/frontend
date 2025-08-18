@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, ViewChild } from '@angular/core';
 import { CardContainer } from '../../../shared/components/card-container/card-container';
 import { TabsModule } from 'primeng/tabs';
 import { TooltipModule } from 'primeng/tooltip';
@@ -11,7 +11,7 @@ import { Student } from '../../../../core/models/student.model';
 import { Subject, takeUntil } from 'rxjs';
 import { ToastService } from '../../../shared/services/toast.service';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { LoaderService } from '../../../shared/services/loader.service';
 import { StudentService } from '../../../../core/services/student.service';
 import { DateHelper } from '../../../../core/helpers/date.helper';
@@ -22,12 +22,29 @@ import { Group } from '../../../../core/models/group.model';
 import { TableModule } from 'primeng/table';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { PermissionAccessService } from '../../../../core/services/permission-access.service';
+import { CardModule } from 'primeng/card';
+import { PdfIconBtn } from "../../../shared/buttons/pdf-icon-btn/pdf-icon-btn";
+import { EditIconButton } from "../../../shared/buttons/edit-icon-button/edit-icon-button";
+import { StudentDailySchedule } from "../student-daily-schedule/student-daily-schedule";
 
 @Component({
   selector: 'app-student-profile',
-  imports: [CardContainer, TabsModule, TooltipModule, StudentFormComponent, StudentQualification, CommonModule, UserAttachmentDialog, StudentAttachmentComponent,
-    TableModule, TranslateModule
-  ],
+  imports: [
+    TabsModule,
+    TooltipModule,
+    StudentFormComponent,
+    StudentQualification,
+    CommonModule,
+    UserAttachmentDialog,
+    StudentAttachmentComponent,
+    TableModule,
+    TranslateModule,
+    RouterModule,
+    CardModule,
+    PdfIconBtn,
+    EditIconButton,
+    StudentDailySchedule
+],
   templateUrl: './student-profile.html',
   styleUrl: './student-profile.scss'
 })
@@ -52,6 +69,7 @@ export class StudentProfile {
   private sanitizer = inject(DomSanitizer);
   private toaster = inject(ToastService);
   private translate = inject(TranslateService);
+  
   public permissionService = inject(PermissionAccessService);
   //#endregion
 
@@ -184,5 +202,9 @@ export class StudentProfile {
 
   //#endregion
 
+  //#region Daily Schedule
+  
+
+  //#endregion
 }
 

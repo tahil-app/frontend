@@ -1,0 +1,53 @@
+<div class="daily-schedule-pdf-template" #pdfContent>
+  <!-- Header -->
+  <div class="pdf-header">
+    <div class="header-content">
+      <h1 class="pdf-title">{{ title || ('shared.dailySchedule.title' | translate) }}</h1>
+    </div>
+  </div>
+
+  <!-- Schedule Tables -->
+  <div class="schedule-tables-pdf" *ngIf="dailySchedules.length > 0">
+    <div class="day-schedule" *ngFor="let day of getUniqueDays()">
+      <h3 class="day-title">{{ day }}</h3>
+
+      <table class="pdf-table">
+        <thead>
+          <tr>
+            <th class="time-col">{{ 'shared.fields.time' | translate }}</th>
+            <th class="course-col">{{ 'courses.one' | translate }}</th>
+            <th class="teacher-col">{{ 'teachers.one' | translate }}</th>
+            <th class="room-col">{{ 'rooms.one' | translate }}</th>
+            <th class="group-col">{{ 'groups.one' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let schedule of getSchedulesByDay(day)">
+            <td class="time-cell">
+              {{ getFormattedTime(schedule.startTime) }} - {{ getFormattedTime(schedule.endTime) }}
+            </td>
+            <td class="course-cell">{{ schedule.courseName || '-' }}</td>
+            <td class="teacher-cell">{{ schedule.teacherName || '-' }}</td>
+            <td class="room-cell">{{ schedule.roomName || '-' }}</td>
+            <td class="group-cell">{{ schedule.groupName || '-' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- No Schedule Message -->
+  <div class="no-schedule-pdf" *ngIf="dailySchedules.length === 0">
+    <div class="no-schedule-content">
+      <i class="fa fa-calendar-times"></i>
+      <p>{{ 'students.schedule.noSchedule' | translate }}</p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="pdf-footer">
+    <div class="export-info">
+      <span class="info-label">{{ 'shared.fields.printedOn' | translate }}: {{ exportDate }}</span>
+    </div>
+  </div>
+</div>

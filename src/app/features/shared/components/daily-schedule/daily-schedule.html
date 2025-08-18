@@ -1,0 +1,73 @@
+<div class="student-schedule-container">
+
+    <!-- Weekly Schedule Tables -->
+    <div class="schedule-tables">
+      <div class="day-table mb-3" *ngFor="let daySchedule of getUniqueDays(); let i = index">
+  
+        <div class="day-header" [class.today]="isToday(daySchedule.value)">
+          <div class="day-info">
+            <span class="day-name">{{ daySchedule.label }}</span>
+          </div>
+          <div class="today-indicator" *ngIf="isToday(daySchedule.value)">
+            <i class="fas fa-star"></i>
+          </div>
+        </div>
+  
+        <div class="table-container">
+          <table class="schedule-table" *ngIf="dailySchedules.length > 0">
+  
+            <thead>
+              <tr>
+                <th>{{ 'shared.fields.time' | translate }}</th>
+                <th>{{ 'rooms.one' | translate }}</th>
+                <th>{{ 'courses.one' | translate }}</th>
+                <th>{{ 'teachers.one' | translate }}</th>
+                <th>{{ 'groups.one' | translate }}</th>
+              </tr>
+            </thead>
+  
+            <tbody>
+              <tr *ngFor="let class of getClassesByDay(daySchedule.value)" class="class-row">
+  
+                <td class="time-cell">
+                  <span>{{ getTime(class.startTime) + ' - ' + getTime(class.endTime) }}</span>
+                </td>
+  
+                <td class="room-cell">
+                  <span>{{ class.roomName }}</span>
+                </td>
+  
+                <td class="subject-cell">
+                  <span class="subject-name">{{ class.courseName }}</span>
+                </td>
+  
+                <td class="teacher-cell">
+                  <span>{{ class.teacherName }}</span>
+                </td>
+  
+                <td class="group-cell">
+                  <span>{{ class.groupName }}</span>
+                </td>
+  
+              </tr>
+            </tbody>
+          </table>
+  
+          <!-- No Classes Message -->
+          <div class="no-classes" *ngIf="!dailySchedules.length">
+            <i class="fas fa-calendar-times"></i>
+            {{ 'shared.dailySchedule.noClasses' | translate }}
+          </div>
+        </div>
+  
+      </div>
+  
+      <!-- No Classes Message -->
+      <div class="no-classes text-center no-daily-classes" *ngIf="!dailySchedules.length">
+        <i class="fas fa-calendar-times"></i>
+        <br />
+        {{ 'shared.dailySchedule.noDailySchedule' | translate }}
+      </div>
+    </div>
+  
+  </div>

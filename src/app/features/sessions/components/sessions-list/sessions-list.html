@@ -5,10 +5,9 @@
 
     <div>
 
-      <button class="btn btn-sm btn-outline-info" (click)="exportToPdf()" *ngIf="sessions.length > 0 && permissionService.canView.exportSessionsPdf">
-        <i class="fa fa-file-pdf"></i>
-        {{ 'shared.buttons.exportPdf' | translate }}
-      </button>
+      <pdf-icon-btn 
+      *ngIf="sessions.length > 0 && permissionService.canExport.exportSessionsPdf"
+      (click)="exportToPdf()"/>
 
       &nbsp;
 
@@ -81,9 +80,9 @@
 </ng-template>
 
 <!-- Hidden PDF Template for Export -->
-<!-- <div style="position: absolute; left: -9999px; top: -9999px;"> -->
+<div style="position: absolute; left: -9999px; top: -9999px;">
   <sessions-list-pdf-template
     [sessions]="sessions"
     [title]="'sessions.list.title' | translate">
   </sessions-list-pdf-template>
-<!-- </div> -->
+</div>

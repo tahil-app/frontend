@@ -75,6 +75,7 @@ export class SchedulsCalendar implements OnInit {
       this.schedules = schedules;
       
       this.events = this.prepareEvents(schedules);
+
       this.setupCalendarConfig();
       
       this.activeDayIsOpen = this.schedules.some(schedule => schedule.day === this.currentDate.getDay() && new Date(schedule.startDate!) <= this.currentDate);
@@ -140,7 +141,8 @@ export class SchedulsCalendar implements OnInit {
 
       // Loop from viewStart to viewEnd
       for (let date = startDate; date <= endDate; date.setDate(date.getDate() + 1)) {
-        if (date.getDay() === schedule.day) { // Match day of week (0=Sunday,...6=Saturday)
+        let day = (date.getDay() + 1) % 7;
+        if (day === schedule.day) { // Match day of week (0=Sunday,...6=Saturday)
 
           // Build start/end Date objects
           const start = new Date(date);

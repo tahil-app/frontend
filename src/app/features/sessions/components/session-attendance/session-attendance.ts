@@ -223,7 +223,7 @@ export class SessionAttendance implements CanDeactivateComponent {
   //#region Permissions
 
   get canExportPdf(): boolean {
-    return this.permissionService.canView.exportAttendancePdf;
+    return this.permissionService.canExport.exportAttendancePdf;
   }
 
   get canEditAttendance(): boolean {

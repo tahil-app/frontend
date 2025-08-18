@@ -161,7 +161,7 @@ label,
 }
 
 .confirm-icon-completed {
-    color: #009efb !important; // Cyan for completed
+    color: var(--button-outline-info-color) !important; // Cyan for completed
 }
 
 .confirm-icon-reschedule {

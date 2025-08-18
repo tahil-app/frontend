@@ -176,6 +176,7 @@
         .attendance-summary {
             padding: 0.75rem;
             justify-content: space-evenly;
+            flex-direction: column;
             
             .summary-item {
                 min-width: 100px;

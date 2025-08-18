@@ -18,6 +18,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { TimeHelper } from '../../../../core/helpers/time.helper';
 import { PdfExportService } from '../../../shared/services/pdf-export.service';
 import { SessionsListPdfTemplateComponent } from '../session-list-pdf-template/sessions-list-pdf-template.component';
+import { PdfIconBtn } from "../../../shared/buttons/pdf-icon-btn/pdf-icon-btn";
 
 @Component({
   selector: 'sessions-list',
@@ -29,8 +30,9 @@ import { SessionsListPdfTemplateComponent } from '../session-list-pdf-template/s
     SessionForm,
     TooltipModule,
     SessionSearchDialog,
-    SessionsListPdfTemplateComponent
-  ],
+    SessionsListPdfTemplateComponent,
+    PdfIconBtn
+],
   templateUrl: './sessions-list.html',
   styleUrl: './sessions-list.scss'
 })

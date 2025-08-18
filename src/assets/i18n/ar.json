@@ -97,7 +97,9 @@
             "room": "الحلقة",
             "time": "الوقت",
             "total": "الإجمالي",
-            "exportedOn": "تم التصدير في"
+            "exportedOn": "تم التصدير في",
+            "printedOn": "تم الطباعة في",
+            "attendancePercentage": "نسبة الحضور"
         },
         "validation": {
             "passwordMismatch": "كلمة المرور وتأكيد كلمة المرور غير متطابقتين",
@@ -181,7 +183,12 @@
             }
         },
         "teacherSignature": "توقيع المعلم",
-        "dateSigned": "تاريخ التوقيع"
+        "dateSigned": "تاريخ التوقيع",
+        "dailySchedule": {
+            "title": "الجدول اليومي",
+            "noClasses": "لا يوجد مواعيد لهذا اليوم",
+            "noDailySchedule": "لا يوجد مواعيد حاليا"
+        }
     },
     "validation": {
         "passwordMismatch": "كلمة المرور وتأكيد كلمة المرور غير متطابقين",
@@ -269,7 +276,15 @@
         "imageUpdateSuccess": "تم تحديث صورة الطالب بنجاح",
         "groupsUpdateSuccess": "تم تحديث مجموعات الطالب بنجاح",
         "profile": {
-            "studentData": "بيانات الطالب"
+            "studentData": "بيانات الطالب",
+            "studentCode": "كود الطالب"
+        },
+        "tabs": {
+            "education": "التعليم",
+            "schedule": "المواعيد",
+            "attachments": "المرفقات",
+            "attendance": "الحضور",
+            "personalInfo": "المعلومات الشخصية"
         }
     },
     "employees": {

@@ -98,7 +98,6 @@ export class Calendar implements OnInit {
       this.events?.forEach(event => {
         event.actions = actions;
       });
-
     }
   }
 

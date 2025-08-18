@@ -1,0 +1,21 @@
+<div class="hello-park">
+    <div class="d-flex justify-content-between">
+        <h5 class="mb-1">{{ 'students.tabs.schedule' | translate }}</h5>
+        <pdf-icon-btn [showOutline]="true" *ngIf="student?.dailySchedules?.length && permissionsService.canExport.exportStudentDailySchedulePdf"
+            (click)="exportDailyScheduleToPdf()" />
+    </div>
+
+    <div class="tab-section-container mt-3">
+
+        <daily-schedule *ngIf="student?.dailySchedules?.length" [dailySchedules]="student.dailySchedules" />
+
+    </div>
+
+</div>
+
+<!-- Hidden PDF Template for Export -->
+<div style="position: absolute; left: -9999px; top: -9999px;">
+    <daily-schedule-pdf-template [dailySchedules]="student.dailySchedules" [name]="student.name"
+        [title]="('shared.dailySchedule.title' | translate) + ' - ' + student.name">
+    </daily-schedule-pdf-template>
+</div>

@@ -100,7 +100,9 @@
             "room": "Room",
             "time": "Time",
             "total": "Total",
-            "exportedOn": "Exported On"
+            "exportedOn": "Exported On",
+            "printedOn": "Printed On",
+            "attendancePercentage": "Attendance Percentage"
         },
         "validation": {
             "passwordMismatch": "Password and confirm password do not match",
@@ -184,7 +186,12 @@
             }
         },
         "teacherSignature": "Teacher Signature",
-        "dateSigned": "Date Signed"
+        "dateSigned": "Date Signed",
+        "dailySchedule": {
+            "title": "Daily Schedule",
+            "noClasses": "No classes scheduled for this day",
+            "noDailySchedule": "No daily schedule available"
+        }
     },
     "courses": {
         "all": "Courses",
@@ -265,7 +272,15 @@
         "imageUpdateSuccess": "Student image updated successfully",
         "groupsUpdateSuccess": "Student groups updated successfully",
         "profile": {
-            "studentData": "Student Data"
+            "studentData": "Student Data",
+            "studentCode": "Student Code"
+        },
+        "tabs": {
+            "education": "Education",
+            "schedule": "Schedule",
+            "attachments": "Attachments",
+            "attendance": "Attendance",
+            "personalInfo": "Personal Info"
         }
     },
     "employees": {

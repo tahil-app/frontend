@@ -1,52 +1,50 @@
-<card-container>
+<div class="profile-data-container">
 
-    <div class="row profile-info">
+    <div class="row">
 
-        <div class="col-12">
-            <div class="profile-user-box">
-                <div class="profile-user-img">
-                    <img [src]="getImageUrl(student.imagePath)" alt="Profile">
+        <!-- Left Side - Student Profile Info -->
+        <div class="col-lg-4 col-md-5 mb-4">
+            <p-card>
+                <div class="profile-sidebar">
 
-                    <div class="form-group students-up-files profile-edit-icon mb-0" *ngIf="!disablePage && permissionService.canEdit.student">
-                        <div class="uplod d-flex">
-                            <label class="file-upload profile-upbtn mb-0">
-                                <i class="fas fa-solid fa-edit"></i>
-                                <input type="file" (change)="onUploadImage($event)" accept="image/*">
-                            </label>
+                    <div class="profile-image-container">
+                        <img [src]="getImageUrl(student.imagePath)" [alt]="student.name" class="profile-image">
+
+                        <div class="upload-button-container" *ngIf="!disablePage && permissionService.canEdit.student">
+                            <button class="btn btn-sm btn-primary upload-btn" (click)="fileInput.click()">
+                                <i class="fas fa-camera"></i>
+                            </button>
+                        </div>
+
+                        <input #fileInput type="file" accept="image/*" style="display: none;"
+                            (change)="onUploadImage($event)">
+                    </div>
+
+                    <div class="profile-details">
+                        <h3 class="name">{{ student.name }}</h3>
+                        <p class="age">{{ getAge(student.birthDate) }} {{ 'shared.fields.years' | translate }}</p>
+
+                        <div class="profile-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">{{ student.code || 0}}</div>
+                                <div class="stat-label">{{ 'students.profile.studentCode' | translate }}</div>
+                            </div>
+
+                            <div class="stat-item">
+                                <div class="stat-value">{{ student.attendancePercentage || 0 }}%</div>
+                                <div class="stat-label">{{ 'shared.fields.attendancePercentage' | translate }}</div>
+                            </div>
                         </div>
                     </div>
 
-                </div>
-
-                <div class="names-profiles me-3" *ngIf="!disablePage">
-                    <h4>{{student.name}}</h4>
-                    <h5>{{getAge(student.birthDate)}} {{ 'shared.fields.years' | translate }}</h5>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-
-    <div class="row mt-4">
-
-        <div class="col-lg-4">
-            <div class="student-personals-grp">
-                <div class="card">
-                    <div class="card-body pt-2">
+                    <div class="contact-info student-personals-grp">
 
                         <div class="heading-detail d-flex justify-content-between align-items-center">
                             <h4 class="mb-2 mt-2">{{ 'students.profile.studentData' | translate }}</h4>
 
-                            <div class="form-group students-up-files mb-1" *ngIf="!disablePage && permissionService.canEdit.student">
-                                <button [pTooltip]="'shared.buttons.edit' | translate" tooltipPosition="top" class="btn p-0 grid-btn"
-                                    (click)="onEditStudent()">
-                                    <i class="fa fa-edit text-secondary"></i>
-                                </button>
-                            </div>
+                            <edit-icon-button *ngIf="!disablePage && permissionService.canEdit.student"
+                                (click)="onEditStudent()" [showOutline]="true" />
                         </div>
-
-                        <hr class="mt-2 heading-line" />
 
                         <div class="personal-activity">
                             <div class="personal-icons">
@@ -109,127 +107,104 @@
                         </div>
 
                     </div>
-                </div>
-            </div>
 
+                </div>
+            </p-card>
         </div>
 
-        <div class="col-lg-8">
-            <div class="student-personals-grp">
-                <div class="card mb-0">
-                    <div class="card-body pt-0" style="min-height: 29rem;">
 
-                        <p-tabs value="0" scrollable>
+        <div class="col-lg-8 col-md-7">
+            <p-card class="tabs-card">
 
-                            <p-tablist>
-                                <p-tab value="0">{{ 'shared.profile.education' | translate }}</p-tab>
-                                <p-tab value="1">{{ 'groups.all' | translate }}</p-tab>
-                                <p-tab value="2">{{ 'shared.attachments' | translate }}</p-tab>
-                            </p-tablist>
+                <div class="student-personals-grp">
 
-                            <p-tabpanels class="px-0">
+                    <p-tabs value="0" scrollable>
 
-                                <p-tabpanel value="0">
-                                    <div class="heading-detail">
-                                        <div class="hello-park">
+                        <p-tablist>
+                            <p-tab value="0">{{ 'students.tabs.schedule' | translate }}</p-tab>
+                            <p-tab value="1">{{ 'students.tabs.attendance' | translate }}</p-tab>
+                            <p-tab value="2">{{ 'students.tabs.education' | translate }}</p-tab>
+                            <p-tab value="3">{{ 'students.tabs.attachments' | translate }}</p-tab>
+                        </p-tablist>
 
-                                            <div class="heading-detail d-flex justify-content-between">
-                                                <h5>{{ 'shared.profile.qualifications' | translate }}</h5>
+                        <p-tabpanels class="px-0">
 
-                                                <div class="form-group students-up-files mb-0" *ngIf="!disablePage && permissionService.canEdit.student">
-                                                    <button [pTooltip]="'shared.buttons.edit' | translate" tooltipPosition="top"
-                                                        class="btn p-0 grid-btn" (click)="onEditQualification()">
-                                                        <i class="fa fa-edit text-secondary"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
+                            <p-tabpanel value="0">
 
-                                            <div class="tab-section-container">
-                                                <div [innerHTML]="getSafeHtml(student.qualification)"></div>
+                                <student-daily-schedule [student]="student" />
 
-                                                <div class="text-muted text-center"
-                                                    *ngIf="student.qualification === null || student.qualification?.length === 0">
-                                                    {{ 'shared.profile.noQualifications' | translate }}
-                                                </div>
-                                            </div>
+                            </p-tabpanel>
 
+                            <p-tabpanel value="1">
 
+                                <div class="hello-park">
+                                    <div class="d-flex justify-content-between">
+                                        <h5 class="mb-1">{{ 'students.tabs.attendance' | translate }}</h5>
+
+                                        <pdf-icon-btn [showOutline]="true" />
+                                    </div>
+                                </div>
+
+                            </p-tabpanel>
+
+                            <p-tabpanel value="2">
+
+                                <div class="hello-park">
+                                    <div class="d-flex justify-content-between">
+                                        <h5>{{ 'shared.profile.qualifications' | translate }}</h5>
+
+                                        <edit-icon-button *ngIf="!disablePage && permissionService.canEdit.student"
+                                            (click)="onEditQualification()" [showOutline]="true" />
+
+                                    </div>
+
+                                    <div class="tab-section-container">
+                                        <div [innerHTML]="getSafeHtml(student.qualification)"></div>
+
+                                        <div class="text-muted text-center"
+                                            *ngIf="student.qualification === null || student.qualification?.length === 0">
+                                            {{ 'shared.profile.noQualifications' | translate }}
                                         </div>
                                     </div>
-                                </p-tabpanel>
+                                </div>
 
-                                <p-tabpanel value="1">
-                                    <div class="heading-detail">
-                                        <div class="hello-park">
+                            </p-tabpanel>
 
-                                            <div class="heading-detail d-flex justify-content-between">
-                                                <h5 class="mb-1">{{ 'groups.all' | translate }}</h5>
-                                            </div>
+                            <p-tabpanel value="3">
 
-                                            <div class="tab-section-container">
+                                <div class="hello-park">
+                                    <div class="d-flex justify-content-between">
+                                        <h5>{{ 'shared.attachments' | translate }}</h5>
 
-                                                <p-table stripedRows [value]="student.groups" *ngIf="student.groups && student.groups.length > 0">
-                                                    <ng-template pTemplate="header">
-                                                        <tr>
-                                                            <th>{{ 'groups.list.name' | translate }}</th>
-                                                        </tr>
-                                                    </ng-template>
-                                                    <ng-template pTemplate="body" let-group>
-                                                        <tr>
-                                                            <td class="py-4">{{group.name}}</td>
-                                                        </tr>
-                                                    </ng-template>
-                                                </p-table>
+                                        <edit-icon-button *ngIf="!disablePage && permissionService.canEdit.student"
+                                            (click)="onAddUserAttachment()" [showOutline]="true" />
 
-                                                <div class="text-muted text-center"
-                                                    *ngIf="student.groups === null || student.groups?.length === 0">
-                                                    {{ 'shared.profile.noGroups' | translate }}
-                                                </div>
-                                            </div>
+                                    </div>
 
+                                    <div class="tab-section-container">
+                                        <app-student-attachment [student]="student" />
+
+                                        <div class="text-muted text-center"
+                                            *ngIf="student.attachments === null || student.attachments?.length === 0">
+                                            {{ 'shared.profile.noAttachments' | translate }}
                                         </div>
                                     </div>
-                                </p-tabpanel>
+                                </div>
 
-                                <p-tabpanel value="2">
-                                    <div class="heading-detail">
-                                        <div class="hello-park">
+                            </p-tabpanel>
 
-                                            <div class="heading-detail d-flex justify-content-between">
-                                                <h5>{{ 'shared.attachments' | translate }}</h5>
+                        </p-tabpanels>
 
-                                                <div class="form-group students-up-files mb-0" *ngIf="!disablePage && permissionService.canEdit.student">
-                                                    <button [pTooltip]="'shared.buttons.add' | translate" tooltipPosition="top"
-                                                        class="btn p-0 grid-btn" (click)="onAddUserAttachment()">
-                                                        <i class="fa fa-plus text-secondary"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
+                    </p-tabs>
 
-                                            <div class="tab-section-container">
-                                                <app-student-attachment [student]="student" />
-
-                                                <div class="text-muted text-center"
-                                                    *ngIf="student.attachments === null || student.attachments?.length === 0">
-                                                    {{ 'shared.profile.noAttachments' | translate }}
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </p-tabpanel>
-
-                            </p-tabpanels>
-                        </p-tabs>
-
-                    </div>
                 </div>
-            </div>
+
+            </p-card>
         </div>
 
     </div>
 
-</card-container>
+</div>
 
 
 <app-student-form [showDialog]="showEditInfoDialog" [student]="student" (onSave)="loadStudent()"
