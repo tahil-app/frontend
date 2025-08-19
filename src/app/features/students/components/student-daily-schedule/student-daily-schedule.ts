@@ -1,4 +1,4 @@
-import { Component, inject, Input, ViewChild } from '@angular/core';
+import { Component, inject, Input, SimpleChanges, ViewChild } from '@angular/core';
 import { DailySchedulePdfTemplateComponent } from "../../../shared/components/daily-schedule-pdf-template/daily-schedule-pdf-template";
 import { Student } from '../../../../core/models/student.model';
 import { TranslateModule } from '@ngx-translate/core';
@@ -31,6 +31,13 @@ export class StudentDailySchedule {
   private loader = inject(LoaderService);
   private pdfExportService: PdfExportService = inject(PdfExportService);
   public permissionsService = inject(PermissionAccessService);
+
+  ngOnChanges(changes: SimpleChanges): void {
+
+    if(changes['student']) {
+      this.student = {...this.student};
+    }
+  }
 
   async exportDailyScheduleToPdf(): Promise<void> {
     this.readyToExport = true;

@@ -1,13 +1,10 @@
-<p-dialog [header]="'courses.all' | translate" [modal]="true" [(visible)]="showDialog" [style]="{ width: '25rem' }">
+<dialog-buttons [header]="'courses.all' | translate" [showDialog]="showDialog" [showSaveButton]="true"
+    (onSave)="save()" (onCancel)="cancel()" width="25rem" [saveDisabled]="!coursesForm.valid">
+
     <form [formGroup]="coursesForm" (ngSubmit)="save()">
 
         <dropdown [label]="'courses.all' | translate" [multi]="true" [options]="coursesOptions" [formControl]="getFormControl('courses')" />
 
-        <div class="actions-buttons-save-cancel mt-4">
-            <save-btn type="submit" [disabled]="!coursesForm.valid" />
-            &nbsp;
-            <cancel-btn type="button" (click)="cancel()" />
-        </div>
-
     </form>
-</p-dialog>
+
+</dialog-buttons>

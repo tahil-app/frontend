@@ -1,5 +1,4 @@
-import { ChangeDetectorRef, Component, inject, ViewChild } from '@angular/core';
-import { CardContainer } from '../../../shared/components/card-container/card-container';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { TabsModule } from 'primeng/tabs';
 import { TooltipModule } from 'primeng/tooltip';
 import { StudentFormComponent } from '../student-form/student-form';
@@ -18,7 +17,6 @@ import { DateHelper } from '../../../../core/helpers/date.helper';
 import { GenderEnum } from '../../../../core/enums/gender.enum';
 import { GenderHelper } from '../../../../core/helpers/gender.helper';
 import { UserAttachment } from '../../../../core/models/user-attachment.model';
-import { Group } from '../../../../core/models/group.model';
 import { TableModule } from 'primeng/table';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { PermissionAccessService } from '../../../../core/services/permission-access.service';
@@ -26,6 +24,7 @@ import { CardModule } from 'primeng/card';
 import { PdfIconBtn } from "../../../shared/buttons/pdf-icon-btn/pdf-icon-btn";
 import { EditIconButton } from "../../../shared/buttons/edit-icon-button/edit-icon-button";
 import { StudentDailySchedule } from "../student-daily-schedule/student-daily-schedule";
+import { StudentFeedback } from "../student-feedback/student-feedback";
 
 @Component({
   selector: 'app-student-profile',
@@ -43,7 +42,8 @@ import { StudentDailySchedule } from "../student-daily-schedule/student-daily-sc
     CardModule,
     PdfIconBtn,
     EditIconButton,
-    StudentDailySchedule
+    StudentDailySchedule,
+    StudentFeedback
 ],
   templateUrl: './student-profile.html',
   styleUrl: './student-profile.scss'
@@ -54,7 +54,6 @@ export class StudentProfile {
   showEditInfoDialog = false;
   showQualificationDialog = false;
   showUserAttachmentDialog = false;
-  showGroupsDialog = false;
   disablePage = false;
 
   student: Student = {} as Student;
@@ -86,7 +85,7 @@ export class StudentProfile {
   loadStudent() {
     this.loader.show();
     this.studentService.get(this.student.id).pipe(takeUntil(this.destroy$)).subscribe((student: Student) => {
-      this.student = student;
+      this.student = {...student};
 
       if(student.id == 0) {
         this.toaster.showError(this.translate.instant('students.notFound'));
@@ -99,7 +98,6 @@ export class StudentProfile {
       this.showEditInfoDialog = false;
       this.showQualificationDialog = false;
       this.showUserAttachmentDialog = false;
-      this.showGroupsDialog = false;
     });
   }
 
@@ -114,7 +112,11 @@ export class StudentProfile {
 
   //#endregion
 
-  //#region Teacher Info
+  //#region Student Info
+
+  get selectedTab() {
+    return this.permissionService.canView.studentSchedule ? '0' : '2';
+  }
 
   getImageUrl(imageUrl: string) {
     return imageUrl ? this.studentService.getViewAttachmentUrl(imageUrl) : 'assets/icons/avatar-teacher.svg';
@@ -177,34 +179,6 @@ export class StudentProfile {
 
   //#endregion
 
-  //#region Groups
 
-  onEditGroups() {
-    this.showGroupsDialog = true;
-  }
-
-  saveGroups(groups: Group[]) {
-
-    this.student.groups = groups;
-
-    this.loader.show();
-    this.studentService.update(this.student).pipe(takeUntil(this.destroy$)).subscribe(res => {
-              if(res) {
-          this.loadStudent();
-          this.toaster.showSuccess(this.translate.instant('students.groupsUpdateSuccess'));
-        }
-    }, _ => { }, () => {
-      this.loader.hide();
-      this.showGroupsDialog = false;
-    });
-
-  }
-
-  //#endregion
-
-  //#region Daily Schedule
-  
-
-  //#endregion
 }
 

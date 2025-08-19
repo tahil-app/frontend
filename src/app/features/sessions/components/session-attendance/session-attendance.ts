@@ -226,8 +226,8 @@ export class SessionAttendance implements CanDeactivateComponent {
     return this.permissionService.canExport.exportAttendancePdf;
   }
 
-  get canEditAttendance(): boolean {
-    return this.permissionService.canEdit.studentAttendance && this.attendanceDisplay.sessionStatus === ClassSessionStatus.Scheduled;
+  get canRecordAttendance(): boolean {
+    return this.permissionService.canEdit.recordStudentAttendance && this.attendanceDisplay.sessionStatus === ClassSessionStatus.Scheduled;
   }
 
   get dirty(): boolean {

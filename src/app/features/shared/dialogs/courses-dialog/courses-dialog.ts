@@ -2,8 +2,6 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, EventEmitter, inject, Input, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
-import { SaveBtn } from '../../buttons/save-btn/save-btn';
-import { CancelBtn } from '../../buttons/cancel-btn/cancel-btn';
 import { DropdownProps } from '../../props/dropdown.props';
 import { Subject, takeUntil } from 'rxjs';
 import { CourseService } from '../../../../core/services/course.service';
@@ -11,6 +9,7 @@ import { LoaderService } from '../../services/loader.service';
 import { Course } from '../../../../core/models/course.model';
 import { TranslateModule } from '@ngx-translate/core';
 import { Dropdown } from '../../components/dropdown/dropdown';
+import { DialogButtons } from "../../components/dialog-buttons/dialog-buttons";
 
 @Component({
   selector: 'courses-dialog',
@@ -19,10 +18,9 @@ import { Dropdown } from '../../components/dropdown/dropdown';
     ReactiveFormsModule,
     DialogModule,
     Dropdown,
-    SaveBtn,
-    CancelBtn,
     TranslateModule,
-  ],
+    DialogButtons
+],
   templateUrl: './courses-dialog.html',
   styleUrl: './courses-dialog.scss'
 })

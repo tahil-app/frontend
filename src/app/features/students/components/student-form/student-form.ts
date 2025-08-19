@@ -1,8 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, inject, Input, Output, SimpleChanges } from '@angular/core';
 import { DialogModule } from 'primeng/dialog';
-import { SaveBtn } from '../../../shared/buttons/save-btn/save-btn';
-import { CancelBtn } from '../../../shared/buttons/cancel-btn/cancel-btn';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputLabel } from '../../../shared/components/input-label/input-label';
@@ -19,10 +17,11 @@ import { DateHelper } from '../../../../core/helpers/date.helper';
 import { UserRoleEnum } from '../../../../core/enums/user-role.enum';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { PermissionAccessService } from '../../../../core/services/permission-access.service';
+import { DialogButtons } from "../../../shared/components/dialog-buttons/dialog-buttons";
 
 @Component({
   selector: 'app-student-form',
-  imports: [CommonModule, DialogModule, SaveBtn, CancelBtn, InputTextModule, ReactiveFormsModule, InputLabel, LabelDatePicker, Dropdown, TranslateModule],
+  imports: [CommonModule, DialogModule, InputTextModule, ReactiveFormsModule, InputLabel, LabelDatePicker, Dropdown, TranslateModule, DialogButtons],
   templateUrl: './student-form.html',
   styleUrl: './student-form.scss'
 })
@@ -77,8 +76,8 @@ export class StudentFormComponent {
       
       this.studentForm.patchValue(this.student);
 
-      this.studentForm.get('joinedDate')?.setValue(this.student.joinedDate ? new Date(this.student.joinedDate) : null);
-      this.studentForm.get('birthDate')?.setValue(this.student.birthDate ? new Date(this.student.birthDate) : null);
+      this.studentForm.get('joinedDate')?.setValue(DateHelper.toDatePicker(this.student.joinedDate));
+      this.studentForm.get('birthDate')?.setValue(DateHelper.toDatePicker(this.student.birthDate));
 
       this.studentForm.markAllAsTouched();
     }
@@ -120,8 +119,10 @@ export class StudentFormComponent {
       const studentData = this.studentForm.value as Student;
       studentData.id = 0;
       studentData.role = UserRoleEnum.Student;
-      studentData.joinedDate = studentData.joinedDate ? DateHelper.toOldDatePicker(studentData.joinedDate) : null;
-      studentData.birthDate = studentData.birthDate ? DateHelper.toOldDatePicker(studentData.birthDate) : null;
+      studentData.joinedDate = DateHelper.toDateOnly(studentData.joinedDate);
+      studentData.birthDate = DateHelper.toDateOnly(studentData.birthDate);
+
+      studentData.dailySchedules = [];
 
       this.studentService.add(studentData)
         .pipe(takeUntil(this.destroy$))
@@ -139,9 +140,10 @@ export class StudentFormComponent {
     if (this.studentForm.valid) {
       this.loader.show();
       const studentData = { ...this.student, ...this.studentForm.value } as Student;
-      studentData.joinedDate = studentData.joinedDate ? DateHelper.toOldDatePicker(studentData.joinedDate) : null;
-      studentData.birthDate = studentData.birthDate ? DateHelper.toOldDatePicker(studentData.birthDate) : null;
+      studentData.joinedDate = DateHelper.toDateOnly(studentData.joinedDate);
+      studentData.birthDate = DateHelper.toDateOnly(studentData.birthDate);
 
+      studentData.dailySchedules = [];
       this.studentService.update(studentData)
         .pipe(takeUntil(this.destroy$))
         .subscribe(res => {

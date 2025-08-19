@@ -1,0 +1,25 @@
+<div class="hello-park">
+    <div class="d-flex justify-content-between">
+        <h5 class="mb-1">{{ 'students.tabs.teacherFeedback' | translate }}</h5>
+
+    </div>
+
+    <div class="tab-section-container mt-3">
+
+        <!-- Feedback List -->
+        <div class="feedback-list">
+
+            <!-- No Feedback Message -->
+            <div *ngIf="feedbacks && feedbacks.length === 0" class="no-feedback">
+                <div class="text-center">
+                    <i class="fas fa-inbox text-muted mb-3" style="font-size: 3rem;"></i>
+                    <p class="text-muted">{{ 'shared.feedback.noFeedback' | translate }}</p>
+                </div>
+            </div>
+
+            <card-feedback *ngFor="let feedback of feedbacks" [feedback]="feedback" />
+
+        </div>
+    </div>
+
+</div>

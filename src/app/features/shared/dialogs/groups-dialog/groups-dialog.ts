@@ -5,12 +5,11 @@ import { DropdownProps } from '../../props/dropdown.props';
 import { Subject, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { DialogModule } from 'primeng/dialog';
-import { SaveBtn } from '../../buttons/save-btn/save-btn';
-import { CancelBtn } from '../../buttons/cancel-btn/cancel-btn';
 import { LoaderService } from '../../services/loader.service';
 import { Group } from '../../../../core/models/group.model';
 import { TranslateModule } from '@ngx-translate/core';
 import { Dropdown } from '../../components/dropdown/dropdown';
+import { DialogButtons } from "../../components/dialog-buttons/dialog-buttons";
 
 @Component({
   selector: 'groups-dialog',
@@ -19,10 +18,9 @@ import { Dropdown } from '../../components/dropdown/dropdown';
     ReactiveFormsModule,
     DialogModule,
     Dropdown,
-    SaveBtn,
-    CancelBtn,
     TranslateModule,
-  ],
+    DialogButtons
+],
   templateUrl: './groups-dialog.html',
   styleUrl: './groups-dialog.scss'
 })

@@ -3,14 +3,13 @@ import { ChangeDetectorRef, Component, EventEmitter, inject, Input, Output, Simp
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
 import { Dropdown } from '../../components/dropdown/dropdown';
-import { SaveBtn } from '../../buttons/save-btn/save-btn';
-import { CancelBtn } from '../../buttons/cancel-btn/cancel-btn';
 import { TranslateModule } from '@ngx-translate/core';
 import { Student } from '../../../../core/models/student.model';
 import { DropdownProps } from '../../props/dropdown.props';
 import { Subject, takeUntil } from 'rxjs';
 import { StudentService } from '../../../../core/services/student.service';
 import { LoaderService } from '../../services/loader.service';
+import { DialogButtons } from "../../components/dialog-buttons/dialog-buttons";
 
 @Component({
   selector: 'students-dialog',
@@ -19,10 +18,9 @@ import { LoaderService } from '../../services/loader.service';
     ReactiveFormsModule,
     DialogModule,
     Dropdown,
-    SaveBtn,
-    CancelBtn,
     TranslateModule,
-  ],
+    DialogButtons
+],
   templateUrl: './students-dialog.html',
   styleUrl: './students-dialog.scss'
 })

@@ -1,7 +1,5 @@
 import { Component, EventEmitter, inject, Input, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { CancelBtn } from '../../../shared/buttons/cancel-btn/cancel-btn';
-import { SaveBtn } from '../../../shared/buttons/save-btn/save-btn';
 import { DialogModule } from 'primeng/dialog';
 import { CommonModule } from '@angular/common';
 import { Student } from '../../../../core/models/student.model';
@@ -11,10 +9,11 @@ import { ToastService } from '../../../shared/services/toast.service';
 import { LoaderService } from '../../../shared/services/loader.service';
 import { Editor } from '../../../shared/components/editor/editor';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { DialogButtons } from "../../../shared/components/dialog-buttons/dialog-buttons";
 
 @Component({
   selector: 'app-student-qualification',
-  imports: [CommonModule, DialogModule, SaveBtn, CancelBtn, ReactiveFormsModule, Editor, TranslateModule],
+  imports: [CommonModule, DialogModule, ReactiveFormsModule, Editor, TranslateModule, DialogButtons],
   templateUrl: './student-qualification.html',
   styleUrl: './student-qualification.scss'
 })

@@ -1,13 +1,10 @@
-<p-dialog [header]="'groups.all' | translate" [modal]="true" [(visible)]="showDialog" [style]="{ width: '25rem' }">
+<dialog-buttons [header]="'groups.all' | translate" [showDialog]="showDialog" [showSaveButton]="true"
+    (onSave)="save()" (onCancel)="cancel()" width="25rem" [saveDisabled]="!groupsForm.valid">
+
     <form [formGroup]="groupsForm" (ngSubmit)="save()">
 
         <dropdown [label]="'groups.all' | translate" [multi]="true" [options]="groupsOptions" [formControl]="getFormControl('groups')" />
 
-        <div class="actions-buttons-save-cancel mt-4">
-            <save-btn type="submit" [disabled]="!groupsForm.valid" />
-            &nbsp;
-            <cancel-btn type="button" (click)="cancel()" />
-        </div>
-
     </form>
-</p-dialog>
+
+</dialog-buttons>

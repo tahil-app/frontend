@@ -118,24 +118,25 @@
 
                 <div class="student-personals-grp">
 
-                    <p-tabs value="0" scrollable>
+                    <p-tabs [value]="selectedTab" scrollable>
 
                         <p-tablist>
-                            <p-tab value="0">{{ 'students.tabs.schedule' | translate }}</p-tab>
-                            <p-tab value="1">{{ 'students.tabs.attendance' | translate }}</p-tab>
-                            <p-tab value="2">{{ 'students.tabs.education' | translate }}</p-tab>
-                            <p-tab value="3">{{ 'students.tabs.attachments' | translate }}</p-tab>
+                            <p-tab value="0" *ngIf="permissionService.canView.studentSchedule">{{ 'students.tabs.schedule' | translate }}</p-tab>
+                            <p-tab value="1" *ngIf="permissionService.canView.studentAttendance">{{ 'students.tabs.attendance' | translate }}</p-tab>
+                            <p-tab value="2">{{ 'students.tabs.teacherFeedback' | translate }}</p-tab>
+                            <p-tab value="3">{{ 'students.tabs.education' | translate }}</p-tab>
+                            <p-tab value="4">{{ 'students.tabs.attachments' | translate }}</p-tab>
                         </p-tablist>
 
                         <p-tabpanels class="px-0">
 
-                            <p-tabpanel value="0">
+                            <p-tabpanel value="0" *ngIf="permissionService.canView.studentSchedule">
 
                                 <student-daily-schedule [student]="student" />
 
                             </p-tabpanel>
 
-                            <p-tabpanel value="1">
+                            <p-tabpanel value="1" *ngIf="permissionService.canView.studentAttendance">
 
                                 <div class="hello-park">
                                     <div class="d-flex justify-content-between">
@@ -148,6 +149,12 @@
                             </p-tabpanel>
 
                             <p-tabpanel value="2">
+
+                                <student-feedback [feedbacks]="student.feedbacks" />
+                            
+                            </p-tabpanel>
+
+                            <p-tabpanel value="3">
 
                                 <div class="hello-park">
                                     <div class="d-flex justify-content-between">
@@ -170,7 +177,7 @@
 
                             </p-tabpanel>
 
-                            <p-tabpanel value="3">
+                            <p-tabpanel value="4">
 
                                 <div class="hello-park">
                                     <div class="d-flex justify-content-between">

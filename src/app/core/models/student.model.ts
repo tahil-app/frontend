@@ -2,6 +2,7 @@ import { GenderEnum } from "../enums/gender.enum";
 import { UserRoleEnum } from "../enums/user-role.enum";
 import { Attachment } from "./attachment.model";
 import { DailySchedule } from "./daily-schedule.model";
+import { Feedback } from "./feedback.model";
 import { Group } from "./group.model";
 
 export class Student {
@@ -23,4 +24,5 @@ export class Student {
   attachments!: Attachment[];
   groups!: Group[];
   dailySchedules!: DailySchedule[];
+  feedbacks!: Feedback[];
 }

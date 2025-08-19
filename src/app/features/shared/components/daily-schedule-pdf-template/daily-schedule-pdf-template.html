@@ -7,7 +7,7 @@
   </div>
 
   <!-- Schedule Tables -->
-  <div class="schedule-tables-pdf" *ngIf="dailySchedules.length > 0">
+  <div class="schedule-tables-pdf" *ngIf="dailySchedules?.length">
     <div class="day-schedule" *ngFor="let day of getUniqueDays()">
       <h3 class="day-title">{{ day }}</h3>
 
@@ -37,7 +37,7 @@
   </div>
 
   <!-- No Schedule Message -->
-  <div class="no-schedule-pdf" *ngIf="dailySchedules.length === 0">
+  <div class="no-schedule-pdf" *ngIf="!dailySchedules?.length">
     <div class="no-schedule-content">
       <i class="fa fa-calendar-times"></i>
       <p>{{ 'students.schedule.noSchedule' | translate }}</p>

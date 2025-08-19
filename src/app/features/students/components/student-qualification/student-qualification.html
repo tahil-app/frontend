@@ -1,12 +1,10 @@
-<p-dialog [header]="'shared.profile.qualifications' | translate" [modal]="true" [(visible)]="showDialog" [style]="{ width: '45rem' }">
+<dialog-buttons [header]="'shared.profile.qualifications' | translate" [showDialog]="showDialog" [showSaveButton]="true"
+    (onSave)="save()" (onCancel)="cancel()" width="45rem" [saveDisabled]="!qualificationForm.valid">
+
     <form [formGroup]="qualificationForm" (ngSubmit)="save()">
+
         <editor [formControl]="getFormControl('qualification')" />
 
-        <div class="actions-buttons-save-cancel mt-4">
-            <save-btn type="submit" [disabled]="!qualificationForm.valid" />
-            &nbsp;
-            <cancel-btn type="button" (click)="cancel()" />
-        </div>
-
     </form>
-</p-dialog>
+
+</dialog-buttons>

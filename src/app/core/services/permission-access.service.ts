@@ -33,7 +33,9 @@ export class PermissionAccessService {
             groupProfile: this.authService.isAdmin || this.authService.isEmployee || this.authService.isTeacher,
             studentProfile: this.authService.isAdmin || this.authService.isEmployee || this.authService.isTeacher || this.authService.isStudent,
             courseProfile: this.authService.isAdmin || this.authService.isEmployee,
-            teacherProfile: this.authService.isAdmin || this.authService.isEmployee || this.authService.isTeacher
+            teacherProfile: this.authService.isAdmin || this.authService.isEmployee || this.authService.isTeacher,
+            studentSchedule: this.authService.isAdmin || this.authService.isEmployee || this.authService.isStudent,
+            studentAttendance: this.authService.isAdmin || this.authService.isEmployee || this.authService.isStudent
         };
     }
 
@@ -66,6 +68,7 @@ export class PermissionAccessService {
             studentOnlyAdminOrEmployee: this.authService.isAdmin || this.authService.isEmployee,
             schedule: this.authService.isAdmin || this.authService.isEmployee,
             session: this.authService.isAdmin || this.authService.isEmployee,
+            recordStudentAttendance: this.authService.isAdmin || this.authService.isEmployee || this.authService.isTeacher,
             studentAttendance: this.authService.isAdmin || this.authService.isEmployee,
             studentAttendanceToBeRescheduled: this.authService.isAdmin || this.authService.isEmployee,
             studentAttendanceToBeCancelled: this.authService.isAdmin || this.authService.isEmployee,

@@ -188,6 +188,10 @@
             "title": "الجدول اليومي",
             "noClasses": "لا يوجد مواعيد لهذا اليوم",
             "noDailySchedule": "لا يوجد مواعيد حاليا"
+        },
+        "feedback": {
+            "noFeedback": "لا يوجد ملاحظات",
+            "comment": "الملاحظة"
         }
     },
     "validation": {
@@ -284,7 +288,8 @@
             "schedule": "المواعيد",
             "attachments": "المرفقات",
             "attendance": "الحضور",
-            "personalInfo": "المعلومات الشخصية"
+            "personalInfo": "المعلومات الشخصية",
+            "teacherFeedback": "ملاحظات المعلمين"
         }
     },
     "employees": {

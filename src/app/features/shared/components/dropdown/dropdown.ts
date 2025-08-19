@@ -72,6 +72,11 @@ export class Dropdown implements ControlValueAccessor {
     this.searchSubject$.pipe(debounceTime(700), distinctUntilChanged(), takeUntil(this.destroy$)).subscribe(value => {
       this.onSearchChange.emit(value);
     });
+
+    // Handle disabled state
+    if (this.disabled) {
+      this.formControl.disable();
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -87,6 +92,14 @@ export class Dropdown implements ControlValueAccessor {
 
     if(changes['formControl']) {
       this.setSelectedItems();
+    }
+
+    if(changes['disabled']) {
+      if (this.disabled) {
+        this.formControl.disable();
+      } else {
+        this.formControl.enable();
+      }
     }
   }
 
@@ -109,9 +122,6 @@ export class Dropdown implements ControlValueAccessor {
       const selectedOption = this.options.find(r => r.value === this.formControl.value);
       this.selectedItems = selectedOption ? [selectedOption] : [];
     }
-
-    if(this.disabled)
-      this.formControl.disable();
   }
 
   onOverlayShow(){
@@ -143,6 +153,11 @@ export class Dropdown implements ControlValueAccessor {
   }
   setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
+    if (isDisabled) {
+      this.formControl.disable();
+    } else {
+      this.formControl.enable();
+    }
   }
   getDisplayValue(): string {
     if (!this.selectedItems || this.selectedItems.length === 0) {

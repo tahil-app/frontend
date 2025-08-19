@@ -1,4 +1,6 @@
-<p-dialog [header]="'students.formTitle' | translate" [modal]="true" [(visible)]="showDialog" [style]="{ width: '45rem' }">
+<dialog-buttons [header]="'students.formTitle' | translate" [showDialog]="showDialog" [showSaveButton]="true"
+    (onSave)="hasId() ? update() : save()" (onCancel)="cancel()" width="45rem" [saveDisabled]="!studentForm.valid">
+
     <form [formGroup]="studentForm" (ngSubmit)="hasId() ? update() : save()">
 
         <div class="row">
@@ -7,7 +9,8 @@
             </div>
     
             <div class="col-md-6 col-12 flex items-center gap-2 mb-2">
-                <dropdown [label]="'shared.fields.gender' | translate" [required]="true" [options]="genderOptions" [formControl]="getFormControl('gender')" [disabled]="!(permissionAccess.canEdit.studentOnlyAdminOrEmployee)" />
+                <dropdown [label]="'shared.fields.gender' | translate" [required]="true" [options]="genderOptions" 
+                [formControl]="getFormControl('gender')" [disabled]="!(permissionAccess.canEdit.studentOnlyAdminOrEmployee)" />
             </div>
             
         </div>
@@ -42,10 +45,6 @@
             </div>
         </div>
 
-        <div class="actions-buttons-save-cancel mt-4">
-            <save-btn type="submit" [disabled]="!studentForm.valid" />
-            &nbsp;
-            <cancel-btn type="button" (click)="cancel()" />
-        </div>
     </form>
-</p-dialog>
+
+</dialog-buttons>

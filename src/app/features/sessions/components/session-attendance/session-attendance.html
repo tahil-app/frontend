@@ -40,18 +40,18 @@
                                 <th style="width: 10rem;">
                                     <div class="attendance-actions">
                                         <button class="btn btn-sm btn-success px-2 py-1" (click)="markAllPresent()"
-                                            *ngIf="canEditAttendance">
+                                            *ngIf="canRecordAttendance">
                                             <i class="fa fa-check"></i> {{ 'attendance.actions.markAllPresent' |
                                             translate
                                             }}
                                         </button>
                                         <button class="btn btn-sm btn-warning px-2 py-1" (click)="markAllLate()"
-                                            *ngIf="canEditAttendance">
+                                            *ngIf="canRecordAttendance">
                                             <i class="fa fa-clock"></i> {{ 'attendance.actions.markAllLate' | translate
                                             }}
                                         </button>
                                         <button class="btn btn-sm btn-danger px-2 py-1" (click)="markAllAbsent()"
-                                            *ngIf="canEditAttendance">
+                                            *ngIf="canRecordAttendance">
                                             <i class="fa fa-times"></i> {{ 'attendance.actions.markAllAbsent' |
                                             translate }}
                                         </button>
@@ -78,7 +78,7 @@
                                 <td>
                                     <input type="text" class="form-control form-control-sm" formControlName="note"
                                         [placeholder]="'shared.fields.notesPlaceholder' | translate"
-                                        [disabled]="!canEditAttendance">
+                                        [disabled]="!canRecordAttendance">
                                 </td>
 
                                 <td>
@@ -88,7 +88,7 @@
                                             <p-radioButton [value]="AttendanceStatus.Present"
                                                 formControlName="status"
                                                 name="attendance_{{record.get('studentId')?.value}}"
-                                                [disabled]="!canEditAttendance"
+                                                [disabled]="!canRecordAttendance"
                                                 inputId="present-{{ record.get('studentId')?.value }}" />
                                             <label class="form-check-label text-success"
                                                 for="present-{{ record.get('studentId')?.value }}">
@@ -100,7 +100,7 @@
                                             <p-radioButton [value]="AttendanceStatus.Late"
                                                 formControlName="status"
                                                 name="attendance_{{record.get('studentId')?.value}}"
-                                                [disabled]="!canEditAttendance"
+                                                [disabled]="!canRecordAttendance"
                                                 inputId="late-{{ record.get('studentId')?.value }}" />
 
                                             <label class="form-check-label text-warning"
@@ -113,7 +113,7 @@
                                             <p-radioButton [value]="AttendanceStatus.Absent"
                                                 formControlName="status"
                                                 name="attendance_{{record.get('studentId')?.value}}"
-                                                [disabled]="!canEditAttendance"
+                                                [disabled]="!canRecordAttendance"
                                                 inputId="absent-{{ record.get('studentId')?.value }}" />
 
                                             <label class="form-check-label text-danger"
@@ -173,8 +173,8 @@
                 </button>
                 <span *ngIf="canExportPdf">&nbsp;</span>
 
-                <save-btn type="submit" (click)="onSave()" *ngIf="canEditAttendance" />
-                <span *ngIf="canEditAttendance">&nbsp;</span>
+                <save-btn type="submit" (click)="onSave()" *ngIf="canRecordAttendance" />
+                <span *ngIf="canRecordAttendance">&nbsp;</span>
 
                 <cancel-btn type="button" (click)="onCancel()" />
             </div>

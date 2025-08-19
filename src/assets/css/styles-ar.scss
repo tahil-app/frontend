@@ -543,13 +543,13 @@ div.dataTables_wrapper div.dataTables_filter input {
         padding-left: 17px !important;
         padding-right: 0px !important;
     }
-    
+
     .cal-time-events .cal-day-column:nth-last-child(7),
     .cal-day-headers .cal-header:nth-last-child(1) {
         border-right: 1px solid #e1e1e1 !important;
     }
 
-    .cal-ends-within-day .cal-event{
+    .cal-ends-within-day .cal-event {
         direction: rtl !important;
     }
 
@@ -557,6 +557,7 @@ div.dataTables_wrapper div.dataTables_filter input {
 
 
 .cal-day-view {
+
     .cal-events-container,
     .cal-current-time-marker {
         margin-left: 0px !important;
@@ -580,4 +581,10 @@ div.dataTables_wrapper div.dataTables_filter input {
     .p-dialog-content .pi {
         margin-right: -50px;
     }
+}
+
+.attendance-form-content .session-info,
+.feedback-text {
+    border-left: 4px solid #007bff;
+    border-right: unset !important;
 }

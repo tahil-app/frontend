@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, SimpleChanges } from '@angular/core';
 import { WeekDaysService } from '../../../../core/services/week-days.service';
 import { TimeHelper } from '../../../../core/helpers/time.helper';
 import { DailySchedule } from '../../../../core/models/daily-schedule.model';
@@ -33,14 +33,24 @@ export class DailyScheduleComponent  {
     this.prepareDailySchedule();
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes['dailySchedules']) {
+      this.dailySchedules = [...(this.dailySchedules || [])];
+      this.prepareDailySchedule();
+    }
+  }
+
   getUniqueDays(): any[] {
-    let days = this.dailySchedules.filter(schedule => schedule.dayName !== '').map(schedule => schedule.dayName);
-    return this.weekDaysService.getDayOptions().filter(day => days.includes(day.label));
+    if (!this.dailySchedules || !Array.isArray(this.dailySchedules)) {
+      return [];
+    }
+    let days = this.dailySchedules.filter(schedule => schedule.dayName !== '')?.map(schedule => schedule.dayName);
+    return this.weekDaysService?.getDayOptions()?.filter(day => days?.includes(day.label)) || [];
   }
 
   prepareDailySchedule(): void {
-    this.dailySchedules.forEach(schedule => {
-      schedule.dayName = this.weekDaysService.getDayName(schedule.day);
+    this.dailySchedules?.forEach(schedule => {
+      schedule.dayName = this.weekDaysService?.getDayName(schedule.day);
     });
   }
 
@@ -53,6 +63,9 @@ export class DailyScheduleComponent  {
   }
 
   getClassesByDay(day: number): DailySchedule[] {
+    if (!this.dailySchedules || !Array.isArray(this.dailySchedules)) {
+      return [];
+    }
     return this.dailySchedules.filter(schedule => schedule.day === day);
   }
 

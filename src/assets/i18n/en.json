@@ -191,6 +191,10 @@
             "title": "Daily Schedule",
             "noClasses": "No classes scheduled for this day",
             "noDailySchedule": "No daily schedule available"
+        },
+        "feedback": {
+            "noFeedback": "No feedback",
+            "comment": "Comment"
         }
     },
     "courses": {
@@ -280,7 +284,8 @@
             "schedule": "Schedule",
             "attachments": "Attachments",
             "attendance": "Attendance",
-            "personalInfo": "Personal Info"
+            "personalInfo": "Personal Info",
+            "teacherFeedback": "Teacher Feedback"
         }
     },
     "employees": {

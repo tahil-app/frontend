@@ -1,13 +1,10 @@
-<p-dialog [header]="'teachers.all' | translate" [modal]="true" [(visible)]="showDialog" [style]="{ width: '25rem' }">
+<dialog-buttons [header]="'teachers.all' | translate" [showDialog]="showDialog" [showSaveButton]="true"
+    (onSave)="save()" (onCancel)="cancel()" width="25rem" [saveDisabled]="!teachersForm.valid">
+    
     <form [formGroup]="teachersForm" (ngSubmit)="save()">
 
         <dropdown [label]="'shared.fields.name' | translate" [allowFilter]="true" [multi]="true" [options]="teachersOptions" [formControl]="getFormControl('teachers')" />
 
-        <div class="actions-buttons-save-cancel mt-4">
-            <save-btn type="submit" [disabled]="!teachersForm.valid" />
-            &nbsp;
-            <cancel-btn type="button" (click)="cancel()" />
-        </div>
-
     </form>
-</p-dialog>
+    
+</dialog-buttons>
