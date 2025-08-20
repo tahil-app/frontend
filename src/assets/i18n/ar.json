@@ -84,6 +84,7 @@
             "capacityPercentage": "نسبة الكثافة",
             "status": "الحالة",
             "years": "سنة",
+            "year": "السنة",
             "day": "اليوم",
             "date": "التاريخ",
             "startDate": "تاريخ البداية",
@@ -95,11 +96,15 @@
             "course": "المادة",
             "group": "المجموعة",
             "room": "الحلقة",
+            "studentName": "اسم الطالب",
+            "studentCode": "كود الطالب",
             "time": "الوقت",
             "total": "الإجمالي",
             "exportedOn": "تم التصدير في",
             "printedOn": "تم الطباعة في",
-            "attendancePercentage": "نسبة الحضور"
+            "attendancePercentage": "نسبة الحضور",
+            "month": "الشهر",
+            "numberOfSessions": "عدد الحصص"
         },
         "validation": {
             "passwordMismatch": "كلمة المرور وتأكيد كلمة المرور غير متطابقتين",
@@ -165,6 +170,20 @@
             "saturday": "السبت",
             "sunday": "الأحد"
         },
+        "months": {
+            "january": "يناير",
+            "february": "فبراير",
+            "march": "مارس",
+            "april": "أبريل",
+            "may": "مايو",
+            "june": "يونيو",
+            "july": "يوليو",
+            "august": "أغسطس",
+            "september": "سبتمبر",
+            "october": "أكتوبر",
+            "november": "نوفمبر",
+            "december": "ديسمبر"
+        },
         "messages": {
             "savedSuccessfully": "تم الحفظ بنجاح",
             "updatedSuccessfully": "تم التحديث بنجاح",
@@ -175,6 +194,7 @@
             "late": "متأخر",
             "absent": "غائب"
         },
+        "allMonths": "جميع الأشهر",
         "pdf": {
             "success": "تم تصدير PDF بنجاح",
             "error": {
@@ -290,6 +310,21 @@
             "attendance": "الحضور",
             "personalInfo": "المعلومات الشخصية",
             "teacherFeedback": "ملاحظات المعلمين"
+        },
+        "attendanceReport": "تقرير حضور الطالب",
+        "attendanceSummary": "ملخص الحضور",
+        "monthlyBreakdown": "التفصيل الشهري",
+        "performanceAnalysis": "تحليل الأداء",
+        "attendancePercentage": "نسبة الحضور",
+        "bestMonth": "أفضل شهر",
+        "worstMonth": "أسوأ شهر",
+        "overallPerformance": "الأداء العام",
+        "performance": {
+            "excellent": "ممتاز",
+            "good": "جيد",
+            "average": "متوسط",
+            "belowAverage": "أقل من المتوسط",
+            "poor": "ضعيف"
         }
     },
     "employees": {

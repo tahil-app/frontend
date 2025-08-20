@@ -87,6 +87,7 @@
             "numberOfTeachers": "Number of Teachers",
             "status": "Status",
             "years": "Years",
+            "year": "Year",
             "day": "Day",
             "date": "Date",
             "startTime": "Start Time",
@@ -98,11 +99,15 @@
             "course": "Course",
             "group": "Group",
             "room": "Room",
+            "studentName": "Student Name",
+            "studentCode": "Student Code",
             "time": "Time",
             "total": "Total",
             "exportedOn": "Exported On",
             "printedOn": "Printed On",
-            "attendancePercentage": "Attendance Percentage"
+            "attendancePercentage": "Attendance Percentage",
+            "month": "Month",
+            "numberOfSessions": "Number of Sessions"
         },
         "validation": {
             "passwordMismatch": "Password and confirm password do not match",
@@ -168,6 +173,20 @@
             "saturday": "Saturday",
             "sunday": "Sunday"
         },
+        "months": {
+            "january": "January",
+            "february": "February",
+            "march": "March",
+            "april": "April",
+            "may": "May",
+            "june": "June",
+            "july": "July",
+            "august": "August",
+            "september": "September",
+            "october": "October",
+            "november": "November",
+            "december": "December"
+        },
         "messages": {
             "savedSuccessfully": "Saved successfully",
             "updatedSuccessfully": "Updated successfully",
@@ -178,6 +197,7 @@
             "late": "Late",
             "absent": "Absent"
         },
+        "allMonths": "All Months",
         "pdf": {
             "success": "PDF exported successfully",
             "error": {
@@ -286,6 +306,21 @@
             "attendance": "Attendance",
             "personalInfo": "Personal Info",
             "teacherFeedback": "Teacher Feedback"
+        },
+        "attendanceReport": "Student Attendance Report",
+        "attendanceSummary": "Attendance Summary",
+        "monthlyBreakdown": "Monthly Breakdown",
+        "performanceAnalysis": "Performance Analysis",
+        "attendancePercentage": "Attendance Percentage",
+        "bestMonth": "Best Month",
+        "worstMonth": "Worst Month",
+        "overallPerformance": "Overall Performance",
+        "performance": {
+            "excellent": "Excellent",
+            "good": "Good",
+            "average": "Average",
+            "belowAverage": "Below Average",
+            "poor": "Poor"
         }
     },
     "employees": {

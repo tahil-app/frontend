@@ -108,6 +108,7 @@ export class ApiEndpoints {
         Actions: {
             Session: (sessionId: string | number) => `/${sessionId}`,
             Update:  (sessionId: string | number) => `update/${sessionId}`,
+            GetMonthly: (year: number, studentId: number) => `monthly/${year}/${studentId}`,
         }
     };
 }

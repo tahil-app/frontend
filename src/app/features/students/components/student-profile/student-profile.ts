@@ -21,10 +21,10 @@ import { TableModule } from 'primeng/table';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { PermissionAccessService } from '../../../../core/services/permission-access.service';
 import { CardModule } from 'primeng/card';
-import { PdfIconBtn } from "../../../shared/buttons/pdf-icon-btn/pdf-icon-btn";
 import { EditIconButton } from "../../../shared/buttons/edit-icon-button/edit-icon-button";
 import { StudentDailySchedule } from "../student-daily-schedule/student-daily-schedule";
 import { StudentFeedback } from "../student-feedback/student-feedback";
+import { StudentAttendance } from "../student-attendance/student-attendance";
 
 @Component({
   selector: 'app-student-profile',
@@ -40,10 +40,10 @@ import { StudentFeedback } from "../student-feedback/student-feedback";
     TranslateModule,
     RouterModule,
     CardModule,
-    PdfIconBtn,
     EditIconButton,
     StudentDailySchedule,
-    StudentFeedback
+    StudentFeedback,
+    StudentAttendance
 ],
   templateUrl: './student-profile.html',
   styleUrl: './student-profile.scss'

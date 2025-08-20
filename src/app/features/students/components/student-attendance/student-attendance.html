@@ -1,0 +1,79 @@
+<div class="student-attendance-container">
+
+    <div class="d-flex justify-content-between">
+        <h5 class="mb-1">{{ 'students.tabs.attendance' | translate }}</h5>
+
+        <div class="d-flex align-items-center gap-2">
+            <select 
+                dir="ltr"
+                id="yearSelect" 
+                class="form-select" 
+                [(ngModel)]="selectedYear"
+                (change)="onYearChange()"
+                style="width: 75px; padding: 4px 8px;">
+                <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+            </select>
+
+            <pdf-icon-btn [showOutline]="true" (onClick)="exportToPdf()"/>
+        </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="row mb-4 mt-2 pt-2">
+        <div class="col-lg-3 col-md-4 col-6 mb-3">
+            <div class="stat-card">
+                <div class="stat-value">
+                    <h3 class="text-total">{{ total }}</h3>
+                </div>
+                <p>{{ 'shared.fields.total' | translate }}</p>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-4 col-6 mb-3">
+            <div class="stat-card">
+                <div class="stat-value">
+                    <h3 class="text-present">{{ present }}</h3>
+                </div>
+                <p>{{ 'shared.attendanceStatus.present' | translate }}</p>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-4 col-6 mb-3">
+            <div class="stat-card">
+                <div class="stat-value">
+                    <h3 class="text-absent">{{ absent }}</h3>
+                </div>
+                <p>{{ 'shared.attendanceStatus.absent' | translate }}</p>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-4 col-6 mb-3">
+            <div class="stat-card">
+                <div class="stat-value">
+                    <h3 class="text-late">{{ late }}</h3>
+                </div>
+                <p>{{ 'shared.attendanceStatus.late' | translate }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart Section -->
+    <div class="chart-container">
+        <line-chart
+            [dataSet]="dataSet"
+            [xLabel]="'shared.fields.month' | translate"
+            [yLabel]="'shared.fields.numberOfSessions' | translate"
+            [tooltipLabel]="buildTooltipLabel"
+        ></line-chart>
+    </div>
+
+    <!-- Hidden PDF Template -->
+    <div style="position: absolute; left: -9999px; top: -9999px;">
+        <student-attendance-pdf-template
+            [student]="student"
+            [monthlyAttendanceData]="monthlyAttendanceData"
+            [selectedYear]="selectedYear">
+        </student-attendance-pdf-template>
+    </div>
+
+</div>

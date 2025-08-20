@@ -33,7 +33,7 @@ export class StudentFeedback {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['feedbacks']) {
-      this.feedbacks = changes['feedbacks'].currentValue;
+      this.feedbacks = changes['feedbacks'].currentValue ?? [];
       this.feedbacks = this.feedbacks.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
     }
   }

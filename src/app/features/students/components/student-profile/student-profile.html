@@ -138,13 +138,7 @@
 
                             <p-tabpanel value="1" *ngIf="permissionService.canView.studentAttendance">
 
-                                <div class="hello-park">
-                                    <div class="d-flex justify-content-between">
-                                        <h5 class="mb-1">{{ 'students.tabs.attendance' | translate }}</h5>
-
-                                        <pdf-icon-btn [showOutline]="true" />
-                                    </div>
-                                </div>
+                                <student-attendance [student]="student" />
 
                             </p-tabpanel>
 
