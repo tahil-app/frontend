@@ -17,12 +17,12 @@ import { TeacherFormComponent } from '../teacher-form/teacher-form';
 import { FilterOperators } from '../../../shared/props/query-filter-params.props';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { DeleteConfirmation } from '../../../shared/components/delete-confirmation/delete-confirmation';
 import { PermissionAccessService } from '../../../../core/services/permission-access.service';
+import { ConfirmService } from '../../../shared/services/confirm.serivce';
 
 @Component({
   selector: 'app-teachers-list',
-  imports: [CommonModule, Grid, CardContainer, DialogModule, TeacherFormComponent, TranslateModule, DeleteConfirmation],
+  imports: [CommonModule, Grid, CardContainer, DialogModule, TeacherFormComponent, TranslateModule],
   templateUrl: './teachers-list.html',
   styleUrl: './teachers-list.scss'
 })
@@ -30,7 +30,6 @@ export class TeachersList {
 
   //#region Properties
   showDialog = false;
-  showDeleteDialog = false;
   teacher: Teacher = {} as Teacher;
   teacherToDelete: Teacher = {} as Teacher;
   queryParams: QueryParamsModel = {} as QueryParamsModel;
@@ -44,15 +43,16 @@ export class TeachersList {
   private toaster = inject(ToastService);
   private router = inject(Router);
   private translate = inject(TranslateService);
+  private confirmService = inject(ConfirmService);
   public permissionService = inject(PermissionAccessService);
   //#endregion
 
   //#region Columns
   columns: GridColumn[] = [
-    { field: 'name', apiField:'User.Name', title: this.translate.instant('shared.fields.name'), columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
-    { field: 'phoneNumber', apiField:'User.PhoneNumber', title: this.translate.instant('shared.fields.phoneNumber'), columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
-    { field: 'email', apiField:'User.Email.Value', title: this.translate.instant('shared.fields.email'), columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
-    { field: 'joinedDate', apiField:'User.JoinedDate', title: this.translate.instant('shared.fields.joinedDate'), columnType: ColumnTypeEnum.date, sortable: true, filterType: ColumnFilterTypeEnum.date, filterOperator: FilterOperators.equal },
+    { field: 'name', apiField: 'User.Name', title: this.translate.instant('shared.fields.name'), columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
+    { field: 'phoneNumber', apiField: 'User.PhoneNumber', title: this.translate.instant('shared.fields.phoneNumber'), columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
+    { field: 'email', apiField: 'User.Email.Value', title: this.translate.instant('shared.fields.email'), columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
+    { field: 'joinedDate', apiField: 'User.JoinedDate', title: this.translate.instant('shared.fields.joinedDate'), columnType: ColumnTypeEnum.date, sortable: true, filterType: ColumnFilterTypeEnum.date, filterOperator: FilterOperators.equal },
   ];
   //#endregion
 
@@ -74,44 +74,63 @@ export class TeachersList {
   }
 
   onEdit(event: Teacher) {
-    this.teacher = event;
-    this.showDialog = true;
+
+    this.confirmService.confirmEdit(() => {
+      this.teacher = event;
+      this.showDialog = true;
+    });
+
   }
 
   onActivate(event: Teacher) {
-    this.teacherService.activate(event.id)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(res => {
-        if (res) {
-          this.loadTeachers(this.queryParams);
-          this.toaster.showSuccess(this.translate.instant('teachers.activateSuccess'));
-        }
-      }, _ => { }, () => this.loader.hide());
+    this.confirmService.confirmActivate(() => {
+
+      this.teacherService.activate(event.id)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(res => {
+          if (res) {
+            this.loadTeachers(this.queryParams);
+            this.toaster.showSuccess(this.translate.instant('teachers.activateSuccess'));
+          }
+        }, _ => { }, () => this.loader.hide());
+
+    });
+
   }
 
   onDeactivate(event: Teacher) {
-    this.teacherService.deactivate(event.id)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(res => {
-        if (res) {
-          this.loadTeachers(this.queryParams);
-          this.toaster.showSuccess(this.translate.instant('teachers.deactivateSuccess'));
-        }
-      }, _ => { }, () => this.loader.hide());
+    this.confirmService.confirmDeactivate(() => {
+
+      this.teacherService.deactivate(event.id)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(res => {
+          if (res) {
+            this.loadTeachers(this.queryParams);
+            this.toaster.showSuccess(this.translate.instant('teachers.deactivateSuccess'));
+          }
+        }, _ => { }, () => this.loader.hide());
+
+    });
   }
 
   onView(event: Teacher) {
-    this.router.navigate(['/teachers', event.id]);
+
+    this.confirmService.confirmView(() => {
+      this.router.navigate(['/teachers', event.id]);
+    });
   }
 
   onDelete(event: Teacher) {
-    this.teacherToDelete = event;
-    this.showDeleteDialog = true;
+
+    this.confirmService.confirmDelete(() => {
+      this.teacherToDelete = event;
+      this.onConfirmDelete();
+    });
   }
 
   onConfirmDelete() {
     this.loader.show();
-    
+
     this.teacherService.delete(this.teacherToDelete.id)
       .pipe(takeUntil(this.destroy$))
       .subscribe(res => {
@@ -119,18 +138,12 @@ export class TeachersList {
           this.loadTeachers(this.queryParams);
           this.toaster.showSuccess(this.translate.instant('teachers.deleteSuccess'));
         }
-        this.showDeleteDialog = false;
         this.teacherToDelete = {} as Teacher;
-        
+
       }, _ => { }, () => this.loader.hide());
-    
-  }
 
-  onCancelDelete() {
-    this.showDeleteDialog = false;
-    this.teacherToDelete = {} as Teacher;
   }
-
+  
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();

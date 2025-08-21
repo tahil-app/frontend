@@ -18,7 +18,6 @@ import { ColumnFilterTypeEnum } from '../../../shared/enums/column.filter.type.e
 import { FilterOperators } from '../../../shared/props/query-filter-params.props';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { PermissionAccessService } from '../../../../core/services/permission-access.service';
-import { ConfirmDeleteService } from '../../../shared/services/confirm-delete-service';
 import { ConfirmService } from '../../../shared/services/confirm.serivce';
 
 @Component({
@@ -44,7 +43,6 @@ export class StudentsList {
   private toaster = inject(ToastService);
   private router = inject(Router);
   private translate = inject(TranslateService);
-  private confirmDeleteService = inject(ConfirmDeleteService);
   private confirmService = inject(ConfirmService);
   public permissionService = inject(PermissionAccessService);
   //#endregion
@@ -76,13 +74,17 @@ export class StudentsList {
   }
 
   onEdit(event: Student) {
-    this.student = event;
-    this.showDialog = true;
+
+    this.confirmService.confirmEdit(() => {
+
+      this.student = event;
+      this.showDialog = true;
+    });
   }
 
   onActivate(event: Student) {
 
-    this.confirmService.confirm(this.translate.instant('shared.dialogs.activateConfirmation'), () => {
+    this.confirmService.confirmActivate(() => {
 
       this.studentService.activate(event.id)
         .pipe(takeUntil(this.destroy$))
@@ -98,7 +100,7 @@ export class StudentsList {
 
   onDeactivate(event: Student) {
 
-    this.confirmService.confirm(this.translate.instant('shared.dialogs.deactivateConfirmation'), () => {
+    this.confirmService.confirmDeactivate(() => {
 
       this.studentService.deactivate(event.id)
         .pipe(takeUntil(this.destroy$))
@@ -114,19 +116,19 @@ export class StudentsList {
 
   onView(event: Student) {
 
-    this.confirmService.confirm(this.translate.instant('shared.dialogs.viewConfirmation'), () => {
+    this.confirmService.confirmView(() => {
 
       this.router.navigate(['/students', event.id]);
-
-    }, undefined, 'pi pi-eye text-info mb-4');
+    });
 
   }
 
   onDelete(event: Student) {
     this.studentToDelete = event;
-    this.confirmDeleteService.confirm(() => {
+    this.confirmService.confirmDelete(() => {
       this.onConfirmDelete();
     });
+
   }
 
   onConfirmDelete() {

@@ -12,6 +12,3 @@
 <app-teacher-form [showDialog]="showDialog && permissionService.canEdit.teacher" 
 [teacher]="teacher" (onSave)="loadTeachers(queryParams)" 
 (onCancel)="showDialog = false" />
-
-<delete-confirmation *ngIf="showDeleteDialog && permissionService.canDelete.teacher" [message]="'shared.dialogs.deleteConfirmation' | translate"
-(confirm)="onConfirmDelete()" (cancel)="onCancelDelete()" />

@@ -110,7 +110,8 @@
             "printedOn": "تم الطباعة في",
             "attendancePercentage": "نسبة الحضور",
             "month": "الشهر",
-            "numberOfSessions": "عدد الحصص"
+            "numberOfSessions": "عدد الحصص",
+            "dailyAttendance": "الحضور اليومي"
         },
         "validation": {
             "passwordMismatch": "كلمة المرور وتأكيد كلمة المرور غير متطابقتين",
@@ -162,8 +163,11 @@
             "noExperience": "لا يوجد خبرات",
             "noCourses": "لا يوجد دورات",
             "noGroups": "لا يوجد مجموعات",
+            "noStudents": "لا يوجد طلاب",
             "noAttachments": "لا يوجد مرفقات",
             "noTeachers": "لا يوجد معلمين",
+            "noWeeklySchedule": "لا يوجد جدول أسبوعي",
+            "noAttendances": "لا يوجد حضور",
             "qualificationsSaveSuccess": "تم حفظ المؤهلات بنجاح",
             "experienceSaveSuccess": "تم حفظ الخبرات بنجاح"
         },
@@ -287,6 +291,7 @@
         "profile": {
             "groupData": "بيانات المجموعة",
             "studentsList": "قائمة الطلاب",
+            "weeklySchedule": "الجدول الأسبوعي",
             "groupNotFoundMessage": "المجموعة المطلوبة غير موجودة"
         },
         "studentsUpdated": "تم تحديث الطلاب بنجاح",

@@ -113,7 +113,8 @@
             "printedOn": "Printed On",
             "attendancePercentage": "Attendance Percentage",
             "month": "Month",
-            "numberOfSessions": "Number of Sessions"
+            "numberOfSessions": "Number of Sessions",
+            "dailyAttendance": "Daily Attendance"
         },
         "validation": {
             "passwordMismatch": "Password and confirm password do not match",
@@ -165,8 +166,11 @@
             "noExperience": "No experience",
             "noCourses": "No courses",
             "noGroups": "No groups",
+            "noStudents": "No students",
             "noTeachers": "No teachers",
             "noAttachments": "No attachments",
+            "noWeeklySchedule": "No weekly schedule",
+            "noAttendances": "No attendances",
             "qualificationsSaveSuccess": "Qualifications saved successfully",
             "experienceSaveSuccess": "Experience saved successfully"
         },
@@ -283,6 +287,7 @@
         "profile": {
             "groupData": "Group Data",
             "studentsList": "Students List",
+            "weeklySchedule": "Weekly Schedule",
             "groupNotFoundMessage": "The requested group was not found"
         },
         "studentsUpdated": "Students updated successfully",

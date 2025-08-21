@@ -1,8 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, inject, Input, Output, SimpleChanges } from '@angular/core';
-import { DialogModule } from 'primeng/dialog';
-import { SaveBtn } from '../../../shared/buttons/save-btn/save-btn';
-import { CancelBtn } from '../../../shared/buttons/cancel-btn/cancel-btn';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputLabel } from '../../../shared/components/input-label/input-label';
@@ -19,10 +16,11 @@ import { DateHelper } from '../../../../core/helpers/date.helper';
 import { GenderHelper } from '../../../../core/helpers/gender.helper';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { PermissionAccessService } from '../../../../core/services/permission-access.service';
+import { DialogButtons } from "../../../shared/components/dialog-buttons/dialog-buttons";
 
 @Component({
   selector: 'app-teacher-form',
-  imports: [CommonModule, DialogModule, SaveBtn, CancelBtn, InputTextModule, ReactiveFormsModule, InputLabel, LabelDatePicker, Dropdown, TranslateModule],
+  imports: [CommonModule, InputTextModule, ReactiveFormsModule, InputLabel, LabelDatePicker, Dropdown, TranslateModule, DialogButtons],
   templateUrl: './teacher-form.html',
   styleUrl: './teacher-form.scss'
 })

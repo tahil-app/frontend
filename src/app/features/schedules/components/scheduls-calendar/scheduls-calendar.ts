@@ -13,7 +13,7 @@ import { LoaderService } from '../../../shared/services/loader.service';
 import { TimeHelper } from '../../../../core/helpers/time.helper';
 import { ScheduleForm } from '../schedule-form/schedule-form';
 import { Subject, takeUntil } from 'rxjs';
-import { ConfirmDeleteService } from '../../../shared/services/confirm-delete-service';
+import { ConfirmService } from '../../../shared/services/confirm.serivce';
 
 @Component({
   selector: 'app-scheduls-calendar',
@@ -50,7 +50,7 @@ export class SchedulsCalendar implements OnInit {
   private translateService = inject(TranslateService);
   private scheduleService = inject(ScheduleService);
   private loader = inject(LoaderService);
-  private confirmDeleteService = inject(ConfirmDeleteService);
+  private confirmService = inject(ConfirmService);
   public permissionService = inject(PermissionAccessService);
   //#endregion
 
@@ -73,11 +73,11 @@ export class SchedulsCalendar implements OnInit {
 
     this.scheduleService.getMonthlySchedule(currentMonth, currentYear).pipe(takeUntil(this.destroy$)).subscribe(schedules => {
       this.schedules = schedules;
-      
+
       this.events = this.prepareEvents(schedules);
 
       this.setupCalendarConfig();
-      
+
       this.activeDayIsOpen = this.schedules.some(schedule => schedule.day === this.currentDate.getDay() && new Date(schedule.startDate!) <= this.currentDate);
     }, err => { }, () => {
       this.showDialog = false;
@@ -177,17 +177,18 @@ export class SchedulsCalendar implements OnInit {
   }
 
   editEvent(event: CalendarEvent): void {
-    this.schedule = this.schedules.find(schedule => schedule.id === event.id) ?? {} as ClassSchedule;
-    this.showScheduleForm = true;
+    this.confirmService.confirmEdit(() => {
+      this.schedule = this.schedules.find(schedule => schedule.id === event.id) ?? {} as ClassSchedule;
+      this.showScheduleForm = true;
+    });
   }
 
   deleteEvent(event: CalendarEvent): void {
     this.scheduleToDelete = this.schedules.find(schedule => schedule.id === event.id) ?? {} as ClassSchedule;
 
-    this.confirmDeleteService.confirm(
-      () => this.onDeleteConfirm(), 
-      `${this.translateService.instant('shared.dialogs.deleteConfirmation')} <br /> <span class="deleted-item-name">${this.scheduleToDelete.groupName}</span>`
-    );
+    this.confirmService.confirmDelete(() => {
+      this.onDeleteConfirm();
+    });
   }
 
   onDeleteConfirm(): void {
@@ -223,17 +224,17 @@ export class SchedulsCalendar implements OnInit {
   //#region Calendar Events
 
   onNext(event: any): void {
-    if(event.getMonth() != this.currentDate.getMonth() || event.getFullYear() != this.currentDate.getFullYear()) {
+    if (event.getMonth() != this.currentDate.getMonth() || event.getFullYear() != this.currentDate.getFullYear()) {
       this.currentDate = new Date(event.getFullYear(), event.getMonth(), 1);
       this.loadEvents();
-    } 
+    }
   }
 
   onPrev(event: any): void {
-    if(event.getMonth() != this.currentDate.getMonth() || event.getFullYear() != this.currentDate.getFullYear()) {
+    if (event.getMonth() != this.currentDate.getMonth() || event.getFullYear() != this.currentDate.getFullYear()) {
       this.currentDate = new Date(event.getFullYear(), event.getMonth(), 1);
       this.loadEvents();
-    } 
+    }
   }
 
   onToday(event: any): void {

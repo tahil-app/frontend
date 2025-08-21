@@ -13,7 +13,6 @@ import { DateHelper } from '../../../../core/helpers/date.helper';
 import { PermissionAccessService } from '../../../../core/services/permission-access.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
-import { ConfirmDeleteService } from '../../../shared/services/confirm-delete-service';
 import { ConfirmService } from '../../../shared/services/confirm.serivce';
 
 @Component({
@@ -35,7 +34,6 @@ export class StudentAttachmentComponent {
   private toastr = inject(ToastService);
   private translateService = inject(TranslateService);
   private confirmService = inject(ConfirmService);
-  private confirmDeleteService = inject(ConfirmDeleteService);
   public permissionService = inject(PermissionAccessService);
   //#endregion
   
@@ -75,10 +73,9 @@ export class StudentAttachmentComponent {
 
   onDeleteAttachment(attachment: Attachment) {
     this.deleteAttachment = attachment;
-    this.confirmDeleteService.confirm(
-      () => this.onDeleteConfirm(), 
-      `${this.translateService.instant('shared.dialogs.deleteConfirmation')} <br /> <span class="deleted-item-name">${attachment.displayName}</span>`
-    );
+    this.confirmService.confirmDelete(() => {
+      this.onDeleteConfirm();
+    });
   }
 
   onDeleteConfirm() {

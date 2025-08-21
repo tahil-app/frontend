@@ -226,7 +226,6 @@ label,
     overflow-y: hidden;
     background: white;
     border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     border: 1px solid #e9ecef;
     overflow: hidden;
     transition: all 0.2s ease;
@@ -259,6 +258,8 @@ label,
         &::-webkit-scrollbar-thumb {
             background: rgba(0, 123, 255, 0.3);
         }
+
+        box-shadow: var(--box-shadow);
     }
 
     // Firefox scrollbar styling
@@ -319,7 +320,6 @@ label,
 }
 
 .card, .p-card {
-    background: var(--p-card-background) !important;
     color: var(--p-card-color) !important;
     box-shadow: var(--p-card-shadow) !important;
     border-radius: 10px !important;

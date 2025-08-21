@@ -10,10 +10,7 @@
               <h4 class="mb-2 mt-2">{{ 'groups.profile.groupData' | translate }}</h4>
 
               <div class="form-group students-up-files mb-1" *ngIf="permissionAccess.canEdit.group">
-                <button [pTooltip]="'shared.buttons.edit' | translate" tooltipPosition="top" class="btn p-0 grid-btn"
-                  (click)="onEditGroup()">
-                  <i class="fa fa-edit text-secondary"></i>
-                </button>
+                <edit-icon-button (onClick)="onEditGroup()" [showOutline]="true"/>
               </div>
             </div>
 
@@ -112,42 +109,159 @@
     <!-- Students Section - Left Side -->
     <div class="col-md-8">
 
-      <div class="student-personals-grp">
-        <div class="card">
-          <div class="card-body pt-2">
-            <div class="heading-detail d-flex justify-content-between align-items-center">
-              <h4 class="mb-2 mt-2">{{ 'groups.profile.studentsList' | translate }}</h4>
-              <div class="form-group students-up-files mb-1" *ngIf="permissionAccess.canEdit.group">
-                <edit-icon-button [pTooltip]="'shared.buttons.add' | translate" tooltipPosition="top" class="btn p-0 grid-btn"
-                  (onClick)="onAddStudent()" />
-              </div>
-            </div>
-
-            <hr class="mt-2 mb-1 heading-line" />
+      <p-card class="tabs-card">
+        <div class="student-personals-grp">
 
 
-            <p-table stripedRows [value]="group.students || []" *ngIf="group.students && group.students.length > 0">
-              <ng-template pTemplate="header">
-                <tr>
-                  <th>{{ 'shared.fields.name' | translate }}</th>
-                </tr>
-              </ng-template>
-              <ng-template pTemplate="body" let-student>
-                <tr>
-                  <td class="py-4 clickable-text student-name" (click)="onStudentClick(student.id)">
-                    {{ student.name }}
-                  </td>
-                </tr>
-              </ng-template>
-            </p-table>
+          <p-tabs value="0" scrollable>
 
-            <div class="text-muted text-center" *ngIf="!group.students || group.students.length === 0">
-              {{ 'shared.table.noData' | translate }}
-            </div>
+            <p-tablist>
+              <p-tab value="0">{{ 'groups.profile.weeklySchedule' | translate }}</p-tab>
+              <p-tab value="1">{{ 'shared.fields.dailyAttendance' | translate }}</p-tab>
+              <p-tab value="2">{{ 'students.all' | translate }}</p-tab>
+            </p-tablist>
 
-          </div>
+            <p-tabpanels class="px-0">
+
+              <p-tabpanel value="0">
+
+                <div class="hello-park">
+                  <div class="d-flex justify-content-between">
+                    <h5>{{ 'groups.profile.weeklySchedule' | translate }}</h5>
+
+                  </div>
+
+                  <div class="daily-schedule-container" *ngIf="group.dailySchedules && group.dailySchedules.length > 0">
+
+
+                    <div class="daily-schedule-card" *ngFor="let dailySchedule of group.dailySchedules">
+                      <div class="daily-schedule-card-header">
+                        <h5>{{ weekDays.getDayName(dailySchedule.day) }}</h5>
+                      </div>
+
+                      <div class="daily-schedule-card-body">
+                        <div class="daily-schedule-card-body-item">
+                          <i class="fas fa-solid fa-clock"></i>
+                          <h5>{{ getTimeFormat(dailySchedule.startTime) + ' - ' + getTimeFormat(dailySchedule.endTime) }}</h5>  
+                        </div>
+                  
+                        <div class="daily-schedule-card-body-item">
+                          <i class="fas fa-solid fa-door-open"></i>
+                          <h5>{{ dailySchedule.roomeName }}</h5>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <no-data [icon]="'fas fa-calendar-alt'" [text]="'shared.profile.noWeeklySchedule' | translate"
+                    *ngIf="!group.dailySchedules || group.dailySchedules.length == 0" />
+
+                </div>
+
+              </p-tabpanel>
+
+              <p-tabpanel value="1">
+
+                <div class="hello-park">
+
+                  <div class="d-flex justify-content-between">
+                    <h5>{{ 'shared.fields.dailyAttendance' | translate }}</h5>
+
+                  </div>
+
+                  <div class="table-container">
+
+                    <table>
+
+                      <thead>
+                        <tr>
+                          <th>{{ 'shared.fields.date' | translate }}</th>
+                          <th class="text-center">{{ 'shared.attendanceStatus.present' | translate }}</th>
+                          <th class="text-center">{{ 'shared.attendanceStatus.late' | translate }}</th>
+                          <th class="text-center">{{ 'shared.attendanceStatus.absent' | translate }}</th>
+                          <th class="text-center">{{ 'shared.fields.total' | translate }}</th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        <tr *ngFor="let attendance of group.attendces" class="class-row">
+                          <td class="py-4 clickable-text student-name" (click)="onAttendanceClick(attendance.sessionId)">
+                            {{ attendance.date | date:'dd/MM/yyyy' }}
+                          </td>
+                          <td class="py-4 text-center student-name text-success">
+                            {{ attendance.present }}
+                          </td>
+                          <td class="py-4 text-center student-name text-warning">
+                            {{ attendance.late }}
+                          </td>
+                          <td class="py-4 text-center student-name text-danger">
+                            {{ attendance.absent }}
+                          </td>
+                          <td class="py-4 text-center student-name">
+                            {{ attendance.present + attendance.late + attendance.absent }}
+                          </td>
+                        </tr>
+                      </tbody>
+
+                    </table>
+
+                  </div>
+
+                  <no-data [icon]="'fas fa-users'" [text]="'shared.profile.noAttendances' | translate"
+                    *ngIf="!group.attendces || group.attendces.length === 0" />
+
+                </div>
+
+              </p-tabpanel>
+              
+              <p-tabpanel value="2">
+
+                <div class="hello-park">
+
+                  <div class="d-flex justify-content-between">
+                    <h5>{{ 'students.all' | translate }}</h5>
+
+                    <div class="form-group students-up-files mb-1" *ngIf="permissionAccess.canEdit.group">
+                      <edit-icon-button (onClick)="onAddStudent()" [showOutline]="true"/>
+                    </div>
+                  </div>
+
+                  <div class="table-container" *ngIf="group.students && group.students.length > 0">
+
+                    <table>
+
+                      <thead>
+                        <tr>
+                          <th>{{ 'shared.fields.name' | translate }}</th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        <tr *ngFor="let student of group.students" class="class-row">
+                          <td class="py-4 clickable-text student-name" (click)="onStudentClick(student.id)">
+                            {{ student.name }}
+                          </td>
+                        </tr>
+                      </tbody>
+
+                    </table>
+
+                  </div>
+
+                  <no-data [icon]="'fas fa-user-graduate'" [text]="'shared.profile.noStudents' | translate"
+                    *ngIf="!group.students || group.students.length === 0" />
+
+                </div>
+
+              </p-tabpanel>
+
+            </p-tabpanels>
+
+          </p-tabs>
+
         </div>
-      </div>
+      </p-card>
 
     </div>
 

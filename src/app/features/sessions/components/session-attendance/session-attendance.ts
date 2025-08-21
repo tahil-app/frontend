@@ -152,7 +152,7 @@ export class SessionAttendance implements CanDeactivateComponent {
   }
 
   onCancel() {
-    this.router.navigate(["sessions"]);
+    window.history.back();
   }
 
   async exportToPdf() {

@@ -16,10 +16,14 @@ import { PermissionAccessService } from '../../../../core/services/permission-ac
 import { StudentsDialog } from '../../../shared/dialogs/students-dialog/students-dialog';
 import { Student } from '../../../../core/models/student.model';
 import { EditIconButton } from '../../../shared/buttons/edit-icon-button/edit-icon-button';
+import { Card } from "primeng/card";
+import { NoData } from "../../../shared/components/no-data/no-data";
+import { WeekDaysService } from '../../../../core/services/week-days.service';
+import { TimeHelper } from '../../../../core/helpers/time.helper';
 
 @Component({
   selector: 'app-group-profile',
-  imports: [CommonModule, TabsModule, TableModule, TranslateModule, TooltipModule, GroupFromComponent, StudentsDialog, EditIconButton],
+  imports: [CommonModule, TabsModule, TableModule, TranslateModule, TooltipModule, GroupFromComponent, StudentsDialog, EditIconButton, Card, NoData],
   templateUrl: './group-profile.html',
   styleUrl: './group-profile.scss'
 })
@@ -40,6 +44,7 @@ export class GroupProfile implements OnInit {
   private toaster = inject(ToastService);
   private translate = inject(TranslateService);
   private badgeHelper = BadgeHelper.createCapacityBadge(this.translate);
+  public weekDays = inject(WeekDaysService);
   public permissionAccess = inject(PermissionAccessService);
   //#endregion
 
@@ -65,6 +70,10 @@ export class GroupProfile implements OnInit {
         this.loader.hide();
         this.showDialog = false;
       });
+  }
+
+  getTimeFormat(time: string | null): string {
+    return TimeHelper.displayTime(time);
   }
 
   getCapacityPercentage(): number {
@@ -122,6 +131,12 @@ export class GroupProfile implements OnInit {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  onAttendanceClick(sessionId: number) {
+    if (sessionId) {
+      this.router.navigate(['/sessions', sessionId, 'attendance']);
+    }
   }
   //#endregion
 } 

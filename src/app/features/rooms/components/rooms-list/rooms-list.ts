@@ -18,7 +18,6 @@ import { FilterOperators } from '../../../shared/props/query-filter-params.props
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { PermissionAccessService } from '../../../../core/services/permission-access.service';
 import { ConfirmService } from '../../../shared/services/confirm.serivce';
-import { ConfirmDeleteService } from '../../../shared/services/confirm-delete-service';
 
 @Component({
   selector: 'app-rooms-list',
@@ -50,7 +49,6 @@ export class RoomsList {
   private toaster = inject(ToastService);
   private translate = inject(TranslateService);
   private confirmService = inject(ConfirmService);
-  private confirmDeleteService = inject(ConfirmDeleteService);
   public permissionAccess = inject(PermissionAccessService);
   //#endregion
 
