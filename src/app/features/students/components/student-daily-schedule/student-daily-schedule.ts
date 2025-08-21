@@ -8,7 +8,7 @@ import { LoaderService } from '../../../shared/services/loader.service';
 import { DailyScheduleComponent } from "../../../shared/components/daily-schedule/daily-schedule";
 import { CommonModule } from '@angular/common';
 import { PermissionAccessService } from '../../../../core/services/permission-access.service';
-import { ConfirmPrintService } from '../../../shared/services/confirm-print-service';
+import { ConfirmService } from '../../../shared/services/confirm.serivce';
 
 @Component({
   selector: 'student-daily-schedule',
@@ -31,7 +31,7 @@ export class StudentDailySchedule {
 
   private loader = inject(LoaderService);
   private pdfExportService: PdfExportService = inject(PdfExportService);
-  private confirmPrintService = inject(ConfirmPrintService);
+  private confirmService = inject(ConfirmService);
   public permissionsService = inject(PermissionAccessService);
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -43,7 +43,7 @@ export class StudentDailySchedule {
 
   async exportDailyScheduleToPdf(): Promise<void> {
 
-    this.confirmPrintService.confirm(async () => {
+    this.confirmService.confirmPrint(async () => {
       this.readyToExport = true;
       try {
         this.loader.show();

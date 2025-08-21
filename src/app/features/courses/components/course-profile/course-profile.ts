@@ -14,10 +14,13 @@ import { PermissionAccessService } from '../../../../core/services/permission-ac
 import { EditIconButton } from '../../../shared/buttons/edit-icon-button/edit-icon-button';
 import { TeachersDialog } from "../../../shared/dialogs/teachers-dialog/teachers-dialog";
 import { Teacher } from '../../../../core/models/teacher.model';
+import { TabsModule } from 'primeng/tabs';
+import { Card } from "primeng/card";
+import { NoData } from "../../../shared/components/no-data/no-data";
 
 @Component({
   selector: 'app-course-profile',
-  imports: [CommonModule, TranslateModule, TooltipModule, TableModule, CourseForm, EditIconButton, TeachersDialog],
+  imports: [TabsModule, CommonModule, TranslateModule, TooltipModule, TableModule, CourseForm, EditIconButton, TeachersDialog, Card, NoData],
   templateUrl: './course-profile.html',
   styleUrl: './course-profile.scss'
 })
@@ -78,6 +81,7 @@ export class CourseProfile implements OnInit {
 
   onEditCourse() {
     this.showDialog = true;
+    this.course = { ...this.course } as Course;
   }
 
   onAddTeacher() {

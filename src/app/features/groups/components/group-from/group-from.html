@@ -1,25 +1,27 @@
-<p-dialog [header]="'groups.formTitle' | translate" [modal]="true" [(visible)]="showDialog" [style]="{ width: '30rem' }">
+<dialog-buttons [header]="'groups.formTitle' | translate" [showSaveButton]="true" [width]="'30rem'" (onSave)="save()"
+    (onCancel)="cancel()" [showDialog]="showDialog" [saveDisabled]="!groupForm.valid">
+
     <form [formGroup]="groupForm" (ngSubmit)="hasId() ? update() : save()">
         <div class="flex items-center gap-4 mb-2">
-            <input-label [label]="'shared.fields.name' | translate" [required]="true" [formControl]="getFormControl('name')" />
+            <input-label [label]="'shared.fields.name' | translate" [required]="true"
+                [formControl]="getFormControl('name')" />
         </div>
 
         <div class="flex items-center gap-4 mb-2">
-            <dropdown [label]="'courses.one' | translate" [required]="true" [options]="coursesOptions" [formControl]="getFormControl('courseId')" />
+            <dropdown [label]="'courses.one' | translate" [required]="true" [options]="coursesOptions"
+                [formControl]="getFormControl('courseId')" />
         </div>
 
         <div class="flex items-center gap-4 mb-2">
-            <dropdown [label]="'teachers.one' | translate" [required]="true" [options]="teachersOptions" [formControl]="getFormControl('teacherId')" />
+            <dropdown [label]="'teachers.one' | translate" [required]="true" [options]="teachersOptions"
+                [formControl]="getFormControl('teacherId')" />
         </div>
 
         <div class="flex items-center gap-4 mb-4">
-            <input-label [label]="'shared.fields.capacity' | translate" [formControl]="getFormControl('capacity')" type="number" />
+            <input-label [label]="'shared.fields.capacity' | translate" [formControl]="getFormControl('capacity')"
+                type="number" />
         </div>
 
-        <div class="actions-buttons-save-cancel">
-            <save-btn type="submit" [disabled]="!groupForm.valid" />
-            &nbsp;
-            <cancel-btn type="button" (click)="cancel()" />
-        </div>
     </form>
-</p-dialog>
+
+</dialog-buttons>

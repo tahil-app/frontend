@@ -12,10 +12,19 @@ import { RoomService } from '../../../../core/services/room.service';
 import { LoaderService } from '../../../shared/services/loader.service';
 import { ToastService } from '../../../shared/services/toast.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { DialogButtons } from '../../../shared/components/dialog-buttons/dialog-buttons';
 
 @Component({
   selector: 'app-room-form',
-  imports: [CommonModule, DialogModule, SaveBtn, CancelBtn, InputTextModule, ReactiveFormsModule, InputLabel, TranslateModule],
+  imports: [
+    CommonModule, 
+    DialogModule, 
+    InputTextModule, 
+    ReactiveFormsModule, 
+    InputLabel, 
+    TranslateModule,
+    DialogButtons
+  ],
   templateUrl: './room-form.html',
   styleUrl: './room-form.scss'
 })

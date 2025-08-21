@@ -19,7 +19,6 @@ import { TimeHelper } from '../../../../core/helpers/time.helper';
 import { PdfExportService } from '../../../shared/services/pdf-export.service';
 import { SessionsListPdfTemplateComponent } from '../session-list-pdf-template/sessions-list-pdf-template.component';
 import { PdfIconBtn } from "../../../shared/buttons/pdf-icon-btn/pdf-icon-btn";
-import { ConfirmPrintService } from '../../../shared/services/confirm-print-service';
 
 @Component({
   selector: 'sessions-list',
@@ -52,7 +51,6 @@ export class SessionsList implements OnInit {
   private toaster = inject(ToastService);
   private translateService = inject(TranslateService);
   private confirmService = inject(ConfirmService);
-  private confirmPrintService = inject(ConfirmPrintService);
   private pdfExportService: PdfExportService = inject(PdfExportService);
   public permissionService: PermissionAccessService = inject(PermissionAccessService);
 
@@ -318,7 +316,7 @@ export class SessionsList implements OnInit {
 
   async exportToPdf() {
 
-    this.confirmPrintService.confirm(async () => {
+    this.confirmService.confirmPrint(async () => {
 
       try {
         this.loader.show();

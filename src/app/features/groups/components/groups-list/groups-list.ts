@@ -14,15 +14,15 @@ import { ToastService } from '../../../shared/services/toast.service';
 import { GridColumn } from '../../../shared/props/grid-column.props';
 import { ColumnTypeEnum } from '../../../shared/enums/column.type.enum';
 import { ColumnFilterTypeEnum } from '../../../shared/enums/column.filter.type.enum';
-import { DeleteConfirmation } from '../../../shared/components/delete-confirmation/delete-confirmation';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { BadgeHelper } from '../../../shared/helpers/badge.helper';
 import { Router } from '@angular/router';
 import { PermissionAccessService } from '../../../../core/services/permission-access.service';
+import { ConfirmService } from '../../../shared/services/confirm.serivce';
 
 @Component({
   selector: 'app-groups-list',
-  imports: [CommonModule, Grid, CardContainer, DialogModule, GroupFromComponent, DeleteConfirmation, TranslateModule],
+  imports: [CommonModule, Grid, CardContainer, DialogModule, GroupFromComponent, TranslateModule],
   templateUrl: './groups-list.html',
   styleUrl: './groups-list.scss'
 })
@@ -30,7 +30,6 @@ export class GroupsList {
 
   //#region Properties
   showDialog = false;
-  showDelete = false;
   deleteMessage = '';
 
   group: Group = {} as Group;
@@ -45,43 +44,45 @@ export class GroupsList {
   private toaster = inject(ToastService);
   private translate = inject(TranslateService);
   private router = inject(Router);
+  private confirmService = inject(ConfirmService);
+
   public permissionAccess = inject(PermissionAccessService);
   //#endregion
 
   //#region Columns
   columns: GridColumn[] = [
-    { 
-      field: 'name', 
-      title: this.translate.instant('shared.fields.name'), 
-      columnType: ColumnTypeEnum.text, 
-      sortable: true, 
-      filterType: ColumnFilterTypeEnum.text 
+    {
+      field: 'name',
+      title: this.translate.instant('shared.fields.name'),
+      columnType: ColumnTypeEnum.text,
+      sortable: true,
+      filterType: ColumnFilterTypeEnum.text
     },
-    { 
-      field: 'courseName', 
+    {
+      field: 'courseName',
       apiField: 'course.name',
-      title: this.translate.instant('courses.one'), 
-      columnType: ColumnTypeEnum.text, 
-      sortable: true, 
-      filterType: ColumnFilterTypeEnum.text 
+      title: this.translate.instant('courses.one'),
+      columnType: ColumnTypeEnum.text,
+      sortable: true,
+      filterType: ColumnFilterTypeEnum.text
     },
-    ...(this.permissionAccess.canViewPagedAdminColumns.group ? [{ 
-      field: 'teacherName', 
+    ...(this.permissionAccess.canViewPagedAdminColumns.group ? [{
+      field: 'teacherName',
       apiField: 'teacher.user.name',
-      title: this.translate.instant('teachers.one'), 
-      columnType: ColumnTypeEnum.text, 
-      sortable: true, 
-      filterType: ColumnFilterTypeEnum.text 
+      title: this.translate.instant('teachers.one'),
+      columnType: ColumnTypeEnum.text,
+      sortable: true,
+      filterType: ColumnFilterTypeEnum.text
     }] : []),
-    { 
-      field: 'numberOfStudents', 
-      title: this.translate.instant('shared.fields.numberOfStudents'), 
-      columnType: ColumnTypeEnum.number, 
+    {
+      field: 'numberOfStudents',
+      title: this.translate.instant('shared.fields.numberOfStudents'),
+      columnType: ColumnTypeEnum.number,
     },
-    ...(this.permissionAccess.canViewPagedAdminColumns.group ? [{ 
-      field: 'capacityStatus', 
-      title: this.translate.instant('shared.fields.capacityStatus'), 
-      columnType: ColumnTypeEnum.badge, 
+    ...(this.permissionAccess.canViewPagedAdminColumns.group ? [{
+      field: 'capacityStatus',
+      title: this.translate.instant('shared.fields.capacityStatus'),
+      columnType: ColumnTypeEnum.badge,
       badgeConfig: BadgeHelper.createCapacityBadge(this.translate, 'capacity', 'numberOfStudents')
     }] : []),
   ];
@@ -108,19 +109,30 @@ export class GroupsList {
   }
 
   onEdit(event: Group) {
-    this.group = event;
-    this.showDialog = true;
+
+    this.confirmService.confirmEdit(() => {
+
+      this.group = event;
+      this.showDialog = true;
+
+    });
   }
 
   onView(event: Group) {
-    this.router.navigate(['/groups', event.id]);
+
+    this.confirmService.confirmView(() => {
+
+      this.router.navigate(['/groups', event.id]);
+
+    });
   }
 
   deletedGroup: Group = {} as Group;
   onDelete(event: Group) {
-    this.deleteMessage = this.translate.instant('shared.dialogs.deleteConfirmation');
     this.deletedGroup = event;
-    this.showDelete = true;
+    this.confirmService.confirmDelete(() => {
+      this.onDeleteConfirm();
+    });
   }
 
   onDeleteConfirm() {
@@ -130,12 +142,8 @@ export class GroupsList {
         this.toaster.showSuccess(this.translate.instant('groups.deleteSuccess'));
         this.loadGroups(this.queryParams);
       }
-      
-      this.showDelete = false;
+
     }, _ => { }, () => this.loader.hide());
-  }
-  onDeleteCancel() {
-    this.showDelete = false;
   }
 
   ngOnDestroy() {

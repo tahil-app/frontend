@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, Output, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, inject, Input, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { CourseService } from '../../../../core/services/course.service';
@@ -7,15 +7,22 @@ import { ToastService } from '../../../shared/services/toast.service';
 import { Course } from '../../../../core/models/course.model';
 import { CommonModule } from '@angular/common';
 import { DialogModule } from 'primeng/dialog';
-import { SaveBtn } from '../../../shared/buttons/save-btn/save-btn';
-import { CancelBtn } from '../../../shared/buttons/cancel-btn/cancel-btn';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputLabel } from '../../../shared/components/input-label/input-label';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { DialogButtons } from '../../../shared/components/dialog-buttons/dialog-buttons';
 
 @Component({
   selector: 'app-course-form',
-  imports: [CommonModule, DialogModule, SaveBtn, CancelBtn, InputTextModule, ReactiveFormsModule, InputLabel, TranslateModule],
+  imports: [
+    CommonModule, 
+    DialogModule, 
+    InputTextModule, 
+    ReactiveFormsModule, 
+    InputLabel, 
+    TranslateModule, 
+    DialogButtons
+  ],
   templateUrl: './course-form.html',
   styleUrl: './course-form.scss'
 })
@@ -36,11 +43,12 @@ export class CourseForm {
   private loader = inject(LoaderService);
   private toaster = inject(ToastService);
   private fb = inject(FormBuilder);
+  private cdr = inject(ChangeDetectorRef);
   private translate = inject(TranslateService);
   //#endregion
 
   //#region Methods
-  ngOnInit() {
+  constructor() {
     this.initForm();
   }
 
@@ -51,6 +59,7 @@ export class CourseForm {
     }
 
     if (changes['course'] && this.course.id > 0) {
+      this.cdr.detectChanges();
       this.courseForm?.patchValue(this.course);
     }
 
@@ -127,7 +136,7 @@ export class CourseForm {
       .subscribe(res => {
         if (res) {
           this.onSave.emit();
-          this.toaster.showSuccess('تم تفعيل الدورة بنجاح');
+          this.toaster.showSuccess(this.translate.instant('courses.activateSuccess'));
         }
       }, _ => { }, () => this.loader.hide());
   }
@@ -138,7 +147,7 @@ export class CourseForm {
       .subscribe(res => {
         if (res) {
           this.onSave.emit();
-          this.toaster.showSuccess('تم تعطيل الدورة بنجاح');
+          this.toaster.showSuccess(this.translate.instant('courses.deactivateSuccess'));
         }
       }, _ => { }, () => this.loader.hide());
   }

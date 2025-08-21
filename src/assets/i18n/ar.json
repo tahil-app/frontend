@@ -66,6 +66,7 @@
             "printConfirmation": "هل أنت متأكد من طباعة هذا العنصر؟",
             "downloadConfirmation": "هل أنت متأكد من تحميل هذا العنصر؟",
             "viewConfirmation": "هل أنت متأكد من عرض هذا العنصر؟",
+            "editConfirmation": "هل أنت متأكد من تعديل هذا العنصر؟",
             "yes": "نعم",
             "no": "لا"
         },
@@ -162,6 +163,7 @@
             "noCourses": "لا يوجد دورات",
             "noGroups": "لا يوجد مجموعات",
             "noAttachments": "لا يوجد مرفقات",
+            "noTeachers": "لا يوجد معلمين",
             "qualificationsSaveSuccess": "تم حفظ المؤهلات بنجاح",
             "experienceSaveSuccess": "تم حفظ الخبرات بنجاح"
         },
@@ -242,8 +244,6 @@
         "profile": {
             "courseData": "بيانات الدورة",
             "courseDetails": "تفاصيل الدورة",
-            "noTeachers": "لا يوجد معلمون",
-            "noGroups": "لا يوجد مجموعات",
             "teachersInfo": "هذه الدورة تحتوي على {{count}} معلم",
             "teachersComingSoon": "قائمة المعلمين التفصيلية ستكون متاحة قريباً"
         }

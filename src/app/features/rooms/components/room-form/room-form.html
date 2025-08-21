@@ -1,17 +1,18 @@
-<p-dialog [header]="'rooms.formTitle' | translate" [modal]="true" [(visible)]="showDialog" [style]="{ width: '25rem' }">
+<dialog-buttons [header]="'rooms.formTitle' | translate" [showSaveButton]="true" [width]="'25rem'"
+    (onSave)="hasId() ? update() : save()" (onCancel)="cancel()" [showDialog]="showDialog"
+    [saveDisabled]="!roomForm.valid">
+
     <form [formGroup]="roomForm" (ngSubmit)="hasId() ? update() : save()">
         <div class="flex items-center gap-4 mb-2">
-            <input-label [label]="'shared.fields.name' | translate" [required]="true" [formControl]="getFormControl('name')" />
+            <input-label [label]="'shared.fields.name' | translate" [required]="true"
+                [formControl]="getFormControl('name')" />
         </div>
 
         <div class="flex items-center gap-4 mb-4">
-            <input-label [label]="'shared.fields.capacity' | translate" [formControl]="getFormControl('capacity')" type="number" />
+            <input-label [label]="'shared.fields.capacity' | translate" [formControl]="getFormControl('capacity')"
+                type="number" />
         </div>
 
-        <div class="actions-buttons-save-cancel">
-            <save-btn type="submit" [disabled]="!roomForm.valid" />
-            &nbsp;
-            <cancel-btn type="button" (click)="cancel()" />
-        </div>
     </form>
-</p-dialog>
+
+</dialog-buttons>

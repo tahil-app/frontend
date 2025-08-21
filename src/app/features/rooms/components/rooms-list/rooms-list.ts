@@ -16,12 +16,20 @@ import { DialogModule } from 'primeng/dialog';
 import { RoomFormComponent } from '../room-form/room-form';
 import { FilterOperators } from '../../../shared/props/query-filter-params.props';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { DeleteConfirmation } from '../../../shared/components/delete-confirmation/delete-confirmation';
 import { PermissionAccessService } from '../../../../core/services/permission-access.service';
+import { ConfirmService } from '../../../shared/services/confirm.serivce';
+import { ConfirmDeleteService } from '../../../shared/services/confirm-delete-service';
 
 @Component({
   selector: 'app-rooms-list',
-  imports: [CommonModule, Grid, CardContainer, DialogModule, RoomFormComponent, TranslateModule, DeleteConfirmation],
+  imports: [
+    CommonModule,
+    Grid,
+    CardContainer,
+    DialogModule,
+    RoomFormComponent,
+    TranslateModule
+  ],
   templateUrl: './rooms-list.html',
   styleUrl: './rooms-list.scss'
 })
@@ -29,7 +37,6 @@ export class RoomsList {
 
   //#region Properties
   showDialog = false;
-  showDeleteDialog = false;
   room: Room = {} as Room;
   roomToDelete: Room = {} as Room;
   queryParams: QueryParamsModel = {} as QueryParamsModel;
@@ -42,6 +49,8 @@ export class RoomsList {
   private loader = inject(LoaderService);
   private toaster = inject(ToastService);
   private translate = inject(TranslateService);
+  private confirmService = inject(ConfirmService);
+  private confirmDeleteService = inject(ConfirmDeleteService);
   public permissionAccess = inject(PermissionAccessService);
   //#endregion
 
@@ -70,40 +79,59 @@ export class RoomsList {
   }
 
   onEdit(event: Room) {
-    this.room = {...event};
-    this.showDialog = true;
+
+    this.confirmService.confirmEdit(() => {
+
+      this.room = { ...event };
+      this.showDialog = true;
+
+    });
   }
 
   onActivate(event: Room) {
-    this.roomService.activate(event.id)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(res => {
-        if (res) {
-          this.loadRooms(this.queryParams);
-          this.toaster.showSuccess(this.translate.instant('rooms.activateSuccess'));
-        }
-      }, _ => { }, () => this.loader.hide());
+
+    this.confirmService.confirmActivate(() => {
+
+      this.roomService.activate(event.id)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(res => {
+          if (res) {
+            this.loadRooms(this.queryParams);
+            this.toaster.showSuccess(this.translate.instant('rooms.activateSuccess'));
+          }
+        }, _ => { }, () => this.loader.hide());
+
+    });
+
   }
 
   onDeactivate(event: Room) {
-    this.roomService.deactivate(event.id)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(res => {
-        if (res) {
-          this.loadRooms(this.queryParams);
-          this.toaster.showSuccess(this.translate.instant('rooms.deactivateSuccess'));
-        }
-      }, _ => { }, () => this.loader.hide());
+
+    this.confirmService.confirmDeactivate(() => {
+
+      this.roomService.deactivate(event.id)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(res => {
+          if (res) {
+            this.loadRooms(this.queryParams);
+            this.toaster.showSuccess(this.translate.instant('rooms.deactivateSuccess'));
+          }
+        }, _ => { }, () => this.loader.hide());
+
+    });
   }
 
   onDelete(event: Room) {
     this.roomToDelete = event;
-    this.showDeleteDialog = true;
+
+    this.confirmService.confirmDelete(() => {
+      this.onConfirmDelete();
+    });
   }
 
   onConfirmDelete() {
     this.loader.show();
-    
+
     this.roomService.delete(this.roomToDelete.id)
       .pipe(takeUntil(this.destroy$))
       .subscribe(res => {
@@ -112,13 +140,7 @@ export class RoomsList {
           this.toaster.showSuccess(this.translate.instant('rooms.deleteSuccess'));
         }
       }, _ => { }, () => this.loader.hide());
-    
-    this.showDeleteDialog = false;
-    this.roomToDelete = {} as Room;
-  }
 
-  onCancelDelete() {
-    this.showDeleteDialog = false;
     this.roomToDelete = {} as Room;
   }
 

@@ -1,3 +1,4 @@
+import { Group } from "./group.model";
 import { Teacher } from "./teacher.model";
 
 export interface Course {
@@ -7,4 +8,6 @@ export interface Course {
 
     numberOfTeachers: number;
     teachers: Teacher[];
+
+    groups: Group[];
 }

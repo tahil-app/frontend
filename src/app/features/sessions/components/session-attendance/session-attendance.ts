@@ -25,9 +25,7 @@ import { ClassSessionStatus } from '../../../../core/enums/class-session-status.
 import { CanDeactivateComponent } from '../../../../core/guards/form-deactivate.guard';
 import { PdfExportService } from '../../../shared/services/pdf-export.service';
 import { AttendancePdfTemplateComponent } from '../attendance-pdf-template/attendance-pdf-template.component';
-import { WeekDaysHelper } from '../../../../core/helpers/week-days.helper';
 import { WeekDaysService } from '../../../../core/services/week-days.service';
-import { ConfirmPrintService } from '../../../shared/services/confirm-print-service';
 
 @Component({
   selector: 'app-session-attendance',
@@ -70,7 +68,6 @@ export class SessionAttendance implements CanDeactivateComponent {
   private confirmService: ConfirmService = inject(ConfirmService);
   private fb: FormBuilder = inject(FormBuilder);
   private pdfExportService: PdfExportService = inject(PdfExportService);
-  private confirmPrintService: ConfirmPrintService = inject(ConfirmPrintService);
   private weekDaysService: WeekDaysService = inject(WeekDaysService);
   public permissionService: PermissionAccessService = inject(PermissionAccessService);
   //#endregion
@@ -160,7 +157,7 @@ export class SessionAttendance implements CanDeactivateComponent {
 
   async exportToPdf() {
 
-    this.confirmPrintService.confirm(async () => {
+    this.confirmService.confirmPrint(async () => {
       
       try {
         this.loaderService.show();

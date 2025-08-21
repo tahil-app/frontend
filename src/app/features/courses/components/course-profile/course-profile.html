@@ -1,4 +1,5 @@
 <div class="course-profile-container">
+
   <div class="row">
 
     <!-- Course Information Section - Right Side -->
@@ -10,14 +11,12 @@
               <h4 class="mb-2 mt-2">{{ 'courses.profile.courseData' | translate }}</h4>
 
               <div class="form-group students-up-files mb-1" *ngIf="permissionAccess.canEdit.course">
-                <button [pTooltip]="'shared.buttons.edit' | translate" tooltipPosition="top" class="btn p-0 grid-btn"
-                  (click)="onEditCourse()">
-                  <i class="fa fa-edit text-secondary"></i>
-                </button>
+                <edit-icon-button *ngIf="permissionAccess.canEdit.course" (click)="onEditCourse()"
+                  [showOutline]="true" />
               </div>
             </div>
 
-            <hr class="mt-2 heading-line" />
+            <hr class="mt-1 heading-line" />
 
             <div class="personal-activity">
               <div class="personal-icons">
@@ -55,50 +54,111 @@
 
     <!-- Teachers Section - Left Side -->
     <div class="col-md-8">
-      <div class="student-personals-grp">
-        <div class="card">
-          <div class="card-body pt-2">
-            <div class="heading-detail d-flex justify-content-between align-items-center">
-              <h4 class="mb-2 mt-2">{{ 'teachers.all' | translate }}</h4>
 
-              <div class="form-group students-up-files mb-1" *ngIf="permissionAccess.canEdit.course">
-                <edit-icon-button [pTooltip]="'shared.buttons.add' | translate" tooltipPosition="top" class="btn p-0 grid-btn"
-                  (onClick)="onAddTeacher()" />
-              </div>
-            </div>
+      <p-card class="tabs-card">
+        <div class="student-personals-grp">
 
-            <hr class="mt-2 mb-1 heading-line" />
 
-            <p-table stripedRows [value]="course.teachers || []" *ngIf="course.teachers && course.teachers.length > 0">
-              <ng-template pTemplate="header">
-                <tr>
-                  <th>{{ 'shared.fields.name' | translate }}</th>
-                </tr>
-              </ng-template>
-              <ng-template pTemplate="body" let-teacher>
-                <tr>
-                  <td class="py-4 clickable-text student-name" (click)="onTeacherClick(teacher.id)">
-                    {{ teacher.name }}
-                  </td>
-                </tr>
-              </ng-template>
-            </p-table>
+          <p-tabs value="0" scrollable>
 
-            <div class="text-muted text-center" *ngIf="!course.teachers || course.teachers.length === 0">
-              <p>{{ 'shared.grid.noData' | translate }}</p>
-            </div>
+            <p-tablist>
+              <p-tab value="0">{{ 'teachers.all' | translate }}</p-tab>
+              <p-tab value="1">{{ 'groups.all' | translate }}</p-tab>
+            </p-tablist>
 
-          </div>
+            <p-tabpanels class="px-0">
+
+              <p-tabpanel value="0">
+
+                <div class="hello-park">
+                  <div class="d-flex justify-content-between">
+                    <h5>{{ 'teachers.all' | translate }}</h5>
+
+                  </div>
+
+                  <div class="table-container" *ngIf="course.teachers && course.teachers.length > 0">
+
+                    <table>
+
+                      <thead>
+                        <tr>
+                          <th>{{ 'shared.fields.name' | translate }}</th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        <tr *ngFor="let teacher of course.teachers" class="class-row">
+                          <td class="py-4 clickable-text student-name" (click)="onTeacherClick(teacher.id)">
+                            {{ teacher.name }}
+                          </td>
+                        </tr>
+                      </tbody>
+
+                    </table>
+
+                  </div>
+
+                  <no-data [icon]="'fas fa-user-plus'" [text]="'shared.profile.noTeachers' | translate"
+                    *ngIf="!course.teachers || course.teachers.length === 0" />
+
+                </div>
+
+              </p-tabpanel>
+
+              <p-tabpanel value="1">
+
+                <div class="hello-park">
+
+                  <div class="d-flex justify-content-between">
+                    <h5>{{ 'groups.all' | translate }}</h5>
+
+                  </div>
+
+                  <div class="table-container" *ngIf="course.groups && course.groups.length > 0">
+
+                    <table>
+
+                      <thead>
+                        <tr>
+                          <th>{{ 'shared.fields.name' | translate }}</th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        <tr *ngFor="let group of course.groups" class="class-row">
+                          <td class="py-4 clickable-text student-name" (click)="onGroupClick(group.id)">
+                            {{ group.name }}
+                          </td>
+                        </tr>
+                      </tbody>
+
+                    </table>
+
+                  </div>
+
+                  <no-data [icon]="'fas fa-users'" [text]="'shared.profile.noGroups' | translate"
+                    *ngIf="!course.groups || course.groups.length === 0" />
+
+                </div>
+
+              </p-tabpanel>
+
+
+            </p-tabpanels>
+
+          </p-tabs>
+
         </div>
-      </div>
+      </p-card>
+
     </div>
 
   </div>
 </div>
 
-<app-course-form [showDialog]="showDialog" [course]="course" (onSave)="loadCourse(course.id)" (onCancel)="showDialog = false"
-  *ngIf="permissionAccess.canEdit.course" /> 
+<app-course-form [showDialog]="showDialog" [course]="course" (onSave)="loadCourse(course.id)"
+  (onCancel)="showDialog = false" *ngIf="permissionAccess.canEdit.course && showDialog" />
 
 
-<teachers-dialog [showDialog]="showTeachersDialog" [selectedTeachers]="course.teachers" (onSave)="onSaveTeachers($event)"
-  (onCancel)="showTeachersDialog = false" *ngIf="showTeachersDialog"/>
+<teachers-dialog [showDialog]="showTeachersDialog" [selectedTeachers]="course.teachers"
+  (onSave)="onSaveTeachers($event)" (onCancel)="showTeachersDialog = false" *ngIf="showTeachersDialog" />

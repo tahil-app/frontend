@@ -219,3 +219,109 @@ label,
         content: ' " ';
     }
 }
+
+.table-container {
+    // Add horizontal scroll container
+    overflow-x: auto;
+    overflow-y: hidden;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e9ecef;
+    overflow: hidden;
+    transition: all 0.2s ease;
+
+    &:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+
+    // Custom scrollbar styling
+    &::-webkit-scrollbar {
+        height: 6px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: transparent;
+        border-radius: 3px;
+        transition: background-color 0.3s ease;
+    }
+
+    // Show scrollbar on hover
+    &:hover {
+        &::-webkit-scrollbar-thumb {
+            background: rgba(0, 123, 255, 0.3);
+        }
+    }
+
+    // Firefox scrollbar styling
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+
+    &:hover {
+        scrollbar-color: #8a8888 transparent;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        // font-size: 0.75rem;
+
+        thead {
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+
+            th {
+                padding: 0.5rem 0.75rem;
+                text-align: left;
+                font-weight: 600;
+                color: #495057;
+                // font-size: 0.8rem;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                text-align: start;
+                white-space: nowrap; // Prevent text wrapping in headers
+
+            }
+        }
+
+        tbody {
+            .class-row {
+                border-bottom: 1px solid #f1f3f4;
+                transition: background-color 0.2s ease;
+                border-left: 3px solid transparent;
+                // font-size: .8rem;
+
+                &:hover {
+                    background-color: #f8f9fa;
+                }
+
+                &:last-child {
+                    border-bottom: none;
+                }
+
+                td {
+                    padding: 0.5rem 0.75rem;
+                    vertical-align: middle;
+                    text-wrap-mode: nowrap;
+                    white-space: nowrap; // Prevent text wrapping in cells
+                }
+            }
+        }
+    }
+}
+
+.card, .p-card {
+    background: var(--p-card-background) !important;
+    color: var(--p-card-color) !important;
+    box-shadow: var(--p-card-shadow) !important;
+    border-radius: 10px !important;
+    border: unset !important;
+}

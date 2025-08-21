@@ -69,6 +69,7 @@
             "printConfirmation": "Are you sure you want to print this item?",
             "downloadConfirmation": "Are you sure you want to download this item?",
             "viewConfirmation": "Are you sure you want to view this item?",
+            "editConfirmation": "Are you sure you want to edit this item?",
             "yes": "Yes",
             "no": "No"
         },
@@ -164,6 +165,7 @@
             "noExperience": "No experience",
             "noCourses": "No courses",
             "noGroups": "No groups",
+            "noTeachers": "No teachers",
             "noAttachments": "No attachments",
             "qualificationsSaveSuccess": "Qualifications saved successfully",
             "experienceSaveSuccess": "Experience saved successfully"
@@ -238,8 +240,6 @@
         "profile": {
             "courseData": "Course Data",
             "courseDetails": "Course Details",
-            "noTeachers": "No teachers found",
-            "noGroups": "No groups found",
             "teachersInfo": "This course has {{count}} teacher(s)",
             "teachersComingSoon": "Detailed teacher list will be available soon"
         }

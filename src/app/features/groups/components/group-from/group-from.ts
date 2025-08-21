@@ -1,8 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, inject, Input, Output, SimpleChanges } from '@angular/core';
 import { DialogModule } from 'primeng/dialog';
-import { SaveBtn } from '../../../shared/buttons/save-btn/save-btn';
-import { CancelBtn } from '../../../shared/buttons/cancel-btn/cancel-btn';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputLabel } from '../../../shared/components/input-label/input-label';
@@ -16,10 +14,20 @@ import { CourseService } from '../../../../core/services/course.service';
 import { TeacherService } from '../../../../core/services/teacher.service';
 import { Dropdown } from '../../../shared/components/dropdown/dropdown';
 import { DropdownProps, getDropdownOptions } from '../../../shared/props/dropdown.props';
+import { DialogButtons } from '../../../shared/components/dialog-buttons/dialog-buttons';
 
 @Component({
   selector: 'app-group-from',
-  imports: [CommonModule, DialogModule, SaveBtn, CancelBtn, InputTextModule, ReactiveFormsModule, InputLabel, TranslateModule, Dropdown],
+  imports: [
+    CommonModule, 
+    DialogModule, 
+    InputTextModule, 
+    ReactiveFormsModule, 
+    InputLabel, 
+    TranslateModule, 
+    Dropdown,
+    DialogButtons
+  ],
   templateUrl: './group-from.html',
   styleUrl: './group-from.scss'
 })

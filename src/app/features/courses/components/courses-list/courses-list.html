@@ -11,6 +11,3 @@
 
 <app-course-form [showDialog]="showDialog" [course]="course" (onSave)="loadCourses(queryParams)"
     (onCancel)="showDialog = false" *ngIf="permissionAccess.canAdd.course || permissionAccess.canEdit.course"/>
-
-<delete-confirmation *ngIf="showDeleteDialog && permissionAccess.canDelete.course" [message]="'shared.dialogs.deleteConfirmation' | translate"
-    (confirm)="onConfirmDelete()" (cancel)="onCancelDelete()" />

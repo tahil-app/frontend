@@ -16,7 +16,7 @@ import { StudentAttendancePdfTemplateComponent } from '../student-attendance-pdf
 import { PdfExportService } from '../../../shared/services/pdf-export.service';
 import { Student } from '../../../../core/models/student.model';
 import { PermissionAccessService } from '../../../../core/services/permission-access.service';
-import { ConfirmPrintService } from '../../../shared/services/confirm-print-service';
+import { ConfirmService } from '../../../shared/services/confirm.serivce';
 
 @Component({
   selector: 'student-attendance',
@@ -54,7 +54,7 @@ export class StudentAttendance implements OnInit, OnDestroy {
   private attendanceService = inject(AttendanceService);
   private translateService = inject(TranslateService);
   private pdfExportService = inject(PdfExportService);
-  private confirmPrintService = inject(ConfirmPrintService);
+  private confirmService = inject(ConfirmService);
   public permissionService = inject(PermissionAccessService);
 
   ngOnInit() {
@@ -171,7 +171,7 @@ export class StudentAttendance implements OnInit, OnDestroy {
 
   async exportToPdf() {
 
-    this.confirmPrintService.confirm(async () => {
+    this.confirmService.confirmPrint(async () => {
       try {
         this.allowExportToPdf = true;
 

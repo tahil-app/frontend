@@ -14,6 +14,3 @@
 [room]="room"
 (onSave)="loadRooms(queryParams)" 
 (onCancel)="showDialog = false" />
-
-<delete-confirmation *ngIf="showDeleteDialog && permissionAccess.canDelete.room" [message]="'shared.dialogs.deleteConfirmation' | translate"
-(confirm)="onConfirmDelete()" (cancel)="onCancelDelete()" />
