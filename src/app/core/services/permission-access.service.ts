@@ -32,7 +32,7 @@ export class PermissionAccessService {
     get canView() {
         return {
             groupProfile: this.authService.isAdmin || this.authService.isEmployee || this.authService.isTeacher,
-            studentProfile: this.authService.isAdmin || this.authService.isEmployee || this.authService.isTeacher || this.authService.isStudent,
+            studentProfile: this.authService.isAdmin || this.authService.isEmployee || this.authService.isStudent,
             courseProfile: this.authService.isAdmin || this.authService.isEmployee,
             teacherProfile: this.authService.isAdmin || this.authService.isEmployee || this.authService.isTeacher,
             studentSchedule: this.authService.isAdmin || this.authService.isEmployee || this.authService.isStudent,

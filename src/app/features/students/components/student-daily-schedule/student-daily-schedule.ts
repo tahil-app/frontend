@@ -8,6 +8,7 @@ import { LoaderService } from '../../../shared/services/loader.service';
 import { DailyScheduleComponent } from "../../../shared/components/daily-schedule/daily-schedule";
 import { CommonModule } from '@angular/common';
 import { PermissionAccessService } from '../../../../core/services/permission-access.service';
+import { ConfirmPrintService } from '../../../shared/services/confirm-print-service';
 
 @Component({
   selector: 'student-daily-schedule',
@@ -17,7 +18,7 @@ import { PermissionAccessService } from '../../../../core/services/permission-ac
     PdfIconBtn,
     DailyScheduleComponent,
     CommonModule
-],
+  ],
   templateUrl: './student-daily-schedule.html',
   styleUrl: './student-daily-schedule.scss'
 })
@@ -30,33 +31,38 @@ export class StudentDailySchedule {
 
   private loader = inject(LoaderService);
   private pdfExportService: PdfExportService = inject(PdfExportService);
+  private confirmPrintService = inject(ConfirmPrintService);
   public permissionsService = inject(PermissionAccessService);
 
   ngOnChanges(changes: SimpleChanges): void {
 
-    if(changes['student']) {
-      this.student = {...this.student};
+    if (changes['student']) {
+      this.student = { ...this.student };
     }
   }
 
   async exportDailyScheduleToPdf(): Promise<void> {
-    this.readyToExport = true;
-    try {
-      this.loader.show();
-      if (this.pdfTemplate && this.pdfTemplate.pdfContent) {
-        const filename = `${this.student.name}_Daily_Schedule_${new Date().toISOString().split('T')[0]}.pdf`;
-        await this.pdfExportService.exportToPdf(
-          this.pdfTemplate.pdfContent.nativeElement,
-          filename,
-          { orientation: 'portrait', format: 'a4' }
-        );
-      }
 
-      this.loader.hide();
-    } catch (error) {
-      console.error('Error exporting PDF:', error);
-      this.loader.hide();
-    }
+    this.confirmPrintService.confirm(async () => {
+      this.readyToExport = true;
+      try {
+        this.loader.show();
+        if (this.pdfTemplate && this.pdfTemplate.pdfContent) {
+          const filename = `${this.student.name}_Daily_Schedule_${new Date().toISOString().split('T')[0]}.pdf`;
+          await this.pdfExportService.exportToPdf(
+            this.pdfTemplate.pdfContent.nativeElement,
+            filename,
+            { orientation: 'portrait', format: 'a4' }
+          );
+        }
+
+        this.loader.hide();
+      } catch (error) {
+        console.error('Error exporting PDF:', error);
+        this.loader.hide();
+      }
+    });
+
   }
-  
+
 }

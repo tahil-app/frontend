@@ -164,7 +164,9 @@
 
                                         <div class="text-muted text-center"
                                             *ngIf="student.qualification === null || student.qualification?.length === 0">
-                                            {{ 'shared.profile.noQualifications' | translate }}
+
+                                            <i class="fas fa-graduation-cap text-muted mb-3" style="font-size: 3rem;"></i>
+                                            <p class="text-muted">{{ 'shared.profile.noQualifications' | translate }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -187,7 +189,10 @@
 
                                         <div class="text-muted text-center"
                                             *ngIf="student.attachments === null || student.attachments?.length === 0">
-                                            {{ 'shared.profile.noAttachments' | translate }}
+
+                                            <i class="fas fa-file-alt text-muted mb-3" style="font-size: 3rem;"></i>
+                                            <p class="text-muted">{{ 'shared.profile.noAttachments' | translate }}</p>
+
                                         </div>
                                     </div>
                                 </div>

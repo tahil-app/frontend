@@ -30,7 +30,7 @@ export class InputLabel implements ControlValueAccessor{
   private translate = inject(TranslateService);
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['disabled']) {
+    if (changes['disabled'] && this.disabled) {
       this.formControl.disable();
     } else {
       this.formControl.enable();

@@ -27,6 +27,7 @@ import { PdfExportService } from '../../../shared/services/pdf-export.service';
 import { AttendancePdfTemplateComponent } from '../attendance-pdf-template/attendance-pdf-template.component';
 import { WeekDaysHelper } from '../../../../core/helpers/week-days.helper';
 import { WeekDaysService } from '../../../../core/services/week-days.service';
+import { ConfirmPrintService } from '../../../shared/services/confirm-print-service';
 
 @Component({
   selector: 'app-session-attendance',
@@ -69,6 +70,7 @@ export class SessionAttendance implements CanDeactivateComponent {
   private confirmService: ConfirmService = inject(ConfirmService);
   private fb: FormBuilder = inject(FormBuilder);
   private pdfExportService: PdfExportService = inject(PdfExportService);
+  private confirmPrintService: ConfirmPrintService = inject(ConfirmPrintService);
   private weekDaysService: WeekDaysService = inject(WeekDaysService);
   public permissionService: PermissionAccessService = inject(PermissionAccessService);
   //#endregion
@@ -157,33 +159,40 @@ export class SessionAttendance implements CanDeactivateComponent {
   }
 
   async exportToPdf() {
-    try {
-      this.loaderService.show();
+
+    this.confirmPrintService.confirm(async () => {
       
-      if (!this.pdfTemplate) {
-        this.toastService.showError(this.translateService.instant('shared.pdf.error.noContent'));
-        return;
+      try {
+        this.loaderService.show();
+        
+        if (!this.pdfTemplate) {
+          this.toastService.showError(this.translateService.instant('shared.pdf.error.noContent'));
+          return;
+        }
+  
+        const sessionInfo = {
+          courseName: this.attendanceDisplay.courseName || 'Unknown Course',
+          groupName: this.attendanceDisplay.groupName || 'Unknown Group',
+          date: this.attendanceDisplay.sessionDate || 'Unknown Date',
+          time: `${this.attendanceDisplay.startTime || '00:00'} - ${this.attendanceDisplay.endTime || '00:00'}`
+        };
+  
+        await this.pdfExportService.exportToPdf(
+          this.pdfTemplate.pdfContent.nativeElement,
+          `${sessionInfo.courseName}_${sessionInfo.groupName}_${sessionInfo.date}`
+        );
+  
+        this.toastService.showSuccess(this.translateService.instant('shared.pdf.success'));
+      } catch (error) {
+        console.error('Error exporting PDF:', error);
+        this.toastService.showError(this.translateService.instant('shared.pdf.error.general'));
+      } finally {
+        this.loaderService.hide();
       }
+      
+    });
 
-      const sessionInfo = {
-        courseName: this.attendanceDisplay.courseName || 'Unknown Course',
-        groupName: this.attendanceDisplay.groupName || 'Unknown Group',
-        date: this.attendanceDisplay.sessionDate || 'Unknown Date',
-        time: `${this.attendanceDisplay.startTime || '00:00'} - ${this.attendanceDisplay.endTime || '00:00'}`
-      };
-
-      await this.pdfExportService.exportToPdf(
-        this.pdfTemplate.pdfContent.nativeElement,
-        `${sessionInfo.courseName}_${sessionInfo.groupName}_${sessionInfo.date}`
-      );
-
-      this.toastService.showSuccess(this.translateService.instant('shared.pdf.success'));
-    } catch (error) {
-      console.error('Error exporting PDF:', error);
-      this.toastService.showError(this.translateService.instant('shared.pdf.error.general'));
-    } finally {
-      this.loaderService.hide();
-    }
+    
   }
 
   getFormControlArray() {

@@ -17,12 +17,13 @@ import { ColumnTypeEnum } from '../../../shared/enums/column.type.enum';
 import { ColumnFilterTypeEnum } from '../../../shared/enums/column.filter.type.enum';
 import { FilterOperators } from '../../../shared/props/query-filter-params.props';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { DeleteConfirmation } from '../../../shared/components/delete-confirmation/delete-confirmation';
 import { PermissionAccessService } from '../../../../core/services/permission-access.service';
+import { ConfirmDeleteService } from '../../../shared/services/confirm-delete-service';
+import { ConfirmService } from '../../../shared/services/confirm.serivce';
 
 @Component({
   selector: 'app-students-list',
-  imports: [CommonModule, Grid, CardContainer, DialogModule, StudentFormComponent, TranslateModule, DeleteConfirmation],
+  imports: [CommonModule, Grid, CardContainer, DialogModule, StudentFormComponent, TranslateModule],
   templateUrl: './students-list.html',
   styleUrl: './students-list.scss'
 })
@@ -30,7 +31,6 @@ export class StudentsList {
 
   //#region Properties
   showDialog = false;
-  showDeleteDialog = false;
   student: Student = {} as Student;
   studentToDelete: Student = {} as Student;
   queryParams: QueryParamsModel = {} as QueryParamsModel;
@@ -44,15 +44,17 @@ export class StudentsList {
   private toaster = inject(ToastService);
   private router = inject(Router);
   private translate = inject(TranslateService);
+  private confirmDeleteService = inject(ConfirmDeleteService);
+  private confirmService = inject(ConfirmService);
   public permissionService = inject(PermissionAccessService);
   //#endregion
 
   //#region Columns
   columns: GridColumn[] = [
-    { field: 'name', apiField:'User.Name', title: this.translate.instant('shared.fields.name'), columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
-    { field: 'phoneNumber', apiField:'User.PhoneNumber', title: this.translate.instant('shared.fields.phoneNumber'), columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
-    { field: 'email', apiField:'User.Email.Value', title: this.translate.instant('shared.fields.email'), columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
-    { field: 'joinedDate', apiField:'User.JoinedDate', title: this.translate.instant('shared.fields.joinedDate'), columnType: ColumnTypeEnum.date, sortable: true, filterType: ColumnFilterTypeEnum.date, filterOperator: FilterOperators.equal },
+    { field: 'name', apiField: 'User.Name', title: this.translate.instant('shared.fields.name'), columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
+    { field: 'phoneNumber', apiField: 'User.PhoneNumber', title: this.translate.instant('shared.fields.phoneNumber'), columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
+    { field: 'email', apiField: 'User.Email.Value', title: this.translate.instant('shared.fields.email'), columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
+    { field: 'joinedDate', apiField: 'User.JoinedDate', title: this.translate.instant('shared.fields.joinedDate'), columnType: ColumnTypeEnum.date, sortable: true, filterType: ColumnFilterTypeEnum.date, filterOperator: FilterOperators.equal },
   ];
   //#endregion
 
@@ -79,39 +81,57 @@ export class StudentsList {
   }
 
   onActivate(event: Student) {
-    this.studentService.activate(event.id)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(res => {
-        if (res) {
-          this.loadStudents(this.queryParams);
-          this.toaster.showSuccess(this.translate.instant('students.activateSuccess'));
-        }
-      }, _ => { }, () => this.loader.hide());
+
+    this.confirmService.confirm(this.translate.instant('shared.dialogs.activateConfirmation'), () => {
+
+      this.studentService.activate(event.id)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(res => {
+          if (res) {
+            this.loadStudents(this.queryParams);
+            this.toaster.showSuccess(this.translate.instant('students.activateSuccess'));
+          }
+        }, _ => { }, () => this.loader.hide());
+
+    });
   }
 
   onDeactivate(event: Student) {
-    this.studentService.deactivate(event.id)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(res => {
-        if (res) {
-          this.loadStudents(this.queryParams);
-          this.toaster.showSuccess(this.translate.instant('students.deactivateSuccess'));
-        }
-      }, _ => { }, () => this.loader.hide());
+
+    this.confirmService.confirm(this.translate.instant('shared.dialogs.deactivateConfirmation'), () => {
+
+      this.studentService.deactivate(event.id)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(res => {
+          if (res) {
+            this.loadStudents(this.queryParams);
+            this.toaster.showSuccess(this.translate.instant('students.deactivateSuccess'));
+          }
+        }, _ => { }, () => this.loader.hide());
+
+    });
   }
 
   onView(event: Student) {
-    this.router.navigate(['/students', event.id]);
+
+    this.confirmService.confirm(this.translate.instant('shared.dialogs.viewConfirmation'), () => {
+
+      this.router.navigate(['/students', event.id]);
+
+    }, undefined, 'pi pi-eye text-info mb-4');
+
   }
 
   onDelete(event: Student) {
     this.studentToDelete = event;
-    this.showDeleteDialog = true;
+    this.confirmDeleteService.confirm(() => {
+      this.onConfirmDelete();
+    });
   }
 
   onConfirmDelete() {
     this.loader.show();
-    
+
     this.studentService.delete(this.studentToDelete.id)
       .pipe(takeUntil(this.destroy$))
       .subscribe(res => {
@@ -119,16 +139,10 @@ export class StudentsList {
           this.loadStudents(this.queryParams);
           this.toaster.showSuccess(this.translate.instant('students.deleteSuccess'));
         }
-        
-        this.showDeleteDialog = false;
+
         this.studentToDelete = {} as Student;
       }, _ => { }, () => this.loader.hide());
-    
-  }
 
-  onCancelDelete() {
-    this.showDeleteDialog = false;
-    this.studentToDelete = {} as Student;
   }
 
   ngOnDestroy() {

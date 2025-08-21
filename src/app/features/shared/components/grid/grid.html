@@ -71,7 +71,7 @@
                 <div class="d-flex justify-content-end grid-btns">
                     <button *ngIf="allowDelete && (hasIsActive ? item?.isActive : true)" [pTooltip]="'shared.grid.delete' | translate"
                         tooltipPosition="top" class="btn px-2 grid-btn" (click)="onDeleteRow(item.index, item)">
-                        <i class="fa fa-trash text-danger"></i>
+                        <i class="pi pi-trash text-danger"></i>
                     </button>
 
                     <button *ngIf="allowEdit && (hasIsActive ? item?.isActive : true)" [pTooltip]="'shared.grid.edit' | translate"

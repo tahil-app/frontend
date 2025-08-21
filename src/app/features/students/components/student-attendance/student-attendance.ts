@@ -16,6 +16,7 @@ import { StudentAttendancePdfTemplateComponent } from '../student-attendance-pdf
 import { PdfExportService } from '../../../shared/services/pdf-export.service';
 import { Student } from '../../../../core/models/student.model';
 import { PermissionAccessService } from '../../../../core/services/permission-access.service';
+import { ConfirmPrintService } from '../../../shared/services/confirm-print-service';
 
 @Component({
   selector: 'student-attendance',
@@ -53,6 +54,7 @@ export class StudentAttendance implements OnInit, OnDestroy {
   private attendanceService = inject(AttendanceService);
   private translateService = inject(TranslateService);
   private pdfExportService = inject(PdfExportService);
+  private confirmPrintService = inject(ConfirmPrintService);
   public permissionService = inject(PermissionAccessService);
 
   ngOnInit() {
@@ -123,18 +125,18 @@ export class StudentAttendance implements OnInit, OnDestroy {
   }
 
   buildTooltipLabel = (context: any) => {
-      const label = context.dataset.label || '';
-      const value = context.parsed.y;
-      const monthIndex = context.dataIndex;
+    const label = context.dataset.label || '';
+    const value = context.parsed.y;
+    const monthIndex = context.dataIndex;
 
-      // Find the month data for this specific month
-      const monthData = this.monthlyAttendanceData?.find(item => item.month === monthIndex + 1);
+    // Find the month data for this specific month
+    const monthData = this.monthlyAttendanceData?.find(item => item.month === monthIndex + 1);
 
-      // Calculate total from present + absent + late for this month
-      const monthTotal = monthData ? (monthData.present + monthData.absent + monthData.late) : 0;
-      const percentage = monthTotal > 0 ? ((value / monthTotal) * 100).toFixed(1) : '0.0';
+    // Calculate total from present + absent + late for this month
+    const monthTotal = monthData ? (monthData.present + monthData.absent + monthData.late) : 0;
+    const percentage = monthTotal > 0 ? ((value / monthTotal) * 100).toFixed(1) : '0.0';
 
-      return `${label}: ${value} (${percentage}%)`;
+    return `${label}: ${value} (${percentage}%)`;
   }
 
   onYearChange() {
@@ -169,29 +171,33 @@ export class StudentAttendance implements OnInit, OnDestroy {
 
   async exportToPdf() {
 
-    try {
-      this.allowExportToPdf = true;
-      
-      this.loader.show();
-      
-      if (!this.pdfTemplate) {
-        console.error('PDF template not found');
-        return;
+    this.confirmPrintService.confirm(async () => {
+      try {
+        this.allowExportToPdf = true;
+
+        this.loader.show();
+
+        if (!this.pdfTemplate) {
+          console.error('PDF template not found');
+          return;
+        }
+
+        const filename = `${this.student.name}_Attendance_Report_${this.selectedYear}.pdf`;
+
+        await this.pdfExportService.exportToPdf(
+          this.pdfTemplate.pdfContent.nativeElement,
+          filename,
+          { orientation: 'portrait', format: 'a4' }
+        );
+
+      } catch (error) {
+        console.error('Error exporting PDF:', error);
+      } finally {
+        this.loader.hide();
+        this.allowExportToPdf = false;
       }
+    });
 
-      const filename = `${this.student.name}_Attendance_Report_${this.selectedYear}.pdf`;
-      
-      await this.pdfExportService.exportToPdf(
-        this.pdfTemplate.pdfContent.nativeElement,
-        filename,
-        { orientation: 'portrait', format: 'a4' }
-      );
 
-    } catch (error) {
-      console.error('Error exporting PDF:', error);
-    } finally {
-      this.loader.hide();
-      this.allowExportToPdf = false;
-    }
   }
 }

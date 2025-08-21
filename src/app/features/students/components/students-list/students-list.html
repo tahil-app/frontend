@@ -13,6 +13,3 @@
 <app-student-form [showDialog]="showDialog && permissionService.canEdit.student" 
 [student]="student" (onSave)="loadStudents(queryParams)" 
 (onCancel)="showDialog = false" />
-
-<delete-confirmation *ngIf="showDeleteDialog && permissionService.canDelete.student" [message]="'shared.dialogs.deleteConfirmation' | translate"
-(confirm)="onConfirmDelete()" (cancel)="onCancelDelete()" />

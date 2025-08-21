@@ -61,6 +61,11 @@
         },
         "dialogs": {
             "deleteConfirmation": "هل أنت متأكد من حذف هذا العنصر؟",
+            "activateConfirmation": "هل أنت متأكد من تفعيل هذا العنصر؟",
+            "deactivateConfirmation": "هل أنت متأكد من تعطيل هذا العنصر؟",
+            "printConfirmation": "هل أنت متأكد من طباعة هذا العنصر؟",
+            "downloadConfirmation": "هل أنت متأكد من تحميل هذا العنصر؟",
+            "viewConfirmation": "هل أنت متأكد من عرض هذا العنصر؟",
             "yes": "نعم",
             "no": "لا"
         },

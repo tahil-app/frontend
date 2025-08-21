@@ -64,6 +64,11 @@
         },
         "dialogs": {
             "deleteConfirmation": "Are you sure you want to delete this item?",
+            "activateConfirmation": "Are you sure you want to activate this item?",
+            "deactivateConfirmation": "Are you sure you want to deactivate this item?",
+            "printConfirmation": "Are you sure you want to print this item?",
+            "downloadConfirmation": "Are you sure you want to download this item?",
+            "viewConfirmation": "Are you sure you want to view this item?",
             "yes": "Yes",
             "no": "No"
         },

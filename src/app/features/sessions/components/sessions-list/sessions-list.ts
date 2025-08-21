@@ -19,6 +19,7 @@ import { TimeHelper } from '../../../../core/helpers/time.helper';
 import { PdfExportService } from '../../../shared/services/pdf-export.service';
 import { SessionsListPdfTemplateComponent } from '../session-list-pdf-template/sessions-list-pdf-template.component';
 import { PdfIconBtn } from "../../../shared/buttons/pdf-icon-btn/pdf-icon-btn";
+import { ConfirmPrintService } from '../../../shared/services/confirm-print-service';
 
 @Component({
   selector: 'sessions-list',
@@ -32,7 +33,7 @@ import { PdfIconBtn } from "../../../shared/buttons/pdf-icon-btn/pdf-icon-btn";
     SessionSearchDialog,
     SessionsListPdfTemplateComponent,
     PdfIconBtn
-],
+  ],
   templateUrl: './sessions-list.html',
   styleUrl: './sessions-list.scss'
 })
@@ -51,6 +52,7 @@ export class SessionsList implements OnInit {
   private toaster = inject(ToastService);
   private translateService = inject(TranslateService);
   private confirmService = inject(ConfirmService);
+  private confirmPrintService = inject(ConfirmPrintService);
   private pdfExportService: PdfExportService = inject(PdfExportService);
   public permissionService: PermissionAccessService = inject(PermissionAccessService);
 
@@ -82,7 +84,7 @@ export class SessionsList implements OnInit {
         this.loadSessions();
         this.toaster.showSuccess(this.translateService.instant('sessions.updatedSuccessfully'));
       }, err => { }, () => this.loader.hide());
-    });
+    }, undefined, 'pi pi-sync text-primary mb-4');
 
   }
 
@@ -176,7 +178,7 @@ export class SessionsList implements OnInit {
     if (propertyName) {
       // Remove the property from the search criteria
       delete (this.currentSearchCriteria as any)[propertyName];
-      
+
       // Also remove the corresponding name properties
       if (propertyName === 'courseId') {
         delete (this.currentSearchCriteria as any).courseName;
@@ -187,7 +189,7 @@ export class SessionsList implements OnInit {
       } else if (propertyName === 'status' || propertyName == 'statusName') {
         delete (this.currentSearchCriteria as any).statusName;
       }
-     
+
       // if all criteria are removed, remove the search criteria
       if (Object.values(this.currentSearchCriteria).find(r => r) === undefined) {
         this.currentSearchCriteria = {} as SessionSearchCriteria;
@@ -200,12 +202,12 @@ export class SessionsList implements OnInit {
 
   getSearchCriteriaText(): string {
     const criteria: string[] = [];
-    
+
     if (this.currentSearchCriteria.startDate || this.currentSearchCriteria.endDate) {
       if (this.currentSearchCriteria.startDate) {
         criteria.push(`${this.translateService.instant('shared.fields.startDate')} ${this.currentSearchCriteria.startDate}`);
-      } 
-      
+      }
+
       if (this.currentSearchCriteria.endDate) {
         criteria.push(`${this.translateService.instant('shared.fields.endDate')} ${this.currentSearchCriteria.endDate}`);
       }
@@ -214,8 +216,8 @@ export class SessionsList implements OnInit {
     if (this.currentSearchCriteria.startTime || this.currentSearchCriteria.endTime) {
       if (this.currentSearchCriteria.startTime) {
         criteria.push(`${this.translateService.instant('shared.fields.startTime')} ${TimeHelper.displayTime(this.currentSearchCriteria.startTime)}`);
-      } 
-      
+      }
+
       if (this.currentSearchCriteria.endTime) {
         criteria.push(`${this.translateService.instant('shared.fields.endTime')} ${TimeHelper.displayTime(this.currentSearchCriteria.endTime)}`);
       }
@@ -240,16 +242,16 @@ export class SessionsList implements OnInit {
     return criteria.join(', ');
   }
 
-  getSearchCriteriaItems(): Array<{key: string, value: string}> {
-    const items: Array<{key: string, value: string}> = [];
-    
+  getSearchCriteriaItems(): Array<{ key: string, value: string }> {
+    const items: Array<{ key: string, value: string }> = [];
+
     if (this.currentSearchCriteria.startDate) {
       items.push({
         key: this.translateService.instant('shared.fields.startDate'),
         value: this.currentSearchCriteria.startDate
       });
     }
-    
+
     if (this.currentSearchCriteria.endDate) {
       items.push({
         key: this.translateService.instant('shared.fields.endDate'),
@@ -263,7 +265,7 @@ export class SessionsList implements OnInit {
         value: TimeHelper.displayTime(this.currentSearchCriteria.startTime)
       });
     }
-    
+
     if (this.currentSearchCriteria.endTime) {
       items.push({
         key: this.translateService.instant('shared.fields.endTime'),
@@ -305,8 +307,8 @@ export class SessionsList implements OnInit {
   deleteSession(session: ClassSession) {
     this.loader.show();
     this.sessionService.delete(session.id!).pipe(takeUntil(this.destroy$)).subscribe((success) => {
-      
-      if(success) {
+
+      if (success) {
         this.loadSessions();
         this.toaster.showSuccess(this.translateService.instant('sessions.deletedSuccessfully'));
       }
@@ -315,38 +317,44 @@ export class SessionsList implements OnInit {
   }
 
   async exportToPdf() {
-    try {
-      this.loader.show();
-      
-      if (!this.pdfTemplate) {
-        this.toaster.showError(this.translateService.instant('shared.pdf.error.noContent'));
-        return;
-      }
 
-      const currentDate = new Date().toISOString().split('T')[0]; // Format as YYYY-MM-DD
-      const title = this.hasActiveSearch() ? 'filtered' : 'all';
-      const subtitle = this.hasActiveSearch() ? this.getSearchCriteriaText() : '';
+    this.confirmPrintService.confirm(async () => {
 
-      const exportInfo = {
-        title: title,
-        subtitle: subtitle,
-        date: currentDate,
-        sessionCount: this.sessions.length
-      };
+      try {
+        this.loader.show();
 
-      await this.pdfExportService.exportToPdf(
-        this.pdfTemplate.pdfContent.nativeElement,
-        `${this.translateService.instant('sessions.list.title')}_${exportInfo.date}`, {
+        if (!this.pdfTemplate) {
+          this.toaster.showError(this.translateService.instant('shared.pdf.error.noContent'));
+          return;
+        }
+
+        const currentDate = new Date().toISOString().split('T')[0]; // Format as YYYY-MM-DD
+        const title = this.hasActiveSearch() ? 'filtered' : 'all';
+        const subtitle = this.hasActiveSearch() ? this.getSearchCriteriaText() : '';
+
+        const exportInfo = {
+          title: title,
+          subtitle: subtitle,
+          date: currentDate,
+          sessionCount: this.sessions.length
+        };
+
+        await this.pdfExportService.exportToPdf(
+          this.pdfTemplate.pdfContent.nativeElement,
+          `${this.translateService.instant('sessions.list.title')}_${exportInfo.date}`, {
           orientation: 'landscape'
         }
-      );
+        );
 
-      this.toaster.showSuccess(this.translateService.instant('shared.pdf.success'));
-    } catch (error) {
-      console.error('Error exporting PDF:', error);
-      this.toaster.showError(this.translateService.instant('shared.pdf.error.general'));
-    } finally {
-      this.loader.hide();
-    }
+        this.toaster.showSuccess(this.translateService.instant('shared.pdf.success'));
+      } catch (error) {
+        console.error('Error exporting PDF:', error);
+        this.toaster.showError(this.translateService.instant('shared.pdf.error.general'));
+      } finally {
+        this.loader.hide();
+      }
+
+    });
+
   }
 } 

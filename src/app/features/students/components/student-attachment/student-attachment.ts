@@ -14,6 +14,7 @@ import { PermissionAccessService } from '../../../../core/services/permission-ac
 import { TranslateService } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
 import { ConfirmDeleteService } from '../../../shared/services/confirm-delete-service';
+import { ConfirmService } from '../../../shared/services/confirm.serivce';
 
 @Component({
   selector: 'app-student-attachment',
@@ -33,6 +34,7 @@ export class StudentAttachmentComponent {
   private loaderService = inject(LoaderService);
   private toastr = inject(ToastService);
   private translateService = inject(TranslateService);
+  private confirmService = inject(ConfirmService);
   private confirmDeleteService = inject(ConfirmDeleteService);
   public permissionService = inject(PermissionAccessService);
   //#endregion
@@ -45,15 +47,26 @@ export class StudentAttachmentComponent {
   }
 
   onDownloadAttachment(attachment: Attachment): void {
-    const url = this.studentService.getDownloadAttachment(attachment.fileName);
+
+    this.confirmService.confirm(this.translateService.instant('shared.dialogs.downloadConfirmation'), () => {
+      const url = this.studentService.getDownloadAttachment(attachment.fileName);
   
-    window.open(url, '_blank');
+      window.open(url, '_blank');
+    }, undefined, 'pi pi-download text-secondary mb-4');
+
+
   }  
 
   onViewAttachment(attachment: Attachment) {
-    let url = this.studentService.getViewAttachmentUrl(attachment.fileName);
+
+    this.confirmService.confirm(this.translateService.instant('shared.dialogs.viewConfirmation'), () => {
+
+      let url = this.studentService.getViewAttachmentUrl(attachment.fileName);
     
-    window.open(url, '_blank');
+      window.open(url, '_blank');
+
+    }, undefined, 'pi pi-eye text-info mb-4');
+
   }
 
   getAttachmentIcon(attachment: Attachment) {

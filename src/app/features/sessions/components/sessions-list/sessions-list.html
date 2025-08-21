@@ -6,6 +6,7 @@
     <div>
 
       <pdf-icon-btn 
+      [showOutline]="true"
       *ngIf="sessions.length > 0 && permissionService.canExport.exportSessionsPdf"
       (click)="exportToPdf()"/>
 
