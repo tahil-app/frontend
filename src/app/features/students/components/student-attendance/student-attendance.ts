@@ -15,6 +15,7 @@ import { LineChartProps } from '../../../shared/props/line-chart.props';
 import { StudentAttendancePdfTemplateComponent } from '../student-attendance-pdf-template/student-attendance-pdf-template';
 import { PdfExportService } from '../../../shared/services/pdf-export.service';
 import { Student } from '../../../../core/models/student.model';
+import { PermissionAccessService } from '../../../../core/services/permission-access.service';
 
 @Component({
   selector: 'student-attendance',
@@ -52,6 +53,7 @@ export class StudentAttendance implements OnInit, OnDestroy {
   private attendanceService = inject(AttendanceService);
   private translateService = inject(TranslateService);
   private pdfExportService = inject(PdfExportService);
+  public permissionService = inject(PermissionAccessService);
 
   ngOnInit() {
     this.loadAttendanceData(this.selectedYear);

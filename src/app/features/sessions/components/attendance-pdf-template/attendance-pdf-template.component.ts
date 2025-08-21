@@ -5,11 +5,12 @@ import { FormArray } from '@angular/forms';
 import { StudentAttendanceDisplay } from '../../../../core/models/student-attendance.model';
 import { AttendanceStatus } from '../../../../core/enums/attendance-status.enum';
 import { DateHelper } from '../../../../core/helpers/date.helper';
+import { PdfTemplateFooter } from "../../../shared/components/pdf-template-footer/pdf-template-footer";
 
 @Component({
   selector: 'attendance-pdf-template',
   standalone: true,
-  imports: [CommonModule, TranslateModule],
+  imports: [CommonModule, TranslateModule, PdfTemplateFooter],
   templateUrl: './attendance-pdf-template.component.html',
   styleUrls: ['./attendance-pdf-template.component.scss']
 })

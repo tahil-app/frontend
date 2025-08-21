@@ -5,11 +5,12 @@ import { MonthlyAttendanceModel } from '../../../../core/models/monthly-attendan
 import { Student } from '../../../../core/models/student.model';
 import { DateHelper } from '../../../../core/helpers/date.helper';
 import { MonthesService } from '../../../../core/services/monthes.service';
+import { PdfTemplateFooter } from "../../../shared/components/pdf-template-footer/pdf-template-footer";
 
 @Component({
   selector: 'student-attendance-pdf-template',
   standalone: true,
-  imports: [CommonModule, TranslateModule],
+  imports: [CommonModule, TranslateModule, PdfTemplateFooter],
   templateUrl: './student-attendance-pdf-template.html',
   styleUrls: ['./student-attendance-pdf-template.scss']
 })

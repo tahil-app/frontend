@@ -5,11 +5,12 @@ import { DailySchedule } from '../../../../core/models/daily-schedule.model';
 import { DateHelper } from '../../../../core/helpers/date.helper';
 import { TimeHelper } from '../../../../core/helpers/time.helper';
 import { WeekDaysService } from '../../../../core/services/week-days.service';
+import { PdfTemplateFooter } from "../pdf-template-footer/pdf-template-footer";
 
 @Component({
   selector: 'daily-schedule-pdf-template',
   standalone: true,
-  imports: [CommonModule, TranslateModule],
+  imports: [CommonModule, TranslateModule, PdfTemplateFooter],
   templateUrl: './daily-schedule-pdf-template.html',
   styleUrls: ['./daily-schedule-pdf-template.scss']
 })
@@ -20,7 +21,6 @@ export class DailySchedulePdfTemplateComponent {
   @ViewChild('pdfContent', { static: false }) pdfContent!: ElementRef;
 
   weekDaysService = inject(WeekDaysService);
-  exportDate = DateHelper.displayDate(new Date().toString());
 
   getFormattedTime(time: string): string {
     return TimeHelper.displayTime(time) || '-';

@@ -24,7 +24,8 @@ export class PermissionAccessService {
         return {
             exportAttendancePdf: this.authService.isAdmin || this.authService.isEmployee,
             exportSessionsPdf: this.authService.isAdmin || this.authService.isEmployee || this.authService.isTeacher || this.authService.isStudent,
-            exportStudentDailySchedulePdf: this.authService.isAdmin || this.authService.isEmployee || this.authService.isStudent
+            exportStudentDailySchedulePdf: this.authService.isAdmin || this.authService.isEmployee || this.authService.isStudent,
+            exportStudentAttendancePdf: this.authService.isAdmin || this.authService.isEmployee || this.authService.isStudent
         };
     }
 

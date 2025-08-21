@@ -5,6 +5,7 @@
 
         <div class="d-flex align-items-center gap-2">
             <select 
+                *ngIf="permissionService.canExport.exportStudentAttendancePdf"
                 dir="ltr"
                 id="yearSelect" 
                 class="form-select" 
@@ -14,7 +15,7 @@
                 <option *ngFor="let year of years" [value]="year">{{ year }}</option>
             </select>
 
-            <pdf-icon-btn [showOutline]="true" (onClick)="exportToPdf()"/>
+            <pdf-icon-btn *ngIf="permissionService.canExport.exportStudentAttendancePdf" [showOutline]="true" (onClick)="exportToPdf()"/>
         </div>
     </div>
 
