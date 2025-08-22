@@ -90,6 +90,9 @@ export class AuthService {
     const user = this.getUser();
     if (user) {
       this.currentUserSubject.next(user);
+    } else {
+      // Ensure we emit null if no user is found
+      this.currentUserSubject.next(null);
     }
   }
 

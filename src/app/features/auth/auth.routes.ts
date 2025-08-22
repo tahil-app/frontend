@@ -4,6 +4,11 @@ import { ForgetPassword } from './components/forget-password/forget-password';
 
 export const AUTH_ROUTES: Routes = [
     {
+        path: '',
+        redirectTo: 'login',
+        pathMatch: 'full'
+    },
+    {
         path: 'login',
         component: Login
     },

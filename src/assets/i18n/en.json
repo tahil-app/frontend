@@ -1,10 +1,10 @@
 {
     "welcome": "Welcome to the app",
-    "appName": "Dar Al Farqan",
+    "appName": "Misk Academy",
     "profile": "Profile",
     "logout": "Logout",
     "auth": {
-        "loginTitle": "Welcome to Dar Al Farqan",
+        "loginTitle": "Welcome to Misk Academy",
         "login": "Login",
         "username": "User Name",
         "password": "Password",
