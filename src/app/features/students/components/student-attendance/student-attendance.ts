@@ -22,6 +22,7 @@ import { DailyAttendanceModel } from '../../../../core/models/daily-attendance.m
 import { AttendanceStatus } from '../../../../core/enums/attendance-status.enum';
 import { NoData } from "../../../shared/components/no-data/no-data";
 import { StatusService } from '../../../../core/services/status.service';
+import { TimeHelper } from '../../../../core/helpers/time.helper';
 
 @Component({
   selector: 'student-attendance',
@@ -87,6 +88,10 @@ export class StudentAttendance implements OnDestroy {
   ngOnDestroy() {
     this.$destroy.next();
     this.$destroy.complete();
+  }
+
+  getTime(startTime: string | null, endTime: string | null) {
+    return `${TimeHelper.displayTime(startTime)} - ${TimeHelper.displayTime(endTime)}`;
   }
 
   getReportTitle() {

@@ -64,10 +64,11 @@
                 <thead>
                     <tr>
                         <th>{{ 'shared.labels.date' | translate }}</th>
+                        <th>{{ 'shared.labels.time' | translate }}</th>
+                        <th>{{ 'courses.one' | translate }}</th>
                         <th>{{ 'attendanceStatus.present' | translate }}</th>
                         <th>{{ 'attendanceStatus.late' | translate }}</th>
                         <th>{{ 'attendanceStatus.absent' | translate }}</th>
-                        <th>{{ 'shared.labels.comment' | translate }}</th>
                     </tr>
                 </thead>
 
@@ -77,6 +78,12 @@
                             {{ dailyAttendance.date }}
                         </td>
                         <td class="student-name">
+                            {{ getTime(dailyAttendance.startTime, dailyAttendance.endTime) }}
+                        </td>
+                        <td class="student-name">
+                            {{ dailyAttendance.courseName }}
+                        </td>
+                        <td class="student-name">
                             <div class="td-status-checkbox" [class.checked]="statusService.checkAttendanceStatus(dailyAttendance.status).isPresent"></div>
                         </td>
                         <td class="student-name">
@@ -84,9 +91,6 @@
                         </td>
                         <td class="student-name">
                             <div class="td-status-checkbox" [class.checked]="statusService.checkAttendanceStatus(dailyAttendance.status).isAbsent"></div>
-                        </td>
-                        <td class="student-name">
-                            {{ dailyAttendance.note }}
                         </td>
                     </tr>
                 </tbody>
@@ -107,8 +111,8 @@
 
     </div>
 
-    <div style="position: absolute; left: -9999px; top: -9999px;">
+    <!-- <div style="position: absolute; left: -9999px; top: -9999px;"> -->
         <attendace-daily-pdf-template [title]="getReportTitle()" [dailyAttendanceData]="dailyAttendanceData"
             [selectedYear]="selectedYear" [selectedMonth]="selectedMonth" />
-    </div>
+    <!-- </div> -->
 </div>

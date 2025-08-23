@@ -20,32 +20,32 @@ export class StatusService {
 
   getSessionStatusOptions(): DropdownProps[] {
     return [
-      { value: ClassSessionStatus.Scheduled, label: this.translateService.instant('sessions.status.scheduled') },
-      { value: ClassSessionStatus.Completed, label: this.translateService.instant('sessions.status.completed') },
-      { value: ClassSessionStatus.Cancelled, label: this.translateService.instant('sessions.status.cancelled') }
+      { value: ClassSessionStatus.Scheduled, label: this.translateService.instant('sessionStatus.scheduled') },
+      { value: ClassSessionStatus.Completed, label: this.translateService.instant('sessionStatus.completed') },
+      { value: ClassSessionStatus.Cancelled, label: this.translateService.instant('sessionStatus.cancelled') }
     ];
   }
 
   getSessionStatusBadge(status: ClassSessionStatus): { value: string; severity: 'info' | 'success' | 'warn' | 'danger' | 'secondary' | 'contrast' } {
     switch (status) {
       case ClassSessionStatus.Scheduled:
-        return { value: 'sessions.status.scheduled', severity: 'info' };
+        return { value: 'sessionStatus.scheduled', severity: 'info' };
       case ClassSessionStatus.Completed:
-        return { value: 'sessions.status.completed', severity: 'success' };
+        return { value: 'sessionStatus.completed', severity: 'success' };
       case ClassSessionStatus.Cancelled:
-        return { value: 'sessions.status.cancelled', severity: 'danger' };
+        return { value: 'sessionStatus.cancelled', severity: 'danger' };
       default:
     }
-    return { value: 'sessions.status.unknown', severity: 'secondary' };
+    return { value: 'sessionStatus.unknown', severity: 'secondary' };
   }
 
   getScheduleStatusName(status: ClassScheduleStatus): string {
     const statusNames: { [key in ClassScheduleStatus]: string } = {
-      [ClassScheduleStatus.New]: this.translateService.instant('schedules.status.new'),
-      [ClassScheduleStatus.Active]: this.translateService.instant('schedules.status.active'),
-      [ClassScheduleStatus.Paused]: this.translateService.instant('schedules.status.paused'),
-      [ClassScheduleStatus.Completed]: this.translateService.instant('schedules.status.completed'),
-      [ClassScheduleStatus.Cancelled]: this.translateService.instant('schedules.status.cancelled')
+      [ClassScheduleStatus.New]: this.translateService.instant('scheduleStatus.new'),
+      [ClassScheduleStatus.Active]: this.translateService.instant('scheduleStatus.active'),
+      [ClassScheduleStatus.Paused]: this.translateService.instant('scheduleStatus.paused'),
+      [ClassScheduleStatus.Completed]: this.translateService.instant('scheduleStatus.completed'),
+      [ClassScheduleStatus.Cancelled]: this.translateService.instant('scheduleStatus.cancelled')
     };
     return statusNames[status] || '';
   }

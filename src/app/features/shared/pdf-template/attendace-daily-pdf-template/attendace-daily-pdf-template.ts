@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { AttendanceStatus } from '../../../../core/enums/attendance-status.enum';
 import { NoData } from "../../components/no-data/no-data";
 import { StatusService } from '../../../../core/services/status.service';
+import { TimeHelper } from '../../../../core/helpers/time.helper';
 
 @Component({
   selector: 'attendace-daily-pdf-template',
@@ -21,7 +22,7 @@ export class AttendaceDailyPdfTemplate {
   @Input() dailyAttendanceData: DailyAttendanceModel[] = [];
   @Input() selectedYear: number = new Date().getFullYear();
   @Input() selectedMonth: number = 0;
-  @Input() showComment: boolean = true;
+  @Input() showComment: boolean = false;
 
   @ViewChild('pdfContent', { static: false }) pdfContent!: ElementRef;
 
@@ -47,6 +48,10 @@ export class AttendaceDailyPdfTemplate {
 
   getDate(date: string): string {
     return DateHelper.displayDate(date) || '';
+  }
+
+  getTime(startTime: string | null, endTime: string | null) {
+    return `${TimeHelper.displayTime(startTime)} - ${TimeHelper.displayTime(endTime)}`;
   }
 
 }

@@ -41,18 +41,18 @@
                                     <div class="attendance-actions">
                                         <button class="btn btn-sm btn-success px-2 py-1" (click)="markAllPresent()"
                                             *ngIf="canRecordAttendance">
-                                            <i class="fa fa-check"></i> {{ 'attendance.actions.markAllPresent' |
+                                            <i class="fa fa-check"></i> {{ 'shared.labels.markAllPresent' |
                                             translate
                                             }}
                                         </button>
                                         <button class="btn btn-sm btn-warning px-2 py-1" (click)="markAllLate()"
                                             *ngIf="canRecordAttendance">
-                                            <i class="fa fa-clock"></i> {{ 'attendance.actions.markAllLate' | translate
+                                            <i class="fa fa-clock"></i> {{ 'shared.labels.markAllLate' | translate
                                             }}
                                         </button>
                                         <button class="btn btn-sm btn-danger px-2 py-1" (click)="markAllAbsent()"
                                             *ngIf="canRecordAttendance">
-                                            <i class="fa fa-times"></i> {{ 'attendance.actions.markAllAbsent' |
+                                            <i class="fa fa-times"></i> {{ 'shared.labels.markAllAbsent' |
                                             translate }}
                                         </button>
                                     </div>

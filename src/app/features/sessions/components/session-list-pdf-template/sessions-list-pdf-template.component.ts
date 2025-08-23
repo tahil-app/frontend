@@ -34,13 +34,13 @@ export class SessionsListPdfTemplateComponent {
   getStatusText(status: ClassSessionStatus): string {
     switch (status) {
       case ClassSessionStatus.Scheduled:
-        return 'sessions.status.scheduled';
+        return 'sessionStatus.scheduled';
       case ClassSessionStatus.Completed:
-        return 'sessions.status.completed';
+        return 'sessionStatus.completed';
       case ClassSessionStatus.Cancelled:
-        return 'sessions.status.cancelled';
+        return 'sessionStatus.cancelled';
       default:
-        return 'sessions.status.unknown';
+        return 'sessionStatus.unknown';
     }
   }
 

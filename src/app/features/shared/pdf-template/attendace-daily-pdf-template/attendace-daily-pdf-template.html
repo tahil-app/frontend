@@ -44,7 +44,9 @@
 
             <thead>
                 <tr>
-                    <th class="month-col">{{ 'shared.labels.day' | translate }}</th>
+                    <th class="date-col" style="width: 15%;">{{ 'shared.labels.day' | translate }}</th>
+                    <th class="time-col" style="width: 15%;">{{ 'shared.labels.time' | translate }}</th>
+                    <th class="course-col" style="width: 25%;">{{ 'courses.one' | translate }}</th>
                     <th class="attendance-col">{{ 'attendanceStatus.present' | translate }}</th>
                     <th class="attendance-col">{{ 'attendanceStatus.late' | translate }}</th>
                     <th class="attendance-col">{{ 'attendanceStatus.absent' | translate }}</th>
@@ -54,7 +56,9 @@
 
             <tbody>
                 <tr *ngFor="let day of dailyAttendanceData">
-                    <td class="month-name" >{{ day.date }}</td>
+                    <td class="month-name">{{ day.date }}</td>
+                    <td class="month-name">{{ getTime(day.startTime, day.endTime) }}</td>
+                    <td class="month-name">{{ day.courseName }}</td>
                     <td class="present-count">
                         <div class="td-status-checkbox" [class.checked]="statusService.checkAttendanceStatus(day.status).isPresent"></div>
                     </td>
