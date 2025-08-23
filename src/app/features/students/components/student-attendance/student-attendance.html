@@ -1,7 +1,7 @@
 <div class="student-attendance-container">
 
     <div class="d-flex justify-content-between">
-        <h5 class="mb-1">{{ 'students.tabs.attendance' | translate }}</h5>
+        <h5>{{ 'shared.tabs.attendance' | translate }}</h5>
 
         <div class="d-flex align-items-center gap-2">
             <select 
@@ -15,7 +15,7 @@
                 <option *ngFor="let year of years" [value]="year">{{ year }}</option>
             </select>
 
-            <pdf-icon-btn *ngIf="permissionService.canExport.exportStudentAttendancePdf" [showOutline]="true" (onClick)="exportToPdf()"/>
+            <pdf-icon-btn *ngIf="permissionService.canExport.exportStudentAttendancePdf && student?.dailySchedules?.length" [showOutline]="true" (onClick)="exportToPdf()"/>
         </div>
     </div>
 
@@ -26,7 +26,7 @@
                 <div class="stat-value">
                     <h3 class="text-total">{{ total }}</h3>
                 </div>
-                <p>{{ 'shared.fields.total' | translate }}</p>
+                <p>{{ 'shared.labels.total' | translate }}</p>
             </div>
         </div>
 
@@ -35,7 +35,7 @@
                 <div class="stat-value">
                     <h3 class="text-present">{{ present }}</h3>
                 </div>
-                <p>{{ 'shared.attendanceStatus.present' | translate }}</p>
+                <p>{{ 'attendanceStatus.present' | translate }}</p>
             </div>
         </div>
 
@@ -44,7 +44,7 @@
                 <div class="stat-value">
                     <h3 class="text-absent">{{ absent }}</h3>
                 </div>
-                <p>{{ 'shared.attendanceStatus.absent' | translate }}</p>
+                <p>{{ 'attendanceStatus.absent' | translate }}</p>
             </div>
         </div>
 
@@ -53,7 +53,7 @@
                 <div class="stat-value">
                     <h3 class="text-late">{{ late }}</h3>
                 </div>
-                <p>{{ 'shared.attendanceStatus.late' | translate }}</p>
+                <p>{{ 'attendanceStatus.late' | translate }}</p>
             </div>
         </div>
     </div>
@@ -62,19 +62,21 @@
     <div class="chart-container">
         <line-chart
             [dataSet]="dataSet"
-            [xLabel]="'shared.fields.month' | translate"
-            [yLabel]="'shared.fields.numberOfSessions' | translate"
+            [xLabel]="'shared.labels.month' | translate"
+            [yLabel]="'shared.labels.numberOfSessions' | translate"
             [tooltipLabel]="buildTooltipLabel"
         ></line-chart>
     </div>
 
     <!-- Hidden PDF Template -->
     <div style="position: absolute; left: -9999px; top: -9999px;">
-        <student-attendance-pdf-template
-            [student]="student"
+
+        <attendance-pdf-template 
+            [title]="getReportTitle()"
             [monthlyAttendanceData]="monthlyAttendanceData"
-            [selectedYear]="selectedYear">
-        </student-attendance-pdf-template>
+            [selectedYear]="selectedYear"
+        />
+
     </div>
 
 </div>

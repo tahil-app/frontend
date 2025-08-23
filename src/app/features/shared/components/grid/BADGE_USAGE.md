@@ -34,7 +34,7 @@ columns: GridColumn[] = [
   // Example 2: Status Badge (if model has isActive property)
   { 
     field: 'status', 
-    title: this.translate.instant('shared.fields.status'), 
+    title: this.translate.instant('shared.labels.status'), 
     columnType: ColumnTypeEnum.badge, 
     sortable: false, 
     filterType: ColumnFilterTypeEnum.text,

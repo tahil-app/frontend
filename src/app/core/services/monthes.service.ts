@@ -10,34 +10,34 @@ export class MonthesService {
 
   getMonthes(): string[] {
     return [
-      this.translate.instant('shared.months.january'),
-      this.translate.instant('shared.months.february'),
-      this.translate.instant('shared.months.march'),
-      this.translate.instant('shared.months.april'),
-      this.translate.instant('shared.months.may'),
-      this.translate.instant('shared.months.june'),
-      this.translate.instant('shared.months.july'),
-      this.translate.instant('shared.months.august'),
-      this.translate.instant('shared.months.september'),
-      this.translate.instant('shared.months.october'),
-      this.translate.instant('shared.months.november'),
-      this.translate.instant('shared.months.december'),
+      this.translate.instant('months.january'),
+      this.translate.instant('months.february'),
+      this.translate.instant('months.march'),
+      this.translate.instant('months.april'),
+      this.translate.instant('months.may'),
+      this.translate.instant('months.june'),
+      this.translate.instant('months.july'),
+      this.translate.instant('months.august'),
+      this.translate.instant('months.september'),
+      this.translate.instant('months.october'),
+      this.translate.instant('months.november'),
+      this.translate.instant('months.december'),
     ];
   }
 
   getMonthName(month: number): string {
     const monthNames: { [key in number]: string } = {
-      [1]: this.translate.instant('shared.months.january'),
-      [2]: this.translate.instant('shared.months.february'),
-      [3]: this.translate.instant('shared.months.march'),
-      [4]: this.translate.instant('shared.months.april'),
-      [5]: this.translate.instant('shared.months.may'),
-      [6]: this.translate.instant('shared.months.june'),
-      [7]: this.translate.instant('shared.months.july'),
-      [8]: this.translate.instant('shared.months.august'),
-      [9]: this.translate.instant('shared.months.september'),
-      [10]: this.translate.instant('shared.months.october'),
-      [11]: this.translate.instant('shared.months.november'),
+      [1]: this.translate.instant('months.january'),
+      [2]: this.translate.instant('months.february'),
+      [3]: this.translate.instant('months.march'),
+      [4]: this.translate.instant('months.april'),
+      [5]: this.translate.instant('months.may'),
+      [6]: this.translate.instant('months.june'),
+      [7]: this.translate.instant('months.july'),
+      [8]: this.translate.instant('months.august'),
+      [9]: this.translate.instant('months.september'),
+      [10]: this.translate.instant('months.october'),
+      [11]: this.translate.instant('months.november'),
     };
     return monthNames[month] || '';
   }

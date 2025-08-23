@@ -2,11 +2,13 @@ import { GenderEnum } from "../enums/gender.enum";
 import { UserRoleEnum } from "../enums/user-role.enum";
 import { Attachment } from "./attachment.model";
 import { Course } from "./course.model";
+import { DailySchedule } from "./daily-schedule.model";
 import { Group } from "./group.model";
 
 export class Teacher {
   id: number = 0;
   name!: string;
+  code!: string;
   phoneNumber!: string;
   email!: string;
   password!: string;
@@ -22,4 +24,5 @@ export class Teacher {
   attachments!: Attachment[];
   courses?: Course[];
   groups?: Group[];
+  dailySchedules!: DailySchedule[];
 }

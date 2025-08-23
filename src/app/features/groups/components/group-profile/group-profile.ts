@@ -20,10 +20,12 @@ import { Card } from "primeng/card";
 import { NoData } from "../../../shared/components/no-data/no-data";
 import { WeekDaysService } from '../../../../core/services/week-days.service';
 import { TimeHelper } from '../../../../core/helpers/time.helper';
+import { ConfirmService } from '../../../shared/services/confirm.serivce';
+import { GroupDailySchedule } from "../group-daily-schedule/group-daily-schedule";
 
 @Component({
   selector: 'app-group-profile',
-  imports: [CommonModule, TabsModule, TableModule, TranslateModule, TooltipModule, GroupFromComponent, StudentsDialog, EditIconButton, Card, NoData],
+  imports: [CommonModule, TabsModule, TableModule, TranslateModule, TooltipModule, GroupFromComponent, StudentsDialog, EditIconButton, Card, NoData, GroupDailySchedule],
   templateUrl: './group-profile.html',
   styleUrl: './group-profile.scss'
 })
@@ -44,6 +46,8 @@ export class GroupProfile implements OnInit {
   private toaster = inject(ToastService);
   private translate = inject(TranslateService);
   private badgeHelper = BadgeHelper.createCapacityBadge(this.translate);
+  private confirmService = inject(ConfirmService);
+
   public weekDays = inject(WeekDaysService);
   public permissionAccess = inject(PermissionAccessService);
   //#endregion
@@ -66,7 +70,7 @@ export class GroupProfile implements OnInit {
       .subscribe(group => {
         this.group = group;
         this.group.students = this.group.students?.sort((a, b) => a.name.localeCompare(b.name)) || [];
-      }, error => {}, () => {
+      }, error => { }, () => {
         this.loader.hide();
         this.showDialog = false;
       });
@@ -94,22 +98,32 @@ export class GroupProfile implements OnInit {
 
   onTeacherClick() {
     if (this.group && this.group.teacher?.id) {
-      this.router.navigate(['/teachers', this.group.teacher.id]);
+
+      this.confirmService.confirmView(() => {
+        this.router.navigate(['/teachers', this.group.teacher!.id]);
+      });
+
     }
   }
 
   onStudentClick(studentId: number) {
     if (studentId) {
-      this.router.navigate(['/students', studentId]);
+      this.confirmService.confirmView(() => {
+        this.router.navigate(['/students', studentId]);
+      });
     }
   }
 
   onEditGroup() {
-    this.showDialog = true;
+    this.confirmService.confirmEdit(() => {
+      this.showDialog = true;
+    });
   }
 
   onAddStudent() {
-    this.showStudentsDialog = true;
+    this.confirmService.confirmEdit(() => {
+      this.showStudentsDialog = true;
+    });
   }
 
   onSaveStudents(students: Student[]) {
@@ -121,7 +135,7 @@ export class GroupProfile implements OnInit {
         this.toaster.showSuccess(this.translate.instant('groups.studentsUpdated'));
         this.loadGroup(this.group.id);
       }
-    }, error => {}, () => {
+    }, error => { }, () => {
       this.loader.hide();
       this.showStudentsDialog = false;
     });

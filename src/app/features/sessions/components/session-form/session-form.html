@@ -34,18 +34,18 @@
 
         <!-- Session Date -->
         <div class="mb-2">
-            <label-date-picker [label]="'shared.fields.date' | translate" [required]="true"
+            <label-date-picker [label]="'shared.labels.date' | translate" [required]="true"
                 [formControl]="getFormControl('date')" />
         </div>
 
         <!-- Start Time and End Time -->
         <div class="row">
             <div class="col-md-6 col-sm-12">
-                <label-time-picker [label]="'shared.fields.startTime' | translate" [required]="true"
+                <label-time-picker [label]="'shared.labels.startTime' | translate" [required]="true"
                     [formControl]="getFormControl('startTime')" />
             </div>
             <div class="col-md-6 col-sm-12">
-                <label-time-picker [label]="'shared.fields.endTime' | translate" [required]="true"
+                <label-time-picker [label]="'shared.labels.endTime' | translate" [required]="true"
                     [formControl]="getFormControl('endTime')" />
             </div>
         </div>

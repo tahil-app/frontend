@@ -1,10 +1,6 @@
 <div class="daily-schedule-pdf-template" #pdfContent>
-  <!-- Header -->
-  <div class="pdf-header">
-    <div class="header-content">
-      <h1 class="pdf-title">{{ title || ('shared.dailySchedule.title' | translate) }}</h1>
-    </div>
-  </div>
+
+  <pdf-template-header [title]="title" />
 
   <!-- Schedule Tables -->
   <div class="schedule-tables-pdf" *ngIf="dailySchedules?.length">
@@ -14,22 +10,22 @@
       <table class="pdf-table">
         <thead>
           <tr>
-            <th class="time-col">{{ 'shared.fields.time' | translate }}</th>
-            <th class="course-col">{{ 'courses.one' | translate }}</th>
-            <th class="teacher-col">{{ 'teachers.one' | translate }}</th>
-            <th class="room-col">{{ 'rooms.one' | translate }}</th>
-            <th class="group-col">{{ 'groups.one' | translate }}</th>
+            <th *ngIf="showTime" class="time-col">{{ 'shared.labels.time' | translate }}</th>
+            <th *ngIf="showGroup" class="group-col">{{ 'groups.one' | translate }}</th>
+            <th *ngIf="showRoom" class="room-col">{{ 'rooms.one' | translate }}</th>
+            <th *ngIf="showSubject" class="course-col">{{ 'courses.one' | translate }}</th>
+            <th *ngIf="showTeacher" class="teacher-col">{{ 'teachers.one' | translate }}</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let schedule of getSchedulesByDay(day)">
-            <td class="time-cell">
+            <td *ngIf="showTime" class="time-cell">
               {{ getFormattedTime(schedule.startTime) }} - {{ getFormattedTime(schedule.endTime) }}
             </td>
-            <td class="course-cell">{{ schedule.courseName || '-' }}</td>
-            <td class="teacher-cell">{{ schedule.teacherName || '-' }}</td>
-            <td class="room-cell">{{ schedule.roomName || '-' }}</td>
-            <td class="group-cell">{{ schedule.groupName || '-' }}</td>
+            <td *ngIf="showGroup" class="group-cell">{{ schedule.groupName || '-' }}</td>
+            <td *ngIf="showRoom" class="room-cell">{{ schedule.roomName || '-' }}</td>
+            <td *ngIf="showSubject" class="course-cell">{{ schedule.courseName || '-' }}</td>
+            <td *ngIf="showTeacher" class="teacher-cell">{{ schedule.teacherName || '-' }}</td>
           </tr>
         </tbody>
       </table>

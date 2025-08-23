@@ -5,11 +5,11 @@
 
         <div class="row">
             <div class="col-md-6 col-12 flex items-center gap-2 mb-2">
-                <input-label [label]="'shared.fields.name' | translate" [disabled]="!(permissionAccess.canEdit.studentOnlyAdminOrEmployee)" [required]="true" [formControl]="getFormControl('name')" />
+                <input-label [label]="'shared.labels.name' | translate" [disabled]="!(permissionAccess.canEdit.studentOnlyAdminOrEmployee)" [required]="true" [formControl]="getFormControl('name')" />
             </div>
     
             <div class="col-md-6 col-12 flex items-center gap-2 mb-2">
-                <dropdown [label]="'shared.fields.gender' | translate" [required]="true" [options]="genderOptions" 
+                <dropdown [label]="'shared.labels.gender' | translate" [required]="true" [options]="genderOptions" 
                 [formControl]="getFormControl('gender')" [disabled]="!(permissionAccess.canEdit.studentOnlyAdminOrEmployee)" />
             </div>
             
@@ -17,31 +17,31 @@
 
         <div class="row">
             <div class="col-md-6 col-12 flex items-center gap-2 mb-2">
-                <input-label [label]="'shared.fields.phoneNumber' | translate" [required]="true" [formControl]="getFormControl('phoneNumber')" />
+                <input-label [label]="'shared.labels.phoneNumber' | translate" [disabled]="!(permissionAccess.canEdit.studentOnlyAdminOrEmployee)" [required]="true" [formControl]="getFormControl('phoneNumber')" />
             </div>
 
             <div class="col-md-6 col-12 flex items-center gap-2 mb-2">
-                <input-label [label]="'shared.fields.email' | translate" [required]="true" [formControl]="getFormControl('email')" />
+                <input-label [label]="'shared.labels.email' | translate" [disabled]="!(permissionAccess.canEdit.studentOnlyAdminOrEmployee)" [required]="true" [formControl]="getFormControl('email')" />
             </div>
         </div>
         
         <div class="row">
             <div class="col-md-6 col-12 flex items-center gap-2 mb-2">
-                <input-label [label]="'shared.fields.password' | translate" [required]="requiredPassword" [formControl]="getFormControl('password')" />
+                <input-label [label]="'shared.labels.password' | translate" [required]="requiredPassword" [formControl]="getFormControl('password')" />
             </div>
 
             <div class="col-md-6 col-12 flex items-center gap-2 mb-2">
-                <input-label [label]="'shared.fields.confirmPassword' | translate" [required]="requiredPassword" [formControl]="getFormControl('confirmPassword')" />
+                <input-label [label]="'shared.labels.confirmPassword' | translate" [required]="requiredPassword" [formControl]="getFormControl('confirmPassword')" />
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-6 col-12 flex items-center gap-2 mb-2">
-                <label-date-picker [label]="'shared.fields.birthDate' | translate" [disabled]="!(permissionAccess.canEdit.studentOnlyAdminOrEmployee)" [formControl]="getFormControl('birthDate')" />
+                <label-date-picker [label]="'shared.labels.birthDate' | translate" [disabled]="!(permissionAccess.canEdit.studentOnlyAdminOrEmployee)" [formControl]="getFormControl('birthDate')" />
             </div>
 
             <div class="col-md-6 col-12 flex items-center gap-2 mb-2">
-                <label-date-picker [label]="'shared.fields.joinedDate' | translate" [disabled]="!(permissionAccess.canEdit.studentOnlyAdminOrEmployee)"  [formControl]="getFormControl('joinedDate')" />
+                <label-date-picker [label]="'shared.labels.joinedDate' | translate" [disabled]="!(permissionAccess.canEdit.studentOnlyAdminOrEmployee)"  [formControl]="getFormControl('joinedDate')" />
             </div>
         </div>
 

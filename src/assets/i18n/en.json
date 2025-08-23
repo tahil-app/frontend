@@ -1,6 +1,7 @@
 {
     "welcome": "Welcome to the app",
     "appName": "Misk Academy",
+    "darAlforqan": "Dar Alforqan",
     "profile": "Profile",
     "logout": "Logout",
     "auth": {
@@ -29,6 +30,60 @@
         "male": "Male",
         "female": "Female"
     },
+    "days": {
+        "monday": "Monday",
+        "tuesday": "Tuesday",
+        "wednesday": "Wednesday",
+        "thursday": "Thursday",
+        "friday": "Friday",
+        "saturday": "Saturday",
+        "sunday": "Sunday"
+    },
+    "months": {
+        "january": "January",
+        "february": "February",
+        "march": "March",
+        "april": "April",
+        "may": "May",
+        "june": "June",
+        "july": "July",
+        "august": "August",
+        "september": "September",
+        "october": "October",
+        "november": "November",
+        "december": "December"
+    },
+    "attendanceStatus": {
+        "present": "Present",
+        "late": "Late",
+        "absent": "Absent"
+    },
+    "sessionStatus": {
+        "scheduled": "Scheduled",
+        "completed": "Completed",
+        "cancelled": "Cancelled",
+        "unknown": "Unknown"
+    },
+    "performance": {
+        "excellent": "Excellent",
+        "good": "Good",
+        "average": "Average",
+        "belowAverage": "Below Average",
+        "poor": "Poor"
+    },
+    "scheduleStatus": {
+        "new": "New",
+        "active": "Active",
+        "cancelled": "Cancelled",
+        "completed": "Completed"
+    },
+    "toast": {
+        "success": "Success",
+        "info": "Info",
+        "warning": "Warning",
+        "error": "Error",
+        "generalError": "Something went wrong"
+    },
     "sidebar": {
         "mainMenu": "Main Menu",
         "dashboard": "Dashboard",
@@ -39,7 +94,6 @@
         "settings": "Settings"
     },
     "shared": {
-        "attachments": "Attachments",
         "grid": {
             "searchBy": "Search by",
             "clearFilter": "Clear Filter",
@@ -70,13 +124,12 @@
             "downloadConfirmation": "Are you sure you want to download this item?",
             "viewConfirmation": "Are you sure you want to view this item?",
             "editConfirmation": "Are you sure you want to edit this item?",
+            "changeImageConfirmation": "Are you sure you want to change the image of this item?",
+            "unsavedChanges": "Are you sure you want to leave without saving your changes?",
             "yes": "Yes",
             "no": "No"
         },
-        "confirm": {
-            "unsavedChanges": "Are you sure you want to leave without saving your changes?"
-        },
-        "fields": {
+        "labels": {
             "name": "Name",
             "gender": "Gender",
             "phoneNumber": "Phone Number",
@@ -107,6 +160,8 @@
             "room": "Room",
             "studentName": "Student Name",
             "studentCode": "Student Code",
+            "teacherCode": "Teacher Code",
+            "coursesNumber": "Courses Number",
             "time": "Time",
             "total": "Total",
             "exportedOn": "Exported On",
@@ -114,7 +169,26 @@
             "attendancePercentage": "Attendance Percentage",
             "month": "Month",
             "numberOfSessions": "Number of Sessions",
-            "dailyAttendance": "Daily Attendance"
+            "dailyAttendance": "Daily Attendance",
+            "education": "Education",
+            "qualifications": "Qualifications",
+            "experience": "Experience",
+            "teacherSignature": "Teacher Signature",
+            "dateSigned": "Date Signed",
+            "comingSoon": "More details coming soon...",
+            "allMonths": "All Months",
+            "dailySchedule": "Daily Schedule",
+            "comment": "Comment",
+            "attendanceReport": "Attendance Report",
+            "attendanceSummary": "Attendance Summary",
+            "monthlyBreakdown": "Monthly Breakdown",
+            "performanceAnalysis": "Performance Analysis",
+            "bestMonth": "Best Month",
+            "worstMonth": "Worst Month",
+            "overallPerformance": "Overall Performance",
+            "markAllPresent": "All",
+            "markAllLate": "All",
+            "markAllAbsent": "All"
         },
         "validation": {
             "passwordMismatch": "Password and confirm password do not match",
@@ -158,10 +232,7 @@
             "entries": "entries",
             "noData": "No data available"
         },
-        "profile": {
-            "education": "Education",
-            "qualifications": "Qualifications",
-            "experience": "Experience",
+        "noData": {
             "noQualifications": "No qualifications",
             "noExperience": "No experience",
             "noCourses": "No courses",
@@ -171,44 +242,18 @@
             "noAttachments": "No attachments",
             "noWeeklySchedule": "No weekly schedule",
             "noAttendances": "No attendances",
-            "qualificationsSaveSuccess": "Qualifications saved successfully",
-            "experienceSaveSuccess": "Experience saved successfully"
-        },
-        "comingSoon": "More details coming soon...",
-        "days": {
-            "monday": "Monday",
-            "tuesday": "Tuesday", 
-            "wednesday": "Wednesday",
-            "thursday": "Thursday",
-            "friday": "Friday",
-            "saturday": "Saturday",
-            "sunday": "Sunday"
-        },
-        "months": {
-            "january": "January",
-            "february": "February",
-            "march": "March",
-            "april": "April",
-            "may": "May",
-            "june": "June",
-            "july": "July",
-            "august": "August",
-            "september": "September",
-            "october": "October",
-            "november": "November",
-            "december": "December"
+            "noClasses": "No classes scheduled for this day",
+            "noDailySchedule": "No daily schedule available",
+            "noFeedback": "No feedback"
         },
         "messages": {
             "savedSuccessfully": "Saved successfully",
             "updatedSuccessfully": "Updated successfully",
-            "deletedSuccessfully": "Deleted successfully"
+            "deletedSuccessfully": "Deleted successfully",
+            "qualificationsSaveSuccess": "Qualifications saved successfully",
+            "experienceSaveSuccess": "Experience saved successfully",
+            "attachmentUploadSuccess": "Attachment uploaded successfully"
         },
-        "attendanceStatus": {
-            "present": "Present",
-            "late": "Late",
-            "absent": "Absent"
-        },
-        "allMonths": "All Months",
         "pdf": {
             "success": "PDF exported successfully",
             "error": {
@@ -216,31 +261,31 @@
                 "noContent": "No content available for PDF export"
             }
         },
-        "teacherSignature": "Teacher Signature",
-        "dateSigned": "Date Signed",
-        "dailySchedule": {
-            "title": "Daily Schedule",
-            "noClasses": "No classes scheduled for this day",
-            "noDailySchedule": "No daily schedule available"
-        },
-        "feedback": {
-            "noFeedback": "No feedback",
-            "comment": "Comment"
+        "tabs": {
+            "qualifications": "Qualifications",
+            "schedule": "Schedule",
+            "education": "Education",
+            "courses": "Courses",
+            "groups": "Groups",
+            "students": "Students",
+            "personalInfo": "Personal Info",
+            "attachments": "Attachments",
+            "attendance": "Attendance",
+            "teacherFeedback": "Teacher Feedback"
         }
     },
     "courses": {
         "all": "Courses",
         "one": "Course",
         "formTitle": "Course Data",
+        "courseName": "Course Name",
         "activateSuccess": "Course activated successfully",
         "deactivateSuccess": "Course deactivated successfully",
         "saveSuccess": "Course saved successfully",
         "updateSuccess": "Course updated successfully",
         "deleteSuccess": "Course deleted successfully",
+        "teachersUpdatedSuccess": "Teachers updated successfully",
         "notFound": "Course not found",
-        "list": {
-            "name": "Course Name"
-        },
         "profile": {
             "courseData": "Course Data",
             "courseDetails": "Course Details",
@@ -262,28 +307,26 @@
         "all": "Teachers",
         "one": "Teacher",
         "formTitle": "Teacher Data",
+        "teacherName": "Teacher Name",
         "saveSuccess": "Teacher data saved successfully",
         "updateSuccess": "Teacher data updated successfully",
         "activateSuccess": "Teacher data activated successfully",
         "deactivateSuccess": "Teacher data deactivated successfully",
         "deleteSuccess": "Teacher data deleted successfully",
-        "notFound": "No teacher information found",
-        "profile": {
-            "teacherData": "Teacher Data"
-        }
+        "imageUpdateSuccess": "Teacher image updated successfully",
+        "coursesUpdatedSuccess": "Courses updated successfully",
+        "notFound": "No teacher information found"
     },
     "groups": {
         "all": "Groups",
         "one": "Group",
         "formTitle": "Group Data",
+        "groupName": "Group Name",
         "saveSuccess": "Group saved successfully",
         "updateSuccess": "Group updated successfully",
         "activateSuccess": "Group activated successfully",
         "deactivateSuccess": "Group deactivated successfully",
         "deleteSuccess": "Group deleted successfully",
-        "list": {
-            "name": "Group Name"
-        },
         "profile": {
             "groupData": "Group Data",
             "studentsList": "Students List",
@@ -304,34 +347,7 @@
         "deleteSuccess": "Student data deleted successfully",
         "notFound": "No student information found",
         "imageUpdateSuccess": "Student image updated successfully",
-        "groupsUpdateSuccess": "Student groups updated successfully",
-        "profile": {
-            "studentData": "Student Data",
-            "studentCode": "Student Code"
-        },
-        "tabs": {
-            "education": "Education",
-            "schedule": "Schedule",
-            "attachments": "Attachments",
-            "attendance": "Attendance",
-            "personalInfo": "Personal Info",
-            "teacherFeedback": "Teacher Feedback"
-        },
-        "attendanceReport": "Student Attendance Report",
-        "attendanceSummary": "Attendance Summary",
-        "monthlyBreakdown": "Monthly Breakdown",
-        "performanceAnalysis": "Performance Analysis",
-        "attendancePercentage": "Attendance Percentage",
-        "bestMonth": "Best Month",
-        "worstMonth": "Worst Month",
-        "overallPerformance": "Overall Performance",
-        "performance": {
-            "excellent": "Excellent",
-            "good": "Good",
-            "average": "Average",
-            "belowAverage": "Below Average",
-            "poor": "Poor"
-        }
+        "groupsUpdateSuccess": "Student groups updated successfully"
     },
     "employees": {
         "all": "Employees",
@@ -396,12 +412,6 @@
         "activateSuccess": "Schedule activated successfully",
         "deactivateSuccess": "Schedule deactivated successfully",
         "notFound": "Schedule not found",
-        "status": {
-            "new": "New",
-            "active": "Active",
-            "cancelled": "Cancelled",
-            "completed": "Completed"
-        },
         "confirm": {
             "cancelUpdate": "Are you sure you want to cancel this schedule?"
         }
@@ -437,12 +447,6 @@
             "title": "Daily Schedule",
             "subtitle": "View and manage all daily schedule",
             "noSessions": "No schedule found"
-        },
-        "status": {
-            "scheduled": "Scheduled",
-            "completed": "Completed",
-            "cancelled": "Cancelled",
-            "unknown": "Unknown"
         },
         "unknown": {
             "course": "Unknown Course"
@@ -484,11 +488,6 @@
         "confirm": {
             "cancel": "Are you sure you want to cancel this session?",
             "save": "Are you sure you want to save this session?"
-        },
-        "actions": {
-            "markAllPresent": "All",
-            "markAllLate": "All",
-            "markAllAbsent": "All"
         },
         "updateSuccess": "Attendance updated successfully"
     }

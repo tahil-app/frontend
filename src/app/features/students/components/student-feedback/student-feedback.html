@@ -1,25 +1,30 @@
 <div class="hello-park">
     <div class="d-flex justify-content-between">
-        <h5 class="mb-1">{{ 'students.tabs.teacherFeedback' | translate }}</h5>
+        <h5>{{ 'shared.tabs.teacherFeedback' | translate }}</h5>
 
+        <pdf-icon-btn *ngIf="permissionService.canExport.exportStudentFeedbackPdf && feedbacks?.length" [showOutline]="true" (onClick)="exportToPdf()"/>
     </div>
 
-    <div class="tab-section-container mt-3">
+    <div class="tab-section-container auto-hover-scroll">
 
         <!-- Feedback List -->
         <div class="feedback-list">
 
-            <!-- No Feedback Message -->
-            <div *ngIf="feedbacks && feedbacks.length === 0" class="no-feedback">
-                <div class="text-center">
-                    <i class="fas fa-inbox text-muted mb-3" style="font-size: 3rem;"></i>
-                    <p class="text-muted">{{ 'shared.feedback.noFeedback' | translate }}</p>
-                </div>
-            </div>
+            <no-data *ngIf="feedbacks && feedbacks.length === 0" [icon]="'fas fa-comments'" [text]="'shared.noData.noFeedback' | translate" />
 
             <card-feedback *ngFor="let feedback of feedbacks" [feedback]="feedback" />
 
         </div>
     </div>
+
+</div>
+
+   <!-- Hidden PDF Template -->
+   <div style="position: absolute; left: -9999px; top: -9999px;">
+
+    <feedback-pdf-template 
+        [title]="getReportTitle()"
+        [feedbacks]="feedbacks"
+    />
 
 </div>

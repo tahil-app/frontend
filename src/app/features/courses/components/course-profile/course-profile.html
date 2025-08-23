@@ -22,7 +22,7 @@
                 <i class="fas fa-solid fa-book"></i>
               </div>
               <div class="views-personal">
-                <h4>{{ 'shared.fields.name' | translate }}</h4>
+                <h4>{{ 'shared.labels.name' | translate }}</h4>
                 <h5>{{ course.name }}</h5>
               </div>
             </div>
@@ -32,7 +32,7 @@
                 <i class="fas fa-solid fa-align-left"></i>
               </div>
               <div class="views-personal">
-                <h4>{{ 'shared.fields.description' | translate }}</h4>
+                <h4>{{ 'shared.labels.description' | translate }}</h4>
                 <h5>{{ course.description }}</h5>
               </div>
             </div>
@@ -42,7 +42,7 @@
                 <i class="fas fa-solid fa-chalkboard-teacher"></i>
               </div>
               <div class="views-personal">
-                <h4>{{ 'shared.fields.numberOfTeachers' | translate }}</h4>
+                <h4>{{ 'shared.labels.numberOfTeachers' | translate }}</h4>
                 <h5>{{ course.numberOfTeachers || 0 }}</h5>
               </div>
             </div>
@@ -73,6 +73,8 @@
                   <div class="d-flex justify-content-between">
                     <h5>{{ 'teachers.all' | translate }}</h5>
 
+                    <edit-icon-button *ngIf="permissionAccess.canEdit.course" (click)="onAddTeacher()"
+                      [showOutline]="true" />
                   </div>
 
                   <div class="table-container" *ngIf="course.teachers && course.teachers.length > 0">
@@ -81,13 +83,13 @@
 
                       <thead>
                         <tr>
-                          <th>{{ 'shared.fields.name' | translate }}</th>
+                          <th>{{ 'teachers.one' | translate }}</th>
                         </tr>
                       </thead>
 
                       <tbody>
                         <tr *ngFor="let teacher of course.teachers" class="class-row">
-                          <td class="py-4 clickable-text student-name" (click)="onTeacherClick(teacher.id)">
+                          <td class="clickable-text student-name" (click)="onTeacherClick(teacher.id)">
                             {{ teacher.name }}
                           </td>
                         </tr>
@@ -97,7 +99,7 @@
 
                   </div>
 
-                  <no-data [icon]="'fas fa-user-plus'" [text]="'shared.profile.noTeachers' | translate"
+                  <no-data [icon]="'fas fa-user-plus'" [text]="'shared.noData.noTeachers' | translate"
                     *ngIf="!course.teachers || course.teachers.length === 0" />
 
                 </div>
@@ -119,7 +121,7 @@
 
                       <thead>
                         <tr>
-                          <th>{{ 'shared.fields.name' | translate }}</th>
+                          <th>{{ 'groups.one' | translate }}</th>
                         </tr>
                       </thead>
 
@@ -135,7 +137,7 @@
 
                   </div>
 
-                  <no-data [icon]="'fas fa-users'" [text]="'shared.profile.noGroups' | translate"
+                  <no-data [icon]="'fas fa-users'" [text]="'shared.noData.noGroups' | translate"
                     *ngIf="!course.groups || course.groups.length === 0" />
 
                 </div>

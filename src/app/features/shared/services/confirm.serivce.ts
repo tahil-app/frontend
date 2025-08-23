@@ -20,8 +20,8 @@ export class ConfirmService {
             key: 'deleteConfirmDialog',
             message: message,
             icon: icon,
-            acceptLabel: 'نعم',
-            rejectLabel: 'إلغاء',
+            acceptLabel: this.translate.instant('shared.dialogs.yes'),
+            rejectLabel: this.translate.instant('shared.dialogs.no'),
             accept: () => {
                 acceptCallback();
             },
@@ -103,6 +103,30 @@ export class ConfirmService {
             acceptCallback,
             undefined,
             'pi pi-eye text-info'
+        );
+    }
+
+    confirmChangeImage(
+        acceptCallback: () => void,
+        message?: string
+    ): void {
+        this.confirm(
+            message || this.translate.instant('shared.dialogs.changeImageConfirmation'),
+            acceptCallback,
+            undefined,
+            'pi pi-camera text-primary'
+        );
+    }
+
+    confirmDownload(
+        acceptCallback: () => void,
+        message?: string
+    ): void {
+        this.confirm(
+            message || this.translate.instant('shared.dialogs.downloadConfirmation'),
+            acceptCallback,
+            undefined,
+            'pi pi-download text-primary'
         );
     }
 }

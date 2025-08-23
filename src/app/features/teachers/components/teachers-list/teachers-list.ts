@@ -49,10 +49,10 @@ export class TeachersList {
 
   //#region Columns
   columns: GridColumn[] = [
-    { field: 'name', apiField: 'User.Name', title: this.translate.instant('shared.fields.name'), columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
-    { field: 'phoneNumber', apiField: 'User.PhoneNumber', title: this.translate.instant('shared.fields.phoneNumber'), columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
-    { field: 'email', apiField: 'User.Email.Value', title: this.translate.instant('shared.fields.email'), columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
-    { field: 'joinedDate', apiField: 'User.JoinedDate', title: this.translate.instant('shared.fields.joinedDate'), columnType: ColumnTypeEnum.date, sortable: true, filterType: ColumnFilterTypeEnum.date, filterOperator: FilterOperators.equal },
+    { field: 'name', apiField: 'User.Name', title: this.translate.instant('shared.labels.name'), columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
+    { field: 'phoneNumber', apiField: 'User.PhoneNumber', title: this.translate.instant('shared.labels.phoneNumber'), columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
+    { field: 'email', apiField: 'User.Email.Value', title: this.translate.instant('shared.labels.email'), columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
+    { field: 'joinedDate', apiField: 'User.JoinedDate', title: this.translate.instant('shared.labels.joinedDate'), columnType: ColumnTypeEnum.date, sortable: true, filterType: ColumnFilterTypeEnum.date, filterOperator: FilterOperators.equal },
   ];
   //#endregion
 

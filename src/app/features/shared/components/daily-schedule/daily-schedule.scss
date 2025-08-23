@@ -1,26 +1,35 @@
 .student-schedule-container {
 
   .schedule-tables {
+
     .day-table {
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
       border: 1px solid #e9ecef;
+      border-radius: 0.375rem;
+      margin-bottom: 1rem;
+      transition: all 0.3s ease;
+      position: relative;
       overflow: hidden;
-      transition: all 0.2s ease;
 
       &:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        transform: translateY(-2px);
+        box-shadow: var(--box-shadow);
+      }
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        background: #007bff;
       }
 
       .day-header {
-        background: #f8f9fa;
         padding: 0.5rem 0.75rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        border-bottom: 1px solid #e9ecef;
 
         &.today {
           background: linear-gradient(135deg, #007bff, #0056b3);
@@ -62,40 +71,12 @@
       }
 
       .table-container {
-        // Add horizontal scroll container
-        overflow-x: auto;
-        overflow-y: hidden;
-
-        // Custom scrollbar styling
-        &::-webkit-scrollbar {
-          height: 6px;
-          opacity: 0;
-          transition: opacity 0.3s ease;
-        }
-
-        &::-webkit-scrollbar-track {
-          background: transparent;
-        }
-
-        &::-webkit-scrollbar-thumb {
-          background: transparent;
-          border-radius: 3px;
-          transition: background-color 0.3s ease;
-        }
-
-        // Show scrollbar on hover
-        &:hover {
-          &::-webkit-scrollbar-thumb {
-            background: rgba(0, 123, 255, 0.3);
-          }
-        }
-
-        // Firefox scrollbar styling
-        scrollbar-width: thin;
-        scrollbar-color: transparent transparent;
+        margin: -1px;
+        border-radius: 0 0 0.375rem 0.375rem;
 
         &:hover {
-          scrollbar-color: #8a8888 transparent;
+          transform: unset;
+          box-shadow: unset;
         }
 
         .schedule-table {
@@ -161,34 +142,6 @@
                 vertical-align: middle;
                 text-wrap-mode: nowrap;
                 white-space: nowrap; // Prevent text wrapping in cells
-
-                &.time-cell {
-                  display: flex;
-                  align-items: center;
-                  gap: 0.25rem;
-                  color: #6c757d;
-                  font-weight: 500;
-                }
-
-                &.subject-cell {
-                  .subject-name {
-                    font-weight: 600;
-                    color: #495057;
-                    font-size: 0.75rem;
-                  }
-                }
-
-                &.teacher-cell {
-                  color: #6c757d;
-                }
-
-                &.room-cell {
-                  color: #6c757d;
-                }
-
-                &.group-cell {
-                  color: #6c757d;
-                }
               }
             }
           }

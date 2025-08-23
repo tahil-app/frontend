@@ -144,7 +144,7 @@ export class SessionForm implements OnInit, OnDestroy {
   cancel() {
     if (this.sessionForm.dirty) {
       this.confirmService.confirm(
-        this.translateService.instant('shared.confirm.unsavedChanges'),
+        this.translateService.instant('shared.dialogs.unsavedChanges'),
         () => {
           this.onCancel.emit();
         }

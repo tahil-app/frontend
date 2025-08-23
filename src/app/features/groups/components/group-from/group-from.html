@@ -3,7 +3,7 @@
 
     <form [formGroup]="groupForm" (ngSubmit)="hasId() ? update() : save()">
         <div class="flex items-center gap-4 mb-2">
-            <input-label [label]="'shared.fields.name' | translate" [required]="true"
+            <input-label [label]="'shared.labels.name' | translate" [required]="true"
                 [formControl]="getFormControl('name')" />
         </div>
 
@@ -18,7 +18,7 @@
         </div>
 
         <div class="flex items-center gap-4 mb-4">
-            <input-label [label]="'shared.fields.capacity' | translate" [formControl]="getFormControl('capacity')"
+            <input-label [label]="'shared.labels.capacity' | translate" [formControl]="getFormControl('capacity')"
                 type="number" />
         </div>
 

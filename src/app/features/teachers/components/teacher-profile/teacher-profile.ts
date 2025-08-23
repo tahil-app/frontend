@@ -1,44 +1,57 @@
-import { ChangeDetectorRef, Component, inject } from '@angular/core';
-import { CardContainer } from '../../../shared/components/card-container/card-container';
+import { ChangeDetectorRef, Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { TabsModule } from 'primeng/tabs';
-import { Teacher } from '../../../../core/models/teacher.model';
-import { Subject, takeUntil } from 'rxjs';
-import { TeacherService } from '../../../../core/services/teacher.service';
-import { LoaderService } from '../../../shared/services/loader.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { DateHelper } from '../../../../core/helpers/date.helper';
-import { GenderHelper } from '../../../../core/helpers/gender.helper';
-import { GenderEnum } from '../../../../core/enums/gender.enum';
 import { TooltipModule } from 'primeng/tooltip';
 import { TeacherFormComponent } from '../teacher-form/teacher-form';
 import { TeacherQualification } from '../teacher-qualification/teacher-qualification';
 import { CommonModule } from '@angular/common';
-import { DomSanitizer } from '@angular/platform-browser';
-import { TeacherExperience } from '../teacher-experience/teacher-experience';
-import { UserAttachmentDialog } from "../../../shared/dialogs/user-attachment-dialog/user-attachment-dialog";
-import { UserAttachment } from '../../../../core/models/user-attachment.model';
+import { UserAttachmentDialog } from '../../../shared/dialogs/user-attachment-dialog/user-attachment-dialog';
 import { TeacherAttachmentComponent } from '../teacher-attachment/teacher-attachment';
+import { Teacher } from '../../../../core/models/teacher.model';
+import { Subject, takeUntil } from 'rxjs';
 import { ToastService } from '../../../shared/services/toast.service';
+import { DomSanitizer } from '@angular/platform-browser';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { LoaderService } from '../../../shared/services/loader.service';
+import { TeacherService } from '../../../../core/services/teacher.service';
+import { DateHelper } from '../../../../core/helpers/date.helper';
+import { GenderEnum } from '../../../../core/enums/gender.enum';
+import { GenderHelper } from '../../../../core/helpers/gender.helper';
+import { UserAttachment } from '../../../../core/models/user-attachment.model';
 import { TableModule } from 'primeng/table';
-import { Course } from '../../../../core/models/course.model';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { PermissionAccessService } from '../../../../core/services/permission-access.service';
+import { CardModule } from 'primeng/card';
+import { EditIconButton } from "../../../shared/buttons/edit-icon-button/edit-icon-button";
+import { TeacherExperience } from '../teacher-experience/teacher-experience';
+import { ConfirmService } from '../../../shared/services/confirm.serivce';
+import { NoData } from "../../../shared/components/no-data/no-data";
+import { AuthService } from '../../../../core/services/auth.service';
+import { CoursesDialog } from "../../../shared/dialogs/courses-dialog/courses-dialog";
+import { Course } from '../../../../core/models/course.model';
+import { TimeHelper } from '../../../../core/helpers/time.helper';
+import { WeekDaysService } from '../../../../core/services/week-days.service';
+import { TeacherDailySchedule } from "../teacher-daily-schedule/teacher-daily-schedule";
 
 @Component({
   selector: 'app-teacher-profile',
   imports: [
-    CardContainer, 
-    TabsModule, 
-    TooltipModule, 
-    TeacherFormComponent, 
-    TeacherQualification, 
-    CommonModule, 
-    TeacherExperience, 
-    UserAttachmentDialog, 
-    TeacherAttachmentComponent, 
-    TableModule, 
-    TranslateModule
-  ],
+    TabsModule,
+    TooltipModule,
+    TeacherFormComponent,
+    TeacherQualification,
+    CommonModule,
+    UserAttachmentDialog,
+    TeacherAttachmentComponent,
+    TableModule,
+    TranslateModule,
+    RouterModule,
+    CardModule,
+    EditIconButton,
+    TeacherExperience,
+    NoData,
+    CoursesDialog,
+    TeacherDailySchedule
+],
   templateUrl: './teacher-profile.html',
   styleUrl: './teacher-profile.scss'
 })
@@ -49,11 +62,13 @@ export class TeacherProfile {
   showQualificationDialog = false;
   showExperienceDialog = false;
   showUserAttachmentDialog = false;
-  showCoursesDialog = false;
+  showEditCourseDialog = false;
   disablePage = false;
 
   teacher: Teacher = {} as Teacher;
   destroy$ = new Subject<void>();
+
+  @ViewChild('fileInput') fileInput!: ElementRef;
   //#endregion
 
   //#region Services
@@ -64,8 +79,12 @@ export class TeacherProfile {
   private sanitizer = inject(DomSanitizer);
   private toaster = inject(ToastService);
   private translate = inject(TranslateService);
-  public permissionService = inject(PermissionAccessService); 
-
+  private confirmService = inject(ConfirmService);
+  private router = inject(Router);
+  
+  public weekDays = inject(WeekDaysService);
+  public authService = inject(AuthService);
+  public permissionService = inject(PermissionAccessService);
   //#endregion
 
   //#region Methods
@@ -81,10 +100,10 @@ export class TeacherProfile {
   loadTeacher() {
     this.loader.show();
     this.teacherService.get(this.teacher.id).pipe(takeUntil(this.destroy$)).subscribe((teacher: Teacher) => {
-      this.teacher = teacher;
+      this.teacher = { ...teacher };
       this.teacher.courses = this.teacher.courses?.sort((a, b) => a.name.localeCompare(b.name)) || [];
 
-      if(teacher.id == 0) {
+      if (teacher.id == 0) {
         this.toaster.showError(this.translate.instant('teachers.notFound'));
         this.disablePage = true;
       }
@@ -96,12 +115,15 @@ export class TeacherProfile {
       this.showQualificationDialog = false;
       this.showExperienceDialog = false;
       this.showUserAttachmentDialog = false;
-      this.showCoursesDialog = false;
     });
   }
 
   getSafeHtml(html: string) {
     return html ? this.sanitizer.bypassSecurityTrustHtml(html) : '';
+  }
+
+  getTimeFormat(time: string) {
+    return time ? TimeHelper.displayTime(time) : '';
   }
 
   ngOnDestroy() {
@@ -113,6 +135,10 @@ export class TeacherProfile {
 
   //#region Teacher Info
 
+  get selectedTab() {
+    return '0';
+  }
+
   getImageUrl(imageUrl: string) {
     return imageUrl ? this.teacherService.getViewAttachmentUrl(imageUrl) : 'assets/icons/avatar-teacher.svg';
   }
@@ -122,27 +148,35 @@ export class TeacherProfile {
     if (file) {
       this.loader.show();
       this.teacherService.uploadImage(file, this.teacher.id).subscribe(res => {
-        if(res) {
+        if (res) {
           this.loadTeacher();
-          this.toaster.showSuccess('تم تحديث الصورة بنجاح');
+          this.toaster.showSuccess(this.translate.instant('teachers.imageUpdateSuccess'));
         }
       }, _ => { }, () => {
         this.loader.hide();
-      }, );
+      },);
     }
   }
 
   getAge(birthDate: string | null) {
-    return birthDate ? DateHelper.getAge(birthDate!) : '--';
+    return birthDate ? DateHelper.getAge(birthDate) : '';
   }
 
   getGender(gender: GenderEnum) {
     return GenderHelper.get(gender);
   }
 
+  changeImage() {
+    this.confirmService.confirmChangeImage(() => {
+      this.fileInput.nativeElement.click();
+    });
+  }
+
   onEditTeacher() {
-    this.teacher = { ...this.teacher };
-    this.showEditInfoDialog = true;
+    this.confirmService.confirmEdit(() => {
+      this.teacher = { ...this.teacher };
+      this.showEditInfoDialog = true;
+    });
   }
 
   //#endregion
@@ -150,13 +184,19 @@ export class TeacherProfile {
   //#region Teacher Qualification and Experience
 
   onEditQualification() {
-    this.teacher = { ...this.teacher };
-    this.showQualificationDialog = true;
+
+    this.confirmService.confirmEdit(() => {
+      this.teacher = { ...this.teacher };
+      this.showQualificationDialog = true;
+    });
   }
 
   onEditExperience() {
-    this.teacher = { ...this.teacher };
-    this.showExperienceDialog = true;
+
+    this.confirmService.confirmEdit(() => {
+      this.teacher = { ...this.teacher };
+      this.showExperienceDialog = true;
+    });
   }
 
   //#endregion
@@ -170,7 +210,10 @@ export class TeacherProfile {
   saveUserAttachment(userAttachment: UserAttachment) {
     this.loader.show();
     this.teacherService.uploadAttachment(userAttachment).pipe(takeUntil(this.destroy$)).subscribe((res) => {
-      this.loadTeacher();
+      if (res) {
+        this.loadTeacher();
+        this.toaster.showSuccess(this.translate.instant('shared.messages.attachmentUploadSuccess'));
+      }
     }, _ => { }, () => {
       this.loader.hide();
       this.showUserAttachmentDialog = false;
@@ -179,24 +222,46 @@ export class TeacherProfile {
 
   //#endregion
 
-  //#region Teacher Courses
-  
-  onEditCourses() {
-    this.teacher = { ...this.teacher };
-    this.showCoursesDialog = true;
+  //#region Course
+
+  onCourseClick(courseId: number) {
+    this.confirmService.confirmView(() => {
+      this.router.navigate(['/courses', courseId]);
+    });
   }
 
-  saveCourses(courses: Course[]) {
+  onEditCourse() {
+
+    this.confirmService.confirmEdit(() => {
+      this.showEditCourseDialog = true;
+    });
+
+  }
+
+  onSaveCourses(courses: Course[]) {
+    let currentCourses = this.teacher.courses || [];
     this.teacher.courses = courses;
 
-    this.loader.show();
-    this.teacherService.update(this.teacher).pipe(takeUntil(this.destroy$)).subscribe(res => {
-      if(res) {
-        this.loadTeacher();
-        this.toaster.showSuccess('تم تحديث الدورات بنجاح');
-      }
-    }, _ => { }, () => {
-      this.loader.hide();
+    this.teacherService.update(this.teacher)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(res => {
+        if (res) {
+          this.loadTeacher();
+          this.toaster.showSuccess(this.translate.instant('teachers.coursesUpdatedSuccess'));
+          this.showEditCourseDialog = false;
+        } else {
+          this.teacher.courses = currentCourses;
+        }
+      }, _ => { }, () => this.loader.hide());
+  }
+
+  //#endregion
+
+  //#region Group
+
+  onGroupClick(groupId: number) {
+    this.confirmService.confirmView(() => {
+      this.router.navigate(['/groups', groupId]);
     });
   }
 

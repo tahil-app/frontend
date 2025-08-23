@@ -5,7 +5,7 @@ import { ClassSession } from '../../../../core/models/class-session.model';
 import { ClassSessionStatus } from '../../../../core/enums/class-session-status.enum';
 import { DateHelper } from '../../../../core/helpers/date.helper';
 import { TimeHelper } from '../../../../core/helpers/time.helper';
-import { PdfTemplateFooter } from "../../../shared/components/pdf-template-footer/pdf-template-footer";
+import { PdfTemplateFooter } from "../../../shared/pdf-template/pdf-template-footer/pdf-template-footer";
 
 @Component({
   selector: 'sessions-list-pdf-template',

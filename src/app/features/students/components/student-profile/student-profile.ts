@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { TabsModule } from 'primeng/tabs';
 import { TooltipModule } from 'primeng/tooltip';
 import { StudentFormComponent } from '../student-form/student-form';
@@ -10,7 +10,7 @@ import { Student } from '../../../../core/models/student.model';
 import { Subject, takeUntil } from 'rxjs';
 import { ToastService } from '../../../shared/services/toast.service';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { LoaderService } from '../../../shared/services/loader.service';
 import { StudentService } from '../../../../core/services/student.service';
 import { DateHelper } from '../../../../core/helpers/date.helper';
@@ -25,6 +25,8 @@ import { EditIconButton } from "../../../shared/buttons/edit-icon-button/edit-ic
 import { StudentDailySchedule } from "../student-daily-schedule/student-daily-schedule";
 import { StudentFeedback } from "../student-feedback/student-feedback";
 import { StudentAttendance } from "../student-attendance/student-attendance";
+import { ConfirmService } from '../../../shared/services/confirm.serivce';
+import { NoData } from "../../../shared/components/no-data/no-data";
 
 @Component({
   selector: 'app-student-profile',
@@ -43,7 +45,8 @@ import { StudentAttendance } from "../student-attendance/student-attendance";
     EditIconButton,
     StudentDailySchedule,
     StudentFeedback,
-    StudentAttendance
+    StudentAttendance,
+    NoData,
 ],
   templateUrl: './student-profile.html',
   styleUrl: './student-profile.scss'
@@ -58,6 +61,8 @@ export class StudentProfile {
 
   student: Student = {} as Student;
   destroy$ = new Subject<void>();
+
+  @ViewChild('fileInput') fileInput!: ElementRef;
   //#endregion
 
   //#region Services
@@ -68,7 +73,9 @@ export class StudentProfile {
   private sanitizer = inject(DomSanitizer);
   private toaster = inject(ToastService);
   private translate = inject(TranslateService);
-  
+  private confirmService = inject(ConfirmService);
+  private router = inject(Router);
+
   public permissionService = inject(PermissionAccessService);
   //#endregion
 
@@ -145,9 +152,26 @@ export class StudentProfile {
     return GenderHelper.get(gender);
   }
 
+  changeImage() {
+    this.confirmService.confirmChangeImage(() => {
+      this.fileInput.nativeElement.click();
+    });
+  }
+
   onEditStudent() {
-    this.student = { ...this.student };
-    this.showEditInfoDialog = true;
+    this.confirmService.confirmEdit(() => {
+      this.student = { ...this.student };
+      this.showEditInfoDialog = true;
+    });
+  }
+
+
+  onGroupClick(groupId: number) {
+
+    this.confirmService.confirmView(() => {
+      this.router.navigate(['/groups', groupId]);
+    });
+    
   }
 
   //#endregion
@@ -155,8 +179,10 @@ export class StudentProfile {
   //#region Student Qualification
 
   onEditQualification() {
-    this.student = { ...this.student };
-    this.showQualificationDialog = true;
+    this.confirmService.confirmEdit(() => {
+      this.student = { ...this.student };
+      this.showQualificationDialog = true;
+    });
   }
 
   //#endregion
@@ -170,7 +196,10 @@ export class StudentProfile {
   saveUserAttachment(userAttachment: UserAttachment) {
     this.loader.show();
     this.studentService.uploadAttachment(userAttachment).pipe(takeUntil(this.destroy$)).subscribe((res) => {
-      this.loadStudent();
+      if(res) {
+        this.loadStudent();
+        this.toaster.showSuccess(this.translate.instant('shared.messages.attachmentUploadSuccess'));
+      }
     }, _ => { }, () => {
       this.loader.hide();
       this.showUserAttachmentDialog = false;

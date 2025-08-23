@@ -23,10 +23,15 @@ import { CommonModule } from '@angular/common';
 export class DailyScheduleComponent  {
 
   //#region Services
-  private weekDaysService = inject(WeekDaysService);
+  public weekDaysService = inject(WeekDaysService);
   //#endregion
 
   @Input() dailySchedules: DailySchedule[] = [];
+  @Input() showTime = true;
+  @Input() showGroup = true;
+  @Input() showRoom = true;
+  @Input() showSubject = true;
+  @Input() showTeacher = true;
 
   //#region Methods
   ngOnInit(): void {
@@ -56,10 +61,6 @@ export class DailyScheduleComponent  {
 
   getTime(time: string) {
     return TimeHelper.displayTime(time);
-  }
-
-  isToday(dayIndex: number): boolean {
-    return dayIndex === new Date().getDay() + 1;
   }
 
   getClassesByDay(day: number): DailySchedule[] {

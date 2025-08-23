@@ -588,3 +588,9 @@ div.dataTables_wrapper div.dataTables_filter input {
     border-left: 4px solid #007bff;
     border-right: unset !important;
 }
+
+.p-tablist {
+    .p-tablist-nav-button {
+        transform: rotate(180deg);
+    }
+}

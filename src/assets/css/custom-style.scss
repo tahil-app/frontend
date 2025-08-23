@@ -223,11 +223,10 @@ label,
 .table-container {
     // Add horizontal scroll container
     overflow-x: auto;
-    overflow-y: hidden;
+    overflow-y: auto;
     background: white;
-    border-radius: 8px;
+    border-radius: 0.375rem;
     border: 1px solid #e9ecef;
-    overflow: hidden;
     transition: all 0.2s ease;
 
     &:hover {
@@ -319,9 +318,55 @@ label,
     }
 }
 
-.card, .p-card {
+.card,
+.p-card {
     color: var(--p-card-color) !important;
     box-shadow: var(--p-card-shadow) !important;
     border-radius: 10px !important;
     border: unset !important;
+}
+
+.clickable-text {
+    color: #007bff;
+    cursor: pointer;
+  
+    &:hover {
+      font-weight: 600;
+    }
+  }
+  
+
+.auto-hover-scroll {
+
+    // Custom scrollbar styling
+    &::-webkit-scrollbar {
+        height: 6px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: transparent;
+        border-radius: 3px;
+        transition: background-color 0.3s ease;
+    }
+
+    // Show scrollbar on hover
+    &:hover {
+        &::-webkit-scrollbar-thumb {
+            background: rgba(0, 123, 255, 0.3);
+        }
+    }
+
+    // Firefox scrollbar styling
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+
+    &:hover {
+        scrollbar-color: #8a8888 transparent;
+    }
 }

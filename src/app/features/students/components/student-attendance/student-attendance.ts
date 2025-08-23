@@ -12,11 +12,12 @@ import { MonthlyAttendanceModel } from '../../../../core/models/monthly-attendan
 import { LoaderService } from '../../../shared/services/loader.service';
 import { LineChart } from "../../../shared/components/line-chart/line-chart";
 import { LineChartProps } from '../../../shared/props/line-chart.props';
-import { StudentAttendancePdfTemplateComponent } from '../student-attendance-pdf-template/student-attendance-pdf-template';
 import { PdfExportService } from '../../../shared/services/pdf-export.service';
 import { Student } from '../../../../core/models/student.model';
 import { PermissionAccessService } from '../../../../core/services/permission-access.service';
 import { ConfirmService } from '../../../shared/services/confirm.serivce';
+import { AttendancePdfTemplate } from "../../../shared/pdf-template/attendance-pdf-template/attendance-pdf-template";
+import { ReportHelper } from '../../../../core/helpers/report.helper';
 
 @Component({
   selector: 'student-attendance',
@@ -29,15 +30,15 @@ import { ConfirmService } from '../../../shared/services/confirm.serivce';
     FormsModule,
     PdfIconBtn,
     LineChart,
-    StudentAttendancePdfTemplateComponent
-  ],
+    AttendancePdfTemplate
+],
   templateUrl: './student-attendance.html',
   styleUrl: './student-attendance.scss'
 })
 export class StudentAttendance implements OnInit, OnDestroy {
 
   @Input() student!: Student;
-  @ViewChild(StudentAttendancePdfTemplateComponent, { static: false }) pdfTemplate!: StudentAttendancePdfTemplateComponent;
+  @ViewChild(AttendancePdfTemplate, { static: false }) pdfTemplate!: AttendancePdfTemplate;
 
   // Properties
   allowExportToPdf: boolean = false;
@@ -68,6 +69,10 @@ export class StudentAttendance implements OnInit, OnDestroy {
     this.$destroy.complete();
   }
 
+  getReportTitle() {
+    return ReportHelper.getTitle(this.translateService.instant('shared.labels.attendanceReport'), this.student.name);
+  }
+
   initializeChart() {
     // Create a data array for all 12 months, initialized with 0
     const presentData = new Array(12).fill(0);
@@ -86,7 +91,7 @@ export class StudentAttendance implements OnInit, OnDestroy {
 
     this.dataSet = [
       {
-        label: this.translateService.instant('shared.attendanceStatus.present'),
+        label: this.translateService.instant('attendanceStatus.present'),
         data: presentData,
         borderColor: '#4CAF50',
         backgroundColor: 'rgba(76, 175, 80, 0.1)',
@@ -98,7 +103,7 @@ export class StudentAttendance implements OnInit, OnDestroy {
         pointHoverRadius: 8
       },
       {
-        label: this.translateService.instant('shared.attendanceStatus.absent'),
+        label: this.translateService.instant('attendanceStatus.absent'),
         data: absentData,
         borderColor: '#F44336',
         backgroundColor: 'rgba(244, 67, 54, 0.1)',
@@ -110,7 +115,7 @@ export class StudentAttendance implements OnInit, OnDestroy {
         pointHoverRadius: 8
       },
       {
-        label: this.translateService.instant('shared.attendanceStatus.late'),
+        label: this.translateService.instant('attendanceStatus.late'),
         data: lateData,
         borderColor: '#FF9800',
         backgroundColor: 'rgba(255, 152, 0, 0.1)',

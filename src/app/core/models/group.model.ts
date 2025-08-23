@@ -1,11 +1,13 @@
 import { DayOfWeek } from "../enums/day-week.enum";
 import { Course } from "./course.model";
+import { DailySchedule } from "./daily-schedule.model";
 import { Student } from "./student.model";
 import { Teacher } from "./teacher.model";
 
 export interface Group {
     id: number;
     name: string;
+    courseName: string;
     courseId: number;
     teacherId: number;
     capacity: number;
@@ -14,19 +16,9 @@ export interface Group {
     teacher?: Teacher;
     course?: Course;
     students?: Student[];
-    dailySchedules?: GroupDailySchedule[];
+    dailySchedules?: DailySchedule[];
     attendces? : GroupAttendance[];
 }
-
-
-export interface GroupDailySchedule 
-{
-    day: DayOfWeek;
-    startTime: string | null;
-    endTime: string | null;
-    roomeName: string | null;
-}
-
 
 export interface GroupAttendance {
     sessionId: number;

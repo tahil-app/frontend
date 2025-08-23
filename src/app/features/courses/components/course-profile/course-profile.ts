@@ -89,6 +89,7 @@ export class CourseProfile implements OnInit {
   }
 
   onSaveTeachers(teachers: Teacher[]) {
+    let currentTeachers = this.course.teachers || [];
     this.course.teachers = teachers;
 
     this.loader.show();
@@ -97,8 +98,10 @@ export class CourseProfile implements OnInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe(success => {
         if (success) {
-          this.toaster.showSuccess(this.translate.instant('courses.teachersUpdated'));
+          this.toaster.showSuccess(this.translate.instant('courses.teachersUpdatedSuccess'));
           this.loadCourse(this.course.id);
+        } else {
+          this.course.teachers = currentTeachers;
         }
       }, error => { }, () => {
         this.loader.hide();

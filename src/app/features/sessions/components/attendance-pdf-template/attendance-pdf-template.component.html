@@ -8,7 +8,7 @@
         <div class="session-details">
         
           <div class="detail-row justify-content-end">
-            <span class="label">{{ 'shared.fields.date' | translate }}: &nbsp;</span>
+            <span class="label">{{ 'shared.labels.date' | translate }}: &nbsp;</span>
             <span class="value">{{ attendanceDisplay.sessionDate }}</span>
           </div>
 
@@ -18,12 +18,12 @@
       <div class="session-details">
       
         <div class="detail-row">
-          <span class="label">{{ 'shared.fields.course' | translate }}: &nbsp;</span>
+          <span class="label">{{ 'shared.labels.course' | translate }}: &nbsp;</span>
           <span class="value">{{ attendanceDisplay.courseName }}</span>
         </div>
 
         <div class="detail-row justify-content-end">
-          <span class="label">{{ 'shared.fields.room' | translate }}: &nbsp;</span>
+          <span class="label">{{ 'shared.labels.room' | translate }}: &nbsp;</span>
           <span class="value">{{ attendanceDisplay.roomName }}</span>
         </div>
       
@@ -31,7 +31,7 @@
 
       <div class="session-details">
         <div class="detail-row">
-          <span class="label">{{ 'shared.fields.group' | translate }}: &nbsp;</span>
+          <span class="label">{{ 'shared.labels.group' | translate }}: &nbsp;</span>
           <span class="value">{{ attendanceDisplay.groupName }}</span>
         </div>
       </div>
@@ -45,10 +45,10 @@
       <thead>
         <tr>
           <th class="student-name-col">{{ 'attendance.table.studentName' | translate }}</th>
-          <th class="attendance-col">{{ 'shared.attendanceStatus.present' | translate }}</th>
-          <th class="attendance-col">{{ 'shared.attendanceStatus.late' | translate }}</th>
-          <th class="attendance-col">{{ 'shared.attendanceStatus.absent' | translate }}</th>
-          <th class="notes-col">{{ 'shared.fields.notes' | translate }}</th>
+          <th class="attendance-col">{{ 'attendanceStatus.present' | translate }}</th>
+          <th class="attendance-col">{{ 'attendanceStatus.late' | translate }}</th>
+          <th class="attendance-col">{{ 'attendanceStatus.absent' | translate }}</th>
+          <th class="notes-col">{{ 'shared.labels.notes' | translate }}</th>
         </tr>
       </thead>
       <tbody>
@@ -82,15 +82,15 @@
       <span class="summary-value">{{ totalStudents }}</span>
     </div>
     <div class="summary-row">
-      <span class="summary-label">{{ 'shared.attendanceStatus.present' | translate }}: &nbsp;</span>
+      <span class="summary-label">{{ 'attendanceStatus.present' | translate }}: &nbsp;</span>
       <span class="summary-value">{{ presentStudents }}</span>
     </div>
     <div class="summary-row">
-      <span class="summary-label">{{ 'shared.attendanceStatus.late' | translate }}: &nbsp;</span>
+      <span class="summary-label">{{ 'attendanceStatus.late' | translate }}: &nbsp;</span>
       <span class="summary-value">{{ lateStudents }}</span>
     </div>
     <div class="summary-row">
-      <span class="summary-label">{{ 'shared.attendanceStatus.absent' | translate }}: &nbsp;</span>
+      <span class="summary-label">{{ 'attendanceStatus.absent' | translate }}: &nbsp;</span>
       <span class="summary-value">{{ absentStudents }}</span>
     </div>
   </div>

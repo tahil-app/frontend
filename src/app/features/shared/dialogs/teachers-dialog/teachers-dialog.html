@@ -3,7 +3,7 @@
     
     <form [formGroup]="teachersForm" (ngSubmit)="save()">
 
-        <dropdown [label]="'shared.fields.name' | translate" [allowFilter]="true" [multi]="true" [options]="teachersOptions" [formControl]="getFormControl('teachers')" />
+        <dropdown [label]="'shared.labels.name' | translate" [allowFilter]="true" [multi]="true" [options]="teachersOptions" [formControl]="getFormControl('teachers')" />
 
     </form>
     

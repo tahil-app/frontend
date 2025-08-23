@@ -5,7 +5,7 @@ import { FormArray } from '@angular/forms';
 import { StudentAttendanceDisplay } from '../../../../core/models/student-attendance.model';
 import { AttendanceStatus } from '../../../../core/enums/attendance-status.enum';
 import { DateHelper } from '../../../../core/helpers/date.helper';
-import { PdfTemplateFooter } from "../../../shared/components/pdf-template-footer/pdf-template-footer";
+import { PdfTemplateFooter } from "../../../shared/pdf-template/pdf-template-footer/pdf-template-footer";
 
 @Component({
   selector: 'attendance-pdf-template',

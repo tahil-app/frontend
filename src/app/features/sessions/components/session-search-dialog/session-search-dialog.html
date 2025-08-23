@@ -29,7 +29,7 @@
         </div>
 
         <div class="form-group">
-          <dropdown [label]="'shared.fields.status' | translate" [options]="statusOptions"
+          <dropdown [label]="'shared.labels.status' | translate" [options]="statusOptions"
             [formControl]="getFormControl('status')" [placeholder]="'sessions.search.selectStatus' | translate" />
         </div>
 
@@ -38,11 +38,11 @@
       <!-- Date Range -->
       <div class="form-row">
         <div class="form-group">
-          <label-date-picker [label]="'shared.fields.startDate' | translate"
+          <label-date-picker [label]="'shared.labels.startDate' | translate"
             [formControl]="getFormControl('startDate')" />
         </div>
         <div class="form-group">
-          <label-date-picker [label]="'shared.fields.endDate' | translate"
+          <label-date-picker [label]="'shared.labels.endDate' | translate"
             [formControl]="getFormControl('endDate')" />
         </div>
       </div>
@@ -50,11 +50,11 @@
       <!-- Start Time and End Time -->
       <div class="form-row">
         <div class="form-group">
-          <label-time-picker [label]="'shared.fields.startTime' | translate"
+          <label-time-picker [label]="'shared.labels.startTime' | translate"
             [formControl]="getFormControl('startTime')" />
         </div>
         <div class="form-group">
-          <label-time-picker [label]="'shared.fields.endTime' | translate"
+          <label-time-picker [label]="'shared.labels.endTime' | translate"
             [formControl]="getFormControl('endTime')" />
         </div>
       </div>

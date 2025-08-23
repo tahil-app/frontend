@@ -41,27 +41,27 @@
             <table class="info-table">
                 <tbody>
                     <tr>
-                        <td class="info-label">{{ 'shared.fields.day' | translate }}</td>
+                        <td class="info-label">{{ 'shared.labels.day' | translate }}</td>
                         <td class="info-value">{{ getDayName(schedule.day) }}</td>
                     </tr>
 
                     <tr>
-                        <td class="info-label">{{ 'shared.fields.startTime' | translate }}</td>
+                        <td class="info-label">{{ 'shared.labels.startTime' | translate }}</td>
                         <td class="info-value">{{ formatTime(schedule.startTime) }}</td>
                     </tr>
 
                     <tr>
-                        <td class="info-label">{{ 'shared.fields.endTime' | translate }}</td>
+                        <td class="info-label">{{ 'shared.labels.endTime' | translate }}</td>
                         <td class="info-value">{{ formatTime(schedule.endTime) }}</td>
                     </tr>
 
                     <tr *ngIf="schedule.startDate">
-                        <td class="info-label">{{ 'shared.fields.startDate' | translate }}</td>
+                        <td class="info-label">{{ 'shared.labels.startDate' | translate }}</td>
                         <td class="info-value">{{ formatDate(schedule.startDate) }}</td>
                     </tr>
 
                     <tr *ngIf="schedule.endDate">
-                        <td class="info-label">{{ 'shared.fields.endDate' | translate }}</td>
+                        <td class="info-label">{{ 'shared.labels.endDate' | translate }}</td>
                         <td class="info-value">{{ formatDate(schedule.endDate) }}</td>
                     </tr>
                 </tbody>
@@ -70,7 +70,7 @@
 
         <!-- Status -->
         <div class="info-section">
-            <h3 class="section-title">{{ 'shared.fields.status' | translate }}</h3>
+            <h3 class="section-title">{{ 'shared.labels.status' | translate }}</h3>
 
             <div class="status-container">
                 <span class="status-badge" [class]="getStatusClass(schedule.status)">

@@ -205,7 +205,7 @@ export class ScheduleForm {
 
   cancel() {
     if (this.scheduleForm.dirty) {  
-    this.confirmService.confirm(this.translate.instant('shared.confirm.unsavedChanges'), () => {
+    this.confirmService.confirm(this.translate.instant('shared.dialogs.unsavedChanges'), () => {
       this.scheduleForm.reset();
         this.onCancel.emit();
       });

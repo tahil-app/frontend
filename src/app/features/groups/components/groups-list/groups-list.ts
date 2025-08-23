@@ -53,7 +53,7 @@ export class GroupsList {
   columns: GridColumn[] = [
     {
       field: 'name',
-      title: this.translate.instant('shared.fields.name'),
+      title: this.translate.instant('shared.labels.name'),
       columnType: ColumnTypeEnum.text,
       sortable: true,
       filterType: ColumnFilterTypeEnum.text
@@ -76,12 +76,12 @@ export class GroupsList {
     }] : []),
     {
       field: 'numberOfStudents',
-      title: this.translate.instant('shared.fields.numberOfStudents'),
+      title: this.translate.instant('shared.labels.numberOfStudents'),
       columnType: ColumnTypeEnum.number,
     },
     ...(this.permissionAccess.canViewPagedAdminColumns.group ? [{
       field: 'capacityStatus',
-      title: this.translate.instant('shared.fields.capacityStatus'),
+      title: this.translate.instant('shared.labels.capacityStatus'),
       columnType: ColumnTypeEnum.badge,
       badgeConfig: BadgeHelper.createCapacityBadge(this.translate, 'capacity', 'numberOfStudents')
     }] : []),

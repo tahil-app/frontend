@@ -1,7 +1,6 @@
-import { Component } from '@angular/core';
-import { TranslateModule } from '@ngx-translate/core';
+import { Component, inject } from '@angular/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { DateHelper } from '../../../../core/helpers/date.helper';
-import { EnvironmentHelper } from '../../../../core/helpers/environment-helper';
 
 @Component({
   selector: 'pdf-template-footer',
@@ -15,8 +14,14 @@ export class PdfTemplateFooter {
 
   exportDate = DateHelper.displayDate(new Date().toString());
 
+  private translate = inject(TranslateService);
+
   get exportBy() {
-    return EnvironmentHelper.APP_NAME;
+    return this.translate.instant('appName');
+  }
+
+  get darAlforqan() {
+    return this.translate.instant('darAlforqan');
   }
 
 }

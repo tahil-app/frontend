@@ -54,8 +54,8 @@ export class RoomsList {
 
   //#region Columns
   columns: GridColumn[] = [
-    { field: 'name', title: this.translate.instant('shared.fields.name'), columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
-    { field: 'capacity', title: this.translate.instant('shared.fields.capacity'), columnType: ColumnTypeEnum.number, sortable: true, filterType: ColumnFilterTypeEnum.number, filterOperator: FilterOperators.equal },
+    { field: 'name', title: this.translate.instant('shared.labels.name'), columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
+    { field: 'capacity', title: this.translate.instant('shared.labels.capacity'), columnType: ColumnTypeEnum.number, sortable: true, filterType: ColumnFilterTypeEnum.number, filterOperator: FilterOperators.equal },
   ];
   //#endregion
 

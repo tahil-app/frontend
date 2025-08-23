@@ -4,12 +4,12 @@
 
     <form [formGroup]="courseForm" (ngSubmit)="hasId() ? update() : save()">
         <div class="flex items-center gap-4 mb-2">
-            <input-label [label]="'shared.fields.name' | translate" [required]="true"
+            <input-label [label]="'shared.labels.name' | translate" [required]="true"
                 [formControl]="getFormControl('name')" />
         </div>
 
         <div class="flex items-center gap-4 mb-4">
-            <input-label [label]="'shared.fields.description' | translate" [required]="false"
+            <input-label [label]="'shared.labels.description' | translate" [required]="false"
                 [formControl]="getFormControl('description')" />
         </div>
 

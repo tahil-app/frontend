@@ -35,7 +35,7 @@
 
                                 <th style="min-width: 15rem;">{{ 'attendance.table.studentName' | translate }}</th>
 
-                                <th style="min-width: 15rem;">{{ 'shared.fields.notes' | translate }}</th>
+                                <th style="min-width: 15rem;">{{ 'shared.labels.notes' | translate }}</th>
 
                                 <th style="width: 10rem;">
                                     <div class="attendance-actions">
@@ -77,7 +77,7 @@
 
                                 <td>
                                     <input type="text" class="form-control form-control-sm" formControlName="note"
-                                        [placeholder]="'shared.fields.notesPlaceholder' | translate"
+                                        [placeholder]="'shared.labels.notesPlaceholder' | translate"
                                         [disabled]="!canRecordAttendance">
                                 </td>
 
@@ -92,7 +92,7 @@
                                                 inputId="present-{{ record.get('studentId')?.value }}" />
                                             <label class="form-check-label text-success"
                                                 for="present-{{ record.get('studentId')?.value }}">
-                                                {{ 'shared.attendanceStatus.present' | translate }}
+                                                {{ 'attendanceStatus.present' | translate }}
                                             </label>
                                         </div>
 
@@ -105,7 +105,7 @@
 
                                             <label class="form-check-label text-warning"
                                                 for="late-{{ record.get('studentId')?.value }}">
-                                                {{ 'shared.attendanceStatus.late' | translate }}
+                                                {{ 'attendanceStatus.late' | translate }}
                                             </label>
                                         </div>
 
@@ -118,7 +118,7 @@
 
                                             <label class="form-check-label text-danger"
                                                 for="absent-{{ record.get('studentId')?.value }}">
-                                                {{ 'shared.attendanceStatus.absent' | translate }}
+                                                {{ 'attendanceStatus.absent' | translate }}
                                             </label>
                                         </div>
 
@@ -149,17 +149,17 @@
                     </div>
 
                     <div class="summary-item">
-                        <span class="label">{{ 'shared.attendanceStatus.present' | translate }}:</span>
+                        <span class="label">{{ 'attendanceStatus.present' | translate }}:</span>
                         <span class="value text-success">{{ presentStudents }}</span>
                     </div>
 
                     <div class="summary-item">
-                        <span class="label">{{ 'shared.attendanceStatus.late' | translate }}:</span>
+                        <span class="label">{{ 'attendanceStatus.late' | translate }}:</span>
                         <span class="value text-warning">{{ lateStudents }}</span>
                     </div>
 
                     <div class="summary-item">
-                        <span class="label">{{ 'shared.attendanceStatus.absent' | translate }}:</span>
+                        <span class="label">{{ 'attendanceStatus.absent' | translate }}:</span>
                         <span class="value text-danger">{{ absentStudents }}</span>
                     </div>
                 </div>

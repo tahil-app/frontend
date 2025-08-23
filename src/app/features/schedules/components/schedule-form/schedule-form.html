@@ -16,31 +16,31 @@
             </div>
 
             <div class="col-md-12 col-12 flex items-center gap-2 mb-2">
-                <dropdown [label]="'shared.fields.day' | translate" [required]="true" [options]="dayOptions"
+                <dropdown [label]="'shared.labels.day' | translate" [required]="true" [options]="dayOptions"
                     [formControl]="getFormControl('day')" [allowFilter]="true" />
             </div>
 
             <div class="col-md-12 col-12 flex items-center gap-2 mb-2">
                 <div class="row">
                     <div class="col-6 flex items-center gap-2 mb-2">
-                        <label-time-picker [label]="'shared.fields.startTime' | translate" [required]="true"
+                        <label-time-picker [label]="'shared.labels.startTime' | translate" [required]="true"
                             [formControl]="getFormControl('startTime')" />
                     </div>
 
                     <div class="col-6 flex items-center gap-2 mb-2">
-                        <label-time-picker [label]="'shared.fields.endTime' | translate" [required]="true"
+                        <label-time-picker [label]="'shared.labels.endTime' | translate" [required]="true"
                             [formControl]="getFormControl('endTime')" />
                     </div>
                 </div>
             </div>
 
             <div class="col-md-12 col-12 flex items-center gap-2 mb-2">
-                <label-date-picker [label]="'shared.fields.startDate' | translate" [required]="true"
+                <label-date-picker [label]="'shared.labels.startDate' | translate" [required]="true"
                     [formControl]="getFormControl('startDate')" />
             </div>
 
             <div class="col-md-12 col-12 flex items-center gap-2 mb-2">
-                <label-date-picker [label]="'shared.fields.endDate' | translate" [required]="false"
+                <label-date-picker [label]="'shared.labels.endDate' | translate" [required]="false"
                     [formControl]="getFormControl('endDate')" />
             </div>
         </div>

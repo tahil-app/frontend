@@ -6,11 +6,12 @@ import { DateHelper } from '../../../../core/helpers/date.helper';
 import { TimeHelper } from '../../../../core/helpers/time.helper';
 import { WeekDaysService } from '../../../../core/services/week-days.service';
 import { PdfTemplateFooter } from "../pdf-template-footer/pdf-template-footer";
+import { PdfTemplateHeader } from "../pdf-template-header/pdf-template-header";
 
 @Component({
   selector: 'daily-schedule-pdf-template',
   standalone: true,
-  imports: [CommonModule, TranslateModule, PdfTemplateFooter],
+  imports: [CommonModule, TranslateModule, PdfTemplateFooter, PdfTemplateHeader],
   templateUrl: './daily-schedule-pdf-template.html',
   styleUrls: ['./daily-schedule-pdf-template.scss']
 })
@@ -18,6 +19,13 @@ export class DailySchedulePdfTemplateComponent {
   @Input() dailySchedules: DailySchedule[] = [];
   @Input() name: string = '';
   @Input() title: string = '';
+
+  @Input() showTime = true;
+  @Input() showGroup = true;
+  @Input() showRoom = true;
+  @Input() showSubject = true;
+  @Input() showTeacher = true;
+
   @ViewChild('pdfContent', { static: false }) pdfContent!: ElementRef;
 
   weekDaysService = inject(WeekDaysService);

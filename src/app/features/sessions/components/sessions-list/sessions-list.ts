@@ -162,14 +162,14 @@ export class SessionsList implements OnInit {
   removeSearchCriteria(key: string) {
     // Map the translated key back to the property name
     const keyMap: { [key: string]: string } = {
-      [this.translateService.instant('shared.fields.startDate')]: 'startDate',
-      [this.translateService.instant('shared.fields.endDate')]: 'endDate',
-      [this.translateService.instant('shared.fields.startTime')]: 'startTime',
-      [this.translateService.instant('shared.fields.endTime')]: 'endTime',
+      [this.translateService.instant('shared.labels.startDate')]: 'startDate',
+      [this.translateService.instant('shared.labels.endDate')]: 'endDate',
+      [this.translateService.instant('shared.labels.startTime')]: 'startTime',
+      [this.translateService.instant('shared.labels.endTime')]: 'endTime',
       [this.translateService.instant('courses.one')]: 'courseId',
       [this.translateService.instant('groups.one')]: 'groupId',
       [this.translateService.instant('rooms.one')]: 'roomId',
-      [this.translateService.instant('shared.fields.status')]: 'status'
+      [this.translateService.instant('shared.labels.status')]: 'status'
     };
 
     const propertyName = keyMap[key];
@@ -203,21 +203,21 @@ export class SessionsList implements OnInit {
 
     if (this.currentSearchCriteria.startDate || this.currentSearchCriteria.endDate) {
       if (this.currentSearchCriteria.startDate) {
-        criteria.push(`${this.translateService.instant('shared.fields.startDate')} ${this.currentSearchCriteria.startDate}`);
+        criteria.push(`${this.translateService.instant('shared.labels.startDate')} ${this.currentSearchCriteria.startDate}`);
       }
 
       if (this.currentSearchCriteria.endDate) {
-        criteria.push(`${this.translateService.instant('shared.fields.endDate')} ${this.currentSearchCriteria.endDate}`);
+        criteria.push(`${this.translateService.instant('shared.labels.endDate')} ${this.currentSearchCriteria.endDate}`);
       }
     }
 
     if (this.currentSearchCriteria.startTime || this.currentSearchCriteria.endTime) {
       if (this.currentSearchCriteria.startTime) {
-        criteria.push(`${this.translateService.instant('shared.fields.startTime')} ${TimeHelper.displayTime(this.currentSearchCriteria.startTime)}`);
+        criteria.push(`${this.translateService.instant('shared.labels.startTime')} ${TimeHelper.displayTime(this.currentSearchCriteria.startTime)}`);
       }
 
       if (this.currentSearchCriteria.endTime) {
-        criteria.push(`${this.translateService.instant('shared.fields.endTime')} ${TimeHelper.displayTime(this.currentSearchCriteria.endTime)}`);
+        criteria.push(`${this.translateService.instant('shared.labels.endTime')} ${TimeHelper.displayTime(this.currentSearchCriteria.endTime)}`);
       }
     }
 
@@ -234,7 +234,7 @@ export class SessionsList implements OnInit {
     }
 
     if (this.currentSearchCriteria.status) {
-      criteria.push(`${this.translateService.instant('shared.fields.status')}: ${this.currentSearchCriteria.statusName}`);
+      criteria.push(`${this.translateService.instant('shared.labels.status')}: ${this.currentSearchCriteria.statusName}`);
     }
 
     return criteria.join(', ');
@@ -245,28 +245,28 @@ export class SessionsList implements OnInit {
 
     if (this.currentSearchCriteria.startDate) {
       items.push({
-        key: this.translateService.instant('shared.fields.startDate'),
+        key: this.translateService.instant('shared.labels.startDate'),
         value: this.currentSearchCriteria.startDate
       });
     }
 
     if (this.currentSearchCriteria.endDate) {
       items.push({
-        key: this.translateService.instant('shared.fields.endDate'),
+        key: this.translateService.instant('shared.labels.endDate'),
         value: this.currentSearchCriteria.endDate
       });
     }
 
     if (this.currentSearchCriteria.startTime) {
       items.push({
-        key: this.translateService.instant('shared.fields.startTime'),
+        key: this.translateService.instant('shared.labels.startTime'),
         value: TimeHelper.displayTime(this.currentSearchCriteria.startTime)
       });
     }
 
     if (this.currentSearchCriteria.endTime) {
       items.push({
-        key: this.translateService.instant('shared.fields.endTime'),
+        key: this.translateService.instant('shared.labels.endTime'),
         value: TimeHelper.displayTime(this.currentSearchCriteria.endTime)
       });
     }
@@ -294,7 +294,7 @@ export class SessionsList implements OnInit {
 
     if (this.currentSearchCriteria.statusName) {
       items.push({
-        key: this.translateService.instant('shared.fields.status'),
+        key: this.translateService.instant('shared.labels.status'),
         value: this.currentSearchCriteria.statusName || String(this.currentSearchCriteria.status)
       });
     }

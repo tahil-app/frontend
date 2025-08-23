@@ -1,4 +1,4 @@
-<p-dialog [header]="'shared.profile.qualifications' | translate" [modal]="true" [(visible)]="showDialog" [style]="{ width: '45rem' }">
+<p-dialog [header]="'shared.labels.qualifications' | translate" [modal]="true" [(visible)]="showDialog" [style]="{ width: '45rem' }">
     <form [formGroup]="qualificationForm" (ngSubmit)="save()">
         <editor [formControl]="getFormControl('qualification')" />
 

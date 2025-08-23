@@ -55,9 +55,9 @@ export class CoursesList {
 
   //#region Columns
   columns: GridColumn[] = [
-    { field: 'name', title: this.translate.instant('shared.fields.name'), columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
-    { field: 'description', title: this.translate.instant('shared.fields.description'), columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
-    { field: 'numberOfTeachers', title: this.translate.instant('shared.fields.numberOfTeachers'), columnType: ColumnTypeEnum.number },
+    { field: 'name', title: this.translate.instant('shared.labels.name'), columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
+    { field: 'description', title: this.translate.instant('shared.labels.description'), columnType: ColumnTypeEnum.text, sortable: true, filterType: ColumnFilterTypeEnum.text },
+    { field: 'numberOfTeachers', title: this.translate.instant('shared.labels.numberOfTeachers'), columnType: ColumnTypeEnum.number },
   ];
   //#endregion
 

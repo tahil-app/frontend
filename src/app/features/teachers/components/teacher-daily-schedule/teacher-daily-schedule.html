@@ -1,0 +1,24 @@
+<div class="hello-park">
+    <div class="d-flex justify-content-between">
+        <h5 class="mb-1">{{ 'shared.tabs.schedule' | translate }}</h5>
+        <pdf-icon-btn [showOutline]="true" *ngIf="teacher?.dailySchedules?.length && permissionsService.canExport.exportTeacherDailySchedulePdf"
+            (click)="exportDailyScheduleToPdf()" />
+    </div>
+
+    <div class="tab-section-container mt-3">
+
+        <daily-schedule *ngIf="teacher?.dailySchedules?.length" [dailySchedules]="teacher.dailySchedules" [showTeacher]="false" />
+
+    </div>
+
+    <no-data *ngIf="teacher?.dailySchedules?.length === 0" [icon]="'fas fa-calendar-alt'" [text]="'shared.noData.noDailySchedule' | translate" />
+
+
+</div>
+
+<!-- Hidden PDF Template for Export -->
+<div style="position: absolute; left: -9999px; top: -9999px;">
+    <daily-schedule-pdf-template [dailySchedules]="teacher.dailySchedules" [name]="teacher.name"
+        [title]="getReportTitle()" [showTeacher]="false" >
+    </daily-schedule-pdf-template>
+</div>

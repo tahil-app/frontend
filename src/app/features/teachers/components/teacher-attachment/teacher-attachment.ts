@@ -8,14 +8,15 @@ import { Attachment } from '../../../../core/models/attachment.model';
 import { TeacherService } from '../../../../core/services/teacher.service';
 import { AttachmentHelper } from '../../../../core/helpers/attachmet-helper';
 import { DateHelper } from '../../../../core/helpers/date.helper';
-import { DeleteConfirmation } from '../../../shared/components/delete-confirmation/delete-confirmation';
 import { LoaderService } from '../../../shared/services/loader.service';
 import { ToastService } from '../../../shared/services/toast.service';
 import { PermissionAccessService } from '../../../../core/services/permission-access.service';
+import { ConfirmService } from '../../../shared/services/confirm.serivce';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-teacher-attachment',
-  imports: [CommonModule, DeleteIconButton, DownloadIconButton, ViewIconButton, DeleteConfirmation],
+  imports: [CommonModule, DeleteIconButton, DownloadIconButton, ViewIconButton],
   templateUrl: './teacher-attachment.html',
   styleUrl: './teacher-attachment.scss'
 })
@@ -25,25 +26,33 @@ export class TeacherAttachmentComponent {
 
   deleteAttachment!: Attachment;
   showDelete: boolean = false;
-  deleteMessage: string = 'هل أنت متأكد من حذف هذا المرفق؟';
 
   //#region Services
   private teacherService = inject(TeacherService);
   private loaderService = inject(LoaderService);
   private toastr = inject(ToastService);
+  private confirmService = inject(ConfirmService);
+  private translate = inject(TranslateService);
   public permissionService = inject(PermissionAccessService);
   //#endregion
 
 
   onDownloadAttachment(attachment: Attachment): void {
-    const url = this.teacherService.getDownloadAttachment(attachment.fileName);
-  
-    window.open(url, '_blank');
+
+    this.confirmService.confirmDownload(() => {
+      const url = this.teacherService.getDownloadAttachment(attachment.fileName);
+      window.open(url, '_blank');
+    });
+
   }  
 
   onViewAttachment(attachment: Attachment) {
-    let url = this.teacherService.getViewAttachmentUrl(attachment.fileName);
-    window.open(url, '_blank');
+
+    this.confirmService.confirmView(() => {
+      let url = this.teacherService.getViewAttachmentUrl(attachment.fileName);
+      window.open(url, '_blank');
+    });
+
   }
 
   getAttachmentIcon(attachment: Attachment) {
@@ -51,9 +60,12 @@ export class TeacherAttachmentComponent {
   }
 
   onDeleteAttachment(attachment: Attachment) {
-    this.deleteAttachment = attachment;
-    this.deleteMessage = `هل أنت متأكد من حذف هذا المرفق <b>${attachment.displayName}</b> ؟`;
-    this.showDelete = true;
+
+    this.confirmService.confirmDelete(() => {
+      this.deleteAttachment = attachment;
+      this.onDeleteConfirm();
+    });
+
   }
 
   onDeleteConfirm() {
@@ -62,18 +74,14 @@ export class TeacherAttachmentComponent {
       if (res) {
         this.showDelete = false;
         this.teacher.attachments = this.teacher.attachments.filter(a => a.id !== this.deleteAttachment.id);
-        this.toastr.showSuccess('تم حذف المرفق بنجاح');
+        this.toastr.showSuccess(this.translate.instant('shared.messages.deletedSuccessfully'));
       }
     },_ => {},
     () => this.loaderService.hide());
   }
 
-  onDeleteCancel() {
-    this.showDelete = false;
-  }
-
   displayDate(date: string) {
-    return DateHelper.toOldDatePicker(date);
+    return DateHelper.displayDate(date);
   }
 
 }

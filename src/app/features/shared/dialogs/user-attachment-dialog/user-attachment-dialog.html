@@ -1,9 +1,9 @@
-<dialog-buttons [header]="'shared.attachments' | translate" [showDialog]="showDialog" [showSaveButton]="true"
+<dialog-buttons [header]="'shared.tabs.attachments' | translate" [showDialog]="showDialog" [showSaveButton]="true"
     (onSave)="save()" (onCancel)="cancel()" width="30rem" [saveDisabled]="!userAttachmentForm.valid">
 
     <form [formGroup]="userAttachmentForm" (ngSubmit)="save()">
 
-        <input-label [label]="'shared.fields.name' | translate" [formControl]="getFormControl('displayName')"
+        <input-label [label]="'shared.labels.name' | translate" [formControl]="getFormControl('displayName')"
             [required]="true" />
 
         <div class="mt-3">

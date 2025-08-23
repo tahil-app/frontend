@@ -1,23 +1,23 @@
-import { Component, Input, ViewChild, ElementRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, ElementRef, inject, Input, ViewChild } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { PdfTemplateFooter } from '../pdf-template-footer/pdf-template-footer';
+import { PdfTemplateHeader } from '../pdf-template-header/pdf-template-header';
 import { MonthlyAttendanceModel } from '../../../../core/models/monthly-attendance.model';
-import { Student } from '../../../../core/models/student.model';
 import { DateHelper } from '../../../../core/helpers/date.helper';
 import { MonthesService } from '../../../../core/services/monthes.service';
-import { PdfTemplateFooter } from "../../../shared/components/pdf-template-footer/pdf-template-footer";
 
 @Component({
-  selector: 'student-attendance-pdf-template',
-  standalone: true,
-  imports: [CommonModule, TranslateModule, PdfTemplateFooter],
-  templateUrl: './student-attendance-pdf-template.html',
-  styleUrls: ['./student-attendance-pdf-template.scss']
+  selector: 'attendance-pdf-template',
+  imports: [CommonModule, TranslateModule, PdfTemplateFooter, PdfTemplateHeader],
+  templateUrl: './attendance-pdf-template.html',
+  styleUrl: './attendance-pdf-template.scss'
 })
-export class StudentAttendancePdfTemplateComponent {
-  @Input() student!: Student;
+export class AttendancePdfTemplate {
+  @Input() title: string = '';
   @Input() monthlyAttendanceData: MonthlyAttendanceModel[] = [];
   @Input() selectedYear: number = new Date().getFullYear();
+
   @ViewChild('pdfContent', { static: false }) pdfContent!: ElementRef;
 
   exportDate = DateHelper.displayDate(new Date().toString());
@@ -126,11 +126,11 @@ export class StudentAttendancePdfTemplateComponent {
   getPerformanceRating(): string {
     const percentage = parseFloat(this.attendancePercentage);
     
-    if (percentage >= 90) return this.translateService.instant('students.performance.excellent');
-    if (percentage >= 80) return this.translateService.instant('students.performance.good');
-    if (percentage >= 70) return this.translateService.instant('students.performance.average');
-    if (percentage >= 60) return this.translateService.instant('students.performance.belowAverage');
-    return this.translateService.instant('students.performance.poor');
+    if (percentage >= 90) return this.translateService.instant('performance.excellent');
+    if (percentage >= 80) return this.translateService.instant('performance.good');
+    if (percentage >= 70) return this.translateService.instant('performance.average');
+    if (percentage >= 60) return this.translateService.instant('performance.belowAverage');
+    return this.translateService.instant('performance.poor');
   }
 
   getPerformanceClass(): string {
@@ -143,3 +143,4 @@ export class StudentAttendancePdfTemplateComponent {
     return 'poor';
   }
 }
+

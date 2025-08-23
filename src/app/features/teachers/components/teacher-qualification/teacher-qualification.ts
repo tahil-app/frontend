@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, inject, Input, Output, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, inject, Input, Output, SimpleChanges } from '@angular/core';
 import { DialogModule } from 'primeng/dialog';
 import { SaveBtn } from '../../../shared/buttons/save-btn/save-btn';
 import { CancelBtn } from '../../../shared/buttons/cancel-btn/cancel-btn';
@@ -37,6 +37,7 @@ export class TeacherQualification {
   private teacherService = inject(TeacherService);
   private toaster = inject(ToastService);
   private loader = inject(LoaderService);
+  private cdr = inject(ChangeDetectorRef);
   private translate = inject(TranslateService);
   //#endregion
 
@@ -48,6 +49,7 @@ export class TeacherQualification {
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.qualificationForm && (changes['teacher'] || changes['showDialog'])) {
+      this.cdr.detectChanges();
       this.qualificationForm.get('qualification')?.setValue(this.teacher.qualification);
     }
   }
@@ -76,7 +78,7 @@ export class TeacherQualification {
           if (res) {
             this.onSave.emit();
             this.qualificationForm.reset();
-            this.toaster.showSuccess(this.translate.instant('shared.profile.qualificationsSaveSuccess'));
+            this.toaster.showSuccess(this.translate.instant('shared.messages.qualificationsSaveSuccess'));
           }
         }, _ => { }, () => this.loader.hide());
     }

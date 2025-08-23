@@ -1,4 +1,4 @@
-<dialog-buttons [header]="'shared.profile.qualifications' | translate" [showDialog]="showDialog" [showSaveButton]="true"
+<dialog-buttons [header]="'shared.labels.qualifications' | translate" [showDialog]="showDialog" [showSaveButton]="true"
     (onSave)="save()" (onCancel)="cancel()" width="45rem" [saveDisabled]="!qualificationForm.valid">
 
     <form [formGroup]="qualificationForm" (ngSubmit)="save()">

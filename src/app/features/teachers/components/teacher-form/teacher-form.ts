@@ -83,11 +83,11 @@ export class TeacherFormComponent {
     this.teacherForm?.get('birthDate')?.setValue(this.teacher.birthDate ? new Date(this.teacher.birthDate) : null);
 
     this.teacherForm?.get('password')?.valueChanges.subscribe(value => {
-      this.requiredPassword = value.length > 0;
+      this.requiredPassword = value?.length > 0;
       });
 
     this.teacherForm?.get('confirmPassword')?.valueChanges.subscribe(value => {
-      this.requiredPassword = value.length > 0;
+      this.requiredPassword = value?.length > 0;
     });
   }
 

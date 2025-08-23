@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, Output, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, inject, Input, Output, SimpleChanges } from '@angular/core';
 import { Teacher } from '../../../../core/models/teacher.model';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
@@ -38,6 +38,7 @@ export class TeacherExperience {
   private toaster = inject(ToastService);
   private loader = inject(LoaderService);
   private translate = inject(TranslateService);
+  private cdr = inject(ChangeDetectorRef);
   //#endregion
 
   //#region Methods
@@ -48,6 +49,7 @@ export class TeacherExperience {
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.experienceForm && (changes['teacher'] || changes['showDialog'])) {
+      this.cdr.detectChanges();
       this.experienceForm.get('experience')?.setValue(this.teacher.experience);
     }
   }
@@ -76,7 +78,7 @@ export class TeacherExperience {
           if (res) {
             this.onSave.emit();
             this.experienceForm.reset();
-            this.toaster.showSuccess(this.translate.instant('shared.profile.experienceSaveSuccess'));
+            this.toaster.showSuccess(this.translate.instant('shared.labels.experienceSaveSuccess'));
           }
         }, _ => { }, () => this.loader.hide());
     }

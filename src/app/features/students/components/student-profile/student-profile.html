@@ -11,7 +11,7 @@
                         <img [src]="getImageUrl(student.imagePath)" [alt]="student.name" class="profile-image">
 
                         <div class="upload-button-container" *ngIf="!disablePage && permissionService.canEdit.student">
-                            <button class="btn btn-sm btn-primary upload-btn" (click)="fileInput.click()">
+                            <button class="btn btn-sm btn-primary upload-btn" (click)="changeImage()">
                                 <i class="fas fa-camera"></i>
                             </button>
                         </div>
@@ -22,17 +22,17 @@
 
                     <div class="profile-details">
                         <h3 class="name">{{ student.name }}</h3>
-                        <p class="age">{{ getAge(student.birthDate) }} {{ 'shared.fields.years' | translate }}</p>
+                        <p class="age">{{ getAge(student.birthDate) }} {{ 'shared.labels.years' | translate }}</p>
 
                         <div class="profile-stats">
                             <div class="stat-item">
                                 <div class="stat-value">{{ student.code || 0}}</div>
-                                <div class="stat-label">{{ 'students.profile.studentCode' | translate }}</div>
+                                <div class="stat-label">{{ 'shared.labels.studentCode' | translate }}</div>
                             </div>
 
                             <div class="stat-item">
                                 <div class="stat-value">{{ student.attendancePercentage || 0 }}%</div>
-                                <div class="stat-label">{{ 'shared.fields.attendancePercentage' | translate }}</div>
+                                <div class="stat-label">{{ 'shared.labels.attendancePercentage' | translate }}</div>
                             </div>
                         </div>
                     </div>
@@ -40,7 +40,7 @@
                     <div class="contact-info student-personals-grp">
 
                         <div class="heading-detail d-flex justify-content-between align-items-center">
-                            <h4 class="mb-2 mt-2">{{ 'students.profile.studentData' | translate }}</h4>
+                            <h4 class="mb-2 mt-2">{{ 'students.formTitle' | translate }}</h4>
 
                             <edit-icon-button *ngIf="!disablePage && permissionService.canEdit.student"
                                 (click)="onEditStudent()" [showOutline]="true" />
@@ -51,7 +51,7 @@
                                 <i class="fas fa-solid fa-user"></i>
                             </div>
                             <div class="views-personal">
-                                <h4>{{ 'shared.fields.name' | translate }}</h4>
+                                <h4>{{ 'shared.labels.name' | translate }}</h4>
                                 <h5>{{student.name}}</h5>
                             </div>
                         </div>
@@ -61,7 +61,7 @@
                                 <i class="fas fa-solid fa-phone"></i>
                             </div>
                             <div class="views-personal">
-                                <h4>{{ 'shared.fields.phoneNumber' | translate }}</h4>
+                                <h4>{{ 'shared.labels.phoneNumber' | translate }}</h4>
                                 <h5>{{student.phoneNumber}}</h5>
                             </div>
                         </div>
@@ -71,7 +71,7 @@
                                 <i class="fas fa-solid fa-envelope"></i>
                             </div>
                             <div class="views-personal">
-                                <h4>{{ 'shared.fields.email' | translate }}</h4>
+                                <h4>{{ 'shared.labels.email' | translate }}</h4>
                                 <h5><a href="mailto:{{student.email}}">{{student.email}}</a></h5>
                             </div>
                         </div>
@@ -81,7 +81,7 @@
                                 <i class="fas fa-solid fa-venus-mars"></i>
                             </div>
                             <div class="views-personal">
-                                <h4>{{ 'shared.fields.gender' | translate }}</h4>
+                                <h4>{{ 'shared.labels.gender' | translate }}</h4>
                                 <h5 *ngIf="!disablePage">{{getGender(student.gender)}}</h5>
                             </div>
                         </div>
@@ -91,7 +91,7 @@
                                 <i class="fas fa-solid fa-calendar-alt"></i>
                             </div>
                             <div class="views-personal">
-                                <h4>{{ 'shared.fields.joinedDate' | translate }}</h4>
+                                <h4>{{ 'shared.labels.joinedDate' | translate }}</h4>
                                 <h5 *ngIf="!disablePage">{{student.joinedDate}}</h5>
                             </div>
                         </div>
@@ -101,7 +101,7 @@
                                 <i class="fas fa-solid fa-calendar-alt"></i>
                             </div>
                             <div class="views-personal">
-                                <h4>{{ 'shared.fields.birthDate' | translate }}</h4>
+                                <h4>{{ 'shared.labels.birthDate' | translate }}</h4>
                                 <h5 *ngIf="!disablePage">{{student.birthDate}}</h5>
                             </div>
                         </div>
@@ -121,11 +121,42 @@
                     <p-tabs [value]="selectedTab" scrollable>
 
                         <p-tablist>
-                            <p-tab value="0" *ngIf="permissionService.canView.studentSchedule">{{ 'students.tabs.schedule' | translate }}</p-tab>
-                            <p-tab value="1" *ngIf="permissionService.canView.studentAttendance">{{ 'students.tabs.attendance' | translate }}</p-tab>
-                            <p-tab value="2">{{ 'students.tabs.teacherFeedback' | translate }}</p-tab>
-                            <p-tab value="3">{{ 'students.tabs.education' | translate }}</p-tab>
-                            <p-tab value="4">{{ 'students.tabs.attachments' | translate }}</p-tab>
+                            <p-tab value="0" class="px-3" *ngIf="permissionService.canView.studentSchedule">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span class="ms-1"></span>
+                                {{ 'shared.tabs.schedule' | translate }}
+                            </p-tab>
+                            
+                            <p-tab value="1" class="px-3" *ngIf="permissionService.canView.studentAttendance">
+                                <i class="fas fa-clipboard-check"></i>
+                                <span class="ms-1"></span>
+                                {{ 'shared.tabs.attendance' | translate }}
+                            </p-tab>
+                            
+                            <p-tab value="2" class="px-3">
+                                <i class="fas fa-comments"></i>
+                                <span class="ms-1"></span>
+                                {{ 'shared.tabs.teacherFeedback' | translate }}
+                            </p-tab>
+
+                            <p-tab value="3" class="px-3">
+                                <i class="fas fa-users"></i>
+                                <span class="ms-1"></span>
+                                {{ 'shared.tabs.groups' | translate }}
+                            </p-tab>
+                            
+                            <p-tab value="4" class="px-3">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span class="ms-1"></span>
+                                {{ 'shared.tabs.qualifications' | translate }}
+                            </p-tab>
+                            
+                            <p-tab value="5" class="px-3">
+                                <i class="fas fa-paperclip"></i>
+                                <span class="ms-1"></span>
+                                {{ 'shared.tabs.attachments' | translate }}
+                            </p-tab>
+
                         </p-tablist>
 
                         <p-tabpanels class="px-0">
@@ -144,31 +175,49 @@
 
                             <p-tabpanel value="2">
 
-                                <student-feedback [feedbacks]="student.feedbacks" />
-                            
+                                <student-feedback [student]="student" [feedbacks]="student.feedbacks" />
+
                             </p-tabpanel>
-
-                            <p-tabpanel value="3">
-
+                            
+                            <p-tabpanel value="3">  
+                                
                                 <div class="hello-park">
                                     <div class="d-flex justify-content-between">
-                                        <h5>{{ 'shared.profile.qualifications' | translate }}</h5>
+                                        <h5>{{ 'shared.tabs.groups' | translate }}</h5>
+                                    </div>
 
-                                        <edit-icon-button *ngIf="!disablePage && permissionService.canEdit.student"
-                                            (click)="onEditQualification()" [showOutline]="true" />
+                                    <div class="tab-section-container table-container  auto-hover-scroll"
+                                        *ngIf="student.groups && student.groups.length > 0">
+
+                                        <table>
+
+                                            <thead>
+                                                <tr>
+                                                    <th>{{ 'groups.one' | translate }}</th>
+                                                    <th>{{ 'courses.one' | translate }}</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                <tr *ngFor="let group of student.groups" class="class-row">
+                                                    <td class="student-name"
+                                                        [ngClass]="{'clickable-text': permissionService.canView.groupProfile}"
+                                                        (click)="permissionService.canView.groupProfile ? onGroupClick(group.id) : null">
+                                                        {{ group.name }}
+                                                    </td>
+                                                    <td class="student-name">
+                                                        {{ group.courseName }}
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+
+                                        </table>
 
                                     </div>
 
-                                    <div class="tab-section-container">
-                                        <div [innerHTML]="getSafeHtml(student.qualification)"></div>
-
-                                        <div class="text-muted text-center"
-                                            *ngIf="student.qualification === null || student.qualification?.length === 0">
-
-                                            <i class="fas fa-graduation-cap text-muted mb-3" style="font-size: 3rem;"></i>
-                                            <p class="text-muted">{{ 'shared.profile.noQualifications' | translate }}</p>
-                                        </div>
-                                    </div>
+                                    <no-data [icon]="'fas fa-users'"
+                                        *ngIf="!student.groups || student.groups.length === 0"
+                                        [text]="'shared.noData.noGroups' | translate" />
                                 </div>
 
                             </p-tabpanel>
@@ -177,23 +226,38 @@
 
                                 <div class="hello-park">
                                     <div class="d-flex justify-content-between">
-                                        <h5>{{ 'shared.attachments' | translate }}</h5>
+                                        <h5>{{ 'shared.labels.qualifications' | translate }}</h5>
+
+                                        <edit-icon-button *ngIf="!disablePage && permissionService.canEdit.student"
+                                            (click)="onEditQualification()" [showOutline]="true" />
+
+                                    </div>
+
+                                    <div class="tab-section-container auto-hover-scroll">
+                                        <div [innerHTML]="getSafeHtml(student.qualification)"></div>
+                                        
+                                    </div>
+
+                                    <no-data *ngIf="student.qualification === null || student.qualification?.length === 0" [icon]="'fas fa-graduation-cap'" [text]="'shared.noData.noQualifications' | translate" />
+                                </div>
+
+                            </p-tabpanel>
+
+                            <p-tabpanel value="5">
+
+                                <div class="hello-park">
+                                    <div class="d-flex justify-content-between">
+                                        <h5>{{ 'shared.tabs.attachments' | translate }}</h5>
 
                                         <edit-icon-button *ngIf="!disablePage && permissionService.canEdit.student"
                                             (click)="onAddUserAttachment()" [showOutline]="true" />
 
                                     </div>
 
-                                    <div class="tab-section-container">
+                                    <div class="tab-section-container auto-hover-scroll">
                                         <app-student-attachment [student]="student" />
 
-                                        <div class="text-muted text-center"
-                                            *ngIf="student.attachments === null || student.attachments?.length === 0">
-
-                                            <i class="fas fa-file-alt text-muted mb-3" style="font-size: 3rem;"></i>
-                                            <p class="text-muted">{{ 'shared.profile.noAttachments' | translate }}</p>
-
-                                        </div>
+                                        <no-data *ngIf="student.attachments === null || student.attachments?.length === 0" [icon]="'fas fa-paperclip'" [text]="'shared.noData.noAttachments' | translate" />
                                     </div>
                                 </div>
 

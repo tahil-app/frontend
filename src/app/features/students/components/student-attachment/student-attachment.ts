@@ -46,24 +46,22 @@ export class StudentAttachmentComponent {
 
   onDownloadAttachment(attachment: Attachment): void {
 
-    this.confirmService.confirm(this.translateService.instant('shared.dialogs.downloadConfirmation'), () => {
+    this.confirmService.confirmDownload(() => {
       const url = this.studentService.getDownloadAttachment(attachment.fileName);
-  
       window.open(url, '_blank');
-    }, undefined, 'pi pi-download text-secondary mb-4');
-
+    });
 
   }  
 
   onViewAttachment(attachment: Attachment) {
 
-    this.confirmService.confirm(this.translateService.instant('shared.dialogs.viewConfirmation'), () => {
+    this.confirmService.confirmView(() => {
 
       let url = this.studentService.getViewAttachmentUrl(attachment.fileName);
     
       window.open(url, '_blank');
 
-    }, undefined, 'pi pi-eye text-info mb-4');
+    });
 
   }
 

@@ -21,7 +21,7 @@
                 <i class="fas fa-solid fa-users"></i>
               </div>
               <div class="views-personal">
-                <h4>{{ 'shared.fields.name' | translate }}</h4>
+                <h4>{{ 'shared.labels.name' | translate }}</h4>
                 <h5>{{ group.name }}</h5>
               </div>
             </div>
@@ -55,7 +55,7 @@
                 <i class="fas fa-solid fa-user-graduate"></i>
               </div>
               <div class="views-personal">
-                <h4>{{ 'shared.fields.numberOfStudents' | translate }}</h4>
+                <h4>{{ 'shared.labels.numberOfStudents' | translate }}</h4>
                 <h5>{{ group.numberOfStudents || 0 }}</h5>
               </div>
             </div>
@@ -65,7 +65,7 @@
                 <i class="fas fa-solid fa-users-cog"></i>
               </div>
               <div class="views-personal">
-                <h4>{{ 'shared.fields.capacity' | translate }}</h4>
+                <h4>{{ 'shared.labels.capacity' | translate }}</h4>
                 <h5>{{ group.capacity || 0 }}</h5>
               </div>
             </div>
@@ -75,7 +75,7 @@
                 <i class="fas fa-solid fa-chart-pie"></i>
               </div>
               <div class="views-personal">
-                <h4>{{ 'shared.fields.capacityStatus' | translate }}</h4>
+                <h4>{{ 'shared.labels.capacityStatus' | translate }}</h4>
                 <h5>
                   <span class="badge badge-status" [style.background-color]="getCapacityStatusColor()">
                     {{ getCapacityStatus() }}
@@ -90,7 +90,7 @@
                 <i class="fas fa-solid fa-percentage"></i>
               </div>
               <div class="views-personal w-100">
-                <h4>{{ 'shared.fields.capacityPercentage' | translate }}</h4>
+                <h4>{{ 'shared.labels.capacityPercentage' | translate }}</h4>
                 <h5>
                   <div class="progress" style="height: 8px; margin-top: 5px;">
                     <div class="progress-bar" [style.width.%]="getCapacityPercentage()"
@@ -116,48 +116,30 @@
           <p-tabs value="0" scrollable>
 
             <p-tablist>
-              <p-tab value="0">{{ 'groups.profile.weeklySchedule' | translate }}</p-tab>
-              <p-tab value="1">{{ 'shared.fields.dailyAttendance' | translate }}</p-tab>
-              <p-tab value="2">{{ 'students.all' | translate }}</p-tab>
+              <p-tab value="0">
+                <i class="fas fa-solid fa-calendar-alt"></i>
+                <span class="ms-1"></span>
+                {{ 'shared.tabs.schedule' | translate }}
+              </p-tab>
+
+              <p-tab value="1">
+                <i class="fas fa-clipboard-check"></i>
+                <span class="ms-1"></span>
+                {{ 'shared.tabs.attendance' | translate }}
+              </p-tab>
+
+              <p-tab value="2">
+                <i class="fas fa-solid fa-user-graduate"></i>
+                <span class="ms-1"></span>
+                {{ 'students.all' | translate }}
+              </p-tab>
             </p-tablist>
 
             <p-tabpanels class="px-0">
 
               <p-tabpanel value="0">
 
-                <div class="hello-park">
-                  <div class="d-flex justify-content-between">
-                    <h5>{{ 'groups.profile.weeklySchedule' | translate }}</h5>
-
-                  </div>
-
-                  <div class="daily-schedule-container" *ngIf="group.dailySchedules && group.dailySchedules.length > 0">
-
-
-                    <div class="daily-schedule-card" *ngFor="let dailySchedule of group.dailySchedules">
-                      <div class="daily-schedule-card-header">
-                        <h5>{{ weekDays.getDayName(dailySchedule.day) }}</h5>
-                      </div>
-
-                      <div class="daily-schedule-card-body">
-                        <div class="daily-schedule-card-body-item">
-                          <i class="fas fa-solid fa-clock"></i>
-                          <h5>{{ getTimeFormat(dailySchedule.startTime) + ' - ' + getTimeFormat(dailySchedule.endTime) }}</h5>  
-                        </div>
-                  
-                        <div class="daily-schedule-card-body-item">
-                          <i class="fas fa-solid fa-door-open"></i>
-                          <h5>{{ dailySchedule.roomeName }}</h5>
-                        </div>
-                      </div>
-                    </div>
-
-                  </div>
-
-                  <no-data [icon]="'fas fa-calendar-alt'" [text]="'shared.profile.noWeeklySchedule' | translate"
-                    *ngIf="!group.dailySchedules || group.dailySchedules.length == 0" />
-
-                </div>
+                  <group-daily-schedule [group]="group" />
 
               </p-tabpanel>
 
@@ -166,21 +148,21 @@
                 <div class="hello-park">
 
                   <div class="d-flex justify-content-between">
-                    <h5>{{ 'shared.fields.dailyAttendance' | translate }}</h5>
+                    <h5>{{ 'shared.tabs.attendance' | translate }}</h5>
 
                   </div>
 
-                  <div class="table-container">
+                  <div class="table-container  auto-hover-scroll" *ngIf="group.attendces && group.attendces.length > 0">
 
                     <table>
 
                       <thead>
                         <tr>
-                          <th>{{ 'shared.fields.date' | translate }}</th>
-                          <th class="text-center">{{ 'shared.attendanceStatus.present' | translate }}</th>
-                          <th class="text-center">{{ 'shared.attendanceStatus.late' | translate }}</th>
-                          <th class="text-center">{{ 'shared.attendanceStatus.absent' | translate }}</th>
-                          <th class="text-center">{{ 'shared.fields.total' | translate }}</th>
+                          <th>{{ 'shared.labels.date' | translate }}</th>
+                          <th class="text-center">{{ 'attendanceStatus.present' | translate }}</th>
+                          <th class="text-center">{{ 'attendanceStatus.late' | translate }}</th>
+                          <th class="text-center">{{ 'attendanceStatus.absent' | translate }}</th>
+                          <th class="text-center">{{ 'shared.labels.total' | translate }}</th>
                         </tr>
                       </thead>
 
@@ -208,7 +190,7 @@
 
                   </div>
 
-                  <no-data [icon]="'fas fa-users'" [text]="'shared.profile.noAttendances' | translate"
+                  <no-data [icon]="'fas fa-users'" [text]="'shared.noData.noAttendances' | translate"
                     *ngIf="!group.attendces || group.attendces.length === 0" />
 
                 </div>
@@ -222,7 +204,7 @@
                   <div class="d-flex justify-content-between">
                     <h5>{{ 'students.all' | translate }}</h5>
 
-                    <div class="form-group students-up-files mb-1" *ngIf="permissionAccess.canEdit.group">
+                    <div class="form-group students-up-files auto-hover-scroll" *ngIf="permissionAccess.canEdit.group">
                       <edit-icon-button (onClick)="onAddStudent()" [showOutline]="true"/>
                     </div>
                   </div>
@@ -233,13 +215,15 @@
 
                       <thead>
                         <tr>
-                          <th>{{ 'shared.fields.name' | translate }}</th>
+                          <th>{{ 'students.one' | translate }}</th>
                         </tr>
                       </thead>
 
                       <tbody>
                         <tr *ngFor="let student of group.students" class="class-row">
-                          <td class="py-4 clickable-text student-name" (click)="onStudentClick(student.id)">
+                          <td class="py-4 clickable-text student-name" 
+                            [ngClass]="{'clickable-text': permissionAccess.canView.studentProfile}"
+                            (click)="permissionAccess.canView.studentProfile ? onStudentClick(student.id) : null">
                             {{ student.name }}
                           </td>
                         </tr>
@@ -249,7 +233,7 @@
 
                   </div>
 
-                  <no-data [icon]="'fas fa-user-graduate'" [text]="'shared.profile.noStudents' | translate"
+                  <no-data [icon]="'fas fa-user-graduate'" [text]="'shared.noData.noStudents' | translate"
                     *ngIf="!group.students || group.students.length === 0" />
 
                 </div>

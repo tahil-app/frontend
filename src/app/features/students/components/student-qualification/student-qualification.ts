@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, Output, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, inject, Input, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
 import { CommonModule } from '@angular/common';
@@ -37,6 +37,7 @@ export class StudentQualification {
   private toaster = inject(ToastService);
   private loader = inject(LoaderService);
   private translate = inject(TranslateService);
+  private cdr = inject(ChangeDetectorRef);
   //#endregion
 
   //#region Methods
@@ -47,6 +48,7 @@ export class StudentQualification {
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.qualificationForm && (changes['student'] || changes['showDialog'])) {
+      this.cdr.detectChanges();
       this.qualificationForm.get('qualification')?.setValue(this.student.qualification);
     }
   }
@@ -74,7 +76,7 @@ export class StudentQualification {
           if (res) {
             this.onSave.emit();
             this.qualificationForm.reset();
-            this.toaster.showSuccess(this.translate.instant('shared.profile.qualificationsSaveSuccess'));
+            this.toaster.showSuccess(this.translate.instant('shared.messages.qualificationsSaveSuccess'));
           }
         }, _ => { }, () => this.loader.hide());
     }

@@ -1,29 +1,32 @@
-import { Injectable } from "@angular/core";
+import { inject, Injectable } from "@angular/core";
+import { TranslateService } from "@ngx-translate/core";
 import { MessageService } from "primeng/api";
 
 @Injectable({
     providedIn: 'root'
 })
 export class ToastService {
-    constructor(private messageService: MessageService) {}
+
+    private translate = inject(TranslateService);
+    private messageService = inject(MessageService);
 
     showSuccess(message: string) {
-        this.messageService.add({ severity: 'success', summary: 'نجاح', detail: message });
+        this.messageService.add({ severity: 'success', summary: this.translate.instant('toast.success'), detail: message });
     }
 
     showInfo(message: string) {
-        this.messageService.add({ severity: 'info', summary: 'معلومة', detail: message });
+        this.messageService.add({ severity: 'info', summary: this.translate.instant('toast.info'), detail: message });
     }
 
     showWarn(message: string) {
-        this.messageService.add({ severity: 'warn', summary: 'تحذير', detail: message });
+        this.messageService.add({ severity: 'warn', summary: this.translate.instant('toast.warning'), detail: message });
     }
 
     showError(message: string) {
-        this.messageService.add({ severity: 'error', summary: 'خطأ', detail: message });
+        this.messageService.add({ severity: 'error', summary: this.translate.instant('toast.error'), detail: message });
     }
 
     showGeneralErr() {
-        this.showError('Something wrong happend');
+        this.showError(this.translate.instant('toast.generalError'));
     }
 }
