@@ -3,20 +3,11 @@
     <div class="d-flex justify-content-between">
         <h5>{{ 'shared.tabs.attendance' | translate }}</h5>
 
-        <div class="d-flex align-items-center gap-2">
-            <select 
-                *ngIf="permissionService.canExport.exportStudentAttendancePdf"
-                dir="ltr"
-                id="yearSelect" 
-                class="form-select" 
-                [(ngModel)]="selectedYear"
-                (change)="onYearChange()"
-                style="width: 75px; padding: 4px 8px;">
-                <option *ngFor="let year of years" [value]="year">{{ year }}</option>
-            </select>
-
-            <pdf-icon-btn *ngIf="permissionService.canExport.exportStudentAttendancePdf && student?.dailySchedules?.length" [showOutline]="true" (onClick)="exportToPdf()"/>
-        </div>
+        <pdf-year-month-btns [selectedYear]="selectedYear" [selectedMonth]="selectedMonth"
+            [showPdfBtn]="permissionService.canExport.exportStudentAttendancePdf"
+            [showYearSelect]="permissionService.canExport.exportStudentAttendancePdf"
+            [showMonthSelect]="permissionService.canExport.exportStudentAttendancePdf" (onExport)="exportToPdf()"
+            (onYearChanged)="onYearChange($event)" (onMonthChanged)="onMonthChange($event.month)" />
     </div>
 
     <!-- Statistics Cards -->
@@ -59,24 +50,65 @@
     </div>
 
     <!-- Chart Section -->
-    <div class="chart-container">
-        <line-chart
-            [dataSet]="dataSet"
-            [xLabel]="'shared.labels.month' | translate"
-            [yLabel]="'shared.labels.numberOfSessions' | translate"
-            [tooltipLabel]="buildTooltipLabel"
-        ></line-chart>
+    <div class="chart-container" *ngIf="!showDailyAttendance">
+        <line-chart [dataSet]="dataSet" [xLabel]="'shared.labels.month' | translate"
+            [yLabel]="'shared.labels.numberOfSessions' | translate" [tooltipLabel]="buildTooltipLabel"></line-chart>
+    </div>
+
+    <div class="daily-chart-container" *ngIf="showDailyAttendance">
+        <div class="tab-section-container table-container  auto-hover-scroll"
+            *ngIf="dailyAttendanceData && dailyAttendanceData.length > 0">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>{{ 'shared.labels.date' | translate }}</th>
+                        <th>{{ 'attendanceStatus.present' | translate }}</th>
+                        <th>{{ 'attendanceStatus.late' | translate }}</th>
+                        <th>{{ 'attendanceStatus.absent' | translate }}</th>
+                        <th>{{ 'shared.labels.comment' | translate }}</th>
+                    </tr>
+                </thead>
+
+                <tbody class="attendance-table-body">
+                    <tr *ngFor="let dailyAttendance of dailyAttendanceData" class="class-row">
+                        <td class="student-name">
+                            {{ dailyAttendance.date }}
+                        </td>
+                        <td class="student-name">
+                            <div class="td-status-checkbox" [class.checked]="statusService.checkAttendanceStatus(dailyAttendance.status).isPresent"></div>
+                        </td>
+                        <td class="student-name">
+                            <div class="td-status-checkbox" [class.checked]="statusService.checkAttendanceStatus(dailyAttendance.status).isLate"></div>
+                        </td>
+                        <td class="student-name">
+                            <div class="td-status-checkbox" [class.checked]="statusService.checkAttendanceStatus(dailyAttendance.status).isAbsent"></div>
+                        </td>
+                        <td class="student-name">
+                            {{ dailyAttendance.note }}
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <no-data *ngIf="dailyAttendanceData && dailyAttendanceData.length === 0" [icon]="'fas fa-clipboard-check'"
+            [text]="'shared.noData.noAttendances' | translate" />
     </div>
 
     <!-- Hidden PDF Template -->
     <div style="position: absolute; left: -9999px; top: -9999px;">
 
-        <attendance-pdf-template 
-            [title]="getReportTitle()"
-            [monthlyAttendanceData]="monthlyAttendanceData"
-            [selectedYear]="selectedYear"
-        />
+        <attendance-monthly-pdf-template [title]="getReportTitle()" [monthlyAttendanceData]="monthlyAttendanceData"
+            [selectedYear]="selectedYear" />
 
     </div>
 
+    <div style="position: absolute; left: -9999px; top: -9999px;">
+        <attendace-daily-pdf-template [title]="getReportTitle()" [dailyAttendanceData]="dailyAttendanceData"
+            [selectedYear]="selectedYear" [selectedMonth]="selectedMonth" />
+    </div>
 </div>

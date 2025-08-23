@@ -370,3 +370,24 @@ label,
         scrollbar-color: #8a8888 transparent;
     }
 }
+
+
+
+
+.td-status-checkbox {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+
+    &.checked {
+        color: #000;
+
+        &::before {
+            content: "☒";
+        }
+    }
+
+    &:not(.checked)::before {
+        content: "☐";
+    }
+}

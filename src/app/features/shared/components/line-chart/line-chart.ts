@@ -17,6 +17,7 @@ export class LineChart {
     @Input() dataSet: LineChartProps[] = [];
     @Input() xLabel: string = '';
     @Input() yLabel: string = '';
+    @Input() labels: string[] = [];
     @Input() tooltipLabel: (context: any) => string = () => '';
 
     // private translateService = inject(TranslateService);
@@ -31,7 +32,7 @@ export class LineChart {
     initializeChart() {
 
         this.chartData = {
-            labels: this.monthesService.getMonthes(),
+            labels: this.labels.length > 0 ? this.labels : this.monthesService.getMonthes(),
             datasets: this.dataSet
         };
 

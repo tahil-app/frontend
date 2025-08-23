@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AttendancePdfTemplate } from './attendance-pdf-template';
+import { PdfYearMonthBtns } from './pdf-year-month-btns';
 
-describe('AttendancePdfTemplate', () => {
-  let component: AttendancePdfTemplate;
-  let fixture: ComponentFixture<AttendancePdfTemplate>;
+describe('PdfYearMonthBtns', () => {
+  let component: PdfYearMonthBtns;
+  let fixture: ComponentFixture<PdfYearMonthBtns>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AttendancePdfTemplate]
+      imports: [PdfYearMonthBtns]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AttendancePdfTemplate);
+    fixture = TestBed.createComponent(PdfYearMonthBtns);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

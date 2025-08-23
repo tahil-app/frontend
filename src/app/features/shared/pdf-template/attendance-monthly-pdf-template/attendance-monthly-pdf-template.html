@@ -10,27 +10,27 @@
   
       <div class="summary-grid">
         <div class="summary-card">
-          <div class="summary-value total">{{ total }}</div>
+          <div class="summary-value total">{{ monthlyStatistics.total }}</div>
           <div class="summary-label">{{ 'shared.labels.total' | translate }}</div>
         </div>
   
         <div class="summary-card">
-          <div class="summary-value present">{{ present }}</div>
+          <div class="summary-value present">{{ monthlyStatistics.present }}</div>
           <div class="summary-label">{{ 'attendanceStatus.present' | translate }}</div>
         </div>
   
         <div class="summary-card">
-          <div class="summary-value absent">{{ absent }}</div>
+          <div class="summary-value absent">{{ monthlyStatistics.absent }}</div>
           <div class="summary-label">{{ 'attendanceStatus.absent' | translate }}</div>
         </div>
   
         <div class="summary-card">
-          <div class="summary-value late">{{ late }}</div>
+          <div class="summary-value late">{{ monthlyStatistics.late }}</div>
           <div class="summary-label">{{ 'attendanceStatus.late' | translate }}</div>
         </div>
   
         <div class="summary-card">
-          <div class="summary-value percentage">{{ attendancePercentage }}%</div>
+          <div class="summary-value percentage">{{ monthlyStatistics.percentage }}%</div>
           <div class="summary-label">{{ 'shared.labels.attendancePercentage' | translate }}</div>
         </div>
       </div>
@@ -106,7 +106,7 @@
       </div>
     </div>
   
-    
+  
     <pdf-template-footer />
   
   </div>

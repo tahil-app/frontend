@@ -108,7 +108,8 @@ export class ApiEndpoints {
         Actions: {
             Session: (sessionId: string | number) => `/${sessionId}`,
             Update:  (sessionId: string | number) => `update/${sessionId}`,
-            GetMonthly: (year: number, studentId: number) => `monthly/${year}/${studentId}`,
+            GetMonthly: (studentId: number, year: number) => `monthly/${studentId}/${year}`,
+            GetDaily: (studentId: number, year: number, month: number | null = null) => `daily/${studentId}/${year}/${month}`,
         }
     };
 }

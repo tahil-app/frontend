@@ -1,6 +1,6 @@
 .student-attendance-container {
 
-    // Statistics Cards
+  // Statistics Cards
   .stat-card {
     padding: .5rem;
     text-align: center;
@@ -36,41 +36,41 @@
       color: #666;
     }
 
-                   // Total card
-      &:has(.text-total) {
-        border-left: 4px solid #2196F3;
-        
-        h3 {
-          color: #2196F3;
-        }
-      }
+    // Total card
+    &:has(.text-total) {
+      border-left: 4px solid #2196F3;
 
-      // Present card
-      &:has(.text-present) {
-        border-left: 4px solid #4CAF50;
-        
-        h3 {
-          color: #4CAF50;
-        }
+      h3 {
+        color: #2196F3;
       }
+    }
 
-      // Absent card
-      &:has(.text-absent) {
-        border-left: 4px solid #F44336;
-        
-        h3 {
-          color: #F44336;
-        }
-      }
+    // Present card
+    &:has(.text-present) {
+      border-left: 4px solid #4CAF50;
 
-      // Late card
-      &:has(.text-late) {
-        border-left: 4px solid #FF9800;
-        
-        h3 {
-          color: #FF9800;
-        }
+      h3 {
+        color: #4CAF50;
       }
+    }
+
+    // Absent card
+    &:has(.text-absent) {
+      border-left: 4px solid #F44336;
+
+      h3 {
+        color: #F44336;
+      }
+    }
+
+    // Late card
+    &:has(.text-late) {
+      border-left: 4px solid #FF9800;
+
+      h3 {
+        color: #FF9800;
+      }
+    }
   }
 
   // Chart Card

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, inject, Input, ViewChild } from '@angular/core';
+import { Component, OnDestroy, inject, Input, ViewChild, EventEmitter, Output, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CardModule } from 'primeng/card';
 import { SelectModule } from 'primeng/select';
@@ -6,8 +6,6 @@ import { ButtonModule } from 'primeng/button';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { AttendanceService } from '../../../../core/services/attendance.service';
-import { PdfIconBtn } from "../../../shared/buttons/pdf-icon-btn/pdf-icon-btn";
 import { MonthlyAttendanceModel } from '../../../../core/models/monthly-attendance.model';
 import { LoaderService } from '../../../shared/services/loader.service';
 import { LineChart } from "../../../shared/components/line-chart/line-chart";
@@ -16,8 +14,14 @@ import { PdfExportService } from '../../../shared/services/pdf-export.service';
 import { Student } from '../../../../core/models/student.model';
 import { PermissionAccessService } from '../../../../core/services/permission-access.service';
 import { ConfirmService } from '../../../shared/services/confirm.serivce';
-import { AttendancePdfTemplate } from "../../../shared/pdf-template/attendance-pdf-template/attendance-pdf-template";
 import { ReportHelper } from '../../../../core/helpers/report.helper';
+import { PdfYearMonthBtns } from "../../../shared/buttons/pdf-year-month-btns/pdf-year-month-btns";
+import { AttendanceMonthlyPdfTemplate } from '../../../shared/pdf-template/attendance-monthly-pdf-template/attendance-monthly-pdf-template';
+import { AttendaceDailyPdfTemplate } from "../../../shared/pdf-template/attendace-daily-pdf-template/attendace-daily-pdf-template";
+import { DailyAttendanceModel } from '../../../../core/models/daily-attendance.model';
+import { AttendanceStatus } from '../../../../core/enums/attendance-status.enum';
+import { NoData } from "../../../shared/components/no-data/no-data";
+import { StatusService } from '../../../../core/services/status.service';
 
 @Component({
   selector: 'student-attendance',
@@ -28,40 +32,56 @@ import { ReportHelper } from '../../../../core/helpers/report.helper';
     ButtonModule,
     TranslateModule,
     FormsModule,
-    PdfIconBtn,
     LineChart,
-    AttendancePdfTemplate
+    AttendanceMonthlyPdfTemplate,
+    PdfYearMonthBtns,
+    AttendaceDailyPdfTemplate,
+    NoData
 ],
   templateUrl: './student-attendance.html',
   styleUrl: './student-attendance.scss'
 })
-export class StudentAttendance implements OnInit, OnDestroy {
+export class StudentAttendance implements OnDestroy {
 
   @Input() student!: Student;
-  @ViewChild(AttendancePdfTemplate, { static: false }) pdfTemplate!: AttendancePdfTemplate;
+  @Input() monthlyAttendanceData: MonthlyAttendanceModel[] = [];
+  @Input() dailyAttendanceData: DailyAttendanceModel[] = [];
+  @Input() showDailyAttendance: boolean = false;
+
+  @ViewChild(AttendanceMonthlyPdfTemplate, { static: false }) pdfTemplate!: AttendanceMonthlyPdfTemplate;
+  @ViewChild(AttendaceDailyPdfTemplate, { static: false }) dailyPdfTemplate!: AttendaceDailyPdfTemplate;
 
   // Properties
   allowExportToPdf: boolean = false;
-  monthlyAttendanceData: MonthlyAttendanceModel[] = [];
   dataSet: LineChartProps[] = [];
+  dates: string[] = [];
 
   // Filter options
   selectedYear: number = new Date().getFullYear();
-  years: number[] = [];
+  selectedMonth: number = 0;
 
   $destroy = new Subject<void>();
 
   private loader = inject(LoaderService);
-  private attendanceService = inject(AttendanceService);
   private translateService = inject(TranslateService);
   private pdfExportService = inject(PdfExportService);
   private confirmService = inject(ConfirmService);
+
+  public statusService = inject(StatusService);
   public permissionService = inject(PermissionAccessService);
 
-  ngOnInit() {
-    this.loadAttendanceData(this.selectedYear);
+  @Output() onYearChanged = new EventEmitter<number>();
+  @Output() onMonthChanged = new EventEmitter<{ year: number, month: number }>();
 
-    this.years = Array.from({ length: 5 }, (_, i) => this.selectedYear - i);
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['monthlyAttendanceData']) {
+      this.initializeChart();
+    }
+
+    if (changes['dailyAttendanceData']) {
+      // this.dates = this.dailyAttendanceData.map(item => item.date);
+      // this.initializeChart();
+    }
   }
 
   ngOnDestroy() {
@@ -144,34 +164,46 @@ export class StudentAttendance implements OnInit, OnDestroy {
     return `${label}: ${value} (${percentage}%)`;
   }
 
-  onYearChange() {
-    this.loadAttendanceData(this.selectedYear);
+  onYearChange(year: number) {
+    this.selectedYear = year;
+    this.onYearChanged.emit(year);
   }
 
-  loadAttendanceData(year: number) {
-    this.loader.show();
-
-    this.attendanceService.getStudentMonthlyAttendance(year, this.student.id)
-      .subscribe(res => {
-        this.monthlyAttendanceData = res;
-        this.initializeChart();
-      }, err => { }, () => this.loader.hide());
+  onMonthChange(month: number) {
+    this.selectedMonth = month;
+    this.onMonthChanged.emit({ year: this.selectedYear ?? 0, month: this.selectedMonth ?? 0 });
   }
 
   get present() {
-    return this.monthlyAttendanceData.reduce((acc, curr) => acc + curr.present, 0);
+    if (this.showDailyAttendance) {
+      return this.statusService.getAttendanceDailyStatistics(this.dailyAttendanceData).present;
+    }
+
+    return this.statusService.getAttendanceMonthlyStatistics(this.monthlyAttendanceData).present;
   }
 
   get absent() {
-    return this.monthlyAttendanceData.reduce((acc, curr) => acc + curr.absent, 0);
+    if (this.showDailyAttendance) {
+      return this.statusService.getAttendanceDailyStatistics(this.dailyAttendanceData).absent;
+    }
+
+    return this.statusService.getAttendanceMonthlyStatistics(this.monthlyAttendanceData).absent;
   }
 
   get late() {
-    return this.monthlyAttendanceData.reduce((acc, curr) => acc + curr.late, 0);
+    if (this.showDailyAttendance) {
+      return this.statusService.getAttendanceDailyStatistics(this.dailyAttendanceData).late;
+    }
+
+    return this.statusService.getAttendanceMonthlyStatistics(this.monthlyAttendanceData).late;
   }
 
   get total() {
-    return this.present + this.absent + this.late;
+    if (this.showDailyAttendance) {
+      return this.statusService.getAttendanceDailyStatistics(this.dailyAttendanceData).total;
+    }
+
+    return this.statusService.getAttendanceMonthlyStatistics(this.monthlyAttendanceData).total;
   }
 
   async exportToPdf() {
@@ -187,10 +219,10 @@ export class StudentAttendance implements OnInit, OnDestroy {
           return;
         }
 
-        const filename = `${this.student.name}_Attendance_Report_${this.selectedYear}.pdf`;
+        const filename = `${this.student.name}_Attendance_${this.showDailyAttendance ? 'Daily' : 'Monthly'}_Report_${this.selectedYear}/${this.selectedMonth}.pdf`;
 
         await this.pdfExportService.exportToPdf(
-          this.pdfTemplate.pdfContent.nativeElement,
+          this.showDailyAttendance ? this.dailyPdfTemplate.pdfContent.nativeElement : this.pdfTemplate.pdfContent.nativeElement,
           filename,
           { orientation: 'portrait', format: 'a4' }
         );

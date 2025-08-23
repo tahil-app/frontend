@@ -187,6 +187,10 @@
             "markAllLate": "الكل",
             "markAllAbsent": "الكل"
         },
+        "placeholders": {
+            "selectMonthPlaceholder": "اختر الشهر",
+            "selectYearPlaceholder": "اختر السنة"
+        },
         "validation": {
             "passwordMismatch": "كلمة المرور وتأكيد كلمة المرور غير متطابقتين",
             "requiredDropdown": "يجب اختيار {{field}} من القائمة",

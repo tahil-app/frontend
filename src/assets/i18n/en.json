@@ -190,6 +190,10 @@
             "markAllLate": "All",
             "markAllAbsent": "All"
         },
+        "placeholders": {
+            "selectMonthPlaceholder": "Select Month",
+            "selectYearPlaceholder": "Select Year"
+        },
         "validation": {
             "passwordMismatch": "Password and confirm password do not match",
             "requiredDropdown": "Please select {{field}} from the list",

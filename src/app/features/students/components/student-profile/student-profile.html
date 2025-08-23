@@ -126,13 +126,14 @@
                                 <span class="ms-1"></span>
                                 {{ 'shared.tabs.schedule' | translate }}
                             </p-tab>
-                            
-                            <p-tab value="1" class="px-3" *ngIf="permissionService.canView.studentAttendance">
+
+                            <p-tab value="1" class="px-3" *ngIf="permissionService.canView.studentAttendance"
+                                (click)="onAttendanceTabClick()">
                                 <i class="fas fa-clipboard-check"></i>
                                 <span class="ms-1"></span>
                                 {{ 'shared.tabs.attendance' | translate }}
                             </p-tab>
-                            
+
                             <p-tab value="2" class="px-3">
                                 <i class="fas fa-comments"></i>
                                 <span class="ms-1"></span>
@@ -144,13 +145,13 @@
                                 <span class="ms-1"></span>
                                 {{ 'shared.tabs.groups' | translate }}
                             </p-tab>
-                            
+
                             <p-tab value="4" class="px-3">
                                 <i class="fas fa-graduation-cap"></i>
                                 <span class="ms-1"></span>
                                 {{ 'shared.tabs.qualifications' | translate }}
                             </p-tab>
-                            
+
                             <p-tab value="5" class="px-3">
                                 <i class="fas fa-paperclip"></i>
                                 <span class="ms-1"></span>
@@ -169,7 +170,13 @@
 
                             <p-tabpanel value="1" *ngIf="permissionService.canView.studentAttendance">
 
-                                <student-attendance [student]="student" />
+                                <student-attendance 
+                                    [student]="student" 
+                                    [showDailyAttendance]="showDailyAttendance"
+                                    [monthlyAttendanceData]="monthlyAttendanceData"
+                                    [dailyAttendanceData]="dailyAttendanceData"
+                                    (onYearChanged)="loadMonthlyAttendanceData($event)"
+                                    (onMonthChanged)="loadDailyAttendanceData($event.year, $event.month)" />
 
                             </p-tabpanel>
 
@@ -178,9 +185,9 @@
                                 <student-feedback [student]="student" [feedbacks]="student.feedbacks" />
 
                             </p-tabpanel>
-                            
-                            <p-tabpanel value="3">  
-                                
+
+                            <p-tabpanel value="3">
+
                                 <div class="hello-park">
                                     <div class="d-flex justify-content-between">
                                         <h5>{{ 'shared.tabs.groups' | translate }}</h5>
@@ -235,10 +242,13 @@
 
                                     <div class="tab-section-container auto-hover-scroll">
                                         <div [innerHTML]="getSafeHtml(student.qualification)"></div>
-                                        
+
                                     </div>
 
-                                    <no-data *ngIf="student.qualification === null || student.qualification?.length === 0" [icon]="'fas fa-graduation-cap'" [text]="'shared.noData.noQualifications' | translate" />
+                                    <no-data
+                                        *ngIf="student.qualification === null || student.qualification?.length === 0"
+                                        [icon]="'fas fa-graduation-cap'"
+                                        [text]="'shared.noData.noQualifications' | translate" />
                                 </div>
 
                             </p-tabpanel>
@@ -257,7 +267,10 @@
                                     <div class="tab-section-container auto-hover-scroll">
                                         <app-student-attachment [student]="student" />
 
-                                        <no-data *ngIf="student.attachments === null || student.attachments?.length === 0" [icon]="'fas fa-paperclip'" [text]="'shared.noData.noAttachments' | translate" />
+                                        <no-data
+                                            *ngIf="student.attachments === null || student.attachments?.length === 0"
+                                            [icon]="'fas fa-paperclip'"
+                                            [text]="'shared.noData.noAttachments' | translate" />
                                     </div>
                                 </div>
 

@@ -5,6 +5,7 @@ import { ApiEndpoints } from '../consts/api-endpoints';
 import { Observable } from 'rxjs';
 import { StudentAttendance, StudentAttendanceDisplay } from '../models/student-attendance.model';
 import { MonthlyAttendanceModel } from '../models/monthly-attendance.model';
+import { DailyAttendanceModel } from '../models/daily-attendance.model';
 
 @Injectable({
   providedIn: 'root',
@@ -29,9 +30,15 @@ export class AttendanceService extends ApiService<StudentAttendance> {
     );
   }
 
-  getStudentMonthlyAttendance(year: number, studentId: number): Observable<MonthlyAttendanceModel[]> {
+  getStudentMonthlyAttendance(studentId: number, year: number): Observable<MonthlyAttendanceModel[]> {
     return this.httpClient.get<MonthlyAttendanceModel[]>(
-      this.appURLGenerator.getEndPoint(ApiEndpoints.STUDENT_ATTENDANCE.Actions.GetMonthly(year, studentId))
+      this.appURLGenerator.getEndPoint(ApiEndpoints.STUDENT_ATTENDANCE.Actions.GetMonthly(studentId, year))
+    );
+  }
+
+  getStudentDailyAttendance(studentId: number, year: number, month: number): Observable<DailyAttendanceModel[]> {
+    return this.httpClient.get<DailyAttendanceModel[]>(
+      this.appURLGenerator.getEndPoint(ApiEndpoints.STUDENT_ATTENDANCE.Actions.GetDaily(studentId, year, month))
     );
   }
 

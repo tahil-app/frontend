@@ -6,14 +6,15 @@ import { PdfTemplateHeader } from '../pdf-template-header/pdf-template-header';
 import { MonthlyAttendanceModel } from '../../../../core/models/monthly-attendance.model';
 import { DateHelper } from '../../../../core/helpers/date.helper';
 import { MonthesService } from '../../../../core/services/monthes.service';
+import { StatusService } from '../../../../core/services/status.service';
 
 @Component({
-  selector: 'attendance-pdf-template',
+  selector: 'attendance-monthly-pdf-template',
   imports: [CommonModule, TranslateModule, PdfTemplateFooter, PdfTemplateHeader],
-  templateUrl: './attendance-pdf-template.html',
-  styleUrl: './attendance-pdf-template.scss'
+  templateUrl: './attendance-monthly-pdf-template.html',
+  styleUrl: './attendance-monthly-pdf-template.scss'
 })
-export class AttendancePdfTemplate {
+export class AttendanceMonthlyPdfTemplate {
   @Input() title: string = '';
   @Input() monthlyAttendanceData: MonthlyAttendanceModel[] = [];
   @Input() selectedYear: number = new Date().getFullYear();
@@ -24,27 +25,19 @@ export class AttendancePdfTemplate {
 
   private translateService = inject(TranslateService);
   private monthService = inject(MonthesService);
+  public statusService = inject(StatusService);
 
 
-  get present() {
-    return this.monthlyAttendanceData.reduce((acc, curr) => acc + curr.present, 0);
+  get monthlyStatistics() {
+    return {
+      present: this.statusService.getAttendanceMonthlyStatistics(this.monthlyAttendanceData).present,
+      late: this.statusService.getAttendanceMonthlyStatistics(this.monthlyAttendanceData).late,
+      absent: this.statusService.getAttendanceMonthlyStatistics(this.monthlyAttendanceData).absent,
+      total: this.statusService.getAttendanceMonthlyStatistics(this.monthlyAttendanceData).total,
+      percentage: this.statusService.getAttendanceMonthlyStatistics(this.monthlyAttendanceData).percentage
+    };
   }
 
-  get absent() {
-    return this.monthlyAttendanceData.reduce((acc, curr) => acc + curr.absent, 0);
-  }
-
-  get late() {
-    return this.monthlyAttendanceData.reduce((acc, curr) => acc + curr.late, 0);
-  }
-
-  get total() {
-    return this.present + this.absent + this.late;
-  }
-
-  get attendancePercentage() {
-    return this.total > 0 ? ((this.present / this.total) * 100).toFixed(1) : '0.0';
-  }
 
   getMonthName(monthNumber: number): string {
     const months = this.monthService.getMonthes();
@@ -124,7 +117,7 @@ export class AttendancePdfTemplate {
   }
 
   getPerformanceRating(): string {
-    const percentage = parseFloat(this.attendancePercentage);
+    const percentage = parseFloat(this.monthlyStatistics.percentage);
     
     if (percentage >= 90) return this.translateService.instant('performance.excellent');
     if (percentage >= 80) return this.translateService.instant('performance.good');
@@ -134,7 +127,7 @@ export class AttendancePdfTemplate {
   }
 
   getPerformanceClass(): string {
-    const percentage = parseFloat(this.attendancePercentage);
+    const percentage = parseFloat(this.monthlyStatistics.percentage);
     
     if (percentage >= 90) return 'excellent';
     if (percentage >= 80) return 'good';
@@ -143,4 +136,3 @@ export class AttendancePdfTemplate {
     return 'poor';
   }
 }
-

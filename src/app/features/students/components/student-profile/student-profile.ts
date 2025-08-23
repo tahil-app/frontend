@@ -27,6 +27,9 @@ import { StudentFeedback } from "../student-feedback/student-feedback";
 import { StudentAttendance } from "../student-attendance/student-attendance";
 import { ConfirmService } from '../../../shared/services/confirm.serivce';
 import { NoData } from "../../../shared/components/no-data/no-data";
+import { AttendanceService } from '../../../../core/services/attendance.service';
+import { MonthlyAttendanceModel } from '../../../../core/models/monthly-attendance.model';
+import { DailyAttendanceModel } from '../../../../core/models/daily-attendance.model';
 
 @Component({
   selector: 'app-student-profile',
@@ -58,8 +61,11 @@ export class StudentProfile {
   showQualificationDialog = false;
   showUserAttachmentDialog = false;
   disablePage = false;
+  showDailyAttendance = false;
 
   student: Student = {} as Student;
+  monthlyAttendanceData: MonthlyAttendanceModel[] = [];
+  dailyAttendanceData: DailyAttendanceModel[] = [];
   destroy$ = new Subject<void>();
 
   @ViewChild('fileInput') fileInput!: ElementRef;
@@ -75,6 +81,7 @@ export class StudentProfile {
   private translate = inject(TranslateService);
   private confirmService = inject(ConfirmService);
   private router = inject(Router);
+  private attendanceService = inject(AttendanceService);
 
   public permissionService = inject(PermissionAccessService);
   //#endregion
@@ -108,8 +115,38 @@ export class StudentProfile {
     });
   }
 
+  loadMonthlyAttendanceData(year: number) {
+    this.showDailyAttendance = false;
+    this.loader.show();
+
+    this.attendanceService.getStudentMonthlyAttendance(this.student.id, year)
+      .subscribe(res => {
+        this.monthlyAttendanceData = res;
+      }, err => { }, () => this.loader.hide());
+  }
+
+  loadDailyAttendanceData(year: number, month: number = 0) {
+    if(month == 0) {
+      this.showDailyAttendance = false;
+      return;
+    }
+    
+    this.showDailyAttendance = true;
+    this.loader.show();
+    this.attendanceService.getStudentDailyAttendance(this.student.id, year, month)
+      .subscribe(res => {
+        this.dailyAttendanceData = res;
+      }, err => { }, () => this.loader.hide());
+  }
+
   getSafeHtml(html: string) {
     return html ? this.sanitizer.bypassSecurityTrustHtml(html) : '';
+  }
+
+  onAttendanceTabClick() {
+    if(this.monthlyAttendanceData.length == 0) {
+      this.loadMonthlyAttendanceData(new Date().getFullYear());
+    }
   }
 
   ngOnDestroy() {
