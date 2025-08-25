@@ -1,26 +1,30 @@
 .attendance-form-content {
+    .pdf-export-btn {
+        position: absolute;
+        top: 1.5rem;
+        right: 1.25rem;
+    }
 
-    margin-top: -.5rem !important;
 
     .session-info-container {
         margin-bottom: 1rem;
         overflow-x: auto;
         overflow-y: hidden;
         max-width: 100%;
-        
+
         &::-webkit-scrollbar {
             height: 6px;
         }
-        
+
         &::-webkit-scrollbar-track {
             background: #f1f1f1;
             border-radius: 3px;
         }
-        
+
         &::-webkit-scrollbar-thumb {
             background: #c1c1c1;
             border-radius: 3px;
-            
+
             &:hover {
                 background: #a8a8a8;
             }
@@ -55,6 +59,7 @@
         display: flex;
         justify-content: space-between;
         gap: 0.75rem;
+
         .btn {
             font-size: 0.875rem;
             padding: 0.375rem 0.75rem;
@@ -80,6 +85,7 @@
                         background-color: currentColor;
                         border-color: currentColor;
                     }
+
                     opacity: 1;
                 }
 
@@ -99,20 +105,20 @@
         overflow-x: auto;
         overflow-y: hidden;
         max-width: 100%;
-        
+
         &::-webkit-scrollbar {
             height: 6px;
         }
-        
+
         &::-webkit-scrollbar-track {
             background: #f1f1f1;
             border-radius: 3px;
         }
-        
+
         &::-webkit-scrollbar-thumb {
             background: #c1c1c1;
             border-radius: 3px;
-            
+
             &:hover {
                 background: #a8a8a8;
             }
@@ -130,7 +136,7 @@
 
         .summary-item {
             text-align: center;
-            display: flex;  
+            display: flex;
             align-items: center;
             gap: 0.5rem;
             min-width: 120px;
@@ -156,12 +162,12 @@
         .session-info-container {
             margin-bottom: 0.5rem;
         }
-        
+
         .session-info {
             padding: 0.75rem;
             font-size: 0.85rem;
         }
-        
+
         .attendance-table {
             .attendance-radio-group {
                 gap: 0.5rem;
@@ -172,20 +178,20 @@
         .attendance-summary-container {
             margin-top: 1rem;
         }
-        
+
         .attendance-summary {
             padding: 0.75rem;
             justify-content: space-evenly;
             flex-direction: column;
-            
+
             .summary-item {
                 min-width: 100px;
                 gap: 0.25rem;
-                
+
                 .label {
                     font-size: 0.8rem;
                 }
-                
+
                 .value {
                     font-size: 1.25rem;
                 }

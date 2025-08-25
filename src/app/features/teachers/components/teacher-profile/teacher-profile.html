@@ -122,34 +122,40 @@
 
                         <p-tablist>
 
-                            <p-tab value="0" class="px-3">
+                            <p-tab value="0">
                                 <i class="fas fa-calendar-alt"></i>
                                 <span class="ms-1"></span>
                                 {{ 'shared.tabs.schedule' | translate }}
                             </p-tab>
 
-                            <p-tab value="1" class="px-3">
+                            <p-tab value="1">
                                 <i class="fas fa-users"></i>
                                 <span class="ms-1"></span>
                                 {{ 'shared.tabs.groups' | translate }}
                             </p-tab>
 
-                            <p-tab value="2" class="px-3">
+                            <p-tab value="2">
                                 <i class="fas fa-book"></i>
                                 <span class="ms-1"></span>
                                 {{ 'shared.tabs.courses' | translate }}
                             </p-tab>
 
-                            <p-tab value="3" class="px-3">
+                            <p-tab value="3">
                                 <i class="fas fa-graduation-cap"></i>
                                 <span class="ms-1"></span>
                                 {{ 'shared.tabs.qualifications' | translate }}
                             </p-tab>
 
-                            <p-tab value="4" class="px-3">
+                            <p-tab value="4">
                                 <i class="fas fa-paperclip"></i>
                                 <span class="ms-1"></span>
                                 {{ 'shared.tabs.attachments' | translate }}
+                            </p-tab>
+
+                            <p-tab value="5">
+                                <i class="fas fa-solid fa-money-bill"></i>
+                                <span class="ms-1"></span>
+                                {{ 'shared.tabs.finances' | translate }}
                             </p-tab>
 
                         </p-tablist>
@@ -158,7 +164,7 @@
 
                             <p-tabpanel value="0">
 
-                                <teacher-daily-schedule [teacher]="teacher"/>
+                                <teacher-daily-schedule [teacher]="teacher" />
 
                             </p-tabpanel>
 
@@ -169,37 +175,8 @@
                                         <h5>{{ 'shared.tabs.groups' | translate }}</h5>
                                     </div>
 
-                                    <div class="tab-section-container table-container  auto-hover-scroll"
-                                        *ngIf="teacher.groups && teacher.groups.length > 0">
-
-                                        <table>
-
-                                            <thead>
-                                                <tr>
-                                                    <th>{{ 'groups.one' | translate }}</th>
-                                                    <th>{{ 'courses.one' | translate }}</th>
-                                                    <th>{{ 'shared.labels.numberOfStudents' | translate }}</th>
-                                                </tr>
-                                            </thead>
-
-                                            <tbody>
-                                                <tr *ngFor="let group of teacher.groups" class="class-row">
-                                                    <td class="student-name"
-                                                        [ngClass]="{'clickable-text': permissionService.canView.groupProfile}"
-                                                        (click)="permissionService.canView.groupProfile ? onGroupClick(group.id) : null">
-                                                        {{ group.name }}
-                                                    </td>
-                                                    <td class="student-name">
-                                                        {{ group.courseName }}
-                                                    </td>
-                                                    <td class="student-name">
-                                                        {{ group.numberOfStudents }}
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-
-                                        </table>
-
+                                    <div class="tab-overflow-auto" *ngIf="teacher.groups && teacher.groups.length > 0">
+                                        <app-table [columns]="groupsColumns" [rows]="teacher.groups!" />
                                     </div>
 
                                     <no-data [icon]="'fas fa-users'"
@@ -221,29 +198,9 @@
 
                                     </div>
 
-                                    <div class="tab-section-container table-container  auto-hover-scroll"
+                                    <div class="tab-overflow-auto"
                                         *ngIf="teacher.courses && teacher.courses.length > 0">
-
-                                        <table>
-
-                                            <thead>
-                                                <tr>
-                                                    <th>{{ 'courses.one' | translate }}</th>
-                                                </tr>
-                                            </thead>
-
-                                            <tbody>
-                                                <tr *ngFor="let course of teacher.courses" class="class-row">
-                                                    <td class="student-name"
-                                                        [ngClass]="{'clickable-text': authService.isAdmin}"
-                                                        (click)="authService.isAdmin ? onCourseClick(course.id) : null">
-                                                        {{ course.name }}
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-
-                                        </table>
-
+                                        <app-table [columns]="coursesColumns" [rows]="teacher.courses || []" />
                                     </div>
 
                                     <no-data [icon]="'fas fa-book'"
@@ -257,37 +214,64 @@
                             <p-tabpanel value="3">
 
                                 <div class="hello-park">
-                                    <div class="d-flex justify-content-between">
-                                        <h5>{{ 'shared.tabs.qualifications' | translate }}</h5>
 
-                                        <edit-icon-button *ngIf="!disablePage && permissionService.canEdit.teacher"
-                                            (click)="onEditQualification()" [showOutline]="true" />
-                                    </div>
+                                    <div class="tab-overflow-auto"
+                                        *ngIf="teacher.qualification && teacher.qualification.length > 0">
 
-                                    <div class="tab-section-container  auto-hover-scroll">
+                                        <div class="d-flex justify-content-between">
+                                            <h5>{{ 'shared.tabs.qualifications' | translate }}</h5>
+
+                                            <edit-icon-button *ngIf="!disablePage && permissionService.canEdit.teacher"
+                                                (click)="onEditQualification()" [showOutline]="true" />
+                                        </div>
+
                                         <div [innerHTML]="getSafeHtml(teacher.qualification)"></div>
-                                    </div>
 
-                                    <no-data
-                                        *ngIf="teacher.qualification === null || teacher.qualification?.length === 0"
-                                        [icon]="'fas fa-graduation-cap'"
-                                        [text]="'shared.noData.noQualifications' | translate" />
+                                        <hr />
 
-                                    <hr />
+                                        <div class="d-flex justify-content-between">
+                                            <h5>{{ 'shared.labels.experience' | translate }}</h5>
 
-                                    <div class="d-flex justify-content-between">
-                                        <h5>{{ 'shared.labels.experience' | translate }}</h5>
+                                            <edit-icon-button *ngIf="!disablePage && permissionService.canEdit.teacher"
+                                                (click)="onEditExperience()" [showOutline]="true" />
+                                        </div>
 
-                                        <edit-icon-button *ngIf="!disablePage && permissionService.canEdit.teacher"
-                                            (click)="onEditExperience()" [showOutline]="true" />
-                                    </div>
-
-                                    <div class="tab-section-container">
                                         <div [innerHTML]="getSafeHtml(teacher.experience)"></div>
+
                                     </div>
 
-                                    <no-data *ngIf="teacher.experience === null || teacher.experience?.length === 0"
-                                        [icon]="'fas fa-briefcase'" [text]="'shared.noData.noExperience' | translate" />
+
+                                    <div *ngIf="teacher.qualification === null || teacher.qualification?.length === 0">
+
+                                        <div class="d-flex justify-content-between">
+                                            <h5>{{ 'shared.tabs.qualifications' | translate }}</h5>
+
+                                            <edit-icon-button *ngIf="!disablePage && permissionService.canEdit.teacher"
+                                                (click)="onEditQualification()" [showOutline]="true" />
+                                        </div>
+
+                                        <no-data [icon]="'fas fa-graduation-cap'"
+                                            [text]="'shared.noData.noQualifications' | translate" />
+                                    </div>
+
+
+
+                                    <div *ngIf="teacher.experience === null || teacher.experience?.length === 0">
+
+                                        <hr />
+
+                                        <div class="d-flex justify-content-between">
+                                            <h5>{{ 'shared.labels.experience' | translate }}</h5>
+
+                                            <edit-icon-button *ngIf="!disablePage && permissionService.canEdit.teacher"
+                                                (click)="onEditExperience()" [showOutline]="true" />
+                                        </div>
+
+                                        <no-data [icon]="'fas fa-briefcase'"
+                                            [text]="'shared.noData.noExperience' | translate" />
+
+                                    </div>
+
                                 </div>
 
                             </p-tabpanel>
@@ -310,6 +294,23 @@
                                     <no-data *ngIf="teacher.attachments === null || teacher.attachments?.length === 0"
                                         [icon]="'fas fa-paperclip'"
                                         [text]="'shared.noData.noAttachments' | translate" />
+                                </div>
+
+                            </p-tabpanel>
+
+                            <p-tabpanel value="5">
+
+                                <div class="hello-park">
+                                    <div class="d-flex justify-content-between">
+                                        <h5>{{ 'shared.tabs.finances' | translate }}</h5>
+                                    </div>
+
+                                    <div class="tab-overflow-auto">
+                                    </div>
+
+                                    <no-data [icon]="'fas fa-money-bill'"
+                                        [text]="'shared.noData.noFinances' | translate" />
+
                                 </div>
 
                             </p-tabpanel>

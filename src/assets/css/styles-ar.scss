@@ -594,3 +594,18 @@ div.dataTables_wrapper div.dataTables_filter input {
         transform: rotate(180deg);
     }
 }
+
+.attendance-form-content {
+    .pdf-export-btn {
+        position: absolute;
+        top: 1.5rem;
+        left: 1.25rem;
+        right: unset !important;
+    }
+}
+
+.border-left-before {
+    border-left: 4px solid #2c8da3 !important;
+    border-right: unset !important;
+    border-radius: 0.275rem;
+}

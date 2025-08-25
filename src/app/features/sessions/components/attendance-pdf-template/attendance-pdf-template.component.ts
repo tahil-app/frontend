@@ -6,11 +6,12 @@ import { StudentAttendanceDisplay } from '../../../../core/models/student-attend
 import { AttendanceStatus } from '../../../../core/enums/attendance-status.enum';
 import { DateHelper } from '../../../../core/helpers/date.helper';
 import { PdfTemplateFooter } from "../../../shared/pdf-template/pdf-template-footer/pdf-template-footer";
+import { PdfTemplateHeader } from "../../../shared/pdf-template/pdf-template-header/pdf-template-header";
 
 @Component({
   selector: 'attendance-pdf-template',
   standalone: true,
-  imports: [CommonModule, TranslateModule, PdfTemplateFooter],
+  imports: [CommonModule, TranslateModule, PdfTemplateFooter, PdfTemplateHeader],
   templateUrl: './attendance-pdf-template.component.html',
   styleUrls: ['./attendance-pdf-template.component.scss']
 })

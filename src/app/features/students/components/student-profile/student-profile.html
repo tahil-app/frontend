@@ -121,38 +121,38 @@
                     <p-tabs [value]="selectedTab" scrollable>
 
                         <p-tablist>
-                            <p-tab value="0" class="px-3" *ngIf="permissionService.canView.studentSchedule">
+                            <p-tab value="0" *ngIf="permissionService.canView.studentSchedule">
                                 <i class="fas fa-calendar-alt"></i>
                                 <span class="ms-1"></span>
                                 {{ 'shared.tabs.schedule' | translate }}
                             </p-tab>
 
-                            <p-tab value="1" class="px-3" *ngIf="permissionService.canView.studentAttendance"
+                            <p-tab value="1" *ngIf="permissionService.canView.studentAttendance"
                                 (click)="onAttendanceTabClick()">
                                 <i class="fas fa-clipboard-check"></i>
                                 <span class="ms-1"></span>
                                 {{ 'shared.tabs.attendance' | translate }}
                             </p-tab>
 
-                            <p-tab value="2" class="px-3">
+                            <p-tab value="2">
                                 <i class="fas fa-comments"></i>
                                 <span class="ms-1"></span>
                                 {{ 'shared.tabs.teacherFeedback' | translate }}
                             </p-tab>
 
-                            <p-tab value="3" class="px-3">
+                            <p-tab value="3">
                                 <i class="fas fa-users"></i>
                                 <span class="ms-1"></span>
                                 {{ 'shared.tabs.groups' | translate }}
                             </p-tab>
 
-                            <p-tab value="4" class="px-3">
+                            <p-tab value="4">
                                 <i class="fas fa-graduation-cap"></i>
                                 <span class="ms-1"></span>
                                 {{ 'shared.tabs.qualifications' | translate }}
                             </p-tab>
 
-                            <p-tab value="5" class="px-3">
+                            <p-tab value="5">
                                 <i class="fas fa-paperclip"></i>
                                 <span class="ms-1"></span>
                                 {{ 'shared.tabs.attachments' | translate }}

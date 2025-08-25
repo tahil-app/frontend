@@ -5,9 +5,11 @@
             (click)="exportDailyScheduleToPdf()" />
     </div>
 
-    <div class="tab-section-container mt-3">
+    <div class="tab-section-container auto-hover-scroll mt-3">
 
-        <daily-schedule *ngIf="teacher?.dailySchedules?.length" [dailySchedules]="teacher.dailySchedules" [showTeacher]="false" />
+        <div class="tab-overflow-auto" *ngIf="teacher?.dailySchedules?.length">
+            <daily-schedule  [dailySchedules]="teacher.dailySchedules" [showTeacher]="false" />
+        </div>
 
     </div>
 

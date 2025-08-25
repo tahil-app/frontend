@@ -17,6 +17,7 @@ import { Teacher } from '../../../../core/models/teacher.model';
 import { TabsModule } from 'primeng/tabs';
 import { Card } from "primeng/card";
 import { NoData } from "../../../shared/components/no-data/no-data";
+import { ConfirmService } from '../../../shared/services/confirm.serivce';
 
 @Component({
   selector: 'app-course-profile',
@@ -39,6 +40,7 @@ export class CourseProfile implements OnInit {
   private courseService = inject(CourseService);
   private loader = inject(LoaderService);
   private toaster = inject(ToastService);
+  private confirmService = inject(ConfirmService);
   private translate = inject(TranslateService);
   public permissionAccess = inject(PermissionAccessService);
   //#endregion
@@ -69,23 +71,31 @@ export class CourseProfile implements OnInit {
 
   onTeacherClick(teacherId: number) {
     if (teacherId) {
-      this.router.navigate(['/teachers', teacherId]);
+      this.confirmService.confirmView(() => {
+        this.router.navigate(['/teachers', teacherId]);
+      });
     }
   }
 
   onGroupClick(groupId: number) {
     if (groupId) {
-      this.router.navigate(['/groups', groupId]);
+      this.confirmService.confirmView(() => {
+        this.router.navigate(['/groups', groupId]);
+      });
     }
   }
 
   onEditCourse() {
-    this.showDialog = true;
-    this.course = { ...this.course } as Course;
+    this.confirmService.confirmEdit(() => {
+      this.showDialog = true;
+      this.course = { ...this.course } as Course;
+    });
   }
 
   onAddTeacher() {
-    this.showTeachersDialog = true;
+    this.confirmService.confirmEdit(() => {
+      this.showTeachersDialog = true;
+    });
   }
 
   onSaveTeachers(teachers: Teacher[]) {

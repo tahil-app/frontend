@@ -1,0 +1,37 @@
+<div class="table-container auto-hover-scroll">
+
+  <table class="app-table table-striped table-hover">
+
+    <thead>
+      <tr>
+        @for (column of columns; track column.field) {
+        @if (!column.show) {
+        <th>{{ column.title | translate }}</th>
+        }
+        }
+      </tr>
+    </thead>
+
+    <tbody>
+      @for (row of rows; track row.id) {
+      <tr class="class-row">
+        @for (column of columns; track column.field) {
+        @if (!column.show) {
+        <td [ngSwitch]="column.type">
+          <span *ngSwitchCase="'text'" [class.clickable-text]="column.onClick"
+            (click)="column.onClick ? column.onClick(row) : null">
+            {{ row[column.field] }}
+          </span>
+          <span *ngSwitchCase="'number'">{{ row[column.field] || 0}}</span>
+          <span *ngSwitchCase="'time'">{{ getTime(row) }}</span>
+          <span *ngSwitchCase="'date'">{{ getDate(row[column.field]) }}</span>
+        </td>
+        }
+        }
+      </tr>
+      }
+    </tbody>
+
+  </table>
+
+</div>

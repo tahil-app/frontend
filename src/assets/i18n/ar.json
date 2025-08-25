@@ -185,7 +185,8 @@
             "overallPerformance": "الأداء العام",
             "markAllPresent": "الكل",
             "markAllLate": "الكل",
-            "markAllAbsent": "الكل"
+            "markAllAbsent": "الكل",
+            "salary": "الراتب"
         },
         "placeholders": {
             "selectMonthPlaceholder": "اختر الشهر",
@@ -245,7 +246,8 @@
             "noAttendances": "لا يوجد حضور",
             "noClasses": "لا يوجد مواعيد لهذا اليوم",
             "noDailySchedule": "لا يوجد مواعيد حاليا",
-            "noFeedback": "لا يوجد ملاحظات"
+            "noFeedback": "لا يوجد ملاحظات",
+            "noFinances": "لا يوجد ماليات"
         },
         "messages": {
             "savedSuccessfully": "تم الحفظ بنجاح",
@@ -272,7 +274,8 @@
             "personalInfo": "المعلومات الشخصية",
             "attachments": "المرفقات",
             "attendance": "الحضور",
-            "teacherFeedback": "ملاحظات المعلمين"
+            "teacherFeedback": "الملاحظات",
+            "finances": "الماليات"
         }
     },
     "validation": {

@@ -26,11 +26,13 @@ import { CanDeactivateComponent } from '../../../../core/guards/form-deactivate.
 import { PdfExportService } from '../../../shared/services/pdf-export.service';
 import { AttendancePdfTemplateComponent } from '../attendance-pdf-template/attendance-pdf-template.component';
 import { WeekDaysService } from '../../../../core/services/week-days.service';
+import { PdfIconBtn } from "../../../shared/buttons/pdf-icon-btn/pdf-icon-btn";
+import { SessionService } from '../../../../core/services/session.service';
 
 @Component({
   selector: 'app-session-attendance',
   imports: [
-    CardContainer, 
+    CardContainer,
     TranslateModule,
     CommonModule,
     ReactiveFormsModule,
@@ -41,7 +43,8 @@ import { WeekDaysService } from '../../../../core/services/week-days.service';
     SaveBtn,
     CancelBtn,
     RouterLink,
-    AttendancePdfTemplateComponent
+    AttendancePdfTemplateComponent,
+    PdfIconBtn
   ],
   templateUrl: './session-attendance.html',
   styleUrl: './session-attendance.scss'
@@ -61,6 +64,7 @@ export class SessionAttendance implements CanDeactivateComponent {
   //#region Services
   private attendanceService: AttendanceService = inject(AttendanceService);
   private loaderService: LoaderService = inject(LoaderService);
+  private sessionService: SessionService = inject(SessionService);
   private translateService: TranslateService = inject(TranslateService);
   private toastService: ToastService = inject(ToastService);
   private router: Router = inject(Router);
@@ -134,7 +138,7 @@ export class SessionAttendance implements CanDeactivateComponent {
     this.confirmService.confirm(
       this.translateService.instant('attendance.confirm.save'),
       () => {
-        
+
         this.loaderService.show();
         const formValue = this.attendanceForm.value;
         this.attendanceService.updateAttendances(this.session.id, formValue.attendances).pipe(takeUntil(this.$destroy)).subscribe(res => {
@@ -145,7 +149,7 @@ export class SessionAttendance implements CanDeactivateComponent {
             this.loadSessions();
           }
 
-        }, err => {}, () => this.loaderService.hide());
+        }, err => { }, () => this.loaderService.hide());
 
       }
     );
@@ -158,27 +162,27 @@ export class SessionAttendance implements CanDeactivateComponent {
   async exportToPdf() {
 
     this.confirmService.confirmPrint(async () => {
-      
+
       try {
         this.loaderService.show();
-        
+
         if (!this.pdfTemplate) {
           this.toastService.showError(this.translateService.instant('shared.pdf.error.noContent'));
           return;
         }
-  
+
         const sessionInfo = {
           courseName: this.attendanceDisplay.courseName || 'Unknown Course',
           groupName: this.attendanceDisplay.groupName || 'Unknown Group',
           date: this.attendanceDisplay.sessionDate || 'Unknown Date',
           time: `${this.attendanceDisplay.startTime || '00:00'} - ${this.attendanceDisplay.endTime || '00:00'}`
         };
-  
+
         await this.pdfExportService.exportToPdf(
           this.pdfTemplate.pdfContent.nativeElement,
           `${sessionInfo.courseName}_${sessionInfo.groupName}_${sessionInfo.date}`
         );
-  
+
         this.toastService.showSuccess(this.translateService.instant('shared.pdf.success'));
       } catch (error) {
         console.error('Error exporting PDF:', error);
@@ -186,10 +190,10 @@ export class SessionAttendance implements CanDeactivateComponent {
       } finally {
         this.loaderService.hide();
       }
-      
+
     });
 
-    
+
   }
 
   getFormControlArray() {
@@ -243,7 +247,7 @@ export class SessionAttendance implements CanDeactivateComponent {
   //#endregion
 
   //#region Summary Computed Properties
-  
+
   get attendancesArray(): FormArray {
     return this.attendanceForm?.get('attendances') as FormArray || this.fb.array([]);
   }
@@ -254,24 +258,74 @@ export class SessionAttendance implements CanDeactivateComponent {
 
   get presentStudents(): number {
     if (!this.attendancesArray?.controls) return 0;
-    return this.attendancesArray.controls.filter(control => 
+    return this.attendancesArray.controls.filter(control =>
       control.get('status')?.value === AttendanceStatus.Present
     ).length;
   }
 
   get lateStudents(): number {
     if (!this.attendancesArray?.controls) return 0;
-    return this.attendancesArray.controls.filter(control => 
+    return this.attendancesArray.controls.filter(control =>
       control.get('status')?.value === AttendanceStatus.Late
     ).length;
   }
 
   get absentStudents(): number {
     if (!this.attendancesArray?.controls) return 0;
-    return this.attendancesArray.controls.filter(control => 
+    return this.attendancesArray.controls.filter(control =>
       control.get('status')?.value === AttendanceStatus.Absent
     ).length;
   }
 
+
+  onMarkCompleted(): void {
+    this.confirmService.confirm(
+      this.translateService.instant('sessions.confirm.markCompleted'),
+      () => {
+        this.loaderService.show();
+        this.sessionService.updateStatus(this.session.id!, ClassSessionStatus.Completed).pipe(takeUntil(this.$destroy)).subscribe((success) => {
+          this.loadSessions();
+          this.toastService.showSuccess(this.translateService.instant('sessions.updatedSuccessfully'));
+        }, err => { }, () => this.loaderService.hide());
+      },
+      undefined,
+      'pi pi-check confirm-icon-completed'
+    );
+  }
+
+  rescheduleSession() {
+
+    this.confirmService.confirm(
+      this.translateService.instant('sessions.confirm.reschedule'),
+      () => {
+
+        this.loaderService.show();
+
+        this.sessionService.updateStatus(this.session.id!, ClassSessionStatus.Scheduled).pipe(takeUntil(this.$destroy)).subscribe((success) => {
+          if (success) {
+            this.loadSessions();
+            this.toastService.showSuccess(this.translateService.instant('sessions.updatedSuccessfully'));
+          }
+        }, err => { }, () => this.loaderService.hide());
+
+      },
+      undefined,
+      'fa fa-calendar-plus confirm-icon-reschedule'
+    );
+  }
+
+  get permission() {
+
+    let hasUnRecord = this.attendanceDisplay.attendances.some(r => r.status == AttendanceStatus.None);
+
+    return {
+      canReschedule: this.permissionService.canEdit.studentAttendanceToBeRescheduled &&
+        this.attendanceDisplay.sessionStatus === ClassSessionStatus.Completed,
+
+      canMarkCompleted: this.permissionService.canEdit.studentAttendanceToBeCompleted &&
+        !hasUnRecord &&
+        this.attendanceDisplay.sessionStatus === ClassSessionStatus.Scheduled,
+    }
+  }
   //#endregion
 }

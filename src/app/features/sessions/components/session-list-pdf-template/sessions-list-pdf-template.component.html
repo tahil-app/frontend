@@ -1,20 +1,6 @@
 <div class="sessions-list-pdf-template" #pdfContent>
   <!-- Header -->
-  <div class="pdf-header">
-    <div class="header-content">
-      <h1 class="pdf-title">{{ title || ('sessions.list.title' | translate) }}</h1>
-      <!-- <div class="header-details">
-        <div class="detail-row">
-          <span class="label">{{ 'shared.labels.date' | translate }}: &nbsp;</span>
-          <span class="value">{{ exportDate }}</span>
-        </div>
-        <div class="detail-row">
-          <span class="label">{{ 'shared.labels.total' | translate }}: &nbsp;</span>
-          <span class="value">{{ sessions.length }}</span>
-        </div>
-      </div> -->
-    </div>
-  </div>
+  <pdf-template-header [title]="'sessions.list.title' | translate" />
 
   <!-- Sessions Table -->
   <div class="sessions-table-pdf" *ngIf="sessions.length > 0">

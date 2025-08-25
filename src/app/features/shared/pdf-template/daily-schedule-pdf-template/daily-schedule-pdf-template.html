@@ -3,32 +3,13 @@
   <pdf-template-header [title]="title" />
 
   <!-- Schedule Tables -->
+
   <div class="schedule-tables-pdf" *ngIf="dailySchedules?.length">
     <div class="day-schedule" *ngFor="let day of getUniqueDays()">
-      <h3 class="day-title">{{ day }}</h3>
+      <h3 class="day-title border-left-before">{{ day }}</h3>
 
-      <table class="pdf-table">
-        <thead>
-          <tr>
-            <th *ngIf="showTime" class="time-col">{{ 'shared.labels.time' | translate }}</th>
-            <th *ngIf="showGroup" class="group-col">{{ 'groups.one' | translate }}</th>
-            <th *ngIf="showRoom" class="room-col">{{ 'rooms.one' | translate }}</th>
-            <th *ngIf="showSubject" class="course-col">{{ 'courses.one' | translate }}</th>
-            <th *ngIf="showTeacher" class="teacher-col">{{ 'teachers.one' | translate }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let schedule of getSchedulesByDay(day)">
-            <td *ngIf="showTime" class="time-cell">
-              {{ getFormattedTime(schedule.startTime) }} - {{ getFormattedTime(schedule.endTime) }}
-            </td>
-            <td *ngIf="showGroup" class="group-cell">{{ schedule.groupName || '-' }}</td>
-            <td *ngIf="showRoom" class="room-cell">{{ schedule.roomName || '-' }}</td>
-            <td *ngIf="showSubject" class="course-cell">{{ schedule.courseName || '-' }}</td>
-            <td *ngIf="showTeacher" class="teacher-cell">{{ schedule.teacherName || '-' }}</td>
-          </tr>
-        </tbody>
-      </table>
+      <app-table [columns]="columns" [rows]="getSchedulesByDay(day)" />
+  
     </div>
   </div>
 

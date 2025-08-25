@@ -1,6 +1,11 @@
 <card-container [title]="'attendance.recordAttendance' | translate">
 
     <div class="attendance-form-content">
+
+        <div class="pdf-export-btn">
+            <pdf-icon-btn [showOutline]="true" (click)="exportToPdf()" *ngIf="canExportPdf" />
+        </div>
+
         <div *ngIf="attendanceDisplay.courseName">
             <div class="session-info-container">
                 <div class="session-info d-flex gap-2">
@@ -78,15 +83,14 @@
                                 <td>
                                     <input type="text" class="form-control form-control-sm" formControlName="note"
                                         [placeholder]="'shared.labels.notesPlaceholder' | translate"
-                                        [disabled]="!canRecordAttendance">
+                                        [disabled]="!canRecordAttendance" [readOnly]="!canRecordAttendance">
                                 </td>
 
                                 <td>
                                     <div class="attendance-radio-group">
 
                                         <div class="form-check">
-                                            <p-radioButton [value]="AttendanceStatus.Present"
-                                                formControlName="status"
+                                            <p-radioButton [value]="AttendanceStatus.Present" formControlName="status"
                                                 name="attendance_{{record.get('studentId')?.value}}"
                                                 [disabled]="!canRecordAttendance"
                                                 inputId="present-{{ record.get('studentId')?.value }}" />
@@ -97,8 +101,7 @@
                                         </div>
 
                                         <div class="form-check">
-                                            <p-radioButton [value]="AttendanceStatus.Late"
-                                                formControlName="status"
+                                            <p-radioButton [value]="AttendanceStatus.Late" formControlName="status"
                                                 name="attendance_{{record.get('studentId')?.value}}"
                                                 [disabled]="!canRecordAttendance"
                                                 inputId="late-{{ record.get('studentId')?.value }}" />
@@ -110,8 +113,7 @@
                                         </div>
 
                                         <div class="form-check">
-                                            <p-radioButton [value]="AttendanceStatus.Absent"
-                                                formControlName="status"
+                                            <p-radioButton [value]="AttendanceStatus.Absent" formControlName="status"
                                                 name="attendance_{{record.get('studentId')?.value}}"
                                                 [disabled]="!canRecordAttendance"
                                                 inputId="absent-{{ record.get('studentId')?.value }}" />
@@ -167,11 +169,24 @@
 
 
             <div class="form-actions actions-buttons-save-cancel mt-4">
-                <button class="btn btn-sm btn-outline-info" style="width: 5rem !important;" (click)="exportToPdf()" *ngIf="canExportPdf">
-                    <i class="fa fa-file-pdf"></i>
-                    {{ 'shared.buttons.exportPdf' | translate }}
+
+                <button class="btn btn-sm btn-outline-info" style="width: 8rem !important;"
+                    *ngIf="permission.canMarkCompleted" (click)="onMarkCompleted()">
+                    <i class="fa fa-check"></i>
+                    {{ 'sessions.actions.markCompleted' | translate }}
                 </button>
-                <span *ngIf="canExportPdf">&nbsp;</span>
+
+                <span *ngIf="permission.canMarkCompleted">
+                    &nbsp;
+                </span>
+
+                <button class="btn btn-sm btn-outline-warning" style="width: 8rem !important;"
+                    *ngIf="permission.canReschedule" (click)="rescheduleSession()">
+                    <i class="fa fa-calendar-plus"></i>
+                    {{ 'sessions.actions.reschedule' | translate }}
+                </button>
+
+                <span *ngIf="permission.canReschedule">&nbsp;</span>
 
                 <save-btn type="submit" (click)="onSave()" *ngIf="canRecordAttendance" />
                 <span *ngIf="canRecordAttendance">&nbsp;</span>
@@ -189,14 +204,9 @@
 
     <!-- Hidden PDF Template for Export -->
     <div style="position: absolute; left: -9999px; top: -9999px;">
-        <attendance-pdf-template
-            *ngIf="attendanceDisplay.courseName"
-            [attendanceDisplay]="attendanceDisplay"
-            [attendancesArray]="attendancesArray"
-            [totalStudents]="totalStudents"
-            [presentStudents]="presentStudents"
-            [lateStudents]="lateStudents"
-            [absentStudents]="absentStudents">
+        <attendance-pdf-template *ngIf="attendanceDisplay.courseName" [attendanceDisplay]="attendanceDisplay"
+            [attendancesArray]="attendancesArray" [totalStudents]="totalStudents" [presentStudents]="presentStudents"
+            [lateStudents]="lateStudents" [absentStudents]="absentStudents">
         </attendance-pdf-template>
     </div>
 

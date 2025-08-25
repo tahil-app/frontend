@@ -188,7 +188,8 @@
             "overallPerformance": "Overall Performance",
             "markAllPresent": "All",
             "markAllLate": "All",
-            "markAllAbsent": "All"
+            "markAllAbsent": "All",
+            "salary": "Salary"
         },
         "placeholders": {
             "selectMonthPlaceholder": "Select Month",
@@ -248,7 +249,8 @@
             "noAttendances": "No attendances",
             "noClasses": "No classes scheduled for this day",
             "noDailySchedule": "No daily schedule available",
-            "noFeedback": "No feedback"
+            "noFeedback": "No feedback",
+            "noFinances": "No finances"
         },
         "messages": {
             "savedSuccessfully": "Saved successfully",
@@ -275,7 +277,8 @@
             "personalInfo": "Personal Info",
             "attachments": "Attachments",
             "attendance": "Attendance",
-            "teacherFeedback": "Teacher Feedback"
+            "teacherFeedback": "Feedback",
+            "finances": "Finances"
         }
     },
     "courses": {

@@ -3,37 +3,25 @@
   .schedule-tables {
 
     .day-table {
-      border: 1px solid #e9ecef;
-      border-radius: 0.375rem;
       margin-bottom: 1rem;
       transition: all 0.3s ease;
       position: relative;
-      overflow: hidden;
-
-      &:hover {
-        transform: translateY(-2px);
-        box-shadow: var(--box-shadow);
-      }
-
-      &::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 4px;
-        height: 100%;
-        background: #007bff;
-      }
+      // overflow: hidden;
 
       .day-header {
         padding: 0.5rem 0.75rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
+        background-color: #f8f9fa;
+        margin-bottom: .5rem;
+        // box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+        
 
         &.today {
           background: linear-gradient(135deg, #007bff, #0056b3);
           color: white;
+          border-radius: 0.275rem;
 
           .day-info {
 
@@ -51,11 +39,9 @@
         .day-info {
 
           .day-name {
-            font-size: 0.8rem;
+            font-size: 0.95rem;
             font-weight: 600;
-            color: #495057;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            color: #2c8da3;
           }
 
           .day-full {
@@ -71,14 +57,14 @@
       }
 
       .table-container {
-        margin: -1px;
-        border-radius: 0 0 0.375rem 0.375rem;
-
+        // margin: -1px;
+        // border-radius: 0 0 0.375rem 0.375rem;
+        
         &:hover {
           transform: unset;
           box-shadow: unset;
         }
-
+        
         .schedule-table {
           width: 100%;
           min-width: 600px; // Ensure minimum width for content
@@ -95,10 +81,8 @@
               font-weight: 600;
               color: #495057;
               font-size: 0.8rem;
-              text-transform: uppercase;
-              letter-spacing: 0.5px;
               text-align: start;
-              white-space: nowrap; // Prevent text wrapping in headers
+              white-space: nowrap;
 
               &:first-child {
                 width: 15%;
@@ -206,73 +190,6 @@
           }
         }
 
-        .table-container {
-
-          // Mobile scrollbar styling
-          &::-webkit-scrollbar {
-            height: 4px; // Smaller scrollbar on mobile
-          }
-
-          .schedule-table {
-            font-size: 0.7rem;
-            min-width: 500px; // Smaller minimum width on mobile
-
-            thead {
-              th {
-                padding: 0.4rem 0.5rem;
-                font-size: 0.65rem;
-              }
-            }
-
-            tbody {
-              .class-row {
-                td {
-                  padding: 0.4rem 0.5rem;
-
-                  &.subject-cell {
-                    .subject-info {
-                      .subject-icon {
-                        width: 18px;
-                        height: 18px;
-                        font-size: 0.55rem;
-                      }
-
-                      .subject-name {
-                        font-size: 0.7rem;
-                      }
-                    }
-                  }
-
-                  &.time-cell,
-                  &.teacher-cell,
-                  &.room-cell {
-                    font-size: 0.65rem;
-
-                    i {
-                      font-size: 0.55rem;
-                    }
-                  }
-
-                  &.type-cell {
-                    .p-badge {
-                      font-size: 0.55rem;
-                      padding: 0.1rem 0.25rem;
-                    }
-                  }
-                }
-              }
-            }
-          }
-
-          .no-classes {
-            padding: 1rem 0.5rem;
-            font-size: 0.7rem;
-
-            i {
-              font-size: 1.25rem;
-            }
-          }
-        }
       }
     }
 

@@ -7,6 +7,8 @@ import { TooltipModule } from 'primeng/tooltip';
 import { BadgeModule } from 'primeng/badge';
 import { CardModule } from 'primeng/card';
 import { CommonModule } from '@angular/common';
+import { TableColumn } from '../../props/table-column.props';
+import { Table } from "../table/table";
 
 @Component({
   selector: 'daily-schedule',
@@ -15,8 +17,9 @@ import { CommonModule } from '@angular/common';
     CardModule,
     BadgeModule,
     TooltipModule,
-    TranslateModule
-  ],
+    TranslateModule,
+    Table
+],
   templateUrl: './daily-schedule.html',
   styleUrl: './daily-schedule.scss'
 })
@@ -32,6 +35,13 @@ export class DailyScheduleComponent  {
   @Input() showRoom = true;
   @Input() showSubject = true;
   @Input() showTeacher = true;
+
+  columns: TableColumn[] = [
+    { title: 'shared.labels.time', field: 'startTime', type: 'time' },
+    { title: 'groups.one', field: 'groupName', type: 'text' },
+    { title: 'rooms.one', field: 'roomName', type: 'text' },
+    { title: 'courses.one', field: 'courseName', type: 'text' }
+  ];
 
   //#region Methods
   ngOnInit(): void {

@@ -7,11 +7,13 @@ import { TimeHelper } from '../../../../core/helpers/time.helper';
 import { WeekDaysService } from '../../../../core/services/week-days.service';
 import { PdfTemplateFooter } from "../pdf-template-footer/pdf-template-footer";
 import { PdfTemplateHeader } from "../pdf-template-header/pdf-template-header";
+import { TableColumn } from '../../props/table-column.props';
+import { Table } from "../../components/table/table";
 
 @Component({
   selector: 'daily-schedule-pdf-template',
   standalone: true,
-  imports: [CommonModule, TranslateModule, PdfTemplateFooter, PdfTemplateHeader],
+  imports: [CommonModule, TranslateModule, PdfTemplateFooter, PdfTemplateHeader, Table],
   templateUrl: './daily-schedule-pdf-template.html',
   styleUrls: ['./daily-schedule-pdf-template.scss']
 })
@@ -25,6 +27,13 @@ export class DailySchedulePdfTemplateComponent {
   @Input() showRoom = true;
   @Input() showSubject = true;
   @Input() showTeacher = true;
+
+  columns: TableColumn[] = [
+    { title: 'shared.labels.time', field: 'startTime', type: 'time' },
+    { title: 'groups.one', field: 'groupName', type: 'text' },
+    { title: 'rooms.one', field: 'roomName', type: 'text' },
+    { title: 'courses.one', field: 'courseName', type: 'text' }
+  ];
 
   @ViewChild('pdfContent', { static: false }) pdfContent!: ElementRef;
 

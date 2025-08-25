@@ -53,3 +53,10 @@ body {
     font-family: "din", sans-serif !important;
     background-color: var(--bg-gray-color);
 }
+
+
+.border-left-before {
+    border-right: 4px solid #2c8da3;
+    border-left: unset !important;
+    border-radius: 0.275rem;
+}

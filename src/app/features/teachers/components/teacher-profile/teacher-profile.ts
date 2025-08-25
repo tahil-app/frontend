@@ -31,6 +31,8 @@ import { Course } from '../../../../core/models/course.model';
 import { TimeHelper } from '../../../../core/helpers/time.helper';
 import { WeekDaysService } from '../../../../core/services/week-days.service';
 import { TeacherDailySchedule } from "../teacher-daily-schedule/teacher-daily-schedule";
+import { TableColumn } from '../../../shared/props/table-column.props';
+import { Table } from "../../../shared/components/table/table";
 
 @Component({
   selector: 'app-teacher-profile',
@@ -50,7 +52,8 @@ import { TeacherDailySchedule } from "../teacher-daily-schedule/teacher-daily-sc
     TeacherExperience,
     NoData,
     CoursesDialog,
-    TeacherDailySchedule
+    TeacherDailySchedule,
+    Table
 ],
   templateUrl: './teacher-profile.html',
   styleUrl: './teacher-profile.scss'
@@ -69,6 +72,17 @@ export class TeacherProfile {
   destroy$ = new Subject<void>();
 
   @ViewChild('fileInput') fileInput!: ElementRef;
+
+  groupsColumns: TableColumn[] = [
+    { field: 'name', title: 'groups.one', type: 'text', onClick: (row: any) => this.onGroupClick(row.id) },
+    { field: 'courseName', title: 'courses.one', type: 'text' },
+    { field: 'numberOfStudents', title: 'shared.labels.numberOfStudents', type: 'number' },
+  ];
+
+  coursesColumns: TableColumn[] = [
+    { field: 'name', title: 'courses.one', type: 'text', onClick: (row: any) => this.onCourseClick(row.id) },
+  ];
+
   //#endregion
 
   //#region Services

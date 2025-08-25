@@ -90,7 +90,7 @@ export class ConfirmService {
             message || this.translate.instant('shared.dialogs.printConfirmation'),
             acceptCallback,
             undefined,
-            'pi pi-print text-primary'
+            'pi pi-print text-info'
         );
     }
 

@@ -2,9 +2,12 @@
 
   <!-- Weekly Schedule Tables -->
   <div class="schedule-tables">
-    <div class="day-table mb-3" *ngFor="let daySchedule of getUniqueDays(); let i = index">
 
-      <div class="day-header" [class.today]="weekDaysService.isToday(daySchedule.value)">
+    <div class="day-table" *ngFor="let daySchedule of getUniqueDays(); let i = index">
+
+      <div class="day-header" 
+      [class.border-left-before]="!weekDaysService.isToday(daySchedule.value)"
+      [class.today]="weekDaysService.isToday(daySchedule.value)">
         <div class="day-info">
           <span class="day-name">{{ daySchedule.label }}</span>
         </div>
@@ -13,48 +16,7 @@
         </div>
       </div>
 
-      <div class="table-container auto-hover-scroll">
-        <table class="schedule-table" *ngIf="dailySchedules.length > 0">
-
-          <thead>
-            <tr>
-              <th *ngIf="showTime">{{ 'shared.labels.time' | translate }}</th>
-              <th *ngIf="showGroup">{{ 'groups.one' | translate }}</th>
-              <th *ngIf="showRoom">{{ 'rooms.one' | translate }}</th>
-              <th *ngIf="showSubject">{{ 'courses.one' | translate }}</th>
-              <th *ngIf="showTeacher">{{ 'teachers.one' | translate }}</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            <tr *ngFor="let class of getClassesByDay(daySchedule.value)" class="class-row">
-
-              <td class="time-cell" *ngIf="showTime">
-                <span>{{ getTime(class.startTime) + ' - ' + getTime(class.endTime) }}</span>
-              </td>
-
-              <td class="group-cell" *ngIf="showGroup">
-                <span>{{ class.groupName }}</span>
-              </td>
-
-              <td class="room-cell" *ngIf="showRoom">
-                <span>{{ class.roomName }}</span>
-              </td>
-
-              <td class="subject-cell" *ngIf="showSubject">
-                <span class="subject-name">{{ class.courseName }}</span>
-              </td>
-
-              <td class="teacher-cell" *ngIf="showTeacher">
-                <span>{{ class.teacherName }}</span>
-              </td>
-
-            </tr>
-          </tbody>
-        </table>
-
-      </div>
-
+      <app-table [columns]="columns" [rows]="getClassesByDay(daySchedule.value)" />
 
     </div>
 
