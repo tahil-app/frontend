@@ -57,22 +57,29 @@
 
     <div *ngIf="showDailyAttendance">
 
-        <app-table [columns]="attendaceColumns" [rows]="dailyAttendanceData" *ngIf="dailyAttendanceData.length > 0" />
+        <div class="tab-section-container auto-hover-scroll">
+            <div class="tab-overflow-auto" *ngIf="dailyAttendanceData.length > 0">
+                <app-table [columns]="attendaceColumns" [rows]="dailyAttendanceData" />
+            </div>
+        </div>
 
         <no-data *ngIf="dailyAttendanceData.length === 0" [icon]="'fas fa-calendar-alt'"
             [text]="'shared.noData.noAttendances' | translate" />
 
     </div>
     <!-- Hidden PDF Template -->
-    <div style="position: absolute; left: -9999px; top: -9999px;">
+    <div class="print-pdf-template-hidden">
 
         <attendance-monthly-pdf-template [title]="getReportTitle()" [monthlyAttendanceData]="monthlyAttendanceData"
             [selectedYear]="selectedYear" />
 
     </div>
 
-    <div style="position: absolute; left: -9999px; top: -9999px;">
+    <div class="print-pdf-template-hidden">
+
         <attendace-daily-pdf-template [title]="getReportTitle()" [dailyAttendanceData]="dailyAttendanceData"
             [selectedYear]="selectedYear" [selectedMonth]="selectedMonth" />
+
     </div>
+
 </div>

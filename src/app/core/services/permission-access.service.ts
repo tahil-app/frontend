@@ -23,6 +23,7 @@ export class PermissionAccessService {
     get canExport() {
         return {
             exportAttendancePdf: this.authService.isAdmin || this.authService.isEmployee,
+            exportSchedulePdf: this.authService.isAdmin || this.authService.isEmployee || this.authService.isTeacher || this.authService.isStudent,
             exportSessionsPdf: this.authService.isAdmin || this.authService.isEmployee || this.authService.isTeacher || this.authService.isStudent,
             exportStudentDailySchedulePdf: this.authService.isAdmin || this.authService.isEmployee || this.authService.isStudent,
             exportTeacherDailySchedulePdf: this.authService.isAdmin || this.authService.isEmployee || this.authService.isTeacher,

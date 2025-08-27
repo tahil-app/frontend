@@ -26,6 +26,7 @@ import { PersonalTab, PersonalTabs } from '../../../shared/profile/personal-tabs
 import { TableColumn } from '../../../shared/props/table-column.props';
 import { Table } from "../../../shared/components/table/table";
 import { PdfYearMonthBtns } from "../../../shared/buttons/pdf-year-month-btns/pdf-year-month-btns";
+import { DateHelper } from '../../../../core/helpers/date.helper';
 
 @Component({
   selector: 'app-group-profile',
@@ -39,6 +40,8 @@ export class GroupProfile implements OnInit {
   showDialog = false;
   showStudentsDialog = false;
   group: Group = {} as Group;
+  selectedYear = DateHelper.getCurrentYear();
+  selectedMonth = DateHelper.getCurrentMonth();
   destroy$ = new Subject<void>();
 
   activeTab = 'groups.profile.groupData';
@@ -62,7 +65,7 @@ export class GroupProfile implements OnInit {
   tabs: PersonalTab[] = [
     { label: 'groups.profile.groupData', icon: 'fas fa-users' },
     { label: 'shared.tabs.schedule', icon: 'fas fa-calendar-alt', onClick: () => this.onScheduleClick() },
-    { label: 'shared.tabs.attendance', icon: 'fas fa-clipboard-check', onClick: () => this.loadAttendances(new Date().getFullYear()) },
+    { label: 'shared.tabs.attendance', icon: 'fas fa-clipboard-check', onClick: () => this.loadAttendances(this.selectedYear, this.selectedMonth) },
     { label: 'students.all', icon: 'fas fa-solid fa-user-graduate' },
   ];
 
@@ -195,9 +198,9 @@ export class GroupProfile implements OnInit {
     }, _ => { }, () => this.loader.hide());
   }
 
-  loadAttendances(year: number) {
+  loadAttendances(year: number, month: number) {
     this.loader.show();
-    this.groupService.getAttendances(this.group.id, year).pipe(takeUntil(this.destroy$)).subscribe(attendances => {
+    this.groupService.getAttendances(this.group.id, year, month).pipe(takeUntil(this.destroy$)).subscribe(attendances => {
       this.group.attendces = attendances;
       this.group.attendces?.forEach(attendance => {
         attendance.total = attendance.present + attendance.late + attendance.absent;

@@ -20,6 +20,7 @@ import { ReportHelper } from '../../../../core/helpers/report.helper';
 import { PdfYearMonthBtns } from "../../../shared/buttons/pdf-year-month-btns/pdf-year-month-btns";
 import { StudentService } from '../../../../core/services/student.service';
 import { Subject, takeUntil } from 'rxjs';
+import { DateHelper } from '../../../../core/helpers/date.helper';
 
 @Component({
   selector: 'student-feedback',
@@ -46,8 +47,8 @@ export class StudentFeedback {
   @Input() student: Student = {} as Student;
   feedbacks: Feedback[] = [];
 
-  selectedYear: number = new Date().getFullYear();
-  selectedMonth: number = new Date().getMonth() + 1;
+  selectedYear: number = DateHelper.getCurrentYear();
+  selectedMonth: number = DateHelper.getCurrentMonth();
 
   allowExportToPdf: boolean = false;
   destroy$ = new Subject<void>();
@@ -96,7 +97,7 @@ export class StudentFeedback {
           return;
         }
 
-        const filename = `${this.student.name}_Feedback_Report.pdf`;
+        const filename = `${this.student.name}_${this.translate.instant('shared.tabs.teacherFeedback')}_${this.selectedMonth}/${this.selectedYear}.pdf`;
 
         await this.pdfExportService.exportToPdf(
           this.pdfTemplate.pdfContent.nativeElement,

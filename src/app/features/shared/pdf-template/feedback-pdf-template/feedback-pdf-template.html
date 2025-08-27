@@ -6,30 +6,12 @@
     <div class="feedback-breakdown-pdf">
       <h3 class="breakdown-title">{{ 'shared.tabs.teacherFeedback' | translate }}</h3>
       
-      <div *ngIf="feedbacks && feedbacks.length > 0; else noFeedback">
-        <table class="pdf-table">
-          <thead>
-            <tr>
-              <th class="name-col">{{ 'teachers.one' | translate }}</th>
-              <th class="date-col">{{ 'shared.labels.date' | translate }}</th>
-              <th class="comment-col">{{ 'shared.labels.comment' | translate }}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let feedback of feedbacks">
-              <td class="feedback-name">{{ feedback.name }}</td>
-              <td class="feedback-date">{{ getDate(feedback.date) }}</td>
-              <td class="feedback-comment">{{ feedback.comment }}</td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="print-table">
+        <app-table [columns]="feedbackTableColumns" [rows]="feedbacks" *ngIf="feedbacks && feedbacks.length > 0" />
       </div>
+
+      <no-data *ngIf="feedbacks && feedbacks.length === 0" [icon]="'fas fa-comments'" [text]="'shared.labels.noFeedbackAvailable' | translate" />
       
-      <ng-template #noFeedback>
-        <div class="no-feedback">
-          {{ 'shared.labels.noFeedbackAvailable' | translate }}
-        </div>
-      </ng-template>
     </div>
 
     <!-- Footer -->

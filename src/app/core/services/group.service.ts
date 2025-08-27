@@ -20,8 +20,8 @@ export class GroupService extends ApiService<Group> {
     return this.httpClient.put<boolean>(this.appURLGenerator.getEndPoint(ApiEndpoints.GROUPS.Actions.UpdateStudents(groupId)), studentIds);
   }
 
-  getAttendances(groupId: number, year: number): Observable<GroupAttendance[]> {
-    return this.httpClient.get<GroupAttendance[]>(this.appURLGenerator.getEndPoint(ApiEndpoints.GROUPS.Actions.GetAttendances(groupId, year)));
+  getAttendances(groupId: number, year: number, month: number): Observable<GroupAttendance[]> {
+    return this.httpClient.get<GroupAttendance[]>(this.appURLGenerator.getEndPoint(ApiEndpoints.GROUPS.Actions.GetAttendances(groupId, year, month)));
   }
 
   getGroupSchedules(groupId: number): Observable<DailySchedule[]> {

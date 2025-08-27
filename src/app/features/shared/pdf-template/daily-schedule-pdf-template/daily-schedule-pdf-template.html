@@ -8,7 +8,9 @@
     <div class="day-schedule" *ngFor="let day of getUniqueDays()">
       <h3 class="day-title border-left-before">{{ day }}</h3>
 
-      <app-table [columns]="columns" [rows]="getSchedulesByDay(day)" />
+      <div class="print-table">
+        <app-table [columns]="columns" [rows]="getSchedulesByDay(day)" />
+      </div>
   
     </div>
   </div>

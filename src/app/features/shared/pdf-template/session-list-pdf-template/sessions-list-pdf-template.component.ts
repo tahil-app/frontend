@@ -5,13 +5,16 @@ import { ClassSession } from '../../../../core/models/class-session.model';
 import { ClassSessionStatus } from '../../../../core/enums/class-session-status.enum';
 import { DateHelper } from '../../../../core/helpers/date.helper';
 import { TimeHelper } from '../../../../core/helpers/time.helper';
-import { PdfTemplateFooter } from "../../../shared/pdf-template/pdf-template-footer/pdf-template-footer";
-import { PdfTemplateHeader } from "../../../shared/pdf-template/pdf-template-header/pdf-template-header";
+import { PdfTemplateFooter } from "../pdf-template-footer/pdf-template-footer";
+import { PdfTemplateHeader } from "../pdf-template-header/pdf-template-header";
+import { TableColumn } from '../../props/table-column.props';
+import { Table } from "../../components/table/table";
+import { NoData } from "../../components/no-data/no-data";
 
 @Component({
   selector: 'sessions-list-pdf-template',
   standalone: true,
-  imports: [CommonModule, TranslateModule, PdfTemplateFooter, PdfTemplateHeader],
+  imports: [CommonModule, TranslateModule, PdfTemplateFooter, PdfTemplateHeader, Table, NoData],
   templateUrl: './sessions-list-pdf-template.component.html',
   styleUrls: ['./sessions-list-pdf-template.component.scss']
 })
@@ -23,6 +26,17 @@ export class SessionsListPdfTemplateComponent {
   ClassSessionStatus = ClassSessionStatus;
 
   exportDate = DateHelper.displayDate(new Date().toString());
+
+  sessionColumns: TableColumn[] = [
+    { title: 'shared.labels.date', field: 'date', type: 'text' },
+    { title: 'shared.labels.time', field: 'time', type: 'text' },
+    { title: 'courses.one', field: 'courseName', type: 'text' },
+    { title: 'groups.one', field: 'groupName', type: 'text' },
+    { title: 'rooms.one', field: 'roomName', type: 'text' },
+    { title: 'teachers.one', field: 'teacherName', type: 'text' },
+    { title: 'shared.labels.status', field: 'status', type: 'boolean' },
+  ];
+
 
   getFormattedDate(date: string | Date): string {
     return DateHelper.displayDate(date as string) || '-';

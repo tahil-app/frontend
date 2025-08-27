@@ -28,4 +28,12 @@ export class DateHelper {
     }
     return age;
   }
+
+  static getCurrentMonth(): number {
+    return new Date().getMonth() + 1;
+  }
+
+  static getCurrentYear(): number {
+    return new Date().getFullYear();
+  }
 }

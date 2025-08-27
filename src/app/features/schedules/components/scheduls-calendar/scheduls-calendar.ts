@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CardContainer } from "../../../shared/components/card-container/card-container";
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ScheduleDialog } from "../schedule-dialog/schedule-dialog";
@@ -14,6 +14,11 @@ import { TimeHelper } from '../../../../core/helpers/time.helper';
 import { ScheduleForm } from '../schedule-form/schedule-form';
 import { Subject, takeUntil } from 'rxjs';
 import { ConfirmService } from '../../../shared/services/confirm.serivce';
+import { PdfIconBtn } from '../../../shared/buttons/pdf-icon-btn/pdf-icon-btn';
+import { MonthlySchedulePdfTemplateComponent } from '../../../shared/pdf-template/monthly-schedule-pdf-template/monthly-schedule-pdf-template';
+import { PdfExportService } from '../../../shared/services/pdf-export.service';
+import { MonthesService } from '../../../../core/services/monthes.service';
+import { ReportHelper } from '../../../../core/helpers/report.helper';
 
 @Component({
   selector: 'app-scheduls-calendar',
@@ -23,7 +28,9 @@ import { ConfirmService } from '../../../shared/services/confirm.serivce';
     TranslateModule,
     ScheduleDialog,
     Calendar,
-    ScheduleForm
+    ScheduleForm,
+    PdfIconBtn,
+    MonthlySchedulePdfTemplateComponent
   ],
   templateUrl: './scheduls-calendar.html',
   styleUrl: './scheduls-calendar.scss'
@@ -51,7 +58,13 @@ export class SchedulsCalendar implements OnInit {
   private scheduleService = inject(ScheduleService);
   private loader = inject(LoaderService);
   private confirmService = inject(ConfirmService);
+  private pdfExportService = inject(PdfExportService);
+  private monthesService = inject(MonthesService);
   public permissionService = inject(PermissionAccessService);
+  //#endregion
+
+  //#region PDF Template
+  @ViewChild(MonthlySchedulePdfTemplateComponent, { static: false }) pdfTemplate!: MonthlySchedulePdfTemplateComponent;
   //#endregion
 
   //#region Methods
@@ -242,5 +255,40 @@ export class SchedulsCalendar implements OnInit {
     this.loadEvents();
   }
 
+  async exportToPdf(): Promise<void> {
+    this.confirmService.confirmPrint(async () => {
+      try {
+        this.loader.show();
+
+        if (!this.pdfTemplate) {
+          console.error('PDF template not found');
+          return;
+        }
+
+        const monthName = this.getMonthName();
+        const filename = `${this.translateService.instant('schedules.all')}_${monthName}_${this.currentDate.getFullYear()}.pdf`;
+
+        await this.pdfExportService.exportToPdf(
+          this.pdfTemplate.pdfContent.nativeElement,
+          filename,
+          { orientation: 'landscape', format: 'a4' }
+        );
+
+      } catch (error) {
+        console.error('Error exporting PDF:', error);
+      } finally {
+        this.loader.hide();
+      }
+    });
+  }
+
+  getMonthName(): string {
+    return this.monthesService.getMonthName(this.currentDate.getMonth() + 1);
+  }
+
+
+  getReportTitle() {
+    return ReportHelper.getTitle(this.translateService.instant('schedules.all'), this.getMonthName() + ' ' + this.currentDate.getFullYear());
+  }
   //#endregion
 }

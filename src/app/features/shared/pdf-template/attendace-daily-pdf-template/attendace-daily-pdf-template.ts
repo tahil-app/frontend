@@ -10,17 +10,19 @@ import { AttendanceStatus } from '../../../../core/enums/attendance-status.enum'
 import { NoData } from "../../components/no-data/no-data";
 import { StatusService } from '../../../../core/services/status.service';
 import { TimeHelper } from '../../../../core/helpers/time.helper';
+import { TableColumn } from '../../props/table-column.props';
+import { Table } from "../../components/table/table";
 
 @Component({
   selector: 'attendace-daily-pdf-template',
-  imports: [CommonModule, TranslateModule, PdfTemplateFooter, PdfTemplateHeader, PdfTemplateHeader, NoData],
+  imports: [CommonModule, TranslateModule, PdfTemplateFooter, PdfTemplateHeader, PdfTemplateHeader, NoData, Table],
   templateUrl: './attendace-daily-pdf-template.html',
   styleUrl: './attendace-daily-pdf-template.scss'
 })
 export class AttendaceDailyPdfTemplate {
   @Input() title: string = '';
   @Input() dailyAttendanceData: DailyAttendanceModel[] = [];
-  @Input() selectedYear: number = new Date().getFullYear();
+  @Input() selectedYear: number = DateHelper.getCurrentYear();
   @Input() selectedMonth: number = 0;
   @Input() showComment: boolean = false;
 
@@ -31,6 +33,15 @@ export class AttendaceDailyPdfTemplate {
   private monthService = inject(MonthesService);
   public statusService = inject(StatusService);
 
+
+  dailyTableColumns: TableColumn[] = [
+    { title: 'shared.labels.day', field: 'date', type: 'date' },
+    { title: 'shared.labels.time', field: 'time', type: 'time' },
+    { title: 'courses.one', field: 'courseName', type: 'text' },
+    { title: 'attendanceStatus.present', field: 'present', type: 'boolean' },
+    { title: 'attendanceStatus.late', field: 'late', type: 'boolean' },
+    { title: 'attendanceStatus.absent', field: 'absent', type: 'boolean' },
+  ];
 
   get dailyStatistics() {
     return {

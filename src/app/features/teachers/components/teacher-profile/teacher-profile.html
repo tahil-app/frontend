@@ -95,8 +95,10 @@
             <h5 class="mb-2">{{ 'shared.tabs.groups' | translate }}</h5>
         </div>
 
-        <div class="tab-overflow-auto" *ngIf="teacher.groups && teacher.groups.length > 0">
-            <app-table [columns]="groupsColumns" [rows]="teacher.groups || []" />
+        <div class="tab-section-container auto-hover-scroll">
+            <div class="tab-overflow-auto" *ngIf="teacher.groups && teacher.groups.length > 0">
+                <app-table [columns]="groupsColumns" [rows]="teacher.groups || []" />
+            </div>
         </div>
 
         <no-data [icon]="'fas fa-users'" *ngIf="!teacher.groups || teacher.groups.length === 0"
@@ -111,8 +113,10 @@
                 [showOutline]="true" />
         </div>
 
-        <div class="tab-overflow-auto" *ngIf="teacher.courses && teacher.courses.length > 0">
-            <app-table [columns]="coursesColumns" [rows]="teacher.courses || []" />
+        <div class="tab-section-container auto-hover-scroll">
+            <div class="tab-overflow-auto" *ngIf="teacher.courses && teacher.courses.length > 0">
+                <app-table [columns]="coursesColumns" [rows]="teacher.courses || []" />
+            </div>
         </div>
 
         <no-data [icon]="'fas fa-book'" *ngIf="!teacher.courses || teacher.courses.length === 0"
@@ -183,7 +187,9 @@
         </div>
 
         <div class="tab-section-container auto-hover-scroll">
-            <app-teacher-attachment [teacher]="teacher" />
+            <div class="tab-overflow-auto" *ngIf="teacher.attachments && teacher.attachments.length > 0">
+                <app-teacher-attachment [teacher]="teacher" />
+            </div>
         </div>
 
         <no-data *ngIf="teacher.attachments === null || teacher.attachments?.length === 0" [icon]="'fas fa-paperclip'"

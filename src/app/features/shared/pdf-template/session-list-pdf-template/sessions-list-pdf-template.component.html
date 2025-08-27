@@ -4,35 +4,12 @@
 
   <!-- Sessions Table -->
   <div class="sessions-table-pdf" *ngIf="sessions.length > 0">
-    <table class="pdf-table">
-      <thead>
-        <tr>
-          <th class="date-col">{{ 'shared.labels.date' | translate }}</th>
-          <th class="time-col">{{ 'shared.labels.time' | translate }}</th>
-          <th class="course-col">{{ 'courses.one' | translate }}</th>
-          <th class="group-col">{{ 'groups.one' | translate }}</th>
-          <th class="room-col">{{ 'rooms.one' | translate }}</th>
-          <th class="teacher-col">{{ 'teachers.one' | translate }}</th>
-          <th class="status-col">{{ 'shared.labels.status' | translate }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let session of sessions; let i = index">
-          <td class="date-cell">{{ getFormattedDate(session.date!) }}</td>
-          <td class="time-cell">{{ getFormattedTime(session.startTime!) }} - {{ getFormattedTime(session.endTime!) }}</td>
-          <td class="course-cell">{{ session.courseName || '-' }}</td>
-          <td class="group-cell">{{ session.groupName || '-' }}</td>
-          <td class="room-cell">{{ session.roomName || '-' }}</td>
-          <td class="teacher-cell">{{ session.teacherName || '-' }}</td>
-          <td class="status-cell">
-            <span [class]="getStatusColor(session.status)">
-              {{ getStatusText(session.status) | translate }}
-            </span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="print-table">
+      <app-table [columns]="sessionColumns" [rows]="sessions" />
+    </div>
   </div>
+
+  <no-data *ngIf="sessions.length === 0" [icon]="'fas fa-calendar-times'" [text]="'sessions.list.noSessions' | translate" />
 
   <!-- No Sessions Message -->
   <div class="no-sessions-pdf" *ngIf="sessions.length === 0">

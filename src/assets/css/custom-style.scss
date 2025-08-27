@@ -84,12 +84,12 @@ fieldset:disabled .btn {
 }
 
 .btn-light-icon {
-    padding: 0.85rem;
+    padding: 0.65rem;
     line-height: 0.85rem;
 }
 
 .btn-light-icon i {
-    font-size: 20px;
+    font-size: 15px !important;
     color: #3d7b6c;
 }
 
@@ -235,12 +235,12 @@ label,
 .clickable-text {
     color: #007bff;
     cursor: pointer;
-  
+
     &:hover {
-      font-weight: 600;
+        font-weight: 600;
     }
-  }
-  
+}
+
 
 .auto-hover-scroll {
 
@@ -320,5 +320,51 @@ label,
 
     h5 {
         font-size: 1.2rem;
+    }
+}
+
+.card-container {
+    .pdf-export-btn {
+        position: absolute;
+        top: 1.25rem;
+        right: 1.25rem;
+        
+        button {
+            padding: .5rem .75rem !important;
+            
+            i {
+                font-size: 1.25rem !important;
+            }
+        }
+    }
+    
+    .schedule-calendar-pdf-export-btn {
+        right: 4.25rem;
+    }
+}
+
+.print-pdf-template-hidden {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+    width: 800px;
+    overflow: hidden;
+}
+
+.print-table {
+
+    .table-container {
+        border: unset !important;
+        border-radius: unset !important;
+
+        table {
+
+            th,
+            td {
+                font-size: 11px !important;
+                padding: .25rem .35rem !important;
+                border: 1px solid #e9ecef !important;
+            }
+        }
     }
 }

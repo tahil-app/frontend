@@ -18,10 +18,14 @@ import { TabsModule } from 'primeng/tabs';
 import { Card } from "primeng/card";
 import { NoData } from "../../../shared/components/no-data/no-data";
 import { ConfirmService } from '../../../shared/services/confirm.serivce';
+import { TableColumn } from '../../../shared/props/table-column.props';
+import { Table } from "../../../shared/components/table/table";
+import { Group } from '../../../../core/models/group.model';
+import { PersonalTab, PersonalTabs } from '../../../shared/profile/personal-tabs/personal-tabs';
 
 @Component({
   selector: 'app-course-profile',
-  imports: [TabsModule, CommonModule, TranslateModule, TooltipModule, TableModule, CourseForm, EditIconButton, TeachersDialog, Card, NoData],
+  imports: [TabsModule, CommonModule, TranslateModule, TooltipModule, TableModule, CourseForm, EditIconButton, TeachersDialog, Card, NoData, Table, PersonalTabs],
   templateUrl: './course-profile.html',
   styleUrl: './course-profile.scss'
 })
@@ -32,6 +36,21 @@ export class CourseProfile implements OnInit {
   showTeachersDialog = false;
   course: Course = {} as Course;
   destroy$ = new Subject<void>();
+  activeTab = 'courses.profile.courseData';
+
+  tabs: PersonalTab[] = [
+    { label: 'courses.profile.courseData', icon: 'fas fa-book-reader' },
+    { label: 'teachers.all', icon: 'fas fa-chalkboard-teacher' },
+    { label: 'groups.all', icon: 'fas fa-users' },
+  ];
+
+  teacherTableColumns: TableColumn[] = [
+    { field: 'name', title: 'teachers.one', type: 'text', onClick: (row: Teacher) => this.onTeacherClick(row.id) },
+  ];
+
+  groupTableColumns: TableColumn[] = [
+    { field: 'name', title: 'groups.one', type: 'text', onClick: (row: Group) => this.onGroupClick(row.id) },
+  ];
   //#endregion
 
   //#region Services
@@ -54,6 +73,10 @@ export class CourseProfile implements OnInit {
     } else {
       this.toaster.showError(this.translate.instant('courses.notFound'));
     }
+  }
+
+  onActiveTabChange(tab: string) {
+    this.activeTab = tab;
   }
 
   loadCourse(courseId: number) {

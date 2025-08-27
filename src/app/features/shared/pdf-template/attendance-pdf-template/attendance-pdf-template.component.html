@@ -34,40 +34,11 @@
   </div>
 
   <!-- Attendance Table -->
-  <div class="attendance-table-pdf">
-    <table class="pdf-table">
-      <thead>
-        <tr>
-          <th class="student-name-col">{{ 'attendance.table.studentName' | translate }}</th>
-          <th class="attendance-col">{{ 'attendanceStatus.present' | translate }}</th>
-          <th class="attendance-col">{{ 'attendanceStatus.late' | translate }}</th>
-          <th class="attendance-col">{{ 'attendanceStatus.absent' | translate }}</th>
-          <th class="notes-col">{{ 'shared.labels.notes' | translate }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let record of getFormControlArray().controls; let i = index">
-
-          <td class="student-name">{{ record.get('studentName')?.value }}</td>
-
-          <td class="checkbox-cell">
-            <div class="checkbox" [class.checked]="record.get('status')?.value === AttendanceStatus.Present"></div>
-          </td>
-
-          <td class="checkbox-cell">
-            <div class="checkbox" [class.checked]="record.get('status')?.value === AttendanceStatus.Late"></div>
-          </td>
-
-          <td class="checkbox-cell">
-            <div class="checkbox" [class.checked]="record.get('status')?.value === AttendanceStatus.Absent"></div>
-          </td>
-
-          <td class="notes-cell">{{ record.get('note')?.value || '' }}</td>
-
-        </tr>
-      </tbody>
-    </table>
+  <div class="print-table mb-3">
+    <app-table [columns]="attendanceColumns" [rows]="getAttendanceData()" *ngIf="getAttendanceData().length > 0" />
   </div>
+
+  <no-data *ngIf="getAttendanceData().length === 0" [icon]="'fas fa-users'" [text]="'attendance.table.noStudents' | translate" />
 
   <!-- Summary -->
   <div class="attendance-summary-pdf">

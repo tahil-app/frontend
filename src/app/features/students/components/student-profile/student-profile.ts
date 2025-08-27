@@ -191,7 +191,7 @@ export class StudentProfile {
 
   onAttendanceClick() {
     if (this.monthlyAttendanceData.length == 0) {
-      this.loadMonthlyAttendanceData(new Date().getFullYear());
+      this.loadMonthlyAttendanceData(DateHelper.getCurrentYear());
     }
   }
 

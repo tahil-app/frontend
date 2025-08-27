@@ -24,7 +24,7 @@ import { ToastService } from '../../../shared/services/toast.service';
 import { ClassSessionStatus } from '../../../../core/enums/class-session-status.enum';
 import { CanDeactivateComponent } from '../../../../core/guards/form-deactivate.guard';
 import { PdfExportService } from '../../../shared/services/pdf-export.service';
-import { AttendancePdfTemplateComponent } from '../attendance-pdf-template/attendance-pdf-template.component';
+import { AttendancePdfTemplateComponent } from '../../../shared/pdf-template/attendance-pdf-template/attendance-pdf-template.component';
 import { WeekDaysService } from '../../../../core/services/week-days.service';
 import { PdfIconBtn } from "../../../shared/buttons/pdf-icon-btn/pdf-icon-btn";
 import { SessionService } from '../../../../core/services/session.service';
@@ -179,16 +179,9 @@ export class SessionAttendance implements CanDeactivateComponent {
           return;
         }
 
-        const sessionInfo = {
-          courseName: this.attendanceDisplay.courseName || 'Unknown Course',
-          groupName: this.attendanceDisplay.groupName || 'Unknown Group',
-          date: this.attendanceDisplay.sessionDate || 'Unknown Date',
-          time: `${this.attendanceDisplay.startTime || '00:00'} - ${this.attendanceDisplay.endTime || '00:00'}`
-        };
-
         await this.pdfExportService.exportToPdf(
           this.pdfTemplate.pdfContent.nativeElement,
-          `${sessionInfo.courseName}_${sessionInfo.groupName}_${sessionInfo.date}`
+          `${this.translateService.instant('attendance.recordAttendance')}_${this.attendanceDisplay.groupName}_${this.attendanceDisplay.sessionDate}`
         );
 
         this.toastService.showSuccess(this.translateService.instant('shared.pdf.success'));

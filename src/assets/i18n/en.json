@@ -190,7 +190,9 @@
             "markAllPresent": "All",
             "markAllLate": "All",
             "markAllAbsent": "All",
-            "salary": "Salary"
+            "salary": "Salary",
+            "monthly": "Monthly",
+            "daily": "Daily"
         },
         "placeholders": {
             "selectMonthPlaceholder": "Select Month",

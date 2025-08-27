@@ -17,7 +17,7 @@ import { ConfirmService } from '../../../shared/services/confirm.serivce';
 import { Subject, takeUntil } from 'rxjs';
 import { TimeHelper } from '../../../../core/helpers/time.helper';
 import { PdfExportService } from '../../../shared/services/pdf-export.service';
-import { SessionsListPdfTemplateComponent } from '../session-list-pdf-template/sessions-list-pdf-template.component';
+import { SessionsListPdfTemplateComponent } from '../../../shared/pdf-template/session-list-pdf-template/sessions-list-pdf-template.component';
 import { PdfIconBtn } from "../../../shared/buttons/pdf-icon-btn/pdf-icon-btn";
 
 @Component({

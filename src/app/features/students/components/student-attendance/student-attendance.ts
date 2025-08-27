@@ -26,6 +26,7 @@ import { Table } from "../../../shared/components/table/table";
 import { TableColumn } from '../../../shared/props/table-column.props';
 import { AuthService } from '../../../../core/services/auth.service';
 import { Router } from '@angular/router';
+import { DateHelper } from '../../../../core/helpers/date.helper';
 
 @Component({
   selector: 'student-attendance',
@@ -91,7 +92,7 @@ export class StudentAttendance implements OnDestroy {
   ];
 
   // Filter options
-  selectedYear: number = new Date().getFullYear();
+  selectedYear: number = DateHelper.getCurrentYear();
   selectedMonth: number = 0;
 
   $destroy = new Subject<void>();
@@ -258,7 +259,7 @@ export class StudentAttendance implements OnDestroy {
           return;
         }
 
-        const filename = `${this.student.name}_Attendance_${this.showDailyAttendance ? 'Daily' : 'Monthly'}_Report_${this.selectedYear}/${this.selectedMonth}.pdf`;
+        const filename = `${this.student.name}_${this.translateService.instant('shared.labels.attendanceReport')}_${this.showDailyAttendance ? this.translateService.instant('shared.labels.daily') : this.translateService.instant('shared.labels.monthly')}_Report_${this.selectedYear}/${this.selectedMonth}.pdf`;
 
         await this.pdfExportService.exportToPdf(
           this.showDailyAttendance ? this.dailyPdfTemplate.pdfContent.nativeElement : this.pdfTemplate.pdfContent.nativeElement,

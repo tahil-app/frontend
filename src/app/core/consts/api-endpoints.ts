@@ -45,7 +45,7 @@ export class ApiEndpoints {
         Actions: {
             Paged: `paged`,
             UpdateStudents: (groupId: string | number) => `update-students/${groupId}`,
-            GetAttendances: (groupId: string | number, year: number) => `attendances/${groupId}/${year}`,
+            GetAttendances: (groupId: string | number, year: number, month: number) => `attendances/${groupId}/${year}/${month}`,
             Schedules: (groupId: string | number) => `schedules/${groupId}`,
         }
     };

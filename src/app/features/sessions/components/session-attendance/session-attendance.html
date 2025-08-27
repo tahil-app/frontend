@@ -203,8 +203,8 @@
     </div>
 
     <!-- Hidden PDF Template for Export -->
-    <div style="position: absolute; left: -9999px; top: -9999px;">
-        <attendance-pdf-template *ngIf="attendanceDisplay.courseName" [attendanceDisplay]="attendanceDisplay"
+    <div class="print-pdf-template-hidden">
+        <attendance-pdf-template [attendanceDisplay]="attendanceDisplay"
             [attendancesArray]="attendancesArray" [totalStudents]="totalStudents" [presentStudents]="presentStudents"
             [lateStudents]="lateStudents" [absentStudents]="absentStudents">
         </attendance-pdf-template>

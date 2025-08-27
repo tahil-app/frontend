@@ -113,7 +113,9 @@
     <div class="d-flex justify-content-between header-title">
       <h5>{{ 'shared.tabs.attendance' | translate }}</h5>
 
-      <pdf-year-month-btns [showPdfBtn]="false" [showMonthSelect]="false" (onYearChanged)="loadAttendances($event)" />
+      <pdf-year-month-btns [showPdfBtn]="false" (onYearChanged)="loadAttendances($event, selectedMonth)"
+        (onMonthChanged)="loadAttendances(selectedYear, $event.month)" [selectedYear]="selectedYear"
+        [selectedMonth]="selectedMonth" />
     </div>
 
     <div class="tab-overflow-auto" *ngIf="group.attendces && group.attendces.length > 0">

@@ -7,21 +7,33 @@ import { MonthlyAttendanceModel } from '../../../../core/models/monthly-attendan
 import { DateHelper } from '../../../../core/helpers/date.helper';
 import { MonthesService } from '../../../../core/services/monthes.service';
 import { StatusService } from '../../../../core/services/status.service';
+import { TableColumn } from '../../props/table-column.props';
+import { Table } from "../../components/table/table";
+import { NoData } from "../../components/no-data/no-data";
 
 @Component({
   selector: 'attendance-monthly-pdf-template',
-  imports: [CommonModule, TranslateModule, PdfTemplateFooter, PdfTemplateHeader],
+  imports: [CommonModule, TranslateModule, PdfTemplateFooter, PdfTemplateHeader, Table, NoData],
   templateUrl: './attendance-monthly-pdf-template.html',
   styleUrl: './attendance-monthly-pdf-template.scss'
 })
 export class AttendanceMonthlyPdfTemplate {
   @Input() title: string = '';
   @Input() monthlyAttendanceData: MonthlyAttendanceModel[] = [];
-  @Input() selectedYear: number = new Date().getFullYear();
+  @Input() selectedYear: number = DateHelper.getCurrentYear();
 
   @ViewChild('pdfContent', { static: false }) pdfContent!: ElementRef;
 
   exportDate = DateHelper.displayDate(new Date().toString());
+
+  monthlyTableColumns: TableColumn[] = [
+    { title: 'shared.labels.month', field: 'monthName', type: 'text' },
+    { title: 'attendanceStatus.present', field: 'present', type: 'number' },
+    { title: 'attendanceStatus.late', field: 'late', type: 'number' },
+    { title: 'attendanceStatus.absent', field: 'absent', type: 'number' },
+    { title: 'shared.labels.total', field: 'total', type: 'number' },
+    { title: 'shared.labels.attendancePercentage', field: 'percentage', type: 'number' },
+  ];
 
   private translateService = inject(TranslateService);
   private monthService = inject(MonthesService);
@@ -39,13 +51,38 @@ export class AttendanceMonthlyPdfTemplate {
   }
 
 
+  getMonthlyAttendanceData(): MonthlyAttendanceModel[] {
+    return [1,2,3,4,5,6,7,8,9,10,11,12].map(month => ({
+      month: month,
+      present: this.getMonthData(month)?.present || 0,
+      late: this.getMonthData(month)?.late || 0,
+      absent: this.getMonthData(month)?.absent || 0,
+      total: this.getMonthData(month)?.total || 0,
+      monthName: this.getMonthName(month),
+      percentage: this.getMonthPercentage(month)
+    }));
+  }
+
   getMonthName(monthNumber: number): string {
     const months = this.monthService.getMonthes();
     return months[monthNumber - 1] || '';
   }
 
   getMonthData(monthNumber: number): MonthlyAttendanceModel | undefined {
-    return this.monthlyAttendanceData.find(item => item.month === monthNumber);
+    let monthData = this.monthlyAttendanceData.find(item => item.month === monthNumber);
+    if (monthData) {
+      monthData.total = (monthData.present || 0) + (monthData.late || 0) + (monthData.absent || 0);
+    }
+    return monthData;
+  }
+
+  getMonthPercentage(monthNumber: number): number {
+    const monthData = this.getMonthData(monthNumber);
+    if (monthData) {
+      return parseFloat(((monthData.present / monthData.total) * 100).toFixed(1));
+    }
+
+    return 0;
   }
 
   getBestMonth(): string {

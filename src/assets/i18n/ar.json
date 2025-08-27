@@ -187,7 +187,9 @@
             "markAllPresent": "الكل",
             "markAllLate": "الكل",
             "markAllAbsent": "الكل",
-            "salary": "الراتب"
+            "salary": "الراتب",
+            "monthly": "شهري",
+            "daily": "يومي"
         },
         "placeholders": {
             "selectMonthPlaceholder": "اختر الشهر",

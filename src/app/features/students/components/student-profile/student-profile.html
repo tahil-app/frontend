@@ -91,11 +91,8 @@
         }
 
         @if(activeTab === 'shared.tabs.attendance') {
-        <student-attendance 
-            [student]="student" 
-            [showDailyAttendance]="showDailyAttendance"
-            [monthlyAttendanceData]="monthlyAttendanceData"
-            [dailyAttendanceData]="dailyAttendanceData"
+        <student-attendance [student]="student" [showDailyAttendance]="showDailyAttendance"
+            [monthlyAttendanceData]="monthlyAttendanceData" [dailyAttendanceData]="dailyAttendanceData"
             (onYearChanged)="loadMonthlyAttendanceData($event)"
             (onMonthChanged)="loadDailyAttendanceData($event.year, $event.month)" />
         }
@@ -109,7 +106,9 @@
             <h5 class="mb-2">{{ 'shared.tabs.groups' | translate }}</h5>
         </div>
 
-        <app-table [columns]="groupsColumns" [rows]="student.groups" />
+        <div class="tab-section-container auto-hover-scroll" *ngIf="student.groups && student.groups.length > 0">
+            <app-table [columns]="groupsColumns" [rows]="student.groups" />
+        </div>
 
         <no-data [icon]="'fas fa-users'" *ngIf="!student.groups || student.groups.length === 0"
             [text]="'shared.noData.noGroups' | translate" />
@@ -119,8 +118,8 @@
         <div class="d-flex justify-content-between header-title">
             <h5>{{ 'shared.tabs.qualifications' | translate }}</h5>
 
-            <edit-icon-button *ngIf="!disablePage && permissionService.canEdit.student"
-                (click)="onEditQualification()" [showOutline]="true" />
+            <edit-icon-button *ngIf="!disablePage && permissionService.canEdit.student" (click)="onEditQualification()"
+                [showOutline]="true" />
         </div>
 
         <div class="tab-overflow-auto" *ngIf="student.qualification && student.qualification.length > 0">
@@ -140,7 +139,9 @@
         </div>
 
         <div class="tab-section-container auto-hover-scroll">
-            <app-student-attachment [student]="student" />
+            <div class="tab-overflow-auto" *ngIf="student.attachments && student.attachments.length > 0">
+                <app-student-attachment [student]="student" />
+            </div>
         </div>
 
         <no-data *ngIf="student.attachments === null || student.attachments?.length === 0" [icon]="'fas fa-paperclip'"

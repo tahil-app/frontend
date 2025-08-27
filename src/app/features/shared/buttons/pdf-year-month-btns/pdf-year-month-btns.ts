@@ -5,6 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { PdfIconBtn } from "../pdf-icon-btn/pdf-icon-btn";
 import { CommonModule } from '@angular/common';
 import { MonthesService } from '../../../../core/services/monthes.service';
+import { DateHelper } from '../../../../core/helpers/date.helper';
 
 @Component({
   selector: 'pdf-year-month-btns',
@@ -22,7 +23,7 @@ export class PdfYearMonthBtns {
   @Input() showPdfBtn: boolean = true;
   @Input() showYearSelect: boolean = true;
   @Input() showMonthSelect: boolean = true;
-  @Input() selectedYear: number = new Date().getFullYear();
+  @Input() selectedYear: number = DateHelper.getCurrentYear();
   @Input() selectedMonth: number = 0;
 
   // Filter options
@@ -37,7 +38,7 @@ export class PdfYearMonthBtns {
   @Output() onExport = new EventEmitter<void>();
 
   ngOnInit() {
-    this.years = Array.from({ length: 10 }, (_, i) => new Date().getFullYear() - i);
+    this.years = Array.from({ length: 10 }, (_, i) => DateHelper.getCurrentYear() - i);
     this.months = this.monthesService.getMonthsDropdownProps();
   }
 

@@ -14,7 +14,7 @@ export const AUTH_ROUTES: Routes = [
         component: Login,
         resolve: { title: TitleResolver },
         data: {
-            subtitle: 'AUTH.LOGIN',
+            subtitle: 'auth.login',
             translateTitle: true
         }
     },
@@ -23,7 +23,7 @@ export const AUTH_ROUTES: Routes = [
         component: ForgetPassword,
         resolve: { title: TitleResolver },
         data: {
-            subtitle: 'AUTH.FORGOT_PASSWORD',
+            subtitle: 'auth.forgotPassword',
             translateTitle: true
         }
     }

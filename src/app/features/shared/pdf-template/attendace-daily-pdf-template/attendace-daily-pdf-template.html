@@ -40,39 +40,11 @@
     <div class="monthly-breakdown-pdf">
         <h3 class="breakdown-title">{{ 'shared.labels.monthlyBreakdown' | translate }} </h3>
 
-        <table class="pdf-table" *ngIf="dailyAttendanceData && dailyAttendanceData.length > 0">
+        <div class="print-table">
+            <app-table [columns]="dailyTableColumns" [rows]="dailyAttendanceData"
+                *ngIf="dailyAttendanceData && dailyAttendanceData.length > 0" />
+        </div>
 
-            <thead>
-                <tr>
-                    <th class="date-col" style="width: 15%;">{{ 'shared.labels.day' | translate }}</th>
-                    <th class="time-col" style="width: 15%;">{{ 'shared.labels.time' | translate }}</th>
-                    <th class="course-col" style="width: 25%;">{{ 'courses.one' | translate }}</th>
-                    <th class="attendance-col">{{ 'attendanceStatus.present' | translate }}</th>
-                    <th class="attendance-col">{{ 'attendanceStatus.late' | translate }}</th>
-                    <th class="attendance-col">{{ 'attendanceStatus.absent' | translate }}</th>
-                    <th class="percentage-col" *ngIf="showComment">{{ 'shared.labels.comment' | translate }}</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                <tr *ngFor="let day of dailyAttendanceData">
-                    <td class="month-name">{{ day.date }}</td>
-                    <td class="month-name">{{ getTime(day.startTime, day.endTime) }}</td>
-                    <td class="month-name">{{ day.courseName }}</td>
-                    <td class="present-count">
-                        <div class="td-status-checkbox" [class.checked]="statusService.checkAttendanceStatus(day.status).isPresent"></div>
-                    </td>
-                    <td class="late-count">
-                        <div class="td-status-checkbox" [class.checked]="statusService.checkAttendanceStatus(day.status).isLate"></div>
-                    </td>
-                    <td class="absent-count">
-                        <div class="td-status-checkbox" [class.checked]="statusService.checkAttendanceStatus(day.status).isAbsent"></div>
-                    </td>
-                    <td class="month-percentage text-center" *ngIf="showComment">{{ day.note }}</td>
-                </tr>
-            </tbody>
-
-        </table>
 
         <no-data *ngIf="dailyAttendanceData && dailyAttendanceData.length === 0" [icon]="'fas fa-clipboard-check'"
             [text]="'shared.noData.noAttendances' | translate" />

@@ -56,7 +56,7 @@ export class StudentDailySchedule {
       try {
         this.loader.show();
         if (this.pdfTemplate && this.pdfTemplate.pdfContent) {
-          const filename = `${this.student.name}_Daily_Schedule_${new Date().toISOString().split('T')[0]}.pdf`;
+          const filename = `${this.student.name}_${this.translate.instant('shared.tabs.schedule')}.pdf`;
           await this.pdfExportService.exportToPdf(
             this.pdfTemplate.pdfContent.nativeElement,
             filename,
