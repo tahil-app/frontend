@@ -156,7 +156,15 @@ export class SessionAttendance implements CanDeactivateComponent {
   }
 
   onCancel() {
-    window.history.back();
+
+    if (this.attendanceForm.dirty) {
+      window.history.back();
+    } else {
+      
+      this.confirmService.confirmBack(() => {
+        window.history.back();
+      });
+    }
   }
 
   async exportToPdf() {

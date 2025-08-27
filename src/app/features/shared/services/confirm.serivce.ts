@@ -129,4 +129,16 @@ export class ConfirmService {
             'pi pi-download text-primary'
         );
     }
+
+    confirmBack(
+        acceptCallback: () => void,
+        message?: string
+    ): void {
+        this.confirm(
+            message || this.translate.instant('shared.dialogs.backConfirmation'),
+            acceptCallback,
+            undefined,
+            'pi pi-arrow-left text-primary'
+        );
+    }
 }

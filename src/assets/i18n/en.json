@@ -126,6 +126,7 @@
             "editConfirmation": "Are you sure you want to edit this item?",
             "changeImageConfirmation": "Are you sure you want to change the image of this item?",
             "unsavedChanges": "Are you sure you want to leave without saving your changes?",
+            "backConfirmation": "Are you sure you want to go back?",
             "yes": "Yes",
             "no": "No"
         },
