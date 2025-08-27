@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ApiService } from './api.service';
 import { ApiEndpoints } from '../consts/api-endpoints';
-import { Group } from '../models/group.model';
+import { Group, GroupAttendance } from '../models/group.model';
 import { Observable } from 'rxjs';
+import { DailySchedule } from '../models/daily-schedule.model';
 
 @Injectable({
   providedIn: 'root',
@@ -17,5 +18,13 @@ export class GroupService extends ApiService<Group> {
 
   updateStudents(groupId: number, studentIds: number[]): Observable<boolean> {
     return this.httpClient.put<boolean>(this.appURLGenerator.getEndPoint(ApiEndpoints.GROUPS.Actions.UpdateStudents(groupId)), studentIds);
+  }
+
+  getAttendances(groupId: number, year: number): Observable<GroupAttendance[]> {
+    return this.httpClient.get<GroupAttendance[]>(this.appURLGenerator.getEndPoint(ApiEndpoints.GROUPS.Actions.GetAttendances(groupId, year)));
+  }
+
+  getGroupSchedules(groupId: number): Observable<DailySchedule[]> {
+    return this.httpClient.get<DailySchedule[]>(this.appURLGenerator.getEndPoint(ApiEndpoints.GROUPS.Actions.Schedules(groupId)));
   }
 }

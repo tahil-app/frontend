@@ -5,9 +5,9 @@
     <thead>
       <tr>
         @for (column of columns; track column.field) {
-        @if (!column.show) {
-        <th>{{ column.title | translate }}</th>
-        }
+          @if (!column.show) {
+          <th>{{ column.title | translate }}</th>
+          }
         }
       </tr>
     </thead>
@@ -18,13 +18,26 @@
         @for (column of columns; track column.field) {
         @if (!column.show) {
         <td [ngSwitch]="column.type">
-          <span *ngSwitchCase="'text'" [class.clickable-text]="column.onClick"
-            (click)="column.onClick ? column.onClick(row) : null">
+          <span *ngSwitchCase="'text'" 
+          [ngClass]="{'clickable-text': column.onClick }"
+            (click)="column.onClick ? column.onClick(row) : null" >
             {{ row[column.field] }}
           </span>
-          <span *ngSwitchCase="'number'">{{ row[column.field] || 0}}</span>
-          <span *ngSwitchCase="'time'">{{ getTime(row) }}</span>
-          <span *ngSwitchCase="'date'">{{ getDate(row[column.field]) }}</span>
+          
+          <span *ngSwitchCase="'number'"  [class.clickable-text]="column.onClick"
+          (click)="column.onClick ? column.onClick(row) : null">{{ row[column.field] || 0}}</span>
+          
+          <span *ngSwitchCase="'time'" [class.clickable-text]="column.onClick"
+          (click)="column.onClick ? column.onClick(row) : null">{{ getTime(row) }}</span>
+
+          <span *ngSwitchCase="'date'" [class.clickable-text]="column.onClick"
+          (click)="column.onClick ? column.onClick(row) : null">{{ getDate(row[column.field]) }}</span>
+
+          <span *ngSwitchCase="'boolean'" [class.clickable-text]="column.onClick"
+          (click)="column.onClick ? column.onClick(row) : null">
+            <div class="td-status-checkbox" [class.checked]="row[column.field]"></div>
+          </span>
+
         </td>
         }
         }

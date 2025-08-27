@@ -2,7 +2,16 @@
     <div class="d-flex justify-content-between">
         <h5>{{ 'shared.tabs.teacherFeedback' | translate }}</h5>
 
-        <pdf-icon-btn *ngIf="permissionService.canExport.exportStudentFeedbackPdf && feedbacks?.length" [showOutline]="true" (onClick)="exportToPdf()"/>
+        <pdf-year-month-btns 
+        [showYearSelect]="true"
+        [showMonthSelect]="true"
+        [showPdfBtn]="permissionService.canExport.exportStudentFeedbackPdf && feedbacks!.length!==0"
+        [selectedYear]="selectedYear"
+        [selectedMonth]="selectedMonth"
+        (onExport)="exportToPdf()"
+        (onYearChanged)="loadFeedbacks($event, selectedMonth)"
+        (onMonthChanged)="loadFeedbacks($event.year, $event.month)"
+        />
     </div>
 
     <div class="tab-section-container auto-hover-scroll">

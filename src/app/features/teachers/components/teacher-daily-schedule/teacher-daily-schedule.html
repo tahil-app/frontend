@@ -1,5 +1,5 @@
 <div class="hello-park">
-    <div class="d-flex justify-content-between">
+    <div class="d-flex justify-content-between header-title">
         <h5 class="mb-1">{{ 'shared.tabs.schedule' | translate }}</h5>
         <pdf-icon-btn [showOutline]="true" *ngIf="teacher?.dailySchedules?.length && permissionsService.canExport.exportTeacherDailySchedulePdf"
             (click)="exportDailyScheduleToPdf()" />

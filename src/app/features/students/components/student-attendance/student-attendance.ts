@@ -19,10 +19,13 @@ import { PdfYearMonthBtns } from "../../../shared/buttons/pdf-year-month-btns/pd
 import { AttendanceMonthlyPdfTemplate } from '../../../shared/pdf-template/attendance-monthly-pdf-template/attendance-monthly-pdf-template';
 import { AttendaceDailyPdfTemplate } from "../../../shared/pdf-template/attendace-daily-pdf-template/attendace-daily-pdf-template";
 import { DailyAttendanceModel } from '../../../../core/models/daily-attendance.model';
-import { AttendanceStatus } from '../../../../core/enums/attendance-status.enum';
 import { NoData } from "../../../shared/components/no-data/no-data";
 import { StatusService } from '../../../../core/services/status.service';
 import { TimeHelper } from '../../../../core/helpers/time.helper';
+import { Table } from "../../../shared/components/table/table";
+import { TableColumn } from '../../../shared/props/table-column.props';
+import { AuthService } from '../../../../core/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'student-attendance',
@@ -37,14 +40,16 @@ import { TimeHelper } from '../../../../core/helpers/time.helper';
     AttendanceMonthlyPdfTemplate,
     PdfYearMonthBtns,
     AttendaceDailyPdfTemplate,
-    NoData
-],
+    NoData,
+    Table
+  ],
   templateUrl: './student-attendance.html',
   styleUrl: './student-attendance.scss'
 })
 export class StudentAttendance implements OnDestroy {
 
   @Input() student!: Student;
+
   @Input() monthlyAttendanceData: MonthlyAttendanceModel[] = [];
   @Input() dailyAttendanceData: DailyAttendanceModel[] = [];
   @Input() showDailyAttendance: boolean = false;
@@ -52,10 +57,38 @@ export class StudentAttendance implements OnDestroy {
   @ViewChild(AttendanceMonthlyPdfTemplate, { static: false }) pdfTemplate!: AttendanceMonthlyPdfTemplate;
   @ViewChild(AttendaceDailyPdfTemplate, { static: false }) dailyPdfTemplate!: AttendaceDailyPdfTemplate;
 
-  // Properties
+
+  //#region Services
+  private loader = inject(LoaderService);
+  private translateService = inject(TranslateService);
+  private pdfExportService = inject(PdfExportService);
+  private confirmService = inject(ConfirmService);
+  private router = inject(Router);
+
+  public statusService = inject(StatusService);
+  public authService = inject(AuthService);
+  public permissionService = inject(PermissionAccessService);
+
+  //#endregion
+
+  //#region Properties
   allowExportToPdf: boolean = false;
   dataSet: LineChartProps[] = [];
   dates: string[] = [];
+
+  attendaceColumns: TableColumn[] = [
+    {
+      field: 'date',
+      title: 'shared.labels.date',
+      type: 'date',
+      onClick: (row: any) => (this.authService.isAdmin ? this.onDateClick(row.sessionId) : null)
+    },
+    { field: 'time', title: 'shared.labels.time', type: 'time' },
+    { field: 'courseName', title: 'courses.one', type: 'text' },
+    { field: 'present', title: 'attendanceStatus.present', type: 'boolean' },
+    { field: 'late', title: 'attendanceStatus.late', type: 'boolean' },
+    { field: 'absent', title: 'attendanceStatus.absent', type: 'boolean' },
+  ];
 
   // Filter options
   selectedYear: number = new Date().getFullYear();
@@ -63,13 +96,8 @@ export class StudentAttendance implements OnDestroy {
 
   $destroy = new Subject<void>();
 
-  private loader = inject(LoaderService);
-  private translateService = inject(TranslateService);
-  private pdfExportService = inject(PdfExportService);
-  private confirmService = inject(ConfirmService);
+  //#endregion
 
-  public statusService = inject(StatusService);
-  public permissionService = inject(PermissionAccessService);
 
   @Output() onYearChanged = new EventEmitter<number>();
   @Output() onMonthChanged = new EventEmitter<{ year: number, month: number }>();
@@ -83,6 +111,12 @@ export class StudentAttendance implements OnDestroy {
       // this.dates = this.dailyAttendanceData.map(item => item.date);
       // this.initializeChart();
     }
+  }
+
+  onDateClick(sessionId: number) {
+    this.confirmService.confirmView(() => {
+      this.router.navigate(['sessions', sessionId, 'attendance']);
+    });
   }
 
   ngOnDestroy() {

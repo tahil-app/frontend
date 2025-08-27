@@ -19,6 +19,11 @@ export class Table {
   @Input() columns: TableColumn[] = [];
   @Input() rows: any[] = [];
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['rows']) {
+    }
+  }
+
   getTime(row: any) {
     let startTime = TimeHelper.displayTime(row?.startTime);
     let endTime = TimeHelper.displayTime(row?.endTime);

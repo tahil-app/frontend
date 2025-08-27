@@ -26,4 +26,5 @@ export interface GroupAttendance {
     present: number;
     late: number;
     absent: number;
+    total?: number;
 }

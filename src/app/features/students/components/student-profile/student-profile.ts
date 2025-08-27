@@ -30,6 +30,11 @@ import { NoData } from "../../../shared/components/no-data/no-data";
 import { AttendanceService } from '../../../../core/services/attendance.service';
 import { MonthlyAttendanceModel } from '../../../../core/models/monthly-attendance.model';
 import { DailyAttendanceModel } from '../../../../core/models/daily-attendance.model';
+import { ProfileHeader } from '../../../shared/props/profile.props';
+import { PersonalHeader } from "../../../shared/profile/personal-header/personal-header";
+import { PersonalTab, PersonalTabs } from '../../../shared/profile/personal-tabs/personal-tabs';
+import { TableColumn } from '../../../shared/props/table-column.props';
+import { Table } from "../../../shared/components/table/table";
 
 @Component({
   selector: 'app-student-profile',
@@ -50,6 +55,9 @@ import { DailyAttendanceModel } from '../../../../core/models/daily-attendance.m
     StudentFeedback,
     StudentAttendance,
     NoData,
+    PersonalHeader,
+    PersonalTabs,
+    Table
 ],
   templateUrl: './student-profile.html',
   styleUrl: './student-profile.scss'
@@ -62,6 +70,7 @@ export class StudentProfile {
   showUserAttachmentDialog = false;
   disablePage = false;
   showDailyAttendance = false;
+  profileHeader: ProfileHeader = {} as ProfileHeader;
 
   student: Student = {} as Student;
   monthlyAttendanceData: MonthlyAttendanceModel[] = [];
@@ -69,6 +78,8 @@ export class StudentProfile {
   destroy$ = new Subject<void>();
 
   @ViewChild('fileInput') fileInput!: ElementRef;
+
+  activeTab = 'shared.tabs.personalInfo';
   //#endregion
 
   //#region Services
@@ -86,7 +97,29 @@ export class StudentProfile {
   public permissionService = inject(PermissionAccessService);
   //#endregion
 
+
+  //#region Tabs
+  tabs: PersonalTab[] = [
+    { label: 'shared.tabs.personalInfo', icon: 'fas fa-user' },
+    { label: 'shared.tabs.schedule', icon: 'fas fa-calendar-alt', onClick: () => this.onScheduleClick() },
+    { label: 'shared.tabs.attendance', icon: 'fas fa-clipboard-check', onClick: () => this.onAttendanceClick() },
+    { label: 'shared.tabs.teacherFeedback', icon: 'fas fa-comments'},
+    { label: 'shared.tabs.groups', icon: 'fas fa-users', onClick: () => this.onGroupsClick() },
+    { label: 'shared.tabs.qualifications', icon: 'fas fa-graduation-cap' },
+    { label: 'shared.tabs.attachments', icon: 'fas fa-paperclip' },
+  ];
+
+  groupsColumns: TableColumn[] = [
+    { field: 'name', title: 'groups.one', onClick: this.permissionService.canView.groupProfile ? (row: any) => this.onGroupClick(row.id) : null, type: 'text' },
+    { field: 'courseName', title: 'courses.one', type: 'text' },
+  ];
+  //#endregion
+
   //#region Methods
+
+  onActiveTabChange(tab: string) {
+    this.activeTab = tab;
+  }
 
   ngOnInit() {
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe(params => {
@@ -99,9 +132,15 @@ export class StudentProfile {
   loadStudent() {
     this.loader.show();
     this.studentService.get(this.student.id).pipe(takeUntil(this.destroy$)).subscribe((student: Student) => {
-      this.student = {...student};
+      this.student = { ...student };
+      this.profileHeader = {
+        fullName: student.name,
+        code: student.code,
+        image: this.getImageUrl(student.imagePath),
+        dateOfBirth: student.birthDate
+      };
 
-      if(student.id == 0) {
+      if (student.id == 0) {
         this.toaster.showError(this.translate.instant('students.notFound'));
         this.disablePage = true;
       }
@@ -126,11 +165,11 @@ export class StudentProfile {
   }
 
   loadDailyAttendanceData(year: number, month: number = 0) {
-    if(month == 0) {
+    if (month == 0) {
       this.showDailyAttendance = false;
       return;
     }
-    
+
     this.showDailyAttendance = true;
     this.loader.show();
     this.attendanceService.getStudentDailyAttendance(this.student.id, year, month)
@@ -143,10 +182,24 @@ export class StudentProfile {
     return html ? this.sanitizer.bypassSecurityTrustHtml(html) : '';
   }
 
-  onAttendanceTabClick() {
-    if(this.monthlyAttendanceData.length == 0) {
+  onScheduleClick() {
+    this.loader.show();
+    this.studentService.getStudentSchedules(this.student.id).pipe(takeUntil(this.destroy$)).subscribe(schedules => {
+      this.student = { ...this.student, dailySchedules: schedules };
+    }, _ => { }, () => this.loader.hide());
+  }
+
+  onAttendanceClick() {
+    if (this.monthlyAttendanceData.length == 0) {
       this.loadMonthlyAttendanceData(new Date().getFullYear());
     }
+  }
+
+  onGroupsClick() {
+    this.loader.show();
+    this.studentService.getStudentGroups(this.student.id).pipe(takeUntil(this.destroy$)).subscribe(groups => {
+      this.student = { ...this.student, groups: groups };
+    }, _ => { }, () => this.loader.hide());
   }
 
   ngOnDestroy() {
@@ -158,12 +211,8 @@ export class StudentProfile {
 
   //#region Student Info
 
-  get selectedTab() {
-    return this.permissionService.canView.studentSchedule ? '0' : '2';
-  }
-
   getImageUrl(imageUrl: string) {
-    return imageUrl ? this.studentService.getViewAttachmentUrl(imageUrl) : 'assets/icons/avatar-teacher.svg';
+    return imageUrl ? this.studentService.getViewAttachmentUrl(imageUrl) : 'assets/icons/avatar-student.svg';
   }
 
   onUploadImage(event: Event) {
@@ -171,13 +220,13 @@ export class StudentProfile {
     if (file) {
       this.loader.show();
       this.studentService.uploadImage(file, this.student.id).subscribe(res => {
-        if(res) {
+        if (res) {
           this.loadStudent();
           this.toaster.showSuccess(this.translate.instant('students.imageUpdateSuccess'));
         }
       }, _ => { }, () => {
         this.loader.hide();
-      }, );
+      },);
     }
   }
 
@@ -204,11 +253,11 @@ export class StudentProfile {
 
 
   onGroupClick(groupId: number) {
-
+    
     this.confirmService.confirmView(() => {
       this.router.navigate(['/groups', groupId]);
     });
-    
+
   }
 
   //#endregion
@@ -233,7 +282,7 @@ export class StudentProfile {
   saveUserAttachment(userAttachment: UserAttachment) {
     this.loader.show();
     this.studentService.uploadAttachment(userAttachment).pipe(takeUntil(this.destroy$)).subscribe((res) => {
-      if(res) {
+      if (res) {
         this.loadStudent();
         this.toaster.showSuccess(this.translate.instant('shared.messages.attachmentUploadSuccess'));
       }

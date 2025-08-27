@@ -33,6 +33,11 @@ import { WeekDaysService } from '../../../../core/services/week-days.service';
 import { TeacherDailySchedule } from "../teacher-daily-schedule/teacher-daily-schedule";
 import { TableColumn } from '../../../shared/props/table-column.props';
 import { Table } from "../../../shared/components/table/table";
+import { ProfileHeader } from '../../../shared/props/profile.props';
+import { PersonalHeader } from "../../../shared/profile/personal-header/personal-header";
+import { PersonalTab, PersonalTabs } from '../../../shared/profile/personal-tabs/personal-tabs';
+import { DailySchedule } from '../../../../core/models/daily-schedule.model';
+import { Group } from '../../../../core/models/group.model';
 
 @Component({
   selector: 'app-teacher-profile',
@@ -53,7 +58,9 @@ import { Table } from "../../../shared/components/table/table";
     NoData,
     CoursesDialog,
     TeacherDailySchedule,
-    Table
+    Table,
+    PersonalHeader,
+    PersonalTabs,
 ],
   templateUrl: './teacher-profile.html',
   styleUrl: './teacher-profile.scss'
@@ -67,21 +74,14 @@ export class TeacherProfile {
   showUserAttachmentDialog = false;
   showEditCourseDialog = false;
   disablePage = false;
+  profileHeader: ProfileHeader = {} as ProfileHeader;
 
   teacher: Teacher = {} as Teacher;
   destroy$ = new Subject<void>();
 
   @ViewChild('fileInput') fileInput!: ElementRef;
 
-  groupsColumns: TableColumn[] = [
-    { field: 'name', title: 'groups.one', type: 'text', onClick: (row: any) => this.onGroupClick(row.id) },
-    { field: 'courseName', title: 'courses.one', type: 'text' },
-    { field: 'numberOfStudents', title: 'shared.labels.numberOfStudents', type: 'number' },
-  ];
-
-  coursesColumns: TableColumn[] = [
-    { field: 'name', title: 'courses.one', type: 'text', onClick: (row: any) => this.onCourseClick(row.id) },
-  ];
+  activeTab = 'shared.tabs.personalInfo';
 
   //#endregion
 
@@ -101,7 +101,36 @@ export class TeacherProfile {
   public permissionService = inject(PermissionAccessService);
   //#endregion
 
+
+  //#region Tabs
+  tabs: PersonalTab[] = [
+    { label: 'shared.tabs.personalInfo', icon: 'fas fa-user' },
+    { label: 'shared.tabs.schedule', icon: 'fas fa-calendar-alt', onClick: () => this.onScheduleClick() },
+    { label: 'shared.tabs.groups', icon: 'fas fa-users', onClick: () => this.onGroupsClick() },
+    { label: 'shared.tabs.courses', icon: 'fas fa-book-reader' },
+    { label: 'shared.tabs.finances', icon: 'fas fa-money-bill' },
+    { label: 'shared.tabs.qualifications', icon: 'fas fa-certificate' },
+    { label: 'shared.tabs.attachments', icon: 'fas fa-paperclip' },
+  ];
+  
+  groupsColumns: TableColumn[] = [
+    { field: 'name', title: 'groups.one', type: 'text', onClick: (this.permissionService.canView.groupProfile ? (row: any) =>  this.onGroupClick(row.id) : null) },
+    { field: 'courseName', title: 'courses.one', type: 'text' },
+    { field: 'numberOfStudents', title: 'shared.labels.numberOfStudents', type: 'number' },
+  ];
+
+  coursesColumns: TableColumn[] = [
+    { field: 'name', title: 'courses.one', type: 'text', onClick: (this.permissionService.canView.courseProfile ? (row: Course) => this.onCourseClick(row.id) : null) },
+  ];
+
+  //#endregion
+
+
   //#region Methods
+
+  onActiveTabChange(tab: string) {
+    this.activeTab = tab;
+  }
 
   ngOnInit() {
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe(params => {
@@ -115,6 +144,13 @@ export class TeacherProfile {
     this.loader.show();
     this.teacherService.get(this.teacher.id).pipe(takeUntil(this.destroy$)).subscribe((teacher: Teacher) => {
       this.teacher = { ...teacher };
+      this.profileHeader = {
+        fullName: teacher.name,
+        code: teacher.code,
+        image: this.getImageUrl(teacher.imagePath),
+        dateOfBirth: teacher.birthDate
+      };
+
       this.teacher.courses = this.teacher.courses?.sort((a, b) => a.name.localeCompare(b.name)) || [];
 
       if (teacher.id == 0) {
@@ -149,8 +185,20 @@ export class TeacherProfile {
 
   //#region Teacher Info
 
-  get selectedTab() {
-    return '0';
+  onScheduleClick() {
+    this.loader.show();
+
+    this.teacherService.getTeacherSchedules(this.teacher.id).pipe(takeUntil(this.destroy$)).subscribe((schedules: DailySchedule[]) => {
+      this.teacher = { ...this.teacher, dailySchedules: schedules };
+    }, _ => { }, () => this.loader.hide());
+  }
+
+  onGroupsClick() {
+    this.loader.show();
+
+    this.teacherService.getTeacherGroups(this.teacher.id).pipe(takeUntil(this.destroy$)).subscribe((groups: Group[]) => {
+      this.teacher = { ...this.teacher, groups: groups };
+    }, _ => { }, () => this.loader.hide());
   }
 
   getImageUrl(imageUrl: string) {

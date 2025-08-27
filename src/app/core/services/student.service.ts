@@ -5,6 +5,9 @@ import { ApiEndpoints } from '../consts/api-endpoints';
 import { Observable } from 'rxjs';
 import { UserAttachment } from '../models/user-attachment.model';
 import { Student } from '../models/student.model';
+import { Feedback } from '../models/feedback.model';
+import { Group } from '../models/group.model';
+import { DailySchedule } from '../models/daily-schedule.model';
 
 @Injectable({
   providedIn: 'root',
@@ -51,5 +54,17 @@ export class StudentService extends ApiService<Student> {
     formData.append('UserId', userId.toString());
     
     return this.httpClient.post<boolean>(this.appURLGenerator.getEndPoint(ApiEndpoints.STUDENTS.Actions.UploadImage), formData);
+  }
+
+  getStudentFeedbacks(id: number, year: number, month: number): Observable<Feedback[]> {
+    return this.httpClient.get<Feedback[]>(this.appURLGenerator.getEndPoint(ApiEndpoints.STUDENTS.Actions.Feedbacks(id, year, month)));
+  }
+
+  getStudentGroups(id: number): Observable<Group[]> {
+    return this.httpClient.get<Group[]>(this.appURLGenerator.getEndPoint(ApiEndpoints.STUDENTS.Actions.Groups(id)));
+  }
+  
+  getStudentSchedules(id: number): Observable<DailySchedule[]> {
+    return this.httpClient.get<DailySchedule[]>(this.appURLGenerator.getEndPoint(ApiEndpoints.STUDENTS.Actions.Schedules(id)));
   }
 }

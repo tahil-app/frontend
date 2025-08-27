@@ -6,6 +6,8 @@ import { Observable } from 'rxjs';
 import { Teacher } from '../models/teacher.model';
 import { UserAttachment } from '../models/user-attachment.model';
 import { EnvironmentHelper } from '../helpers/environment-helper';
+import { Group } from '../models/group.model';
+import { DailySchedule } from '../models/daily-schedule.model';
 
 @Injectable({
   providedIn: 'root',
@@ -56,5 +58,13 @@ export class TeacherService extends ApiService<Teacher> {
 
   getTeachersByCourseId(courseId: number): Observable<Teacher[]> {
     return this.httpClient.get<Teacher[]>(this.appURLGenerator.getEndPoint(ApiEndpoints.TEACHERS.Actions.GetTeachersByCourseId(courseId)));
+  }
+
+  getTeacherGroups(id: number): Observable<Group[]> {
+    return this.httpClient.get<Group[]>(this.appURLGenerator.getEndPoint(ApiEndpoints.TEACHERS.Actions.Groups(id)));
+  }
+
+  getTeacherSchedules(id: number): Observable<DailySchedule[]> {
+    return this.httpClient.get<DailySchedule[]>(this.appURLGenerator.getEndPoint(ApiEndpoints.TEACHERS.Actions.Schedules(id)));
   }
 }

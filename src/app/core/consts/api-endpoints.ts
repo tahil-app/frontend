@@ -45,6 +45,8 @@ export class ApiEndpoints {
         Actions: {
             Paged: `paged`,
             UpdateStudents: (groupId: string | number) => `update-students/${groupId}`,
+            GetAttendances: (groupId: string | number, year: number) => `attendances/${groupId}/${year}`,
+            Schedules: (groupId: string | number) => `schedules/${groupId}`,
         }
     };
 
@@ -67,6 +69,8 @@ export class ApiEndpoints {
             DeleteAttachment: (id: string | number) => `delete-attachment/${id}`,
             UploadImage: `upload-image`,
             GetTeachersByCourseId: (courseId: string | number) => `by-course/${courseId}`,
+            Groups: (id: string | number) => `groups/${id}`,
+            Schedules: (id: string | number) => `schedules/${id}`,
         }
     };
 
@@ -80,6 +84,9 @@ export class ApiEndpoints {
             DownloadAttachment: (id: string | number) => `download-attachment/${id}`,
             DeleteAttachment: (id: string | number) => `delete-attachment/${id}`,
             UploadImage: `upload-image`,
+            Feedbacks: (id: string | number, year: number, month: number) => `feedbacks/${id}/${year}/${month}`,
+            Groups: (id: string | number) => `groups/${id}`,
+            Schedules: (id: string | number) => `schedules/${id}`,
         }
     };
 

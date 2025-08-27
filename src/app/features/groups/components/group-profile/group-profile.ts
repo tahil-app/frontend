@@ -3,7 +3,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TabsModule } from 'primeng/tabs';
 import { TableModule } from 'primeng/table';
-import { Group } from '../../../../core/models/group.model';
+import { Group, GroupAttendance } from '../../../../core/models/group.model';
 import { LoaderService } from '../../../shared/services/loader.service';
 import { ToastService } from '../../../shared/services/toast.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -22,10 +22,14 @@ import { WeekDaysService } from '../../../../core/services/week-days.service';
 import { TimeHelper } from '../../../../core/helpers/time.helper';
 import { ConfirmService } from '../../../shared/services/confirm.serivce';
 import { GroupDailySchedule } from "../group-daily-schedule/group-daily-schedule";
+import { PersonalTab, PersonalTabs } from '../../../shared/profile/personal-tabs/personal-tabs';
+import { TableColumn } from '../../../shared/props/table-column.props';
+import { Table } from "../../../shared/components/table/table";
+import { PdfYearMonthBtns } from "../../../shared/buttons/pdf-year-month-btns/pdf-year-month-btns";
 
 @Component({
   selector: 'app-group-profile',
-  imports: [CommonModule, TabsModule, TableModule, TranslateModule, TooltipModule, GroupFromComponent, StudentsDialog, EditIconButton, Card, NoData, GroupDailySchedule],
+  imports: [CommonModule, TabsModule, TableModule, TranslateModule, TooltipModule, GroupFromComponent, StudentsDialog, EditIconButton, Card, NoData, GroupDailySchedule, PersonalTabs, Table, PdfYearMonthBtns],
   templateUrl: './group-profile.html',
   styleUrl: './group-profile.scss'
 })
@@ -36,6 +40,8 @@ export class GroupProfile implements OnInit {
   showStudentsDialog = false;
   group: Group = {} as Group;
   destroy$ = new Subject<void>();
+
+  activeTab = 'groups.profile.groupData';
   //#endregion
 
   //#region Services
@@ -52,6 +58,28 @@ export class GroupProfile implements OnInit {
   public permissionAccess = inject(PermissionAccessService);
   //#endregion
 
+  //#region Tabs
+  tabs: PersonalTab[] = [
+    { label: 'groups.profile.groupData', icon: 'fas fa-users' },
+    { label: 'shared.tabs.schedule', icon: 'fas fa-calendar-alt', onClick: () => this.onScheduleClick() },
+    { label: 'shared.tabs.attendance', icon: 'fas fa-clipboard-check', onClick: () => this.loadAttendances(new Date().getFullYear()) },
+    { label: 'students.all', icon: 'fas fa-solid fa-user-graduate' },
+  ];
+
+  studentTableColumns: TableColumn[] = [
+    { field: 'name', title: 'students.one', type: 'text', onClick: (this.permissionAccess.canView.studentProfile ? (row: Student) => this.onStudentClick(row.id) : null) },
+  ];
+
+  attendaceTableColumns: TableColumn[] = [
+    { field: 'date', title: 'shared.labels.date', type: 'date', onClick: (this.permissionAccess.canEdit.recordStudentAttendance ?(row: GroupAttendance) => this.onAttendanceClick(row.sessionId) : null) },
+    { field: 'present', title: 'attendanceStatus.present', type: 'number' },
+    { field: 'late', title: 'attendanceStatus.late', type: 'number' },
+    { field: 'absent', title: 'attendanceStatus.absent', type: 'number' },
+    { field: 'total', title: 'shared.labels.total', type: 'number' },
+  ];
+
+  //#endregion
+
   //#region Methods
 
   ngOnInit() {
@@ -61,6 +89,10 @@ export class GroupProfile implements OnInit {
     } else {
       this.toaster.showError(this.translate.instant('groups.notFound'));
     }
+  }
+
+  onActiveTabChange(tab: string) {
+    this.activeTab = tab;
   }
 
   loadGroup(groupId: number) {
@@ -149,8 +181,30 @@ export class GroupProfile implements OnInit {
 
   onAttendanceClick(sessionId: number) {
     if (sessionId) {
-      this.router.navigate(['/sessions', sessionId, 'attendance']);
+      this.confirmService.confirmView(() => {
+        this.router.navigate(['/sessions', sessionId, 'attendance']);
+      });
     }
+  }
+
+
+  onScheduleClick() {
+    this.loader.show();
+    this.groupService.getGroupSchedules(this.group.id).pipe(takeUntil(this.destroy$)).subscribe(schedules => {
+      this.group = { ...this.group, dailySchedules: schedules };
+    }, _ => { }, () => this.loader.hide());
+  }
+
+  loadAttendances(year: number) {
+    this.loader.show();
+    this.groupService.getAttendances(this.group.id, year).pipe(takeUntil(this.destroy$)).subscribe(attendances => {
+      this.group.attendces = attendances;
+      this.group.attendces?.forEach(attendance => {
+        attendance.total = attendance.present + attendance.late + attendance.absent;
+      });
+    }, error => { }, () => {
+      this.loader.hide();
+    });
   }
   //#endregion
 } 

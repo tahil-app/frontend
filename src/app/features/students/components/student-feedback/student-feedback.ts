@@ -10,7 +10,6 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Feedback } from '../../../../core/models/feedback.model';
 import { CardFeedback } from "../../../shared/components/card-feedback/card-feedback";
 import { NoData } from "../../../shared/components/no-data/no-data";
-import { PdfIconBtn } from "../../../shared/buttons/pdf-icon-btn/pdf-icon-btn";
 import { PermissionAccessService } from '../../../../core/services/permission-access.service';
 import { FeedbackPdfTemplate } from "../../../shared/pdf-template/feedback-pdf-template/feedback-pdf-template";
 import { Student } from '../../../../core/models/student.model';
@@ -18,6 +17,9 @@ import { ConfirmService } from '../../../shared/services/confirm.serivce';
 import { LoaderService } from '../../../shared/services/loader.service';
 import { PdfExportService } from '../../../shared/services/pdf-export.service';
 import { ReportHelper } from '../../../../core/helpers/report.helper';
+import { PdfYearMonthBtns } from "../../../shared/buttons/pdf-year-month-btns/pdf-year-month-btns";
+import { StudentService } from '../../../../core/services/student.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'student-feedback',
@@ -33,8 +35,8 @@ import { ReportHelper } from '../../../../core/helpers/report.helper';
     TranslateModule,
     CardFeedback,
     NoData,
-    PdfIconBtn,
-    FeedbackPdfTemplate
+    FeedbackPdfTemplate,
+    PdfYearMonthBtns
 ],
   templateUrl: './student-feedback.html',
   styleUrl: './student-feedback.scss'
@@ -42,9 +44,13 @@ import { ReportHelper } from '../../../../core/helpers/report.helper';
 export class StudentFeedback {
   
   @Input() student: Student = {} as Student;
-  @Input() feedbacks: Feedback[] = [];
+  feedbacks: Feedback[] = [];
+
+  selectedYear: number = new Date().getFullYear();
+  selectedMonth: number = new Date().getMonth() + 1;
 
   allowExportToPdf: boolean = false;
+  destroy$ = new Subject<void>();
   @ViewChild(FeedbackPdfTemplate, { static: false }) pdfTemplate!: FeedbackPdfTemplate;
 
 
@@ -52,17 +58,29 @@ export class StudentFeedback {
   private loader = inject(LoaderService);
   private pdfExportService = inject(PdfExportService);
   private translate = inject(TranslateService);
+  private studentService = inject(StudentService);
   public permissionService = inject(PermissionAccessService);
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['feedbacks']) {
-      this.feedbacks = changes['feedbacks'].currentValue ?? [];
-      this.feedbacks = this.feedbacks.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    if (changes['student']) {
+      this.loadFeedbacks(this.selectedYear, this.selectedMonth);
     }
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   getReportTitle() {
     return ReportHelper.getTitle(this.translate.instant('shared.tabs.teacherFeedback'), this.student.name);
+  }
+
+  loadFeedbacks(year: number, month: number) {
+    this.loader.show();
+    this.studentService.getStudentFeedbacks(this.student.id, year, month).pipe(takeUntil(this.destroy$)).subscribe(feedbacks => {
+      this.feedbacks = feedbacks;
+    }, () => {}, () => this.loader.hide());
   }
 
   async exportToPdf() {

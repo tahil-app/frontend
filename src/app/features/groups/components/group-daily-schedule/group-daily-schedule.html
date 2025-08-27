@@ -1,11 +1,11 @@
 <div class="hello-park">
-    <div class="d-flex justify-content-between">
+    <div class="d-flex justify-content-between header-title">
         <h5 class="mb-1">{{ 'shared.tabs.schedule' | translate }}</h5>
         <pdf-icon-btn [showOutline]="true" *ngIf="group?.dailySchedules?.length && permissionsService.canExport.exportGroupDailySchedulePdf"
             (click)="exportDailyScheduleToPdf()" />
     </div>
 
-    <div class="tab-section-container mt-3">
+    <div class="tab-section-container tab-overflow-auto">
 
         <daily-schedule *ngIf="group?.dailySchedules?.length" [dailySchedules]="group.dailySchedules!" [showTeacher]="false" [showGroup]="false" />
 

@@ -55,54 +55,14 @@
             [yLabel]="'shared.labels.numberOfSessions' | translate" [tooltipLabel]="buildTooltipLabel"></line-chart>
     </div>
 
-    <div class="daily-chart-container" *ngIf="showDailyAttendance">
-        <div class="tab-section-container table-container  auto-hover-scroll"
-            *ngIf="dailyAttendanceData && dailyAttendanceData.length > 0">
+    <div *ngIf="showDailyAttendance">
 
-            <table>
+        <app-table [columns]="attendaceColumns" [rows]="dailyAttendanceData" *ngIf="dailyAttendanceData.length > 0" />
 
-                <thead>
-                    <tr>
-                        <th>{{ 'shared.labels.date' | translate }}</th>
-                        <th>{{ 'shared.labels.time' | translate }}</th>
-                        <th>{{ 'courses.one' | translate }}</th>
-                        <th>{{ 'attendanceStatus.present' | translate }}</th>
-                        <th>{{ 'attendanceStatus.late' | translate }}</th>
-                        <th>{{ 'attendanceStatus.absent' | translate }}</th>
-                    </tr>
-                </thead>
-
-                <tbody class="attendance-table-body">
-                    <tr *ngFor="let dailyAttendance of dailyAttendanceData" class="class-row">
-                        <td class="student-name">
-                            {{ dailyAttendance.date }}
-                        </td>
-                        <td class="student-name">
-                            {{ getTime(dailyAttendance.startTime, dailyAttendance.endTime) }}
-                        </td>
-                        <td class="student-name">
-                            {{ dailyAttendance.courseName }}
-                        </td>
-                        <td class="student-name">
-                            <div class="td-status-checkbox" [class.checked]="statusService.checkAttendanceStatus(dailyAttendance.status).isPresent"></div>
-                        </td>
-                        <td class="student-name">
-                            <div class="td-status-checkbox" [class.checked]="statusService.checkAttendanceStatus(dailyAttendance.status).isLate"></div>
-                        </td>
-                        <td class="student-name">
-                            <div class="td-status-checkbox" [class.checked]="statusService.checkAttendanceStatus(dailyAttendance.status).isAbsent"></div>
-                        </td>
-                    </tr>
-                </tbody>
-
-            </table>
-
-        </div>
-
-        <no-data *ngIf="dailyAttendanceData && dailyAttendanceData.length === 0" [icon]="'fas fa-clipboard-check'"
+        <no-data *ngIf="dailyAttendanceData.length === 0" [icon]="'fas fa-calendar-alt'"
             [text]="'shared.noData.noAttendances' | translate" />
-    </div>
 
+    </div>
     <!-- Hidden PDF Template -->
     <div style="position: absolute; left: -9999px; top: -9999px;">
 
@@ -111,8 +71,8 @@
 
     </div>
 
-    <!-- <div style="position: absolute; left: -9999px; top: -9999px;"> -->
+    <div style="position: absolute; left: -9999px; top: -9999px;">
         <attendace-daily-pdf-template [title]="getReportTitle()" [dailyAttendanceData]="dailyAttendanceData"
             [selectedYear]="selectedYear" [selectedMonth]="selectedMonth" />
-    <!-- </div> -->
+    </div>
 </div>
